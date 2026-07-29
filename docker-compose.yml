@@ -1,16 +1,15 @@
 services:
   db:
-    image: mariadb:12.3.2
+    image: postgres:18
     restart: always
     environment:
-      MARIADB_DATABASE: ${DB_NAME}
-      MARIADB_USER: ${DB_USER}
-      MARIADB_PASSWORD: ${DB_PASSWORD}
-      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - data:/var/lib/mysql
+      - data:/var/lib/postgresql
     healthcheck:
-      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 10s
       timeout: 5s
       retries: 5

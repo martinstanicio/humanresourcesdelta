@@ -5,10 +5,6 @@ ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy UV_PROJECT_ENVIRONMENT="/.venv"
 
 WORKDIR /app
 
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends build-essential default-libmysqlclient-dev pkg-config
-RUN rm -rf /var/lib/apt/lists/*
-
 COPY pyproject.toml uv.lock ./
 RUN --mount=type=cache,target=/root/.cache/uv uv sync --frozen --no-dev --no-install-project
 
