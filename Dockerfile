@@ -13,4 +13,4 @@ RUN --mount=type=cache,target=/root/.cache/uv uv sync --frozen --no-dev
 
 EXPOSE 8000
 
-CMD uv run manage.py runserver 0.0.0.0:8000
+ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]
