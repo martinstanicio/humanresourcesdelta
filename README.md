@@ -10,6 +10,7 @@ La documentación detallada del sistema se encuentra en [`/docs`](./docs):
 - [📋 Requerimientos](docs/requirements.md)
 - [👥 Casos de Uso](docs/use-cases.md)
 - [🏗️ Diagramas](docs/diagrams.md)
+- [⚙️ API](api/README.md)
 
 ## 🛠️ Prerrequisitos
 
@@ -56,14 +57,3 @@ Utilizar el siguiente comando para detener los contenedores.
 ```bash
 docker compose down
 ```
-
-### 💻 Comandos útiles
-
-La configuración del proyecto permite ejecutar comandos sin necesidad de entrar al contenedor con `docker compose exec`. Esto nos permite administrar Django fácilmente con comandos como `makemigrations`.
-
-```bash
-uv run manage.py makemigrations
-```
-
-> [!warning]
-> Notar que siempre se utiliza `uv run file.py ...` en lugar de `python file.py ...`.
