@@ -1,0 +1,15 @@
+stateDiagram-v2
+    state "fa:fa-play-circle En Curso" as EnCurso
+    state "fa:fa-check Completada" as Completada
+    state "fa:fa-exclamation-triangle Irregular" as Irregular
+
+    [*] --> EnCurso : Empleado ficha entrada
+    [*] --> Irregular : Empleado ficha entrada fuera de horario
+
+    EnCurso --> Completada : Empleado ficha salida
+    EnCurso --> Irregular : Empleado ficha salida fuera de horario
+    EnCurso --> Irregular : Sistema registra salida faltante
+
+    Irregular --> Completada : RRHH revisa manualmente
+
+    Completada --> [*] : Lista para liquidación

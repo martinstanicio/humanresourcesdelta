@@ -1,0 +1,69 @@
+erDiagram
+    PLAN_VACACIONAL ||--o{ EMPLEADO : "rige"
+    TURNO ||--o{ EMPLEADO : "asigna"
+    EMPLEADO ||--o{ JORNADA_LABORAL : "realiza"
+    EMPLEADO ||--o{ CUENTA_VACACIONAL : "posee"
+    EMPLEADO ||--o{ AUSENCIA : "solicita"
+    CUENTA_VACACIONAL ||--o{ AUSENCIA : "financia"
+    JORNADA_LABORAL ||--o{ FICHAJE : "compone"
+
+    PLAN_VACACIONAL {
+        int id PK
+        varchar nombre
+        int dias_anuales_base
+        int antiguedad_requerida
+    }
+
+    TURNO {
+        int id PK
+        varchar descripcion
+        time hora_inicio
+        time hora_fin
+    }
+
+    EMPLEADO {
+        int legajo PK
+        int turno FK
+        int plan_vacacional FK
+        varchar nombre
+        varchar cuil
+        varchar categoria
+        varchar area
+        date fecha_ingreso
+        varchar estado
+    }
+
+    JORNADA_LABORAL {
+        int id PK
+        int legajo FK
+        date fecha
+        varchar estado
+    }
+
+    FICHAJE {
+        int id PK
+        int jornada FK
+        datetime fecha_hora
+        varchar tipo
+    }
+
+    CUENTA_VACACIONAL {
+        int id PK
+        int legajo FK
+        int anio_periodo
+        int dias_otorgados
+        int dias_consumidos
+    }
+
+    AUSENCIA {
+        int id PK
+        int legajo FK
+        int cuenta_vacacional FK
+        varchar tipo
+        date fecha_inicio
+        date fecha_fin
+        varchar motivo
+        varchar estado
+        varchar observaciones
+        varchar adjuntos
+    }

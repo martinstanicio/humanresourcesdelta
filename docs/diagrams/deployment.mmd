@@ -1,0 +1,20 @@
+flowchart TD
+    Cliente["fa:fa-laptop\nCliente"]
+
+    subgraph Server["fa:fa-server Servidor ."]
+        
+        subgraph Docker["fab:fa-docker Docker Bridge Network ."]
+            APIContainer["fab:fa-python\nAPI Container\n(Django)"]
+            DBContainer["fa:fa-database\nDB Container\n(PostgreSQL)"]
+        end
+        
+        DB[("fa:fa-folder-open\nVolumen persistente de DB")]
+        StorageBucket[("fa:fa-folder-open\nVolumen persistente de archivos")]
+        
+    end
+
+    Cliente -- "HTTP (Puerto 8000)" --> APIContainer
+    APIContainer -- "TCP (Puerto 5432)" ---> DBContainer
+    
+    DBContainer -.- DB
+    APIContainer -.- StorageBucket

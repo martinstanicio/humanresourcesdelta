@@ -1,6 +1,7 @@
 {
   "recommendations": [
     "astral-sh.ty",
-    "charliermarsh.ruff"
+    "charliermarsh.ruff",
+    "mermaidchart.vscode-mermaid-chart"
   ]
 }

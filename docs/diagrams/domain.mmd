@@ -1,0 +1,61 @@
+classDiagram
+    class Empleado {
+        +int legajo
+        +String nombre
+        +String cuil
+        +String categoria
+        +String area
+        +Date fechaIngreso
+        +String estado
+        +ficharTurno()
+        +solicitarAusencia()
+    }
+
+    class Turno {
+        +String descripcion
+        +Time horaInicio
+        +Time horaFin
+    }
+
+    class JornadaLaboral {
+        +Date fecha
+        +String estado
+        +calcularHorasTrabajadas()
+    }
+
+    class Fichaje {
+        +DateTime fechaHora
+        +String tipo 
+    }
+
+    class PlanVacacional {
+        +String nombre
+        +int diasAnualesBase
+        +int antiguedadRequerida
+    }
+
+    class CuentaVacacional {
+        +int anioPeriodo
+        +int diasOtorgados
+        +int diasConsumidos
+        +calcularDiasDisponibles()
+    }
+    
+    class Ausencia {
+        +String tipo
+        +Date fechaInicio
+        +Date fechaFin
+        +String motivo
+        +String estado
+        +String observaciones
+        +String adjuntos
+    }
+
+    Empleado "*" -- "1" Turno : tiene asignado
+    Empleado "1" -- "*" JornadaLaboral : realiza
+    JornadaLaboral "1" *-- "1..2" Fichaje : se compone de
+
+    Empleado "*" -- "1" PlanVacacional : regido por
+    Empleado "1" *-- "*" CuentaVacacional : posee
+    CuentaVacacional "1" -- "*" Ausencia : financia (si es vacación)
+    Empleado "1" -- "*" Ausencia : solicita

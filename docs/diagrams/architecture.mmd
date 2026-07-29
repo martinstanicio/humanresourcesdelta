@@ -1,0 +1,29 @@
+flowchart TD
+    Cliente[fa:fa-laptop Cliente]
+
+    subgraph API [API REST]
+        Router[fa:fa-route Router]
+        Vistas[fa:fa-layer-group Vistas]
+        Serializadores[fa:fa-exchange-alt Serializadores]
+        Modelos[fa:fa-cubes Modelos]
+    end
+
+    subgraph DB [Base de Datos]
+        PostgreSQL[(fa:fa-database PostgreSQL)]
+    end
+
+    Router ~~~ Serializadores
+
+    Cliente -- 1. Petición HTTP --> Router
+    Router -- 2. Despacha al endpoint --> Vistas
+    Vistas -- 3. Parsea JSON entrante ---> Serializadores
+    Serializadores -- 4. Valida datos entrantes --> Vistas
+    
+    Vistas -- 5. Lee/Escribe datos ---> Modelos
+    Modelos -- 6. Ejecuta queries SQL --> PostgreSQL
+    PostgreSQL -- 7. Retorna registros --> Modelos
+    
+    Modelos -- 8. Retorna objetos --> Vistas
+    Vistas -- 9. Envía objetos para serializar ---> Serializadores
+    Serializadores -- 10. Retorna diccionario Python --> Vistas
+    Vistas -- 11. Respuesta HTTP --> Cliente

@@ -1,0 +1,26 @@
+flowchart TB
+    Empleado(("fa:fa-user\nEmpleado "))
+    RRHH(("fa:fa-user\nRecursos \nHumanos "))
+
+    CU01(["CU-01 Registrar fichaje de turno"])
+    CU02(["CU-02 Solicitar ausencia"])
+    CU04(["CU-04 Consultar estado de solicitud"])
+      
+    CU05(["CU-05 ABM de empleados"])
+    CU03(["CU-03 Evaluar ausencia"])
+    CU06(["CU-06 Generar reporte de horas"])
+    
+    Empleado --- CU01
+    Empleado --- CU02
+    Empleado --- CU04
+
+    CU01 ~~~ CU05
+    CU02 ~~~ CU03
+    CU04 ~~~ CU06
+
+    CU05 --- RRHH
+    CU03 --- RRHH
+    CU06 --- RRHH
+
+    CU03 -. "<< include >>" .-> CU02
+    CU03 -. "<< include >>" .-> CU04
