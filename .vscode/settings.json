@@ -6,5 +6,9 @@
     },
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "mermaidChart.showGenerateDiagramCodeLens": false
 }
