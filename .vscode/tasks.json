@@ -1,0 +1,94 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "python: format with ruff",
+            "icon": {
+                "id": "python"
+            },
+            "type": "shell",
+            "command": "uv run ruff format .",
+            "options": {
+                "cwd": "${workspaceFolder}/api"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "python: lint with ruff",
+            "icon": {
+                "id": "python"
+            },
+            "type": "shell",
+            "command": "uv run ruff check .",
+            "options": {
+                "cwd": "${workspaceFolder}/api"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "python: type-check with ty",
+            "icon": {
+                "id": "python"
+            },
+            "type": "shell",
+            "command": "uv run ty check .",
+            "options": {
+                "cwd": "${workspaceFolder}/api"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "django: create migrations",
+            "icon": {
+                "id": "server"
+            },
+            "type": "shell",
+            "command": "uv run manage.py makemigrations",
+            "options": {
+                "cwd": "${workspaceFolder}/api"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "django: apply migrations",
+            "icon": {
+                "id": "server"
+            },
+            "type": "shell",
+            "command": "uv run manage.py migrate",
+            "options": {
+                "cwd": "${workspaceFolder}/api"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "docker: start services",
+            "icon": {
+                "id": "package"
+            },
+            "type": "shell",
+            "command": "docker compose up",
+            "problemMatcher": [],
+        },
+        {
+            "label": "docker: start services in background",
+            "icon": {
+                "id": "package"
+            },
+            "type": "shell",
+            "command": "docker compose up -d",
+            "problemMatcher": []
+        },
+        {
+            "label": "docker: stop services",
+            "icon": {
+                "id": "package"
+            },
+            "type": "shell",
+            "command": "docker compose down",
+            "problemMatcher": []
+        }
+    ]
+}
