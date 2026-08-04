@@ -32,7 +32,7 @@ Antes de poder ejecutar el proyecto, es necesario configurar las **variables de 
 cp .env.example .env
 ```
 
-En este archivo se deben configurar las credenciales deseadas para la base de datos (`DB_NAME`, `DB_USER`, `DB_PASSWORD`). Además, se puede definir el **entorno de ejecución** (`ENVIRONMENT`).
+En este archivo se deben configurar las credenciales deseadas para la base de datos (`DB_NAME`, `DB_USER`, `DB_PASSWORD`) y la aplicación de Django (`DJANGO_SECRET_KEY`). Además, se puede definir el **entorno de ejecución** (`ENVIRONMENT`).
 
 > [!important]
 > Si se configura `ENVIRONMENT=dev`, se utilizará el servidor de desarrollo, ideal para desarrollo local.
