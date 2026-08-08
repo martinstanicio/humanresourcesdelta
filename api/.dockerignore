@@ -1,0 +1,30 @@
+# OS files
+**/.DS_Store
+**/Thumbs.db
+
+# Docs
+README.md
+
+# Docker
+**/Dockerfile
+.dockerignore
+
+# Git
+.gitignore
+
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Django
+staticfiles
+
+# Ruff
+.ruff_cache
