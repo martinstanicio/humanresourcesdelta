@@ -35,9 +35,10 @@ cp .env.example .env
 En este archivo se deben configurar las credenciales deseadas para la base de datos (`DB_NAME`, `DB_USER`, `DB_PASSWORD`) y la aplicación de Django (`DJANGO_SECRET_KEY`). Además, se puede definir el **entorno de ejecución** (`ENVIRONMENT`).
 
 > [!important]
-> Si se configura `ENVIRONMENT=dev`, se utilizará el servidor de desarrollo, ideal para desarrollo local.
+> El proyecto usa perfiles de Docker Compose para seleccionar el modo de ejecución.
 >
-> Si `ENVIRONMENT` tiene cualquier otro valor, o no está definido, se ejecutará el servidor de producción, que es más seguro y estable.
+> - Con `ENVIRONMENT=dev` se ejecuta el entorno de desarrollo, ideal para desarrollo local.
+> - Con `ENVIRONMENT=prod` se ejecuta el entorno de producción, que es más seguro y estable.
 
 Para ejecutar el proyecto, basta con levantar los contenedores de Docker con el siguiente comando.
 

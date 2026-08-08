@@ -1,3 +1,17 @@
+x-api-base: &api-base
+  build:
+    context: ./api
+  env_file:
+    - .env
+  ports:
+    - "8000:8000"
+  depends_on:
+    db:
+      condition: service_healthy
+
+x-api-env: &api-env
+  DB_HOST: "db"
+
 services:
   db:
     image: postgres:18
@@ -15,20 +29,21 @@ services:
       retries: 5
       start_period: 10s
 
-  api:
-    build:
-      context: ./api
+  api-dev:
+    <<: *api-base
     environment:
-      DB_HOST: "db"
-    env_file:
-      - .env
-    ports:
-      - "8000:8000"
+      <<: *api-env
+      ENVIRONMENT: "dev"
     volumes:
       - ./api:/api
-    depends_on:
-      db:
-        condition: service_healthy
+    profiles: [dev]
+
+  api-prod:
+    <<: *api-base
+    environment:
+      <<: *api-env
+      ENVIRONMENT: "prod"
+    profiles: [prod]
 
 volumes:
   data:
