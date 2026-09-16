@@ -2,7 +2,7 @@
   "recommendations": [
     "astral-sh.ty",
     "charliermarsh.ruff",
-    "mermaidchart.vscode-mermaid-chart",
-    "ms-python.python"
+    "ms-python.python",
+    "vstirbu.vscode-mermaid-preview"
   ]
 }
