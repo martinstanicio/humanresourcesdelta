@@ -1,0 +1,477 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:ev="http://www.w3.org/2001/xml-events" id="graph-704" class="flowchart"
+    style="overflow: hidden; max-width: 100%; touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"
+    role="graphics-document document" aria-roledescription="flowchart-v2"
+    viewBox="39.38 51.6 763.15 631.39">
+    <defs>
+        <filter id="graph-704-drop-shadow" height="130%" width="130%">
+            <feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#FFFFFF" />
+        </filter>
+    </defs>
+    <defs>
+        <filter id="graph-704-drop-shadow-small" height="150%" width="150%">
+            <feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#FFFFFF" />
+        </filter>
+    </defs>
+    <g id="viewport-20260918010621239" class="svg-pan-zoom_viewport"
+        transform="matrix(0.5643446999713182,0,0,0.5643446999713182,32.60963985873933,45.823951320848394)"
+        style="transform: matrix(0.564345, 0, 0, 0.564345, 32.6096, 45.824);">
+        <style>#graph-704{font-family:"Recursive Variable",arial,sans-serif;font-size:14px;fill:#ccc;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#graph-704 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#graph-704 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#graph-704 .error-icon{fill:hsl(20, 1.5873015873%, 12.3529411765%);}#graph-704 .error-text{fill:rgb(222.9999999999, 223.6666666666, 223.9999999999);stroke:rgb(222.9999999999, 223.6666666666, 223.9999999999);}#graph-704 .edge-thickness-normal{stroke-width:2px;}#graph-704 .edge-thickness-thick{stroke-width:3.5px;}#graph-704 .edge-pattern-solid{stroke-dasharray:0;}#graph-704 .edge-thickness-invisible{stroke-width:0;fill:none;}#graph-704 .edge-pattern-dashed{stroke-dasharray:3;}#graph-704 .edge-pattern-dotted{stroke-dasharray:2;}#graph-704 .marker{fill:#cccccc;stroke:#cccccc;}#graph-704 .marker.cross{stroke:#cccccc;}#graph-704 svg{font-family:"Recursive Variable",arial,sans-serif;font-size:14px;}#graph-704 p{margin:0;}#graph-704 [data-look="neo"][data-color-id="color-0"].cluster:not(.swimlane) rect{stroke:#E879F9;}#graph-704 [data-look="neo"][data-color-id="color-0"].cluster:not(.swimlane) path{stroke:#E879F9;}#graph-704 [data-look="neo"][data-color-id="color-0"].swimlane.cluster rect.swimlane-title,#graph-704 [data-look="neo"][data-color-id="color-0"].swimlane.cluster rect.swimlane-body{stroke:#E879F9;}#graph-704 [data-look="neo"][data-color-id="color-0"].swimlane.cluster .swimlane-title path:nth-of-type(2),#graph-704 [data-look="neo"][data-color-id="color-0"].swimlane.cluster .swimlane-body path:nth-of-type(2){stroke:#E879F9;}#graph-704 [data-look="neo"][data-color-id="color-0"].node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-0"].rough-node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-0"].node .collapsed-group path,#graph-704 [data-look="neo"][data-color-id="color-0"].rough-node .collapsed-group path{stroke:#E879F9;}#graph-704 [data-look="neo"][data-color-id="color-0"].node .collapsed-indicator,#graph-704 [data-look="neo"][data-color-id="color-0"].rough-node .collapsed-indicator{fill:#E879F9;}#graph-704 [data-look="neo"][data-color-id="color-0"].node .collapsed-separator,#graph-704 [data-look="neo"][data-color-id="color-0"].rough-node .collapsed-separator{stroke:#E879F9;}#graph-704 [data-look="neo"][data-color-id="color-1"].cluster:not(.swimlane) rect{stroke:#2DD4BF;}#graph-704 [data-look="neo"][data-color-id="color-1"].cluster:not(.swimlane) path{stroke:#2DD4BF;}#graph-704 [data-look="neo"][data-color-id="color-1"].swimlane.cluster rect.swimlane-title,#graph-704 [data-look="neo"][data-color-id="color-1"].swimlane.cluster rect.swimlane-body{stroke:#2DD4BF;}#graph-704 [data-look="neo"][data-color-id="color-1"].swimlane.cluster .swimlane-title path:nth-of-type(2),#graph-704 [data-look="neo"][data-color-id="color-1"].swimlane.cluster .swimlane-body path:nth-of-type(2){stroke:#2DD4BF;}#graph-704 [data-look="neo"][data-color-id="color-1"].node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-1"].rough-node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-1"].node .collapsed-group path,#graph-704 [data-look="neo"][data-color-id="color-1"].rough-node .collapsed-group path{stroke:#2DD4BF;}#graph-704 [data-look="neo"][data-color-id="color-1"].node .collapsed-indicator,#graph-704 [data-look="neo"][data-color-id="color-1"].rough-node .collapsed-indicator{fill:#2DD4BF;}#graph-704 [data-look="neo"][data-color-id="color-1"].node .collapsed-separator,#graph-704 [data-look="neo"][data-color-id="color-1"].rough-node .collapsed-separator{stroke:#2DD4BF;}#graph-704 [data-look="neo"][data-color-id="color-2"].cluster:not(.swimlane) rect{stroke:#FB923C;}#graph-704 [data-look="neo"][data-color-id="color-2"].cluster:not(.swimlane) path{stroke:#FB923C;}#graph-704 [data-look="neo"][data-color-id="color-2"].swimlane.cluster rect.swimlane-title,#graph-704 [data-look="neo"][data-color-id="color-2"].swimlane.cluster rect.swimlane-body{stroke:#FB923C;}#graph-704 [data-look="neo"][data-color-id="color-2"].swimlane.cluster .swimlane-title path:nth-of-type(2),#graph-704 [data-look="neo"][data-color-id="color-2"].swimlane.cluster .swimlane-body path:nth-of-type(2){stroke:#FB923C;}#graph-704 [data-look="neo"][data-color-id="color-2"].node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-2"].rough-node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-2"].node .collapsed-group path,#graph-704 [data-look="neo"][data-color-id="color-2"].rough-node .collapsed-group path{stroke:#FB923C;}#graph-704 [data-look="neo"][data-color-id="color-2"].node .collapsed-indicator,#graph-704 [data-look="neo"][data-color-id="color-2"].rough-node .collapsed-indicator{fill:#FB923C;}#graph-704 [data-look="neo"][data-color-id="color-2"].node .collapsed-separator,#graph-704 [data-look="neo"][data-color-id="color-2"].rough-node .collapsed-separator{stroke:#FB923C;}#graph-704 [data-look="neo"][data-color-id="color-3"].cluster:not(.swimlane) rect{stroke:#22D3EE;}#graph-704 [data-look="neo"][data-color-id="color-3"].cluster:not(.swimlane) path{stroke:#22D3EE;}#graph-704 [data-look="neo"][data-color-id="color-3"].swimlane.cluster rect.swimlane-title,#graph-704 [data-look="neo"][data-color-id="color-3"].swimlane.cluster rect.swimlane-body{stroke:#22D3EE;}#graph-704 [data-look="neo"][data-color-id="color-3"].swimlane.cluster .swimlane-title path:nth-of-type(2),#graph-704 [data-look="neo"][data-color-id="color-3"].swimlane.cluster .swimlane-body path:nth-of-type(2){stroke:#22D3EE;}#graph-704 [data-look="neo"][data-color-id="color-3"].node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-3"].rough-node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-3"].node .collapsed-group path,#graph-704 [data-look="neo"][data-color-id="color-3"].rough-node .collapsed-group path{stroke:#22D3EE;}#graph-704 [data-look="neo"][data-color-id="color-3"].node .collapsed-indicator,#graph-704 [data-look="neo"][data-color-id="color-3"].rough-node .collapsed-indicator{fill:#22D3EE;}#graph-704 [data-look="neo"][data-color-id="color-3"].node .collapsed-separator,#graph-704 [data-look="neo"][data-color-id="color-3"].rough-node .collapsed-separator{stroke:#22D3EE;}#graph-704 [data-look="neo"][data-color-id="color-4"].cluster:not(.swimlane) rect{stroke:#4ADE80;}#graph-704 [data-look="neo"][data-color-id="color-4"].cluster:not(.swimlane) path{stroke:#4ADE80;}#graph-704 [data-look="neo"][data-color-id="color-4"].swimlane.cluster rect.swimlane-title,#graph-704 [data-look="neo"][data-color-id="color-4"].swimlane.cluster rect.swimlane-body{stroke:#4ADE80;}#graph-704 [data-look="neo"][data-color-id="color-4"].swimlane.cluster .swimlane-title path:nth-of-type(2),#graph-704 [data-look="neo"][data-color-id="color-4"].swimlane.cluster .swimlane-body path:nth-of-type(2){stroke:#4ADE80;}#graph-704 [data-look="neo"][data-color-id="color-4"].node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-4"].rough-node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-4"].node .collapsed-group path,#graph-704 [data-look="neo"][data-color-id="color-4"].rough-node .collapsed-group path{stroke:#4ADE80;}#graph-704 [data-look="neo"][data-color-id="color-4"].node .collapsed-indicator,#graph-704 [data-look="neo"][data-color-id="color-4"].rough-node .collapsed-indicator{fill:#4ADE80;}#graph-704 [data-look="neo"][data-color-id="color-4"].node .collapsed-separator,#graph-704 [data-look="neo"][data-color-id="color-4"].rough-node .collapsed-separator{stroke:#4ADE80;}#graph-704 [data-look="neo"][data-color-id="color-5"].cluster:not(.swimlane) rect{stroke:#A78BFA;}#graph-704 [data-look="neo"][data-color-id="color-5"].cluster:not(.swimlane) path{stroke:#A78BFA;}#graph-704 [data-look="neo"][data-color-id="color-5"].swimlane.cluster rect.swimlane-title,#graph-704 [data-look="neo"][data-color-id="color-5"].swimlane.cluster rect.swimlane-body{stroke:#A78BFA;}#graph-704 [data-look="neo"][data-color-id="color-5"].swimlane.cluster .swimlane-title path:nth-of-type(2),#graph-704 [data-look="neo"][data-color-id="color-5"].swimlane.cluster .swimlane-body path:nth-of-type(2){stroke:#A78BFA;}#graph-704 [data-look="neo"][data-color-id="color-5"].node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-5"].rough-node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-5"].node .collapsed-group path,#graph-704 [data-look="neo"][data-color-id="color-5"].rough-node .collapsed-group path{stroke:#A78BFA;}#graph-704 [data-look="neo"][data-color-id="color-5"].node .collapsed-indicator,#graph-704 [data-look="neo"][data-color-id="color-5"].rough-node .collapsed-indicator{fill:#A78BFA;}#graph-704 [data-look="neo"][data-color-id="color-5"].node .collapsed-separator,#graph-704 [data-look="neo"][data-color-id="color-5"].rough-node .collapsed-separator{stroke:#A78BFA;}#graph-704 [data-look="neo"][data-color-id="color-6"].cluster:not(.swimlane) rect{stroke:#F87171;}#graph-704 [data-look="neo"][data-color-id="color-6"].cluster:not(.swimlane) path{stroke:#F87171;}#graph-704 [data-look="neo"][data-color-id="color-6"].swimlane.cluster rect.swimlane-title,#graph-704 [data-look="neo"][data-color-id="color-6"].swimlane.cluster rect.swimlane-body{stroke:#F87171;}#graph-704 [data-look="neo"][data-color-id="color-6"].swimlane.cluster .swimlane-title path:nth-of-type(2),#graph-704 [data-look="neo"][data-color-id="color-6"].swimlane.cluster .swimlane-body path:nth-of-type(2){stroke:#F87171;}#graph-704 [data-look="neo"][data-color-id="color-6"].node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-6"].rough-node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-6"].node .collapsed-group path,#graph-704 [data-look="neo"][data-color-id="color-6"].rough-node .collapsed-group path{stroke:#F87171;}#graph-704 [data-look="neo"][data-color-id="color-6"].node .collapsed-indicator,#graph-704 [data-look="neo"][data-color-id="color-6"].rough-node .collapsed-indicator{fill:#F87171;}#graph-704 [data-look="neo"][data-color-id="color-6"].node .collapsed-separator,#graph-704 [data-look="neo"][data-color-id="color-6"].rough-node .collapsed-separator{stroke:#F87171;}#graph-704 [data-look="neo"][data-color-id="color-7"].cluster:not(.swimlane) rect{stroke:#FACC15;}#graph-704 [data-look="neo"][data-color-id="color-7"].cluster:not(.swimlane) path{stroke:#FACC15;}#graph-704 [data-look="neo"][data-color-id="color-7"].swimlane.cluster rect.swimlane-title,#graph-704 [data-look="neo"][data-color-id="color-7"].swimlane.cluster rect.swimlane-body{stroke:#FACC15;}#graph-704 [data-look="neo"][data-color-id="color-7"].swimlane.cluster .swimlane-title path:nth-of-type(2),#graph-704 [data-look="neo"][data-color-id="color-7"].swimlane.cluster .swimlane-body path:nth-of-type(2){stroke:#FACC15;}#graph-704 [data-look="neo"][data-color-id="color-7"].node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-7"].rough-node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-7"].node .collapsed-group path,#graph-704 [data-look="neo"][data-color-id="color-7"].rough-node .collapsed-group path{stroke:#FACC15;}#graph-704 [data-look="neo"][data-color-id="color-7"].node .collapsed-indicator,#graph-704 [data-look="neo"][data-color-id="color-7"].rough-node .collapsed-indicator{fill:#FACC15;}#graph-704 [data-look="neo"][data-color-id="color-7"].node .collapsed-separator,#graph-704 [data-look="neo"][data-color-id="color-7"].rough-node .collapsed-separator{stroke:#FACC15;}#graph-704 [data-look="neo"][data-color-id="color-8"].cluster:not(.swimlane) rect{stroke:#818CF8;}#graph-704 [data-look="neo"][data-color-id="color-8"].cluster:not(.swimlane) path{stroke:#818CF8;}#graph-704 [data-look="neo"][data-color-id="color-8"].swimlane.cluster rect.swimlane-title,#graph-704 [data-look="neo"][data-color-id="color-8"].swimlane.cluster rect.swimlane-body{stroke:#818CF8;}#graph-704 [data-look="neo"][data-color-id="color-8"].swimlane.cluster .swimlane-title path:nth-of-type(2),#graph-704 [data-look="neo"][data-color-id="color-8"].swimlane.cluster .swimlane-body path:nth-of-type(2){stroke:#818CF8;}#graph-704 [data-look="neo"][data-color-id="color-8"].node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-8"].rough-node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-8"].node .collapsed-group path,#graph-704 [data-look="neo"][data-color-id="color-8"].rough-node .collapsed-group path{stroke:#818CF8;}#graph-704 [data-look="neo"][data-color-id="color-8"].node .collapsed-indicator,#graph-704 [data-look="neo"][data-color-id="color-8"].rough-node .collapsed-indicator{fill:#818CF8;}#graph-704 [data-look="neo"][data-color-id="color-8"].node .collapsed-separator,#graph-704 [data-look="neo"][data-color-id="color-8"].rough-node .collapsed-separator{stroke:#818CF8;}#graph-704 [data-look="neo"][data-color-id="color-9"].cluster:not(.swimlane) rect{stroke:#A3E635;}#graph-704 [data-look="neo"][data-color-id="color-9"].cluster:not(.swimlane) path{stroke:#A3E635;}#graph-704 [data-look="neo"][data-color-id="color-9"].swimlane.cluster rect.swimlane-title,#graph-704 [data-look="neo"][data-color-id="color-9"].swimlane.cluster rect.swimlane-body{stroke:#A3E635;}#graph-704 [data-look="neo"][data-color-id="color-9"].swimlane.cluster .swimlane-title path:nth-of-type(2),#graph-704 [data-look="neo"][data-color-id="color-9"].swimlane.cluster .swimlane-body path:nth-of-type(2){stroke:#A3E635;}#graph-704 [data-look="neo"][data-color-id="color-9"].node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-9"].rough-node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-9"].node .collapsed-group path,#graph-704 [data-look="neo"][data-color-id="color-9"].rough-node .collapsed-group path{stroke:#A3E635;}#graph-704 [data-look="neo"][data-color-id="color-9"].node .collapsed-indicator,#graph-704 [data-look="neo"][data-color-id="color-9"].rough-node .collapsed-indicator{fill:#A3E635;}#graph-704 [data-look="neo"][data-color-id="color-9"].node .collapsed-separator,#graph-704 [data-look="neo"][data-color-id="color-9"].rough-node .collapsed-separator{stroke:#A3E635;}#graph-704 [data-look="neo"][data-color-id="color-10"].cluster:not(.swimlane) rect{stroke:#38BDF8;}#graph-704 [data-look="neo"][data-color-id="color-10"].cluster:not(.swimlane) path{stroke:#38BDF8;}#graph-704 [data-look="neo"][data-color-id="color-10"].swimlane.cluster rect.swimlane-title,#graph-704 [data-look="neo"][data-color-id="color-10"].swimlane.cluster rect.swimlane-body{stroke:#38BDF8;}#graph-704 [data-look="neo"][data-color-id="color-10"].swimlane.cluster .swimlane-title path:nth-of-type(2),#graph-704 [data-look="neo"][data-color-id="color-10"].swimlane.cluster .swimlane-body path:nth-of-type(2){stroke:#38BDF8;}#graph-704 [data-look="neo"][data-color-id="color-10"].node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-10"].rough-node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-10"].node .collapsed-group path,#graph-704 [data-look="neo"][data-color-id="color-10"].rough-node .collapsed-group path{stroke:#38BDF8;}#graph-704 [data-look="neo"][data-color-id="color-10"].node .collapsed-indicator,#graph-704 [data-look="neo"][data-color-id="color-10"].rough-node .collapsed-indicator{fill:#38BDF8;}#graph-704 [data-look="neo"][data-color-id="color-10"].node .collapsed-separator,#graph-704 [data-look="neo"][data-color-id="color-10"].rough-node .collapsed-separator{stroke:#38BDF8;}#graph-704 [data-look="neo"][data-color-id="color-11"].cluster:not(.swimlane) rect{stroke:#FB7185;}#graph-704 [data-look="neo"][data-color-id="color-11"].cluster:not(.swimlane) path{stroke:#FB7185;}#graph-704 [data-look="neo"][data-color-id="color-11"].swimlane.cluster rect.swimlane-title,#graph-704 [data-look="neo"][data-color-id="color-11"].swimlane.cluster rect.swimlane-body{stroke:#FB7185;}#graph-704 [data-look="neo"][data-color-id="color-11"].swimlane.cluster .swimlane-title path:nth-of-type(2),#graph-704 [data-look="neo"][data-color-id="color-11"].swimlane.cluster .swimlane-body path:nth-of-type(2){stroke:#FB7185;}#graph-704 [data-look="neo"][data-color-id="color-11"].node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-11"].rough-node .collapsed-group,#graph-704 [data-look="neo"][data-color-id="color-11"].node .collapsed-group path,#graph-704 [data-look="neo"][data-color-id="color-11"].rough-node .collapsed-group path{stroke:#FB7185;}#graph-704 [data-look="neo"][data-color-id="color-11"].node .collapsed-indicator,#graph-704 [data-look="neo"][data-color-id="color-11"].rough-node .collapsed-indicator{fill:#FB7185;}#graph-704 [data-look="neo"][data-color-id="color-11"].node .collapsed-separator,#graph-704 [data-look="neo"][data-color-id="color-11"].rough-node .collapsed-separator{stroke:#FB7185;}#graph-704 .label{font-family:"Recursive Variable",arial,sans-serif;color:#e0dfdf;}#graph-704 .cluster-label text{fill:rgb(222.9999999999, 223.6666666666, 223.9999999999);}#graph-704 .cluster-label span{color:rgb(222.9999999999, 223.6666666666, 223.9999999999);}#graph-704 .cluster-label span p{background-color:transparent;}#graph-704 .label text,#graph-704 span{fill:#e0dfdf;color:#e0dfdf;}#graph-704 .node rect,#graph-704 .node circle,#graph-704 .node ellipse,#graph-704 .node polygon,#graph-704 .node path{fill:#111113;stroke:#FFFFFF;stroke-width:2px;}#graph-704 .rough-node .label text,#graph-704 .node .label text,#graph-704 .image-shape .label,#graph-704 .icon-shape .label{text-anchor:middle;}#graph-704 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#graph-704 .rough-node .label,#graph-704 .node .label,#graph-704 .image-shape .label,#graph-704 .icon-shape .label{text-align:center;}#graph-704 .node.clickable{cursor:pointer;}#graph-704 .root .anchor path{fill:#cccccc!important;stroke-width:0;stroke:#cccccc;}#graph-704 .arrowheadPath{fill:#cccccc;}#graph-704 .edgePaths .path{stroke:#cccccc;stroke-width:2px;}#graph-704 .flowchart-link{stroke:#cccccc;fill:none;}#graph-704 .edgeLabel{background-color:hsl(180, 1.5873015873%, 28.3529411765%);text-align:center;}#graph-704 .edgeLabel p{background-color:hsl(180, 1.5873015873%, 28.3529411765%);}#graph-704 .edgeLabel rect{opacity:0.5;background-color:hsl(180, 1.5873015873%, 28.3529411765%);fill:hsl(180, 1.5873015873%, 28.3529411765%);}#graph-704 .labelBkg{background-color:rgba(71.1523809525, 73.4476190477, 73.4476190477, 0.5);}#graph-704 .cluster rect{fill:#1E1A2E;stroke:#BDBCCC;stroke-width:1px;}#graph-704 .cluster text{fill:rgb(222.9999999999, 223.6666666666, 223.9999999999);}#graph-704 .cluster span{color:rgb(222.9999999999, 223.6666666666, 223.9999999999);}#graph-704 .node .collapsed-indicator{fill:#BDBCCC;stroke:none;opacity:0.6;}#graph-704 .node .collapsed-separator{stroke:#BDBCCC;stroke-width:0.75px;}#graph-704 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"Recursive Variable",arial,sans-serif;font-size:12px;background:hsl(20, 1.5873015873%, 12.3529411765%);border:1px solid rgba(255, 255, 255, 0.25);border-radius:2px;pointer-events:none;z-index:100;}#graph-704 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#ccc;}#graph-704 rect.text{fill:none;stroke-width:0;}#graph-704 .icon-shape,#graph-704 .image-shape{background-color:hsl(180, 1.5873015873%, 28.3529411765%);text-align:center;}#graph-704 .icon-shape p,#graph-704 .image-shape p{background-color:hsl(180, 1.5873015873%, 28.3529411765%);padding:2px;}#graph-704 .icon-shape .label rect,#graph-704 .image-shape .label rect{opacity:0.5;background-color:hsl(180, 1.5873015873%, 28.3529411765%);fill:hsl(180, 1.5873015873%, 28.3529411765%);}#graph-704 .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#graph-704 .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#graph-704 .node .neo-node{stroke:#FFFFFF;}#graph-704 [data-look="neo"].node rect,#graph-704 [data-look="neo"].cluster rect,#graph-704 [data-look="neo"].node polygon{stroke:#FFFFFF;filter:url(#graph-704-drop-shadow);}#graph-704 [data-look="neo"].swimlane.cluster rect{filter:none;}#graph-704 [data-look="neo"].node path{stroke:#FFFFFF;stroke-width:2px;}#graph-704 [data-look="neo"].node .outer-path{filter:url(#graph-704-drop-shadow);}#graph-704 [data-look="neo"].node .neo-line path{stroke:#FFFFFF;filter:none;}#graph-704 [data-look="neo"].node circle{stroke:#FFFFFF;filter:url(#graph-704-drop-shadow);}#graph-704 [data-look="neo"].node circle .state-start{fill:#000000;}#graph-704 [data-look="neo"].icon-shape .icon{fill:#FFFFFF;filter:url(#graph-704-drop-shadow);}#graph-704 [data-look="neo"].icon-shape .icon-neo path{stroke:#FFFFFF;filter:url(#graph-704-drop-shadow);}#graph-704 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style>
+        <g>
+            <marker id="graph-704_flowchart-v2-pointEnd" class="marker flowchart-v2"
+                viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8"
+                markerHeight="8" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath"
+                    style="stroke-width: 1; stroke-dasharray: 1, 0;" />
+            </marker>
+            <marker id="graph-704_flowchart-v2-pointStart" class="marker flowchart-v2"
+                viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8"
+                markerHeight="8" orient="auto">
+                <path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath"
+                    style="stroke-width: 1; stroke-dasharray: 1, 0;" />
+            </marker>
+            <marker id="graph-704_flowchart-v2-pointEnd-margin" class="marker flowchart-v2"
+                viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse"
+                markerWidth="10.5" markerHeight="14" orient="auto">
+                <path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath"
+                    style="stroke-width: 0; stroke-dasharray: 1, 0;" />
+            </marker>
+            <marker id="graph-704_flowchart-v2-pointStart-margin" class="marker flowchart-v2"
+                viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse"
+                markerWidth="11.5" markerHeight="14" orient="auto">
+                <polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath"
+                    style="stroke-width: 0; stroke-dasharray: 1, 0;" />
+            </marker>
+            <marker id="graph-704_flowchart-v2-circleEnd" class="marker flowchart-v2"
+                viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11"
+                markerHeight="11" orient="auto">
+                <circle cx="5" cy="5" r="5" class="arrowMarkerPath"
+                    style="stroke-width: 1; stroke-dasharray: 1, 0;" />
+            </marker>
+            <marker id="graph-704_flowchart-v2-circleStart" class="marker flowchart-v2"
+                viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11"
+                markerHeight="11" orient="auto">
+                <circle cx="5" cy="5" r="5" class="arrowMarkerPath"
+                    style="stroke-width: 1; stroke-dasharray: 1, 0;" />
+            </marker>
+            <marker id="graph-704_flowchart-v2-circleEnd-margin" class="marker flowchart-v2"
+                viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse"
+                markerWidth="14" markerHeight="14" orient="auto">
+                <circle cx="5" cy="5" r="5" class="arrowMarkerPath"
+                    style="stroke-width: 0; stroke-dasharray: 1, 0;" />
+            </marker>
+            <marker id="graph-704_flowchart-v2-circleStart-margin" class="marker flowchart-v2"
+                viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14"
+                markerHeight="14" orient="auto">
+                <circle cx="5" cy="5" r="5" class="arrowMarkerPath"
+                    style="stroke-width: 0; stroke-dasharray: 1, 0;" />
+            </marker>
+            <marker id="graph-704_flowchart-v2-crossEnd" class="marker cross flowchart-v2"
+                viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse"
+                markerWidth="11" markerHeight="11" orient="auto">
+                <path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath"
+                    style="stroke-width: 2; stroke-dasharray: 1, 0;" />
+            </marker>
+            <marker id="graph-704_flowchart-v2-crossStart" class="marker cross flowchart-v2"
+                viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse"
+                markerWidth="11" markerHeight="11" orient="auto">
+                <path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath"
+                    style="stroke-width: 2; stroke-dasharray: 1, 0;" />
+            </marker>
+            <marker id="graph-704_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2"
+                viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse"
+                markerWidth="12" markerHeight="12" orient="auto">
+                <path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath"
+                    style="stroke-width: 2.5;" />
+            </marker>
+            <marker id="graph-704_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2"
+                viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse"
+                markerWidth="12" markerHeight="12" orient="auto">
+                <path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath"
+                    style="stroke-width: 2.5; stroke-dasharray: 1, 0;" />
+            </marker>
+            <g class="root">
+                <g class="clusters">
+                    <g class="cluster" id="graph-704-DB" data-look="neo" data-color-id="color-1">
+                        <rect style="" x="1033.9882666015624" y="42" width="192"
+                            height="157.16574096679688" />
+                        <g class="cluster-label" transform="translate(1081.2240644836425, 42)">
+                            <foreignObject width="97.52840423583984" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5;">
+                                    <span class="nodeLabel">
+                                        <p>Base de Datos</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="cluster" id="graph-704-API" data-look="neo" data-color-id="color-0">
+                        <rect style="" x="248.49999237060547" y="320.1742630004883"
+                            width="810.4286276245116" height="651.0681762695312" />
+                        <g class="cluster-label"
+                            transform="translate(623.5580580902099, 320.1742630004883)">
+                            <foreignObject width="60.312496185302734" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5;">
+                                    <span class="nodeLabel">
+                                        <p>API REST</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                </g>
+                <g class="edges edgePaths">
+                    <path
+                        d="M681.2571473693847,413.1913070678711L681.2571473693847,436.1202392560056Q681.2571473693847,443.1913070678711 674.1860795575192,443.1913070678711L537.426491904476,443.1913070678711Q530.3554240926106,443.1913070678711 530.3554240926106,450.26237487973657L530.3554240926106,473.1913070678711"
+                        id="graph-704-L_Router_Serializadores_0"
+                        class="edge-thickness-invisible edge-pattern-solid"
+                        style="stroke-dasharray: 0 0 205.57350158691406 0; stroke-dashoffset: 0;;"
+                        data-edge="true" data-et="edge" data-id="L_Router_Serializadores_0"
+                        data-points="W3sieCI6NjgxLjI1NzE0NzM2OTM4NDcsInkiOjQxMy4xOTEzMDcwNjc4NzExfSx7IngiOjY4MS4yNTcxNDczNjkzODQ3LCJ5Ijo0NDMuMTkxMzA3MDY3ODcxMX0seyJ4Ijo1MzAuMzU1NDI0MDkyNjEwNiwieSI6NDQzLjE5MTMwNzA2Nzg3MTF9LHsieCI6NTMwLjM1NTQyNDA5MjYxMDYsInkiOjQ3My4xOTEzMDcwNjc4NzExfV0="
+                        data-look="neo" />
+                    <path
+                        d="M288.64772033691406,1082.250961303711L288.64772033691406,1069.3220291155765Q288.64772033691406,1062.250961303711 281.5766525250486,1062.250961303711L75.57106781186548,1062.250961303711Q68.5,1062.250961303711 68.5,1055.1798934918454L68.5,1031.7467002868652L68.5,297.24533081235376Q68.5,290.1742630004883 75.57106781186548,290.1742630004883L695.9194128908525,290.1742630004883Q702.9904807027181,290.1742630004883 702.9904807027181,297.24533081235376L702.9904807027181,310.1742630004883L702.9904807027181,364.1827850341797"
+                        id="graph-704-L_Cliente_Router_0"
+                        class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+                        style="stroke-dasharray: 0 0 1706.06689453125 4; stroke-dashoffset: 0;;"
+                        data-edge="true" data-et="edge" data-id="L_Cliente_Router_0"
+                        data-points="W3sieCI6Mjg4LjY0NzcyMDMzNjkxNDA2LCJ5IjoxMDgyLjI1MDk2MTMwMzcxMX0seyJ4IjoyODguNjQ3NzIwMzM2OTE0MDYsInkiOjEwNjIuMjUwOTYxMzAzNzExfSx7IngiOjY4LjUsInkiOjEwNjIuMjUwOTYxMzAzNzExfSx7IngiOjY4LjUsInkiOjEwMzEuNzQ2NzAwMjg2ODY1Mn0seyJ4Ijo2OC41LCJ5IjoyOTAuMTc0MjYzMDAwNDg4M30seyJ4Ijo3MDIuOTkwNDgwNzAyNzE4MSwieSI6MjkwLjE3NDI2MzAwMDQ4ODN9LHsieCI6NzAyLjk5MDQ4MDcwMjcxODEsInkiOjMxMC4xNzQyNjMwMDA0ODgzfSx7IngiOjcwMi45OTA0ODA3MDI3MTgxLCJ5IjozNjguMTgyNzg1MDM0MTc5N31d"
+                        data-look="neo" marker-end="url(#graph-704_flowchart-v2-pointEnd-margin)" />
+                    <path
+                        d="M724.7238140360514,413.1913070678711L724.7238140360514,436.1202392560056Q724.7238140360514,443.1913070678711 731.7948818479169,443.1913070678711L1027.8575521832515,443.1913070678711Q1034.928619995117,443.1913070678711 1034.928619995117,450.26237487973657L1034.928619995117,667.1458053570798Q1034.928619995117,674.2168731689453 1027.8575521832515,674.2168731689453L723.7962412534346,674.2168731689453Q716.725173441569,674.2168731689453 716.725173441569,681.2879409808108L716.725173441569,700.2168731689453"
+                        id="graph-704-L_Router_Vistas_0"
+                        class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+                        style="stroke-dasharray: 0 0 900.7772827148438 4; stroke-dashoffset: 0;;"
+                        data-edge="true" data-et="edge" data-id="L_Router_Vistas_0"
+                        data-points="W3sieCI6NzI0LjcyMzgxNDAzNjA1MTQsInkiOjQxMy4xOTEzMDcwNjc4NzExfSx7IngiOjcyNC43MjM4MTQwMzYwNTE0LCJ5Ijo0NDMuMTkxMzA3MDY3ODcxMX0seyJ4IjoxMDM0LjkyODYxOTk5NTExNywieSI6NDQzLjE5MTMwNzA2Nzg3MTF9LHsieCI6MTAzNC45Mjg2MTk5OTUxMTcsInkiOjY3NC4yMTY4NzMxNjg5NDUzfSx7IngiOjcxNi43MjUxNzM0NDE1NjksInkiOjY3NC4yMTY4NzMxNjg5NDUzfSx7IngiOjcxNi43MjUxNzM0NDE1NjksInkiOjcwNC4yMTY4NzMxNjg5NDUzfV0="
+                        data-look="neo" marker-end="url(#graph-704_flowchart-v2-pointEnd-margin)" />
+                    <path
+                        d="M629.7918401082356,704.2168731689453L629.7918401082356,681.2879409808108Q629.7918401082356,674.2168731689453 622.7207722963701,674.2168731689453L279.57106018247094,674.2168731689453Q272.49999237060547,674.2168731689453 272.49999237060547,667.1458053570798L272.49999237060547,555.270896913428Q272.49999237060547,548.1998291015625 279.57106018247094,548.1998291015625L483.4740166201006,548.1998291015625Q490.5450844319661,548.1998291015625 490.5450844319661,541.128761289697L490.5450844319661,522.1998291015625"
+                        id="graph-704-L_Vistas_Serializadores_0"
+                        class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+                        style="stroke-dasharray: 0 0 742.6973266601562 4; stroke-dashoffset: 0;;"
+                        data-edge="true" data-et="edge" data-id="L_Vistas_Serializadores_0"
+                        data-points="W3sieCI6NjI5Ljc5MTg0MDEwODIzNTYsInkiOjcwNC4yMTY4NzMxNjg5NDUzfSx7IngiOjYyOS43OTE4NDAxMDgyMzU2LCJ5Ijo2NzQuMjE2ODczMTY4OTQ1M30seyJ4IjoyNzIuNDk5OTkyMzcwNjA1NDcsInkiOjY3NC4yMTY4NzMxNjg5NDUzfSx7IngiOjI3Mi40OTk5OTIzNzA2MDU0NywieSI6NTQ4LjE5OTgyOTEwMTU2MjV9LHsieCI6NDkwLjU0NTA4NDQzMTk2NjEsInkiOjU0OC4xOTk4MjkxMDE1NjI1fSx7IngiOjQ5MC41NDUwODQ0MzE5NjYxLCJ5Ijo1MTguMTk5ODI5MTAxNTYyNX1d"
+                        data-look="neo" marker-end="url(#graph-704_flowchart-v2-pointEnd-margin)" />
+                    <path
+                        d="M517.0853108723958,518.1998291015625L517.0853108723958,553.128761289697Q517.0853108723958,560.1998291015625 510.0142430605303,560.1998291015625L472.05685424985376,560.1998291015625Q464.9857864379883,560.1998291015625 464.9857864379883,567.270896913428L464.9857864379883,655.1458053570798Q464.9857864379883,662.2168731689453 472.05685424985376,662.2168731689453L644.4541056297035,662.2168731689453Q651.525173441569,662.2168731689453 651.525173441569,669.2879409808108L651.525173441569,700.2168731689453"
+                        id="graph-704-L_Serializadores_Vistas_0"
+                        class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+                        style="stroke-dasharray: 0 0 405.9993591308594 4; stroke-dashoffset: 0;;"
+                        data-edge="true" data-et="edge" data-id="L_Serializadores_Vistas_0"
+                        data-points="W3sieCI6NTE3LjA4NTMxMDg3MjM5NTgsInkiOjUxOC4xOTk4MjkxMDE1NjI1fSx7IngiOjUxNy4wODUzMTA4NzIzOTU4LCJ5Ijo1NjAuMTk5ODI5MTAxNTYyNX0seyJ4Ijo0NjQuOTg1Nzg2NDM3OTg4MywieSI6NTYwLjE5OTgyOTEwMTU2MjV9LHsieCI6NDY0Ljk4NTc4NjQzNzk4ODMsInkiOjY2Mi4yMTY4NzMxNjg5NDUzfSx7IngiOjY1MS41MjUxNzM0NDE1NjksInkiOjY2Mi4yMTY4NzMxNjg5NDUzfSx7IngiOjY1MS41MjUxNzM0NDE1NjksInkiOjcwNC4yMTY4NzMxNjg5NDUzfV0="
+                        data-look="neo" marker-end="url(#graph-704_flowchart-v2-pointEnd-margin)" />
+                    <path
+                        d="M673.2585067749023,749.2253952026367L673.2585067749023,784.1543273907712Q673.2585067749023,791.2253952026367 666.1874389630368,791.2253952026367L644.3665084856937,791.2253952026367Q637.2954406738281,791.2253952026367 637.2954406738281,798.2964630145023L637.2954406738281,865.1628494244626Q637.2954406738281,872.2339172363281 644.3665084856937,872.2339172363281L754.0505050641111,872.2339172363281Q761.1215728759765,872.2339172363281 761.1215728759765,879.3049850481937L761.1215728759765,898.2339172363281"
+                        id="graph-704-L_Vistas_Modelos_0"
+                        class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+                        style="stroke-dasharray: 0 0 294.14111328125 4; stroke-dashoffset: 0;;"
+                        data-edge="true" data-et="edge" data-id="L_Vistas_Modelos_0"
+                        data-points="W3sieCI6NjczLjI1ODUwNjc3NDkwMjMsInkiOjc0OS4yMjUzOTUyMDI2MzY3fSx7IngiOjY3My4yNTg1MDY3NzQ5MDIzLCJ5Ijo3OTEuMjI1Mzk1MjAyNjM2N30seyJ4Ijo2MzcuMjk1NDQwNjczODI4MSwieSI6NzkxLjIyNTM5NTIwMjYzNjd9LHsieCI6NjM3LjI5NTQ0MDY3MzgyODEsInkiOjg3Mi4yMzM5MTcyMzYzMjgxfSx7IngiOjc2MS4xMjE1NzI4NzU5NzY1LCJ5Ijo4NzIuMjMzOTE3MjM2MzI4MX0seyJ4Ijo3NjEuMTIxNTcyODc1OTc2NSwieSI6OTAyLjIzMzkxNzIzNjMyODF9XQ=="
+                        data-look="neo" marker-end="url(#graph-704_flowchart-v2-pointEnd-margin)" />
+                    <path
+                        d="M793.7215728759766,947.2424392700195L793.7215728759766,981.2424392700195L793.7215728759766,994.171371458154Q793.7215728759766,1001.2424392700195 800.7926406878421,1001.2424392700195L1290.8120809918453,1001.2424392700195Q1297.8831488037108,1001.2424392700195 1297.8831488037108,994.171371458154L1297.8831488037108,645.7083511352539L1297.8831488037108,120.58287048339844L1297.8831488037108,19.071067811865476Q1297.8831488037108,12 1290.8120809918453,12L1137.059334413428,12Q1129.9882666015624,12 1129.9882666015624,19.071067811865476L1129.9882666015624,32L1129.9882666015624,86.0085220336914"
+                        id="graph-704-L_Modelos_PostgreSQL_0"
+                        class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+                        style="stroke-dasharray: 0 0 1774.651123046875 4; stroke-dashoffset: 0;;"
+                        data-edge="true" data-et="edge" data-id="L_Modelos_PostgreSQL_0"
+                        data-points="W3sieCI6NzkzLjcyMTU3Mjg3NTk3NjYsInkiOjk0Ny4yNDI0MzkyNzAwMTk1fSx7IngiOjc5My43MjE1NzI4NzU5NzY2LCJ5Ijo5ODEuMjQyNDM5MjcwMDE5NX0seyJ4Ijo3OTMuNzIxNTcyODc1OTc2NiwieSI6MTAwMS4yNDI0MzkyNzAwMTk1fSx7IngiOjEyOTcuODgzMTQ4ODAzNzEwOCwieSI6MTAwMS4yNDI0MzkyNzAwMTk1fSx7IngiOjEyOTcuODgzMTQ4ODAzNzEwOCwieSI6NjQ1LjcwODM1MTEzNTI1Mzl9LHsieCI6MTI5Ny44ODMxNDg4MDM3MTA4LCJ5IjoxMjAuNTgyODcwNDgzMzk4NDR9LHsieCI6MTI5Ny44ODMxNDg4MDM3MTA4LCJ5IjoxMn0seyJ4IjoxMTI5Ljk4ODI2NjYwMTU2MjQsInkiOjEyfSx7IngiOjExMjkuOTg4MjY2NjAxNTYyNCwieSI6MzJ9LHsieCI6MTEyOS45ODgyNjY2MDE1NjI0LCJ5Ijo5MC4wMDg1MjIwMzM2OTE0fV0="
+                        data-look="neo" marker-end="url(#graph-704_flowchart-v2-pointEnd-margin)" />
+                    <path
+                        d="M1129.9882666015624,175.16574096679688L1129.9882666015624,209.16574096679688L1129.9882666015624,310.1742630004883L1129.9882666015624,865.1628494244626Q1129.9882666015624,872.2339172363281 1122.9171987896968,872.2339172363281L833.392640687842,872.2339172363281Q826.3215728759765,872.2339172363281 826.3215728759765,879.3049850481937L826.3215728759765,898.2339172363281"
+                        id="graph-704-L_PostgreSQL_Modelos_0"
+                        class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+                        style="stroke-dasharray: 0 0 1017.406494140625 4; stroke-dashoffset: 0;;"
+                        data-edge="true" data-et="edge" data-id="L_PostgreSQL_Modelos_0"
+                        data-points="W3sieCI6MTEyOS45ODgyNjY2MDE1NjI0LCJ5IjoxNzUuMTY1NzQwOTY2Nzk2ODh9LHsieCI6MTEyOS45ODgyNjY2MDE1NjI0LCJ5IjoyMDkuMTY1NzQwOTY2Nzk2ODh9LHsieCI6MTEyOS45ODgyNjY2MDE1NjI0LCJ5IjozMTAuMTc0MjYzMDAwNDg4M30seyJ4IjoxMTI5Ljk4ODI2NjYwMTU2MjQsInkiOjg3Mi4yMzM5MTcyMzYzMjgxfSx7IngiOjgyNi4zMjE1NzI4NzU5NzY1LCJ5Ijo4NzIuMjMzOTE3MjM2MzI4MX0seyJ4Ijo4MjYuMzIxNTcyODc1OTc2NSwieSI6OTAyLjIzMzkxNzIzNjMyODF9XQ=="
+                        data-look="neo" marker-end="url(#graph-704_flowchart-v2-pointEnd-margin)" />
+                    <path
+                        d="M793.7215728759766,902.2339172363281L793.7215728759766,786.2964630145023Q793.7215728759766,779.2253952026367 786.650505064111,779.2253952026367L712.9295745867678,779.2253952026367Q705.8585067749023,779.2253952026367 705.8585067749023,772.1543273907712L705.8585067749023,753.2253952026367"
+                        id="graph-704-L_Modelos_Vistas_0"
+                        class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+                        style="stroke-dasharray: 0 0 227.543212890625 4; stroke-dashoffset: 0;;"
+                        data-edge="true" data-et="edge" data-id="L_Modelos_Vistas_0"
+                        data-points="W3sieCI6NzkzLjcyMTU3Mjg3NTk3NjYsInkiOjkwMi4yMzM5MTcyMzYzMjgxfSx7IngiOjc5My43MjE1NzI4NzU5NzY2LCJ5Ijo3NzkuMjI1Mzk1MjAyNjM2N30seyJ4Ijo3MDUuODU4NTA2Nzc0OTAyMywieSI6Nzc5LjIyNTM5NTIwMjYzNjd9LHsieCI6NzA1Ljg1ODUwNjc3NDkwMjMsInkiOjc0OS4yMjUzOTUyMDI2MzY3fV0="
+                        data-look="neo" marker-end="url(#graph-704_flowchart-v2-pointEnd-margin)" />
+                    <path
+                        d="M673.2585067749023,704.2168731689453L673.2585067749023,567.270896913428Q673.2585067749023,560.1998291015625 666.1874389630368,560.1998291015625L550.6966051246909,560.1998291015625Q543.6255373128255,560.1998291015625 543.6255373128255,553.128761289697L543.6255373128255,522.1998291015625"
+                        id="graph-704-L_Vistas_Serializadores_2"
+                        class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+                        style="stroke-dasharray: 0 0 302.32159423828125 4; stroke-dashoffset: 0;;"
+                        data-edge="true" data-et="edge" data-id="L_Vistas_Serializadores_2"
+                        data-points="W3sieCI6NjczLjI1ODUwNjc3NDkwMjMsInkiOjcwNC4yMTY4NzMxNjg5NDUzfSx7IngiOjY3My4yNTg1MDY3NzQ5MDIzLCJ5Ijo1NjAuMTk5ODI5MTAxNTYyNX0seyJ4Ijo1NDMuNjI1NTM3MzEyODI1NSwieSI6NTYwLjE5OTgyOTEwMTU2MjV9LHsieCI6NTQzLjYyNTUzNzMxMjgyNTUsInkiOjUxOC4xOTk4MjkxMDE1NjI1fV0="
+                        data-look="neo" marker-end="url(#graph-704_flowchart-v2-pointEnd-margin)" />
+                    <path
+                        d="M570.1657637532552,518.1998291015625L570.1657637532552,541.128761289697Q570.1657637532552,548.1998291015625 577.2368315651206,548.1998291015625L886.1874389630368,548.1998291015625Q893.2585067749023,548.1998291015625 893.2585067749023,555.270896913428L893.2585067749023,655.1458053570798Q893.2585067749023,662.2168731689453 886.1874389630368,662.2168731689453L702.0629079201012,662.2168731689453Q694.9918401082357,662.2168731689453 694.9918401082357,669.2879409808108L694.9918401082357,700.2168731689453"
+                        id="graph-704-L_Serializadores_Vistas_2"
+                        class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+                        style="stroke-dasharray: 0 0 688.7197265625 4; stroke-dashoffset: 0;;"
+                        data-edge="true" data-et="edge" data-id="L_Serializadores_Vistas_2"
+                        data-points="W3sieCI6NTcwLjE2NTc2Mzc1MzI1NTIsInkiOjUxOC4xOTk4MjkxMDE1NjI1fSx7IngiOjU3MC4xNjU3NjM3NTMyNTUyLCJ5Ijo1NDguMTk5ODI5MTAxNTYyNX0seyJ4Ijo4OTMuMjU4NTA2Nzc0OTAyMywieSI6NTQ4LjE5OTgyOTEwMTU2MjV9LHsieCI6ODkzLjI1ODUwNjc3NDkwMjMsInkiOjY2Mi4yMTY4NzMxNjg5NDUzfSx7IngiOjY5NC45OTE4NDAxMDgyMzU3LCJ5Ijo2NjIuMjE2ODczMTY4OTQ1M30seyJ4Ijo2OTQuOTkxODQwMTA4MjM1NywieSI6NzA0LjIxNjg3MzE2ODk0NTN9XQ=="
+                        data-look="neo" marker-end="url(#graph-704_flowchart-v2-pointEnd-margin)" />
+                    <path
+                        d="M640.6585067749023,749.2253952026367L640.6585067749023,772.1543273907712Q640.6585067749023,779.2253952026367 633.5874389630369,779.2253952026367L559.8665084856937,779.2253952026367Q552.7954406738281,779.2253952026367 552.7954406738281,786.2964630145023L552.7954406738281,981.2424392700195L552.7954406738281,1055.1798934918454Q552.7954406738281,1062.250961303711 545.7243728619626,1062.250961303711L339.71878814877954,1062.250961303711Q332.64772033691406,1062.250961303711 332.64772033691406,1069.3220291155765L332.64772033691406,1078.250961303711"
+                        id="graph-704-L_Vistas_Cliente_0"
+                        class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+                        style="stroke-dasharray: 0 0 622.3796997070312 4; stroke-dashoffset: 0;;"
+                        data-edge="true" data-et="edge" data-id="L_Vistas_Cliente_0"
+                        data-points="W3sieCI6NjQwLjY1ODUwNjc3NDkwMjMsInkiOjc0OS4yMjUzOTUyMDI2MzY3fSx7IngiOjY0MC42NTg1MDY3NzQ5MDIzLCJ5Ijo3NzkuMjI1Mzk1MjAyNjM2N30seyJ4Ijo1NTIuNzk1NDQwNjczODI4MSwieSI6Nzc5LjIyNTM5NTIwMjYzNjd9LHsieCI6NTUyLjc5NTQ0MDY3MzgyODEsInkiOjk4MS4yNDI0MzkyNzAwMTk1fSx7IngiOjU1Mi43OTU0NDA2NzM4MjgxLCJ5IjoxMDYyLjI1MDk2MTMwMzcxMX0seyJ4IjozMzIuNjQ3NzIwMzM2OTE0MDYsInkiOjEwNjIuMjUwOTYxMzAzNzExfSx7IngiOjMzMi42NDc3MjAzMzY5MTQwNiwieSI6MTA4Mi4yNTA5NjEzMDM3MTF9XQ=="
+                        data-look="neo" marker-end="url(#graph-704_flowchart-v2-pointEnd-margin)" />
+                </g>
+                <g class="edgeLabels">
+                    <g class="edgeLabel" transform="translate(68.24999618530273, 645.7083511352539)">
+                        <g class="label" data-id="L_Cliente_Router_0"
+                            transform="translate(-56.249996185302734, -10.504261016845703)">
+                            <foreignObject width="112.49999237060547" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>1. Petición HTTP</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="edgeLabel"
+                        transform="translate(1034.4584432983397, 495.6955680847168)">
+                        <g class="label" data-id="L_Router_Vistas_0"
+                            transform="translate(-83.52982330322266, -10.504261016845703)">
+                            <foreignObject width="167.0596466064453" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>2. Despacha al endpoint</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="edgeLabel" transform="translate(272.2428894042969, 611.2083511352539)">
+                        <g class="label" data-id="L_Vistas_Serializadores_0"
+                            transform="translate(-83.7428970336914, -10.504261016845703)">
+                            <foreignObject width="167.4857940673828" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>3. Parsea JSON entrante</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="edgeLabel" transform="translate(464.6221466064453, 611.2083511352539)">
+                        <g class="label" data-id="L_Serializadores_Vistas_0"
+                            transform="translate(-88.63636016845703, -10.504261016845703)">
+                            <foreignObject width="177.27272033691406" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>4. Valida datos entrantes</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="edgeLabel" transform="translate(637.2585067749023, 831.7296562194824)">
+                        <g class="label" data-id="L_Vistas_Modelos_0"
+                            transform="translate(-71.46306610107422, -10.504261016845703)">
+                            <foreignObject width="142.92613220214844" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>5. Lee/Escribe datos</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="edgeLabel"
+                        transform="translate(1297.8263174438475, 259.6700019836426)">
+                        <g class="label" data-id="L_Modelos_PostgreSQL_0"
+                            transform="translate(-77.44316864013672, -10.504261016845703)">
+                            <foreignObject width="154.88633728027344" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>6. Ejecuta queries SQL</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="edgeLabel"
+                        transform="translate(1129.9357077026366, 259.6700019836426)">
+                        <g class="label" data-id="L_PostgreSQL_Modelos_0"
+                            transform="translate(-70.44744110107422, -10.504261016845703)">
+                            <foreignObject width="140.89488220214844" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>7. Retorna registros</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="edgeLabel" transform="translate(793.5084991455078, 831.7296562194824)">
+                        <g class="label" data-id="L_Modelos_Vistas_0"
+                            transform="translate(-64.78692626953125, -10.504261016845703)">
+                            <foreignObject width="129.5738525390625" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>8. Retorna objetos</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="edgeLabel" transform="translate(673.2585067749023, 611.2083511352539)">
+                        <g class="label" data-id="L_Vistas_Serializadores_2"
+                            transform="translate(-100, -21.008522033691406)">
+                            <foreignObject width="200" height="42.01704406738281">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>9. Envía objetos para serializar</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="edgeLabel" transform="translate(893.2585067749023, 611.2083511352539)">
+                        <g class="label" data-id="L_Serializadores_Vistas_2"
+                            transform="translate(-100, -21.008522033691406)">
+                            <foreignObject width="200" height="42.01704406738281">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>10. Retorna diccionario Python</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="edgeLabel"
+                        transform="translate(552.5056686401367, 1031.7467002868652)">
+                        <g class="label" data-id="L_Vistas_Cliente_0"
+                            transform="translate(-68.2102279663086, -10.504261016845703)">
+                            <foreignObject width="136.4204559326172" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>11. Respuesta HTTP</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                </g>
+                <g class="nodes">
+                    <g class="node default" id="graph-704-flowchart-Cliente-0" data-look="neo"
+                        transform="translate(310.64772033691406, 1104.7552223205566)">
+                        <rect class="basic label-container" style="" x="-76" y="-22.504261016845703"
+                            width="152" height="45.008522033691406" />
+                        <g class="label" style="" transform="translate(-60, -10.504261016845703)">
+                            <rect />
+                            <foreignObject width="120" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml"
+                                    style="display: table; white-space: nowrap; line-height: 1.5; max-width: 120px; text-align: center; width: 120px;">
+                                    <span class="nodeLabel">
+                                        <p><i class="fa fa-laptop"></i> Cliente</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="node default" id="graph-704-flowchart-Router-1" data-look="neo"
+                        transform="translate(702.9904807027181, 390.6870460510254)">
+                        <rect class="basic label-container" style="" x="-76" y="-22.504261016845703"
+                            width="152" height="45.008522033691406" />
+                        <g class="label" style="" transform="translate(-60, -10.504261016845703)">
+                            <rect />
+                            <foreignObject width="120" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml"
+                                    style="display: table; white-space: nowrap; line-height: 1.5; max-width: 120px; text-align: center; width: 120px;">
+                                    <span class="nodeLabel">
+                                        <p><i class="fa fa-route"></i> Router</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="node default" id="graph-704-flowchart-Vistas-2" data-look="neo"
+                        transform="translate(673.2585067749023, 726.721134185791)">
+                        <rect class="basic label-container" style="" x="-76" y="-22.504261016845703"
+                            width="152" height="45.008522033691406" />
+                        <g class="label" style="" transform="translate(-60, -10.504261016845703)">
+                            <rect />
+                            <foreignObject width="120" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml"
+                                    style="display: table; white-space: nowrap; line-height: 1.5; max-width: 120px; text-align: center; width: 120px;">
+                                    <span class="nodeLabel">
+                                        <p><i class="fa fa-layer-group"></i> Vistas</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="node default" id="graph-704-flowchart-Serializadores-3"
+                        data-look="neo" transform="translate(530.3554240926106, 495.6955680847168)">
+                        <rect class="basic label-container" style="" x="-77.15056610107422"
+                            y="-22.504261016845703" width="154.30113220214844"
+                            height="45.008522033691406" />
+                        <g class="label" style=""
+                            transform="translate(-61.15056610107422, -10.504261016845703)">
+                            <rect />
+                            <foreignObject width="122.30113220214844" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml"
+                                    style="display: table; white-space: nowrap; line-height: 1.5; max-width: 120px; text-align: center; width: 120px;">
+                                    <span class="nodeLabel">
+                                        <p><i class="fa fa-exchange-alt"></i> Serializadores</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="node default" id="graph-704-flowchart-Modelos-4" data-look="neo"
+                        transform="translate(793.7215728759766, 924.7381782531738)">
+                        <rect class="basic label-container" style="" x="-76" y="-22.504261016845703"
+                            width="152" height="45.008522033691406" />
+                        <g class="label" style="" transform="translate(-60, -10.504261016845703)">
+                            <rect />
+                            <foreignObject width="120" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml"
+                                    style="display: table; white-space: nowrap; line-height: 1.5; max-width: 120px; text-align: center; width: 120px;">
+                                    <span class="nodeLabel">
+                                        <p><i class="fa fa-cubes"></i> Modelos</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="node default" id="graph-704-flowchart-PostgreSQL-5" data-look="neo"
+                        transform="translate(1129.9882666015624, 132.58713150024414)">
+                        <path
+                            d="M0,13.382899628252789 a72,13.382899628252789 0,0,0 144,0 a72,13.382899628252789 0,0,0 -144,0 l0,58.39142166194419 a72,13.382899628252789 0,0,0 144,0 l0,-58.39142166194419"
+                            class="basic label-container outer-path" style=""
+                            transform="translate(-72, -42.57861045922488)" />
+                        <g class="label" style="" transform="translate(-60, -0.5042610168457031)">
+                            <rect />
+                            <foreignObject width="120" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml"
+                                    style="display: table; white-space: nowrap; line-height: 1.5; max-width: 120px; text-align: center; width: 120px;">
+                                    <span class="nodeLabel">
+                                        <p><i class="fa fa-database"></i> PostgreSQL</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

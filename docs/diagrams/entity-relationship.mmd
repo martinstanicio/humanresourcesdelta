@@ -1,69 +1,64 @@
 erDiagram
-    PLAN_VACACIONAL ||--o{ EMPLEADO : "rige"
-    TURNO ||--o{ EMPLEADO : "asigna"
-    EMPLEADO ||--o{ JORNADA_LABORAL : "realiza"
-    EMPLEADO ||--o{ CUENTA_VACACIONAL : "posee"
-    EMPLEADO ||--o{ AUSENCIA : "solicita"
-    CUENTA_VACACIONAL ||--o{ AUSENCIA : "financia"
-    JORNADA_LABORAL ||--o{ FICHAJE : "compone"
-
-    PLAN_VACACIONAL {
+    CONVENIO_DE_TRABAJO {
         int id PK
-        varchar nombre
-        int dias_anuales_base
-        int antiguedad_requerida
+        string nombre
     }
-
-    TURNO {
-        int id PK
-        varchar descripcion
-        time hora_inicio
-        time hora_fin
-    }
-
+    
     EMPLEADO {
         int legajo PK
-        int turno FK
-        int plan_vacacional FK
-        varchar nombre
-        varchar cuil
-        varchar categoria
-        varchar area
-        date fecha_ingreso
-        varchar estado
+        int id_convenio FK
+        string nombre
+        date fechaIngreso
     }
-
-    JORNADA_LABORAL {
+    
+    HORA_EXTRA {
+        int id PK
+        int id_convenio FK
+        string tipo
+        string descripcion
+        float multiplicador
+    }
+    
+    LICENCIA {
+        int id PK
+        int id_convenio FK
+        string tipo
+        string descripcion
+    }
+    
+    REPORTE {
         int id PK
         int legajo FK
+        date fechaGeneracion
+        date fechaInicio
+        date fechaFin
+    }
+    SOLICITUD_LICENCIA {
+        int id PK
+        int legajo_empleado FK
+        int id_licencia FK
+        date fechaInicio
+        date fechaFin
+        string estado
+        string motivo
+    }
+    
+    NOTIFICACION_HORAS_EXTRAS {
+        int id PK
+        int legajo_empleado FK
+        int id_hora_extra FK
         date fecha
-        varchar estado
+        float horas
+        string estado
+        string motivo
     }
+    
 
-    FICHAJE {
-        int id PK
-        int jornada FK
-        datetime fecha_hora
-        varchar tipo
-    }
-
-    CUENTA_VACACIONAL {
-        int id PK
-        int legajo FK
-        int anio_periodo
-        int dias_otorgados
-        int dias_consumidos
-    }
-
-    AUSENCIA {
-        int id PK
-        int legajo FK
-        int cuenta_vacacional FK
-        varchar tipo
-        date fecha_inicio
-        date fecha_fin
-        varchar motivo
-        varchar estado
-        varchar observaciones
-        varchar adjuntos
-    }
+    CONVENIO_DE_TRABAJO ||--o{ EMPLEADO : "agrupa"
+    CONVENIO_DE_TRABAJO ||--o{ HORA_EXTRA : "establece"
+    CONVENIO_DE_TRABAJO ||--o{ LICENCIA : "establece"
+    EMPLEADO ||--o{ REPORTE : "le corresponde"
+    EMPLEADO ||--o{ NOTIFICACION_HORAS_EXTRAS : "genera"
+    EMPLEADO ||--o{ SOLICITUD_LICENCIA : "genera"
+    HORA_EXTRA ||--o{ NOTIFICACION_HORAS_EXTRAS : "corresponde a"
+    LICENCIA ||--o{ SOLICITUD_LICENCIA : "corresponde a"

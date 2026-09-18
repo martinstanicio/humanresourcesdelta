@@ -1,26 +1,31 @@
-flowchart TB
+flowchart LR
     Empleado(("fa:fa-user\nEmpleado "))
     RRHH(("fa:fa-user\nRecursos \nHumanos "))
 
-    CU01(["CU-01 Registrar fichaje de turno"])
-    CU02(["CU-02 Solicitar ausencia"])
-    CU04(["CU-04 Consultar estado de solicitud"])
-      
-    CU05(["CU-05 ABM de empleados"])
-    CU03(["CU-03 Evaluar ausencia"])
-    CU06(["CU-06 Generar reporte de horas"])
-    
-    Empleado --- CU01
-    Empleado --- CU02
-    Empleado --- CU04
+    CU-01(["CU-01 Solicitar licencia"])
+    CU-02(["CU-02 Evaluar licencia"])
+    CU-03(["CU-03 Notificar horas extras"])
+    CU-04(["CU-04 Evaluar horas extras"])
+    CU-05(["CU-05 Consultar estado de solicitud"])
+    CU-06(["CU-06 Consultar estado de horas extras"])
+    CU-07(["CU-07 Cancelar solicitud de licencia"])
+    CU-08(["CU-08 Cancelar notificación de horas extras"])
+    CU-09(["CU-09 Ver reporte mensual"])
+    CU-10(["CU-10 ABM empleados"])
+    CU-11(["CU-11 ABM convenios de trabajo"])
 
-    CU01 ~~~ CU05
-    CU02 ~~~ CU03
-    CU04 ~~~ CU06
+    CU-01 --- Empleado
+    CU-05 --- Empleado
+    CU-03 --- Empleado
+    CU-06 --- Empleado
 
-    CU05 --- RRHH
-    CU03 --- RRHH
-    CU06 --- RRHH
+    RRHH --- CU-02
+    RRHH --- CU-04
+    RRHH --- CU-09
+    RRHH --- CU-10
+    RRHH --- CU-11
 
-    CU03 -. "<< include >>" .-> CU02
-    CU03 -. "<< include >>" .-> CU04
+    CU-02 -. "<< include >>" .-> CU-01
+    CU-04 -. "<< include >>" .-> CU-03
+    CU-07 -. "<< extend >>" .-> CU-05
+    CU-08 -. "<< extend >>" .-> CU-06

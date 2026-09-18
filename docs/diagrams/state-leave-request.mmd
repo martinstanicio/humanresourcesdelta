@@ -1,17 +1,14 @@
 stateDiagram-v2
-    state "fa:fa-hourglass-half Pendiente" as Pendiente
-    state "fa:fa-search En Revisión" as EnRevision
-    state "fa:fa-check Aprobada" as Aprobada
-    state "fa:fa-times Rechazada" as Rechazada
+    [*] --> Pendiente: Empleado crea solicitud
+    Pendiente --> Aprobada : RRHH aprueba la solicitud
+    Pendiente --> Rechazada : RRHH rechaza la solicitud
+    Pendiente --> Cancelado : Empleado cancela la solicitud
+    Aprobada --> Cancelado : Empleado cancela la solicitud
+    Aprobada --> [*]
+    Rechazada --> [*]
+    Cancelado --> [*]
 
-    [*] --> Pendiente : Empleado crea solicitud
-
-    Pendiente --> Aprobada : RRHH aprueba
-    Pendiente --> Rechazada : RRHH rechaza
-    Pendiente --> EnRevision : RRHH requiere más análisis
-
-    EnRevision --> Aprobada : RRHH resuelve favorablemente
-    EnRevision --> Rechazada : RRHH resuelve desfavorablemente
-
-    Aprobada --> [*] : Se descuentan días (si aplica) y notifica
-    Rechazada --> [*] : Se archiva en historial y notifica
+    note left of Cancelado
+        Una solicitud solo puede pasar a ser
+        cancelada si todavía no expiró la fecha
+    end note

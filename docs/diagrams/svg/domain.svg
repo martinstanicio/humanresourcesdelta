@@ -1,0 +1,872 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:ev="http://www.w3.org/2001/xml-events" id="graph-16" class="classDiagram"
+    style="overflow: hidden; max-width: 100%; touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"
+    role="graphics-document document" aria-roledescription="classDiagram"
+    viewBox="60.08 47.12 722.79 459.31">
+    <defs>
+        <filter id="graph-16-drop-shadow" height="130%" width="130%">
+            <feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#FFFFFF" />
+        </filter>
+    </defs>
+    <defs>
+        <filter id="graph-16-drop-shadow-small" height="150%" width="150%">
+            <feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#FFFFFF" />
+        </filter>
+    </defs>
+    <g id="viewport-20260918001740580" class="svg-pan-zoom_viewport"
+        transform="matrix(0.5603107238726511,0,0,0.5603107238726511,54.354329014082325,41.40001483414375)"
+        style="transform: matrix(0.560311, 0, 0, 0.560311, 54.3543, 41.4);">
+        <style>#graph-16{font-family:"Recursive Variable",arial,sans-serif;font-size:14px;fill:#ccc;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#graph-16 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#graph-16 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#graph-16 .error-icon{fill:hsl(20, 1.5873015873%, 12.3529411765%);}#graph-16 .error-text{fill:rgb(222.9999999999, 223.6666666666, 223.9999999999);stroke:rgb(222.9999999999, 223.6666666666, 223.9999999999);}#graph-16 .edge-thickness-normal{stroke-width:2px;}#graph-16 .edge-thickness-thick{stroke-width:3.5px;}#graph-16 .edge-pattern-solid{stroke-dasharray:0;}#graph-16 .edge-thickness-invisible{stroke-width:0;fill:none;}#graph-16 .edge-pattern-dashed{stroke-dasharray:3;}#graph-16 .edge-pattern-dotted{stroke-dasharray:2;}#graph-16 .marker{fill:#cccccc;stroke:#cccccc;}#graph-16 .marker.cross{stroke:#cccccc;}#graph-16 svg{font-family:"Recursive Variable",arial,sans-serif;font-size:14px;}#graph-16 p{margin:0;}#graph-16 [data-look="neo"][data-color-id="color-0"].node .outer-path path{stroke:#E879F9;}#graph-16 [data-look="neo"][data-color-id="color-0"].node .divider path{stroke:#E879F9;}#graph-16 [data-look="neo"][data-color-id="color-1"].node .outer-path path{stroke:#2DD4BF;}#graph-16 [data-look="neo"][data-color-id="color-1"].node .divider path{stroke:#2DD4BF;}#graph-16 [data-look="neo"][data-color-id="color-2"].node .outer-path path{stroke:#FB923C;}#graph-16 [data-look="neo"][data-color-id="color-2"].node .divider path{stroke:#FB923C;}#graph-16 [data-look="neo"][data-color-id="color-3"].node .outer-path path{stroke:#22D3EE;}#graph-16 [data-look="neo"][data-color-id="color-3"].node .divider path{stroke:#22D3EE;}#graph-16 [data-look="neo"][data-color-id="color-4"].node .outer-path path{stroke:#4ADE80;}#graph-16 [data-look="neo"][data-color-id="color-4"].node .divider path{stroke:#4ADE80;}#graph-16 [data-look="neo"][data-color-id="color-5"].node .outer-path path{stroke:#A78BFA;}#graph-16 [data-look="neo"][data-color-id="color-5"].node .divider path{stroke:#A78BFA;}#graph-16 [data-look="neo"][data-color-id="color-6"].node .outer-path path{stroke:#F87171;}#graph-16 [data-look="neo"][data-color-id="color-6"].node .divider path{stroke:#F87171;}#graph-16 [data-look="neo"][data-color-id="color-7"].node .outer-path path{stroke:#FACC15;}#graph-16 [data-look="neo"][data-color-id="color-7"].node .divider path{stroke:#FACC15;}#graph-16 [data-look="neo"][data-color-id="color-8"].node .outer-path path{stroke:#818CF8;}#graph-16 [data-look="neo"][data-color-id="color-8"].node .divider path{stroke:#818CF8;}#graph-16 [data-look="neo"][data-color-id="color-9"].node .outer-path path{stroke:#A3E635;}#graph-16 [data-look="neo"][data-color-id="color-9"].node .divider path{stroke:#A3E635;}#graph-16 [data-look="neo"][data-color-id="color-10"].node .outer-path path{stroke:#38BDF8;}#graph-16 [data-look="neo"][data-color-id="color-10"].node .divider path{stroke:#38BDF8;}#graph-16 [data-look="neo"][data-color-id="color-11"].node .outer-path path{stroke:#FB7185;}#graph-16 [data-look="neo"][data-color-id="color-11"].node .divider path{stroke:#FB7185;}#graph-16 g.classGroup text{fill:#FFFFFF;stroke:none;font-family:"Recursive Variable",arial,sans-serif;font-size:10px;}#graph-16 g.classGroup text .title{font-weight:bolder;}#graph-16 .cluster-label text{fill:rgb(222.9999999999, 223.6666666666, 223.9999999999);}#graph-16 .cluster-label span{color:rgb(222.9999999999, 223.6666666666, 223.9999999999);}#graph-16 .cluster-label span p{background-color:transparent;}#graph-16 .cluster rect{fill:#1E1A2E;stroke:#BDBCCC;stroke-width:1px;}#graph-16 .cluster text{fill:rgb(222.9999999999, 223.6666666666, 223.9999999999);}#graph-16 .cluster span{color:rgb(222.9999999999, 223.6666666666, 223.9999999999);}#graph-16 .nodeLabel,#graph-16 .edgeLabel{color:#ccc;}#graph-16 .noteLabel .nodeLabel,#graph-16 .noteLabel .edgeLabel{color:#28253D;}#graph-16 .edgeLabel .label rect{fill:#111113;}#graph-16 .label text{fill:#ccc;}#graph-16 .labelBkg{background:#111113;}#graph-16 .edgeLabel .label span{background:#111113;}#graph-16 .classTitle{font-weight:bolder;}#graph-16 .node rect,#graph-16 .node circle,#graph-16 .node ellipse,#graph-16 .node polygon,#graph-16 .node path{fill:#111113;stroke:#FFFFFF;stroke-width:2;}#graph-16 .divider{stroke:#FFFFFF;stroke-width:1;}#graph-16 g.clickable{cursor:pointer;}#graph-16 g.classGroup rect{fill:#111113;stroke:#FFFFFF;}#graph-16 g.classGroup line{stroke:#FFFFFF;stroke-width:1;}#graph-16 .classLabel .box{stroke:none;stroke-width:0;fill:#111113;opacity:0.5;}#graph-16 .classLabel .label{fill:#FFFFFF;font-size:10px;}#graph-16 .relation{stroke:#cccccc;stroke-width:2;fill:none;}#graph-16 .dashed-line{stroke-dasharray:3;}#graph-16 .dotted-line{stroke-dasharray:1 2;}#graph-16 [id$="-compositionStart"],#graph-16 .composition{fill:#cccccc!important;stroke:#cccccc!important;stroke-width:1;}#graph-16 [id$="-compositionEnd"],#graph-16 .composition{fill:#cccccc!important;stroke:#cccccc!important;stroke-width:1;}#graph-16 [id$="-dependencyStart"],#graph-16 .dependency{fill:#cccccc!important;stroke:#cccccc!important;stroke-width:1;}#graph-16 [id$="-dependencyEnd"],#graph-16 .dependency{fill:#cccccc!important;stroke:#cccccc!important;stroke-width:1;}#graph-16 [id$="-extensionStart"],#graph-16 .extension{fill:transparent!important;stroke:#cccccc!important;stroke-width:1;}#graph-16 [id$="-extensionEnd"],#graph-16 .extension{fill:transparent!important;stroke:#cccccc!important;stroke-width:1;}#graph-16 [id$="-aggregationStart"],#graph-16 .aggregation{fill:transparent!important;stroke:#cccccc!important;stroke-width:1;}#graph-16 [id$="-aggregationEnd"],#graph-16 .aggregation{fill:transparent!important;stroke:#cccccc!important;stroke-width:1;}#graph-16 [id$="-lollipopStart"],#graph-16 .lollipop{fill:#111113!important;stroke:#cccccc!important;stroke-width:1;}#graph-16 [id$="-lollipopEnd"],#graph-16 .lollipop{fill:#111113!important;stroke:#cccccc!important;stroke-width:1;}#graph-16 .edgeTerminals{font-size:11px;line-height:initial;}#graph-16 .classTitleText{text-anchor:middle;font-size:18px;fill:#ccc;}#graph-16 .edgeLabel[data-look="neo"]{background-color:hsl(180, 1.5873015873%, 28.3529411765%);text-align:center;}#graph-16 .edgeLabel[data-look="neo"] p{background-color:hsl(180, 1.5873015873%, 28.3529411765%);}#graph-16 .edgeLabel[data-look="neo"] rect{opacity:0.5;background-color:hsl(180, 1.5873015873%, 28.3529411765%);fill:hsl(180, 1.5873015873%, 28.3529411765%);}#graph-16 .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#graph-16 .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#graph-16 .node .neo-node{stroke:#FFFFFF;}#graph-16 [data-look="neo"].node rect,#graph-16 [data-look="neo"].cluster rect,#graph-16 [data-look="neo"].node polygon{stroke:#FFFFFF;filter:url(#graph-16-drop-shadow);}#graph-16 [data-look="neo"].swimlane.cluster rect{filter:none;}#graph-16 [data-look="neo"].node path{stroke:#FFFFFF;stroke-width:2px;}#graph-16 [data-look="neo"].node .outer-path{filter:url(#graph-16-drop-shadow);}#graph-16 [data-look="neo"].node .neo-line path{stroke:#FFFFFF;filter:none;}#graph-16 [data-look="neo"].node circle{stroke:#FFFFFF;filter:url(#graph-16-drop-shadow);}#graph-16 [data-look="neo"].node circle .state-start{fill:#000000;}#graph-16 [data-look="neo"].icon-shape .icon{fill:#FFFFFF;filter:url(#graph-16-drop-shadow);}#graph-16 [data-look="neo"].icon-shape .icon-neo path{stroke:#FFFFFF;filter:url(#graph-16-drop-shadow);}#graph-16 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style>
+        <g>
+            <defs>
+                <marker id="graph-16_classDiagram-aggregationStart"
+                    class="marker aggregation classDiagram" refX="18" refY="7" markerWidth="190"
+                    markerHeight="240" orient="auto" markerUnits="userSpaceOnUse">
+                    <path d="M 18,7 L9,13 L1,7 L9,1 Z" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-aggregationEnd"
+                    class="marker aggregation classDiagram" refX="1" refY="7" markerWidth="20"
+                    markerHeight="28" orient="auto" markerUnits="userSpaceOnUse">
+                    <path d="M 18,7 L9,13 L1,7 L9,1 Z" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-aggregationStart-margin"
+                    class="marker aggregation classDiagram" refX="15" refY="7" markerWidth="190"
+                    markerHeight="240" orient="auto" markerUnits="userSpaceOnUse">
+                    <path d="M 18,7 L9,13 L1,7 L9,1 Z" style="stroke-width: 2;" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-aggregationEnd-margin"
+                    class="marker aggregation classDiagram" refX="1" refY="7" markerWidth="20"
+                    markerHeight="28" orient="auto" markerUnits="userSpaceOnUse">
+                    <path d="M 18,7 L9,13 L1,7 L9,1 Z" style="stroke-width: 2;" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-extensionStart"
+                    class="marker extension classDiagram" refX="18" refY="7" markerWidth="20"
+                    markerHeight="28" orient="auto" markerUnits="userSpaceOnUse">
+                    <path d="M 1,7 L18,13 V 1 Z" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-extensionEnd"
+                    class="marker extension classDiagram" refX="1" refY="7" markerWidth="20"
+                    markerHeight="28" orient="auto" markerUnits="userSpaceOnUse">
+                    <path d="M 1,1 V 13 L18,7 Z" />
+                </marker>
+            </defs>
+            <marker id="graph-16_classDiagram-extensionStart-margin"
+                class="marker extension classDiagram" refX="18" refY="7" markerWidth="20"
+                markerHeight="28" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 20 14">
+                <polygon points="10,7 18,13 18,1" style="stroke-width: 2; stroke-dasharray: 0;" />
+            </marker>
+            <defs>
+                <marker id="graph-16_classDiagram-extensionEnd-margin"
+                    class="marker extension classDiagram" refX="9" refY="7" markerWidth="20"
+                    markerHeight="28" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 20 14">
+                    <polygon points="10,1 10,13 18,7" style="stroke-width: 2; stroke-dasharray: 0;" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-compositionStart"
+                    class="marker composition classDiagram" refX="18" refY="7" markerWidth="190"
+                    markerHeight="240" orient="auto" markerUnits="userSpaceOnUse">
+                    <path d="M 18,7 L9,13 L1,7 L9,1 Z" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-compositionEnd"
+                    class="marker composition classDiagram" refX="1" refY="7" markerWidth="20"
+                    markerHeight="28" orient="auto" markerUnits="userSpaceOnUse">
+                    <path d="M 18,7 L9,13 L1,7 L9,1 Z" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-compositionStart-margin"
+                    class="marker composition classDiagram" refX="15" refY="7" markerWidth="190"
+                    markerHeight="240" orient="auto" markerUnits="userSpaceOnUse">
+                    <path viewBox="0 0 15 15" d="M 18,7 L9,13 L1,7 L9,1 Z" style="stroke-width: 0;" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-compositionEnd-margin"
+                    class="marker composition classDiagram" refX="3.5" refY="7" markerWidth="20"
+                    markerHeight="28" orient="auto" markerUnits="userSpaceOnUse">
+                    <path d="M 18,7 L9,13 L1,7 L9,1 Z" style="stroke-width: 0;" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-dependencyStart"
+                    class="marker dependency classDiagram" refX="6" refY="7" markerWidth="190"
+                    markerHeight="240" orient="auto" markerUnits="userSpaceOnUse">
+                    <path d="M 5,7 L9,13 L1,7 L9,1 Z" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-dependencyEnd"
+                    class="marker dependency classDiagram" refX="13" refY="7" markerWidth="20"
+                    markerHeight="28" orient="auto" markerUnits="userSpaceOnUse">
+                    <path d="M 18,7 L9,13 L14,7 L9,1 Z" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-dependencyStart-margin"
+                    class="marker dependency classDiagram" refX="4" refY="7" markerWidth="190"
+                    markerHeight="240" orient="auto" markerUnits="userSpaceOnUse">
+                    <path d="M 5,7 L9,13 L1,7 L9,1 Z" style="stroke-width: 0;" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-dependencyEnd-margin"
+                    class="marker dependency classDiagram" refX="16" refY="7" markerWidth="20"
+                    markerHeight="28" orient="auto" markerUnits="userSpaceOnUse">
+                    <path d="M 18,7 L9,13 L14,7 L9,1 Z" style="stroke-width: 0;" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-lollipopStart"
+                    class="marker lollipop classDiagram" refX="13" refY="7" markerWidth="190"
+                    markerHeight="240" orient="auto" markerUnits="userSpaceOnUse">
+                    <circle fill="transparent" cx="7" cy="7" r="6" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-lollipopEnd" class="marker lollipop classDiagram"
+                    refX="1" refY="7" markerWidth="190" markerHeight="240" orient="auto"
+                    markerUnits="userSpaceOnUse">
+                    <circle fill="transparent" cx="7" cy="7" r="6" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-lollipopStart-margin"
+                    class="marker lollipop classDiagram" refX="13" refY="7" markerWidth="190"
+                    markerHeight="240" orient="auto" markerUnits="userSpaceOnUse">
+                    <circle fill="transparent" cx="7" cy="7" r="6" stroke-width="2" />
+                </marker>
+            </defs>
+            <defs>
+                <marker id="graph-16_classDiagram-lollipopEnd-margin"
+                    class="marker lollipop classDiagram" refX="1" refY="7" markerWidth="190"
+                    markerHeight="240" orient="auto" markerUnits="userSpaceOnUse">
+                    <circle fill="transparent" cx="7" cy="7" r="6" stroke-width="2" />
+                </marker>
+            </defs>
+            <g class="root">
+                <g class="clusters" />
+                <g class="edges edgePaths">
+                    <path
+                        d="M230.20384216308594,488.1022720336914L230.20384216308594,603.1107940673828"
+                        id="graph-16-id_Empleado_ConvenioDeTrabajo_1"
+                        class="edge-thickness-normal edge-pattern-solid relation"
+                        style="stroke-dasharray: 0 0 115.00851440429688 0; stroke-dashoffset: 0;;;;"
+                        data-edge="true" data-et="edge" data-id="id_Empleado_ConvenioDeTrabajo_1"
+                        data-points="W3sieCI6MjMwLjIwMzg0MjE2MzA4NTk0LCJ5Ijo0ODguMTAyMjcyMDMzNjkxNH0seyJ4IjoyMzAuMjAzODQyMTYzMDg1OTQsInkiOjYwOS4xMTA3OTQwNjczODI4fV0="
+                        data-look="neo"
+                        marker-end="url(#graph-16_classDiagram-dependencyEnd-margin)" />
+                    <path
+                        d="M572.406,488.102 L572.406,521.031 Q572.406,528.102 579.477,528.102 L886.816,528.102 A6,6 0 0 1 898.816,528.102 L1042.784,528.102 Q1049.855,528.102 1049.855,535.173 L1049.855,603.111"
+                        id="graph-16-id_Empleado_SolicitudLicencia_2"
+                        class="edge-thickness-normal edge-pattern-solid relation"
+                        style="stroke-dasharray: 0 0 593.9819946289062 0; stroke-dashoffset: 0;"
+                        data-edge="true" data-et="edge" data-id="id_Empleado_SolicitudLicencia_2"
+                        data-points="W3sieCI6NTcyLjQwNjIzNDc0MTIxMDksInkiOjQ4OC4xMDIyNzIwMzM2OTE0fSx7IngiOjU3Mi40MDYyMzQ3NDEyMTA5LCJ5Ijo1MjguMTAyMjcyMDMzNjkxNH0seyJ4IjoxMDQ5Ljg1NDk3NTM4MjQ4NywieSI6NTI4LjEwMjI3MjAzMzY5MTR9LHsieCI6MTA0OS44NTQ5NzUzODI0ODcsInkiOjYwOS4xMTA3OTQwNjczODI4fV0="
+                        data-look="neo"
+                        marker-end="url(#graph-16_classDiagram-dependencyEnd-margin)" />
+                    <path
+                        d="M401.30503845214844,488.1022720336914L401.30503845214844,501.03120422182593Q401.30503845214844,508.1022720336914 408.3761062640139,508.1022720336914L489.0083058657061,508.1022720336914Q496.0793736775716,508.1022720336914 496.0793736775716,515.1733398455569L496.0793736775716,582.0397262555173Q496.0793736775716,589.1107940673828 503.15044148943707,589.1107940673828L583.8537089029948,589.1107940673828Q590.8537089029948,589.1107940673828 590.8537089029948,596.1107940673828L590.8537089029948,603.1107940673828"
+                        id="graph-16-id_Empleado_NotificaciónHorasExtras_3"
+                        class="edge-thickness-normal edge-pattern-solid relation"
+                        style="stroke-dasharray: 0 0 293.9273376464844 0; stroke-dashoffset: 0;;;;"
+                        data-edge="true" data-et="edge"
+                        data-id="id_Empleado_NotificaciónHorasExtras_3"
+                        data-points="W3sieCI6NDAxLjMwNTAzODQ1MjE0ODQ0LCJ5Ijo0ODguMTAyMjcyMDMzNjkxNH0seyJ4Ijo0MDEuMzA1MDM4NDUyMTQ4NDQsInkiOjUwOC4xMDIyNzIwMzM2OTE0fSx7IngiOjQ5Ni4wNzkzNzM2Nzc1NzE2LCJ5Ijo1MDguMTAyMjcyMDMzNjkxNH0seyJ4Ijo0OTYuMDc5MzczNjc3NTcxNiwieSI6NTg5LjExMDc5NDA2NzM4Mjh9LHsieCI6NTkwLjg1MzcwODkwMjk5NDgsInkiOjU4OS4xMTA3OTQwNjczODI4fSx7IngiOjU5MC44NTM3MDg5MDI5OTQ4LCJ5Ijo2MDkuMTEwNzk0MDY3MzgyOH1d"
+                        data-look="neo"
+                        marker-end="url(#graph-16_classDiagram-dependencyEnd-margin)" />
+                    <path
+                        d="M401.30503845214844,189.04261779785156L401.30503845214844,284.05113983154297"
+                        id="graph-16-id_Reporte_Empleado_4"
+                        class="edge-thickness-normal edge-pattern-solid relation"
+                        style="stroke-dasharray: 0 0 95.00852966308594 0; stroke-dashoffset: 0;;;;"
+                        data-edge="true" data-et="edge" data-id="id_Reporte_Empleado_4"
+                        data-points="W3sieCI6NDAxLjMwNTAzODQ1MjE0ODQ0LCJ5IjoxODkuMDQyNjE3Nzk3ODUxNTZ9LHsieCI6NDAxLjMwNTAzODQ1MjE0ODQ0LCJ5IjoyOTAuMDUxMTM5ODMxNTQyOTd9XQ=="
+                        data-look="neo"
+                        marker-end="url(#graph-16_classDiagram-dependencyEnd-margin)" />
+                    <path
+                        d="M965.1390635172526,488.1022720336914L965.1390635172526,501.03120422182593Q965.1390635172526,508.1022720336914 958.0679957053871,508.1022720336914L899.8872146624515,508.1022720336914Q892.8161468505859,508.1022720336914 892.8161468505859,515.1733398455569L892.8161468505859,582.0397262555173Q892.8161468505859,589.1107940673828 885.7450790387204,589.1107940673828L690.2997334798177,589.1107940673828Q683.2997334798177,589.1107940673828 683.2997334798177,596.1107940673828L683.2997334798177,603.1107940673828"
+                        id="graph-16-id_RecursosHumanos_NotificaciónHorasExtras_5"
+                        class="edge-thickness-normal edge-pattern-solid relation"
+                        style="stroke-dasharray: 0 0 386.2180480957031 0; stroke-dashoffset: 0;;;;"
+                        data-edge="true" data-et="edge"
+                        data-id="id_RecursosHumanos_NotificaciónHorasExtras_5"
+                        data-points="W3sieCI6OTY1LjEzOTA2MzUxNzI1MjYsInkiOjQ4OC4xMDIyNzIwMzM2OTE0fSx7IngiOjk2NS4xMzkwNjM1MTcyNTI2LCJ5Ijo1MDguMTAyMjcyMDMzNjkxNH0seyJ4Ijo4OTIuODE2MTQ2ODUwNTg1OSwieSI6NTA4LjEwMjI3MjAzMzY5MTR9LHsieCI6ODkyLjgxNjE0Njg1MDU4NTksInkiOjU4OS4xMTA3OTQwNjczODI4fSx7IngiOjY4My4yOTk3MzM0Nzk4MTc3LCJ5Ijo1ODkuMTEwNzk0MDY3MzgyOH0seyJ4Ijo2ODMuMjk5NzMzNDc5ODE3NywieSI6NjA5LjExMDc5NDA2NzM4Mjh9XQ=="
+                        data-look="neo"
+                        marker-end="url(#graph-16_classDiagram-dependencyEnd-margin)" />
+                    <path
+                        d="M1126.7706960042317,488.1022720336914L1126.7706960042317,603.1107940673828"
+                        id="graph-16-id_RecursosHumanos_SolicitudLicencia_6"
+                        class="edge-thickness-normal edge-pattern-solid relation"
+                        style="stroke-dasharray: 0 0 115.00851440429688 0; stroke-dashoffset: 0;;;;"
+                        data-edge="true" data-et="edge"
+                        data-id="id_RecursosHumanos_SolicitudLicencia_6"
+                        data-points="W3sieCI6MTEyNi43NzA2OTYwMDQyMzE3LCJ5Ijo0ODguMTAyMjcyMDMzNjkxNH0seyJ4IjoxMTI2Ljc3MDY5NjAwNDIzMTcsInkiOjYwOS4xMTA3OTQwNjczODI4fV0="
+                        data-look="neo"
+                        marker-end="url(#graph-16_classDiagram-dependencyEnd-margin)" />
+                </g>
+                <g class="edgeLabels">
+                    <g class="edgeLabel" transform="translate(229.9850902557373, 558.6065330505371)">
+                        <g class="label" data-id="id_Empleado_ConvenioDeTrabajo_1"
+                            transform="translate(-30.781248092651367, -10.504261016845703)">
+                            <foreignObject width="61.562496185302734" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>rige bajo</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="edgeLabel"
+                        transform="translate(1043.9558245340982, 558.6065330505371)">
+                        <g class="label" data-id="id_Empleado_SolicitudLicencia_2"
+                            transform="translate(-23.721590042114258, -10.504261016845703)">
+                            <foreignObject width="47.443180084228516" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>genera</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="edgeLabel"
+                        transform="translate(495.80096371968585, 558.6065330505371)">
+                        <g class="label" data-id="id_Empleado_NotificaciónHorasExtras_3"
+                            transform="translate(-23.721590042114258, -10.504261016845703)">
+                            <foreignObject width="47.443180084228516" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>genera</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="edgeLabel"
+                        transform="translate(400.98827362060547, 239.54687881469727)">
+                        <g class="label" data-id="id_Reporte_Empleado_4"
+                            transform="translate(-49.18323516845703, -10.504261016845703)">
+                            <foreignObject width="98.36647033691406" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>corresponde a</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="edgeLabel" transform="translate(892.5533618927002, 558.6065330505371)">
+                        <g class="label" data-id="id_RecursosHumanos_NotificaciónHorasExtras_5"
+                            transform="translate(-29.737215042114258, -10.504261016845703)">
+                            <foreignObject width="59.474430084228516" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>autoriza</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                    <g class="edgeLabel"
+                        transform="translate(1126.3601811726887, 558.6065330505371)">
+                        <g class="label" data-id="id_RecursosHumanos_SolicitudLicencia_6"
+                            transform="translate(-23.08948516845703, -10.504261016845703)">
+                            <foreignObject width="46.17897033691406" height="21.008522033691406">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg"
+                                    style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+                                    <span class="edgeLabel">
+                                        <p>evalúa</p>
+                                    </span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    </g>
+                </g>
+                <g class="nodes">
+                    <g class="node default" id="graph-16-classId-Empleado-540"
+                        data-color-id="color-0" data-look="neo"
+                        transform="translate(401.30503845214844, 389.0767059326172)">
+                        <g class="basic label-container outer-path">
+                            <path
+                                d="M-352.202392578125 -99.02556610107422 L352.202392578125 -99.02556610107422 L352.202392578125 99.02556610107422 L-352.202392578125 99.02556610107422"
+                                stroke="none" stroke-width="0" fill="#111113" style="" />
+                            <path
+                                d="M-352.202392578125 -99.02556610107422 C-124.08169421660907 -99.02556610107422, 104.03900414490687 -99.02556610107422, 352.202392578125 -99.02556610107422 M-352.202392578125 -99.02556610107422 C-194.13771681520046 -99.02556610107422, -36.073041052275926 -99.02556610107422, 352.202392578125 -99.02556610107422 M352.202392578125 -99.02556610107422 C352.202392578125 -32.94933849555834, 352.202392578125 33.126889109957546, 352.202392578125 99.02556610107422 M352.202392578125 -99.02556610107422 C352.202392578125 -59.37556810199677, 352.202392578125 -19.72557010291932, 352.202392578125 99.02556610107422 M352.202392578125 99.02556610107422 C170.6996947817562 99.02556610107422, -10.803003014612614 99.02556610107422, -352.202392578125 99.02556610107422 M352.202392578125 99.02556610107422 C95.69211512427819 99.02556610107422, -160.81816232956862 99.02556610107422, -352.202392578125 99.02556610107422 M-352.202392578125 99.02556610107422 C-352.202392578125 34.11949609719976, -352.202392578125 -30.786573906674704, -352.202392578125 -99.02556610107422 M-352.202392578125 99.02556610107422 C-352.202392578125 45.62738086627568, -352.202392578125 -7.77080436852286, -352.202392578125 -99.02556610107422"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                        <g class="annotation-group text"
+                            transform="translate(0, -75.02556610107422)" />
+                        <g class="label-group text"
+                            transform="translate(-33.23153305053711, -75.02556610107422)">
+                            <g class="label" style="font-weight: bolder"
+                                transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="66.46306610107422" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 126px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>Empleado</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="members-group text"
+                            transform="translate(-340.202392578125, -30.017044067382812)">
+                            <g class="label" style="" transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="75" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 145px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>-Int legajo</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                            <g class="label" style="" transform="translate(0,10.504261016845703)">
+                                <foreignObject width="105.2272720336914" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 180px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>-String nombre</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                            <g class="label" style="" transform="translate(0,31.51278305053711)">
+                                <foreignObject width="134.7443084716797" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 214px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>-Date fechaIngreso</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="methods-group text"
+                            transform="translate(-340.202392578125, 57.008522033691406)">
+                            <g class="label" style="" transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="531.8181762695312" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 668px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>+solicitarLicencia(TipoLicencia tipo, Date inicio,
+                                                Date fin) : SolicitudLicencia</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                            <g class="label" style="" transform="translate(0,10.504261016845703)">
+                                <foreignObject width="647.1732788085938" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 799px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>+notificarHorasExtras(TipoHoraExtra tipo, Float
+                                                horas, Date fecha) : NotificaciónHorasExtras</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="divider neo-line" style="">
+                            <path
+                                d="M-352.202392578125 -54.01704406738281 C-131.0903135129442 -54.01673016821046, 90.02176555223662 -54.016416269038096, 352.202392578125 -54.016044067382815 M-352.202392578125 -54.01704406738281 C-126.37548896066787 -54.016723474865024, 99.45141465678927 -54.01640288234723, 352.202392578125 -54.016044067382815"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                        <g class="divider neo-line" style="">
+                            <path
+                                d="M-352.202392578125 33.008522033691406 C-136.2488138511878 33.0088286096592, 79.70476487574939 33.00913518562699, 352.202392578125 33.009522033691404 M-352.202392578125 33.008522033691406 C-149.18252656861318 33.00881024846548, 53.83733944089863 33.00909846323955, 352.202392578125 33.009522033691404"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                    </g>
+                    <g class="node default" id="graph-16-classId-RecursosHumanos-541"
+                        data-color-id="color-1" data-look="neo"
+                        transform="translate(1045.9548797607422, 396.58097076416016)">
+                        <g class="basic label-container outer-path">
+                            <path
+                                d="M-252.44744873046875 -91.52130126953125 L252.44744873046875 -91.52130126953125 L252.44744873046875 91.52130126953125 L-252.44744873046875 91.52130126953125"
+                                stroke="none" stroke-width="0" fill="#111113" style="" />
+                            <path
+                                d="M-252.44744873046875 -91.52130126953125 C-52.2933873782431 -91.52130126953125, 147.86067397398256 -91.52130126953125, 252.44744873046875 -91.52130126953125 M-252.44744873046875 -91.52130126953125 C-140.92720343427908 -91.52130126953125, -29.406958138089408 -91.52130126953125, 252.44744873046875 -91.52130126953125 M252.44744873046875 -91.52130126953125 C252.44744873046875 -35.24857663482684, 252.44744873046875 21.02414799987757, 252.44744873046875 91.52130126953125 M252.44744873046875 -91.52130126953125 C252.44744873046875 -18.961281490470284, 252.44744873046875 53.59873828859068, 252.44744873046875 91.52130126953125 M252.44744873046875 91.52130126953125 C102.17775285058369 91.52130126953125, -48.091943029301376 91.52130126953125, -252.44744873046875 91.52130126953125 M252.44744873046875 91.52130126953125 C131.62551105099112 91.52130126953125, 10.803573371513522 91.52130126953125, -252.44744873046875 91.52130126953125 M-252.44744873046875 91.52130126953125 C-252.44744873046875 28.180230970389644, -252.44744873046875 -35.16083932875196, -252.44744873046875 -91.52130126953125 M-252.44744873046875 91.52130126953125 C-252.44744873046875 47.671554105731815, -252.44744873046875 3.8218069419323797, -252.44744873046875 -91.52130126953125"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                        <g class="annotation-group text"
+                            transform="translate(0, -67.52130126953125)" />
+                        <g class="label-group text"
+                            transform="translate(-61.9886360168457, -67.52130126953125)">
+                            <g class="label" style="font-weight: bolder"
+                                transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="123.9772720336914" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 192px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>RecursosHumanos</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="members-group text"
+                            transform="translate(-240.44744873046875, -22.512779235839844)" />
+                        <g class="methods-group text"
+                            transform="translate(-240.44744873046875, 7.487220764160156)">
+                            <g class="label" style="" transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="312.8551025390625" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 417px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>+aprobarLicencia(SolicitudLicencia solicitud)</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                            <g class="label" style="" transform="translate(0,10.504261016845703)">
+                                <foreignObject width="319.1476745605469" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 424px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>+rechazarLicencia(SolicitudLicencia solicitud)</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                            <g class="label" style="" transform="translate(0,31.51278305053711)">
+                                <foreignObject width="412.6136169433594" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 531px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>+aprobarHorasExtras(NotificaciónHorasExtras
+                                                notificación)</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                            <g class="label" style="" transform="translate(0,52.521305084228516)">
+                                <foreignObject width="418.90625" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 538px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>+rechazarHorasExtras(NotificaciónHorasExtras
+                                                notificación)</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="divider neo-line" style="">
+                            <path
+                                d="M-252.44744873046875 -46.512779235839844 C-141.34496735498422 -46.51255918512843, -30.24248597949969 -46.51233913441702, 252.44744873046875 -46.511779235839846 M-252.44744873046875 -46.512779235839844 C-138.88919890137385 -46.512554321208306, -25.33094907227894 -46.51232940657676, 252.44744873046875 -46.511779235839846"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                        <g class="divider neo-line" style="">
+                            <path
+                                d="M-252.44744873046875 -22.512779235839844 C-78.60611005065277 -22.512434923905708, 95.2352286291632 -22.512090611971573, 252.44744873046875 -22.511779235839843 M-252.44744873046875 -22.512779235839844 C-87.83700101808213 -22.51245320670281, 76.77344669430448 -22.512127177565773, 252.44744873046875 -22.511779235839843"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                    </g>
+                    <g class="node default" id="graph-16-classId-ConvenioDeTrabajo-542"
+                        data-color-id="color-2" data-look="neo"
+                        transform="translate(230.20384216308594, 676.6235809326172)">
+                        <g class="basic label-container outer-path">
+                            <path
+                                d="M-218.20384216308594 -67.51278686523438 L218.20384216308594 -67.51278686523438 L218.20384216308594 67.51278686523438 L-218.20384216308594 67.51278686523438"
+                                stroke="none" stroke-width="0" fill="#111113" style="" />
+                            <path
+                                d="M-218.20384216308594 -67.51278686523438 C-122.12283007132532 -67.51278686523438, -26.041817979564712 -67.51278686523438, 218.20384216308594 -67.51278686523438 M-218.20384216308594 -67.51278686523438 C-44.71089223181721 -67.51278686523438, 128.7820576994515 -67.51278686523438, 218.20384216308594 -67.51278686523438 M218.20384216308594 -67.51278686523438 C218.20384216308594 -14.673235058774814, 218.20384216308594 38.166316747684746, 218.20384216308594 67.51278686523438 M218.20384216308594 -67.51278686523438 C218.20384216308594 -31.843374124292026, 218.20384216308594 3.8260386166503224, 218.20384216308594 67.51278686523438 M218.20384216308594 67.51278686523438 C75.19062230828567 67.51278686523438, -67.8225975465146 67.51278686523438, -218.20384216308594 67.51278686523438 M218.20384216308594 67.51278686523438 C64.31973688394544 67.51278686523438, -89.56436839519506 67.51278686523438, -218.20384216308594 67.51278686523438 M-218.20384216308594 67.51278686523438 C-218.20384216308594 17.070954525970947, -218.20384216308594 -33.37087781329248, -218.20384216308594 -67.51278686523438 M-218.20384216308594 67.51278686523438 C-218.20384216308594 35.618920149169014, -218.20384216308594 3.7250534331036533, -218.20384216308594 -67.51278686523438"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                        <g class="annotation-group text"
+                            transform="translate(0, -43.512786865234375)" />
+                        <g class="label-group text"
+                            transform="translate(-65.97300720214844, -43.512786865234375)">
+                            <g class="label" style="font-weight: bolder"
+                                transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="131.94601440429688"
+                                    height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 201px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>ConvenioDeTrabajo</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="members-group text"
+                            transform="translate(-206.20384216308594, 1.4957351684570312)">
+                            <g class="label" style="" transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="105.2272720336914" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 180px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>-String nombre</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="methods-group text"
+                            transform="translate(-206.20384216308594, 46.50425720214844)">
+                            <g class="label" style="" transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="346.4346618652344" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 456px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>+calcularMultiplicador(TipoHoraExtra tipo) : Float</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="divider neo-line" style="">
+                            <path
+                                d="M-218.20384216308594 -22.50426483154297 C-53.3758876229345 -22.50388713893933, 111.45206691721694 -22.503509446335695, 218.20384216308594 -22.503264831542968 M-218.20384216308594 -22.50426483154297 C-115.95190311350635 -22.504030527834022, -13.699964063926757 -22.50379622412508, 218.20384216308594 -22.503264831542968"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                        <g class="divider neo-line" style="">
+                            <path
+                                d="M-218.20384216308594 22.504257202148438 C-81.90709167751584 22.50456951734219, 54.389658808054264 22.504881832535943, 218.20384216308594 22.50525720214844 M-218.20384216308594 22.504257202148438 C-111.28815151930763 22.504502192542702, -4.3724608755293275 22.50474718293697, 218.20384216308594 22.50525720214844"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                    </g>
+                    <g class="node default" id="graph-16-classId-SolicitudLicencia-543"
+                        data-color-id="color-3" data-look="neo"
+                        transform="translate(1088.3128356933594, 718.6406173706055)">
+                        <g class="basic label-container outer-path">
+                            <path
+                                d="M-125.37358093261719 -109.52982330322266 L125.37358093261719 -109.52982330322266 L125.37358093261719 109.52982330322266 L-125.37358093261719 109.52982330322266"
+                                stroke="none" stroke-width="0" fill="#111113" style="" />
+                            <path
+                                d="M-125.37358093261719 -109.52982330322266 C-75.00998354107281 -109.52982330322266, -24.646386149528425 -109.52982330322266, 125.37358093261719 -109.52982330322266 M-125.37358093261719 -109.52982330322266 C-57.115180613547636 -109.52982330322266, 11.143219705521915 -109.52982330322266, 125.37358093261719 -109.52982330322266 M125.37358093261719 -109.52982330322266 C125.37358093261719 -44.01192302928261, 125.37358093261719 21.50597724465743, 125.37358093261719 109.52982330322266 M125.37358093261719 -109.52982330322266 C125.37358093261719 -56.37693839404844, 125.37358093261719 -3.2240534848742186, 125.37358093261719 109.52982330322266 M125.37358093261719 109.52982330322266 C73.86493905566864 109.52982330322266, 22.356297178720098 109.52982330322266, -125.37358093261719 109.52982330322266 M125.37358093261719 109.52982330322266 C28.43624158904072 109.52982330322266, -68.50109775453575 109.52982330322266, -125.37358093261719 109.52982330322266 M-125.37358093261719 109.52982330322266 C-125.37358093261719 40.07591803431136, -125.37358093261719 -29.377987234599942, -125.37358093261719 -109.52982330322266 M-125.37358093261719 109.52982330322266 C-125.37358093261719 57.02104496148219, -125.37358093261719 4.512266619741723, -125.37358093261719 -109.52982330322266"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                        <g class="annotation-group text"
+                            transform="translate(0, -85.52982330322266)" />
+                        <g class="label-group text"
+                            transform="translate(-59.11931610107422, -85.52982330322266)">
+                            <g class="label" style="font-weight: bolder"
+                                transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="118.23863220214844"
+                                    height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 185px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>SolicitudLicencia</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="members-group text"
+                            transform="translate(-113.37358093261719, -40.52130126953125)">
+                            <g class="label" style="" transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="121.03692626953125"
+                                    height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 198px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>-Date fechaInicio</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                            <g class="label" style="" transform="translate(0,10.504261016845703)">
+                                <foreignObject width="101.1647720336914" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 175px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>-Date fechaFin</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                            <g class="label" style="" transform="translate(0,31.51278305053711)">
+                                <foreignObject width="167.62783813476562"
+                                    height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 251px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>-EstadoSolicitud estado</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="methods-group text"
+                            transform="translate(-113.37358093261719, 46.50426483154297)">
+                            <g class="label" style="" transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="73.87783813476562" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 144px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>+aprobar()</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                            <g class="label" style="" transform="translate(0,10.504261016845703)">
+                                <foreignObject width="80.18465423583984" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 151px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>+rechazar()</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                            <g class="label" style="" transform="translate(0,31.51278305053711)">
+                                <foreignObject width="78.22441864013672" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 149px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>+cancelar()</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="divider neo-line" style="">
+                            <path
+                                d="M-125.37358093261719 -64.52130126953125 C-40.28248336668071 -64.52096191933907, 44.80861419925577 -64.5206225691469, 125.37358093261719 -64.52030126953125 M-125.37358093261719 -64.52130126953125 C-72.42265637813983 -64.52109009695342, -19.471731823662466 -64.5208789243756, 125.37358093261719 -64.52030126953125"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                        <g class="divider neo-line" style="">
+                            <path
+                                d="M-125.37358093261719 22.50426483154297 C-55.549367207125485 22.504543296165284, 14.274846518366218 22.5048217607876, 125.37358093261719 22.50526483154297 M-125.37358093261719 22.50426483154297 C-41.85014166950221 22.5045979297868, 41.67329759361277 22.504931028030633, 125.37358093261719 22.50526483154297"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                    </g>
+                    <g class="node default" id="graph-16-classId-NotificaciónHorasExtras-544"
+                        data-color-id="color-4" data-look="neo"
+                        transform="translate(637.0767211914062, 718.6406173706055)">
+                        <g class="basic label-container outer-path">
+                            <path
+                                d="M-148.66903686523438 -109.52982330322266 L148.66903686523438 -109.52982330322266 L148.66903686523438 109.52982330322266 L-148.66903686523438 109.52982330322266"
+                                stroke="none" stroke-width="0" fill="#111113" style="" />
+                            <path
+                                d="M-148.66903686523438 -109.52982330322266 C-72.45948470848037 -109.52982330322266, 3.750067448273626 -109.52982330322266, 148.66903686523438 -109.52982330322266 M-148.66903686523438 -109.52982330322266 C-67.03759246549158 -109.52982330322266, 14.593851934251205 -109.52982330322266, 148.66903686523438 -109.52982330322266 M148.66903686523438 -109.52982330322266 C148.66903686523438 -58.63431521460248, 148.66903686523438 -7.738807125982305, 148.66903686523438 109.52982330322266 M148.66903686523438 -109.52982330322266 C148.66903686523438 -40.12234406251996, 148.66903686523438 29.285135178182742, 148.66903686523438 109.52982330322266 M148.66903686523438 109.52982330322266 C68.71855228472745 109.52982330322266, -11.231932295779472 109.52982330322266, -148.66903686523438 109.52982330322266 M148.66903686523438 109.52982330322266 C77.95919673237654 109.52982330322266, 7.2493565995187055 109.52982330322266, -148.66903686523438 109.52982330322266 M-148.66903686523438 109.52982330322266 C-148.66903686523438 48.22455965197469, -148.66903686523438 -13.080703999273283, -148.66903686523438 -109.52982330322266 M-148.66903686523438 109.52982330322266 C-148.66903686523438 30.501716324450626, -148.66903686523438 -48.5263906543214, -148.66903686523438 -109.52982330322266"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                        <g class="annotation-group text"
+                            transform="translate(0, -85.52982330322266)" />
+                        <g class="label-group text"
+                            transform="translate(-84.01988220214844, -85.52982330322266)">
+                            <g class="label" style="font-weight: bolder"
+                                transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="168.03976440429688"
+                                    height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 242px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>NotificaciónHorasExtras</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="members-group text"
+                            transform="translate(-136.66903686523438, -40.52130126953125)">
+                            <g class="label" style="" transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="80.3125" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 151px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>-Date fecha</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                            <g class="label" style="" transform="translate(0,10.504261016845703)">
+                                <foreignObject width="85.0710220336914" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 157px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>-Float horas</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                            <g class="label" style="" transform="translate(0,31.51278305053711)">
+                                <foreignObject width="189.31817626953125"
+                                    height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 276px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>-EstadoNotificación estado</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="methods-group text"
+                            transform="translate(-136.66903686523438, 46.50426483154297)">
+                            <g class="label" style="" transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="73.87783813476562" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 144px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>+aprobar()</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                            <g class="label" style="" transform="translate(0,10.504261016845703)">
+                                <foreignObject width="80.18465423583984" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 151px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>+rechazar()</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                            <g class="label" style="" transform="translate(0,31.51278305053711)">
+                                <foreignObject width="78.22441864013672" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 149px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>+cancelar()</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="divider neo-line" style="">
+                            <path
+                                d="M-148.66903686523438 -64.52130126953125 C-32.68315325639473 -64.52091118869782, 83.30273035244491 -64.5205211078644, 148.66903686523438 -64.52030126953125 M-148.66903686523438 -64.52130126953125 C-80.82391509470558 -64.5210730945084, -12.978793324176792 -64.52084491948553, 148.66903686523438 -64.52030126953125"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                        <g class="divider neo-line" style="">
+                            <path
+                                d="M-148.66903686523438 22.50426483154297 C-52.536779680938736 22.504588141154745, 43.5954775033569 22.504911450766524, 148.66903686523438 22.50526483154297 M-148.66903686523438 22.50426483154297 C-76.44865437147492 22.504507721333663, -4.228271877715457 22.504750611124358, 148.66903686523438 22.50526483154297"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                    </g>
+                    <g class="node default" id="graph-16-classId-Reporte-545"
+                        data-color-id="color-5" data-look="neo"
+                        transform="translate(401.30503845214844, 100.52130889892578)">
+                        <g class="basic label-container outer-path">
+                            <path
+                                d="M-104.63138580322266 -88.52130889892578 L104.63138580322266 -88.52130889892578 L104.63138580322266 88.52130889892578 L-104.63138580322266 88.52130889892578"
+                                stroke="none" stroke-width="0" fill="#111113" style="" />
+                            <path
+                                d="M-104.63138580322266 -88.52130889892578 C-51.540739671840306 -88.52130889892578, 1.5499064595420435 -88.52130889892578, 104.63138580322266 -88.52130889892578 M-104.63138580322266 -88.52130889892578 C-41.22062510477491 -88.52130889892578, 22.190135593672835 -88.52130889892578, 104.63138580322266 -88.52130889892578 M104.63138580322266 -88.52130889892578 C104.63138580322266 -19.58049297036969, 104.63138580322266 49.3603229581864, 104.63138580322266 88.52130889892578 M104.63138580322266 -88.52130889892578 C104.63138580322266 -46.178916961754176, 104.63138580322266 -3.8365250245825706, 104.63138580322266 88.52130889892578 M104.63138580322266 88.52130889892578 C37.71113927468397 88.52130889892578, -29.20910725385471 88.52130889892578, -104.63138580322266 88.52130889892578 M104.63138580322266 88.52130889892578 C24.486071256779155 88.52130889892578, -55.659243289664346 88.52130889892578, -104.63138580322266 88.52130889892578 M-104.63138580322266 88.52130889892578 C-104.63138580322266 41.49394986488349, -104.63138580322266 -5.533409169158801, -104.63138580322266 -88.52130889892578 M-104.63138580322266 88.52130889892578 C-104.63138580322266 25.85845506964435, -104.63138580322266 -36.80439875963708, -104.63138580322266 -88.52130889892578"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                        <g class="annotation-group text"
+                            transform="translate(0, -64.52130889892578)" />
+                        <g class="label-group text"
+                            transform="translate(-27.705965042114258, -64.52130889892578)">
+                            <g class="label" style="font-weight: bolder"
+                                transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="55.411930084228516"
+                                    height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 113px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>Reporte</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="members-group text"
+                            transform="translate(-92.63138580322266, -19.512786865234375)">
+                            <g class="label" style="" transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="157.5568084716797" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 240px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>-Date fechaGeneracion</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                            <g class="label" style="" transform="translate(0,10.504261016845703)">
+                                <foreignObject width="121.03692626953125"
+                                    height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 198px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>-Date fechaInicio</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                            <g class="label" style="" transform="translate(0,31.51278305053711)">
+                                <foreignObject width="101.1647720336914" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 175px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>-Date fechaFin</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="methods-group text"
+                            transform="translate(-92.63138580322266, 67.51277923583984)">
+                            <g class="label" style="" transform="translate(0,-10.504261016845703)">
+                                <foreignObject width="81.15056610107422" height="21.008522033691406">
+                                    <div xmlns="http://www.w3.org/1999/xhtml"
+                                        style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 152px; text-align: center;">
+                                        <span class="nodeLabel markdown-node-label" style="">
+                                            <p>+exportar()</p>
+                                        </span>
+                                    </div>
+                                </foreignObject>
+                            </g>
+                        </g>
+                        <g class="divider neo-line" style="">
+                            <path
+                                d="M-104.63138580322266 -43.512786865234375 C-49.480160910515835 -43.51252331513194, 5.6710639821909865 -43.512259765029505, 104.63138580322266 -43.51178686523438 M-104.63138580322266 -43.512786865234375 C-59.86045651186951 -43.51257291925178, -15.08952722051636 -43.512358973269194, 104.63138580322266 -43.51178686523438"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                        <g class="divider neo-line" style="">
+                            <path
+                                d="M-104.63138580322266 43.512779235839844 C-32.75108912483135 43.51312272883732, 39.12920755355995 43.51346622183478, 104.63138580322266 43.51377923583984 M-104.63138580322266 43.512779235839844 C-55.10416969346842 43.51301591059919, -5.576953583714186 43.51325258535853, 104.63138580322266 43.51377923583984"
+                                stroke="#FFFFFF" stroke-width="1.3" fill="none"
+                                stroke-dasharray="0 0" style="" />
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

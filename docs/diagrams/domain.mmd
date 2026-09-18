@@ -1,61 +1,53 @@
 classDiagram
     class Empleado {
-        +int legajo
-        +String nombre
-        +String cuil
-        +String categoria
-        +String area
-        +Date fechaIngreso
-        +String estado
-        +ficharTurno()
-        +solicitarAusencia()
+        -Int legajo
+        -String nombre
+        -Date fechaIngreso
+
+        +solicitarLicencia(TipoLicencia tipo, Date inicio, Date fin) SolicitudLicencia
+        +notificarHorasExtras(TipoHoraExtra tipo, Float horas, Date fecha) NotificaciónHorasExtras
     }
 
-    class Turno {
-        +String descripcion
-        +Time horaInicio
-        +Time horaFin
+    class RecursosHumanos {
+        +aprobarLicencia(SolicitudLicencia solicitud)
+        +rechazarLicencia(SolicitudLicencia solicitud)
+        +aprobarHorasExtras(NotificaciónHorasExtras notificación)
+        +rechazarHorasExtras(NotificaciónHorasExtras notificación)
     }
 
-    class JornadaLaboral {
-        +Date fecha
-        +String estado
-        +calcularHorasTrabajadas()
+    class ConvenioDeTrabajo {
+        -String nombre
+        +calcularMultiplicador(TipoHoraExtra tipo) Float
     }
 
-    class Fichaje {
-        +DateTime fechaHora
-        +String tipo 
+    class SolicitudLicencia {
+        -Date fechaInicio
+        -Date fechaFin
+        -EstadoSolicitud estado
+        +aprobar()
+        +rechazar()
+        +cancelar()
     }
 
-    class PlanVacacional {
-        +String nombre
-        +int diasAnualesBase
-        +int antiguedadRequerida
+    class NotificaciónHorasExtras {
+        -Date fecha
+        -Float horas
+        -EstadoNotificación estado
+        +aprobar()
+        +rechazar()
+        +cancelar()
     }
 
-    class CuentaVacacional {
-        +int anioPeriodo
-        +int diasOtorgados
-        +int diasConsumidos
-        +calcularDiasDisponibles()
-    }
-    
-    class Ausencia {
-        +String tipo
-        +Date fechaInicio
-        +Date fechaFin
-        +String motivo
-        +String estado
-        +String observaciones
-        +String adjuntos
+    class Reporte {
+        -Date fechaGeneracion
+        -Date fechaInicio
+        -Date fechaFin
+        +exportar()
     }
 
-    Empleado "*" -- "1" Turno : tiene asignado
-    Empleado "1" -- "*" JornadaLaboral : realiza
-    JornadaLaboral "1" *-- "1..2" Fichaje : se compone de
-
-    Empleado "*" -- "1" PlanVacacional : regido por
-    Empleado "1" *-- "*" CuentaVacacional : posee
-    CuentaVacacional "1" -- "*" Ausencia : financia (si es vacación)
-    Empleado "1" -- "*" Ausencia : solicita
+    Empleado --> ConvenioDeTrabajo : rige bajo
+    Empleado --> SolicitudLicencia : genera
+    Empleado --> NotificaciónHorasExtras : genera
+    Reporte --> Empleado : corresponde a
+    RecursosHumanos --> NotificaciónHorasExtras : autoriza
+    RecursosHumanos --> SolicitudLicencia : evalúa
