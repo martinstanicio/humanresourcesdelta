@@ -20,7 +20,9 @@ La API REST y el cliente SPA también cuentan con su propia documentación:
 
 El proyecto está preparado para ejecutarse en **contenedores**, por lo que no es necesario instalar ninguna dependencia adicional en tu máquina local, solo [Docker](https://www.docker.com/products/docker-desktop/) y [Docker Compose](https://docs.docker.com/compose/install/).
 
-Sin embargo, para un desarrollo más cómodo, se recomienda instalar [uv](https://docs.astral.sh/uv/getting-started/installation/), un gestor de entornos, paquetes y proyectos de Python.
+<!-- The Angular CLI is a command-line interface tool which allows you to scaffold, develop, test, deploy, and maintain Angular applications directly from a command shell. -->
+
+Sin embargo, para un desarrollo más cómodo, se recomienda instalar [uv](https://docs.astral.sh/uv/getting-started/installation/), un gestor de entornos, paquetes y proyectos de Python, y [Angular CLI](https://angular.dev/tools/cli), una herramienta que permite crear, desarrollar, probar, desplegar y mantener aplicaciones Angular desde la terminal.
 
 ## 🚀 Guía de desarrollo
 
