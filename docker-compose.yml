@@ -12,6 +12,12 @@ x-api-base: &api-base
 x-api-env: &api-env
   DB_HOST: "db"
 
+x-client-base: &client-base
+  build:
+    context: ./client
+  ports:
+    - "4200:4200"
+
 services:
   db:
     image: postgres:18
@@ -42,6 +48,21 @@ services:
     <<: *api-base
     environment:
       <<: *api-env
+      ENVIRONMENT: "prod"
+    profiles: [prod]
+
+  client-dev:
+    <<: *client-base
+    environment:
+      ENVIRONMENT: "dev"
+    volumes:
+      - ./client:/client
+      - /client/node_modules
+    profiles: [dev]
+
+  client-prod:
+    <<: *client-base
+    environment:
       ENVIRONMENT: "prod"
     profiles: [prod]
 

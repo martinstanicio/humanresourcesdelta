@@ -1,92 +1,108 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "python: format with ruff",
-            "icon": {
-                "id": "python"
-            },
-            "type": "shell",
-            "command": "uv run ruff format .",
-            "options": {
-                "cwd": "${workspaceFolder}/api"
-            },
-            "problemMatcher": []
+  "tasks": [
+    {
+      "command": "uv run ruff format .",
+      "icon": { "id": "python" },
+      "label": "python: format with ruff",
+      "options": { "cwd": "${workspaceFolder}/api" },
+      "problemMatcher": [],
+      "type": "shell"
+    },
+    {
+      "command": "uv run ruff check .",
+      "icon": { "id": "python" },
+      "label": "python: lint with ruff",
+      "options": { "cwd": "${workspaceFolder}/api" },
+      "problemMatcher": [],
+      "type": "shell"
+    },
+    {
+      "command": "uv run ty check .",
+      "icon": { "id": "python" },
+      "label": "python: type-check with ty",
+      "options": { "cwd": "${workspaceFolder}/api" },
+      "problemMatcher": [],
+      "type": "shell"
+    },
+    {
+      "command": "uv run manage.py makemigrations",
+      "icon": { "id": "server" },
+      "label": "django: create migrations",
+      "options": { "cwd": "${workspaceFolder}/api" },
+      "problemMatcher": [],
+      "type": "shell"
+    },
+    {
+      "command": "uv run manage.py migrate",
+      "icon": { "id": "server" },
+      "label": "django: apply migrations",
+      "options": { "cwd": "${workspaceFolder}/api" },
+      "problemMatcher": [],
+      "type": "shell"
+    },
+    {
+      "command": "docker compose up",
+      "icon": { "id": "package" },
+      "label": "docker: start services",
+      "problemMatcher": [],
+      "type": "shell"
+    },
+    {
+      "command": "docker compose up -d",
+      "icon": { "id": "package" },
+      "label": "docker: start services in background",
+      "problemMatcher": [],
+      "type": "shell"
+    },
+    {
+      "command": "docker compose down",
+      "icon": { "id": "package" },
+      "label": "docker: stop services in background",
+      "problemMatcher": [],
+      "type": "shell"
+    },
+    {
+      "icon": { "id": "code" },
+      "isBackground": true,
+      "label": "npm: start development server",
+      "options": { "cwd": "${workspaceFolder}/client" },
+      "problemMatcher": {
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": { "regexp": "Changes detected" },
+          "endsPattern": { "regexp": "bundle generation (complete|failed)" }
         },
-        {
-            "label": "python: lint with ruff",
-            "icon": {
-                "id": "python"
-            },
-            "type": "shell",
-            "command": "uv run ruff check .",
-            "options": {
-                "cwd": "${workspaceFolder}/api"
-            },
-            "problemMatcher": []
+        "owner": "typescript",
+        "pattern": "$tsc"
+      },
+      "script": "start",
+      "type": "npm"
+    },
+    {
+      "icon": { "id": "code" },
+      "isBackground": true,
+      "label": "npm: run tests",
+      "options": { "cwd": "${workspaceFolder}/client" },
+      "problemMatcher": {
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": { "regexp": "Changes detected" },
+          "endsPattern": { "regexp": "bundle generation (complete|failed)" }
         },
-        {
-            "label": "python: type-check with ty",
-            "icon": {
-                "id": "python"
-            },
-            "type": "shell",
-            "command": "uv run ty check .",
-            "options": {
-                "cwd": "${workspaceFolder}/api"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "django: create migrations",
-            "icon": {
-                "id": "server"
-            },
-            "type": "shell",
-            "command": "uv run manage.py makemigrations",
-            "options": {
-                "cwd": "${workspaceFolder}/api"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "django: apply migrations",
-            "icon": {
-                "id": "server"
-            },
-            "type": "shell",
-            "command": "uv run manage.py migrate",
-            "options": {
-                "cwd": "${workspaceFolder}/api"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "docker: start services",
-            "icon": {
-                "id": "package"
-            },
-            "type": "shell",
-            "command": "docker compose up",
-            "problemMatcher": [],
-        },
-        {
-            "label": "docker: start services in background",
-            "icon": {
-                "id": "package"
-            },
-            "type": "shell",
-            "command": "docker compose up -d",
-            "problemMatcher": []
-        },
-        {
-            "label": "docker: stop services in background",
-            "icon": {
-                "id": "package"
-            },
-            "type": "shell",
-            "command": "docker compose down",
-            "problemMatcher": []
-        }
-    ]
+        "owner": "typescript",
+        "pattern": "$tsc"
+      },
+      "script": "test",
+      "type": "npm"
+    },
+    {
+      "icon": { "id": "code" },
+      "isBackground": true,
+      "label": "npm: format with prettier",
+      "options": { "cwd": "${workspaceFolder}/client" },
+      "script": "format",
+      "type": "npm"
+    }
+  ],
+  "version": "2.0.0"
 }
