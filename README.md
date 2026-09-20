@@ -1,6 +1,6 @@
 # Human Resources Delta
 
-Plataforma de gestión de recursos humanos y fichajes. Esta API REST está construida con Django, Django Rest Framework y PostgreSQL, completamente dockerizada y gestionada con `uv` para un rendimiento óptimo.
+Plataforma de gestión de licencias y horas extras para recursos humanos. Utiliza PostgreSQL como base de datos, una API REST construida con Django y Django Rest Framework, y una aplicación web construida con Angular. El sistema está diseñado para ser ejecutado en contenedores Docker para facilitar el despliegue y mantenimiento.
 
 ## 📚 Documentación
 
