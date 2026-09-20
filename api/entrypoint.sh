@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 if [ "$ENVIRONMENT" = "dev" ]; then
-    exec bash entrypoint.dev.sh
+    exec sh entrypoint.dev.sh
 else
-    exec bash entrypoint.prod.sh
+    exec sh entrypoint.prod.sh
 fi
