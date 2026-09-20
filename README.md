@@ -10,7 +10,11 @@ La documentación detallada del sistema se encuentra en [`/docs`](./docs):
 - [📋 Requerimientos](docs/requirements.md)
 - [👥 Casos de Uso](docs/use-cases.md)
 - [🏗️ Diagramas](docs/diagrams.md)
+
+La API REST y el cliente SPA también cuentan con su propia documentación:
+
 - [⚙️ API](api/README.md)
+- [🖥️ Cliente](client/README.md)
 
 ## 🛠️ Prerrequisitos
 
