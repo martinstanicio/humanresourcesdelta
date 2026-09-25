@@ -27,5 +27,6 @@
   "editor.formatOnSave": true,
   "files.eol": "\n",
   "files.insertFinalNewline": true,
-  "files.trimFinalNewlines": true
+  "files.trimFinalNewlines": true,
+  "ty.interpreter": "${workspaceFolder}/api/.venv"
 }
