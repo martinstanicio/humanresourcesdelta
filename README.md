@@ -28,13 +28,13 @@ Sin embargo, para un desarrollo más cómodo, se recomienda instalar [uv](https:
 
 El primer paso es clonar el repositorio y acceder a la carpeta del proyecto.
 
-```bash
+```sh
 git clone https://github.com/martinstanicio/humanresourcesdelta.git && cd humanresourcesdelta
 ```
 
 Antes de poder ejecutar el proyecto, es necesario configurar las **variables de entorno**. Comenzá copiando la plantilla `.env.example` a un nuevo archivo `.env`, mediante el siguiente comando.
 
-```bash
+```sh
 cp .env.example .env
 ```
 
@@ -48,19 +48,19 @@ En este archivo se deben configurar las credenciales deseadas para la base de da
 
 Para ejecutar el proyecto, basta con levantar los contenedores de Docker con el siguiente comando.
 
-```bash
+```sh
 docker compose up
 ```
 
 > [!tip]
 > Para ejecutar el proyecto en segundo plano, se pueden levantar los contenedores en modo *detached*.
 >
-> ```bash
+> ```sh
 > docker compose up -d
 > ```
 
 Utilizar el siguiente comando para detener los contenedores.
 
-```bash
+```sh
 docker compose down
 ```

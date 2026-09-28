@@ -2,14 +2,14 @@
 
 Ciertos comandos de Django, como `startapp`, pueden ejectuarse normalmente desde la carpeta `api/`.
 
-```bash
+```sh
 uv run manage.py startapp app-name
 ```
 
 > [!note]
 > Cuando se ejecutan los comandos por fuera del contenedor de Docker, se debe hacerlo dentro de la carpeta `api/`, que es donde está el archivo `manage.py` y el entorno virtual.
 >
-> ```bash
+> ```sh
 > cd api/
 > ```
 
@@ -18,7 +18,7 @@ Sin embargo, otros comandos como `makemigrations` y `migrate` requieren acceso a
 > [!important]
 > Para ejecutar comandos dentro del contenedor, el mismo debe estar corriendo. Si no lo está, se puede iniciar con `docker compose up`.
 
-```bash
+```sh
 docker compose exec api-dev uv run manage.py makemigrations
 ```
 
