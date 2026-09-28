@@ -2,7 +2,7 @@ classDiagram
     class Empleado {
         -Int legajo
         -String nombre
-        -Date fechaIngreso
+        -Date fecha_ingreso
 
         +solicitarLicencia(TipoLicencia tipo, Date inicio, Date fin) SolicitudLicencia
         +notificarHorasExtras(TipoHoraExtra tipo, Float horas, Date fecha) NotificaciónHorasExtras
@@ -21,8 +21,8 @@ classDiagram
     }
 
     class SolicitudLicencia {
-        -Date fechaInicio
-        -Date fechaFin
+        -Date fecha_inicio
+        -Date fecha_fin
         -EstadoSolicitud estado
         +aprobar()
         +rechazar()
@@ -39,9 +39,9 @@ classDiagram
     }
 
     class Reporte {
-        -Date fechaGeneracion
-        -Date fechaInicio
-        -Date fechaFin
+        -Date fecha_generación
+        -Date fecha_inicio
+        -Date fecha_fin
         +exportar()
     }
 

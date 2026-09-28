@@ -8,7 +8,7 @@ erDiagram
         int legajo PK
         int id_convenio FK
         string nombre
-        date fechaIngreso
+        date fecha_ingreso
     }
     
     HORA_EXTRA {
@@ -29,16 +29,16 @@ erDiagram
     REPORTE {
         int id PK
         int legajo FK
-        date fechaGeneracion
-        date fechaInicio
-        date fechaFin
+        date fecha_generacion
+        date fecha_inicio
+        date fecha_fin
     }
     SOLICITUD_LICENCIA {
         int id PK
         int legajo_empleado FK
         int id_licencia FK
-        date fechaInicio
-        date fechaFin
+        date fecha_inicio
+        date fecha_fin
         string estado
         string motivo
     }

@@ -357,7 +357,7 @@
                                     <div xmlns="http://www.w3.org/1999/xhtml"
                                         style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 214px; text-align: center;">
                                         <span class="nodeLabel markdown-node-label" style="">
-                                            <p>-Date fechaIngreso</p>
+                                            <p>-Date fecha_ingreso</p>
                                         </span>
                                     </div>
                                 </foreignObject>
@@ -594,7 +594,7 @@
                                     <div xmlns="http://www.w3.org/1999/xhtml"
                                         style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 198px; text-align: center;">
                                         <span class="nodeLabel markdown-node-label" style="">
-                                            <p>-Date fechaInicio</p>
+                                            <p>-Date fecha_inicio</p>
                                         </span>
                                     </div>
                                 </foreignObject>
@@ -604,7 +604,7 @@
                                     <div xmlns="http://www.w3.org/1999/xhtml"
                                         style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 175px; text-align: center;">
                                         <span class="nodeLabel markdown-node-label" style="">
-                                            <p>-Date fechaFin</p>
+                                            <p>-Date fecha_fin</p>
                                         </span>
                                     </div>
                                 </foreignObject>
@@ -812,7 +812,7 @@
                                     <div xmlns="http://www.w3.org/1999/xhtml"
                                         style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 240px; text-align: center;">
                                         <span class="nodeLabel markdown-node-label" style="">
-                                            <p>-Date fechaGeneracion</p>
+                                            <p>-Date fecha_generación</p>
                                         </span>
                                     </div>
                                 </foreignObject>
@@ -823,7 +823,7 @@
                                     <div xmlns="http://www.w3.org/1999/xhtml"
                                         style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 198px; text-align: center;">
                                         <span class="nodeLabel markdown-node-label" style="">
-                                            <p>-Date fechaInicio</p>
+                                            <p>-Date fecha_inicio</p>
                                         </span>
                                     </div>
                                 </foreignObject>
@@ -833,7 +833,7 @@
                                     <div xmlns="http://www.w3.org/1999/xhtml"
                                         style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 175px; text-align: center;">
                                         <span class="nodeLabel markdown-node-label" style="">
-                                            <p>-Date fechaFin</p>
+                                            <p>-Date fecha_fin</p>
                                         </span>
                                     </div>
                                 </foreignObject>
