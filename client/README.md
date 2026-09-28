@@ -10,7 +10,7 @@ Dentro del `package.json` se encuentran definidos algunos scripts útiles para i
 > ```
 
 ```bash
-npm run start
+npm run test
 ```
 
 El CLI de Angular incluye potentes herramientas de generación de código, que nos permiten crear componentes, servicios, etc.
