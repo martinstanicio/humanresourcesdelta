@@ -9,7 +9,7 @@ class Empleado(models.Model):
         related_name="empleados",
     )
     legajo = models.PositiveIntegerField(primary_key=True)
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=255)
     fecha_ingreso = models.DateField()
 
     class Meta:

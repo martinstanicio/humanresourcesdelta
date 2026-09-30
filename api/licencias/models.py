@@ -8,8 +8,8 @@ class Licencia(models.Model):
         on_delete=models.PROTECT,
         related_name="licencias",
     )
-    tipo = models.CharField(max_length=100)
-    descripcion = models.CharField(max_length=255)
+    tipo = models.CharField(max_length=255)
+    descripcion = models.TextField()
 
     class Meta:
         verbose_name = "licencia"
