@@ -11,6 +11,7 @@ class Empleado(models.Model):
     legajo = models.PositiveIntegerField(primary_key=True)
     nombre = models.CharField(max_length=255)
     fecha_ingreso = models.DateField()
+    activo = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = "empleado"
