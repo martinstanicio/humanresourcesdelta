@@ -19,6 +19,9 @@ dev = [
     "ty>=0.0.56",
 ]
 
+[tool.ruff]
+preview = true
+
 [tool.ruff.lint]
 extend-select = ["ANN"]
 
