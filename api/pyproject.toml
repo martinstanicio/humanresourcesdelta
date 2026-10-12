@@ -21,3 +21,6 @@ dev = [
 
 [tool.ruff.lint]
 extend-select = ["ANN"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"**/migrations/*" = ["ALL"]
