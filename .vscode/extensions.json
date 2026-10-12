@@ -2,6 +2,7 @@
   "recommendations": [
     "angular.ng-template",
     "astral-sh.ty",
+    "bradlc.vscode-tailwindcss",
     "charliermarsh.ruff",
     "esbenp.prettier-vscode",
     "ms-python.python",

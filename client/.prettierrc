@@ -6,5 +6,10 @@
         "parser": "angular"
       }
     }
-  ]
+  ],
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ],
+  "tailwindFunctions": ["hlm", "cva", "classes"]
 }
