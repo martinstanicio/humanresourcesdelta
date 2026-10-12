@@ -2,10 +2,7 @@ from django.db.models import QuerySet
 from rest_framework import viewsets
 
 from .models import HoraExtra, NotificacionHorasExtras
-from .serializers import (
-    HoraExtraSerializer,
-    NotificacionHorasExtrasSerializer,
-)
+from .serializers import HoraExtraSerializer, NotificacionHorasExtrasSerializer
 
 
 class HoraExtraViewSet(viewsets.ModelViewSet):
