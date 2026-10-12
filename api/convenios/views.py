@@ -8,7 +8,7 @@ from .serializers import ConvenioSerializer
 
 
 class ConvenioViewSet(viewsets.ModelViewSet):
-    queryset = Convenio.objects.all().order_by("id")
+    queryset = Convenio.objects.all()
     serializer_class = ConvenioSerializer
 
     def get_queryset(self) -> QuerySet[Convenio]:
