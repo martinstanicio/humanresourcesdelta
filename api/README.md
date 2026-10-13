@@ -48,3 +48,9 @@ O su equivalente si se utiliza el entorno de producción:
 ```sh
 docker compose exec api-prod uv run manage.py createsuperuser
 ```
+
+## Acceso a la API
+
+Aunque el servicio de la API se ejecuta en el puerto `8000` dentro de la red privada de Docker, **el único puerto expuesto hacia el host es el puerto 80** a través del reverse proxy.
+
+Por lo tanto, la comunicación con la API debe realizarse a través de [http://localhost](http://localhost) y no a través de [http://localhost:8000](http://localhost:8000).

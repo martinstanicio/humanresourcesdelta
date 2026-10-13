@@ -1,6 +1,6 @@
 # Human Resources Delta
 
-Plataforma de gestión de licencias y horas extras para recursos humanos. Utiliza PostgreSQL como base de datos, una API REST construida con Django y Django Rest Framework, y una aplicación web construida con Angular. El sistema está diseñado para ser ejecutado en contenedores Docker para facilitar el despliegue y mantenimiento.
+Plataforma de gestión de licencias y horas extras para recursos humanos. Utiliza PostgreSQL como base de datos, una API REST construida con Django y Django Rest Framework, una aplicación web construida con Angular, y Nginx como reverse proxy. El sistema está diseñado para ser ejecutado en contenedores Docker para facilitar el despliegue y mantenimiento.
 
 ## 📚 Documentación
 
@@ -64,3 +64,7 @@ Utilizar el siguiente comando para detener los contenedores.
 ```sh
 docker compose down
 ```
+
+## 🌐 Acceso a la aplicación
+
+Una vez iniciados los contenedores, todo el tráfico del sistema se canaliza y unifica a través de **Nginx** en [http://localhost](http://localhost), que actúa como reverse proxy exponiendo el puerto **80**, el puerto estándar por defecto para servidores web HTTP (por esta razón, no es necesario especificar el número de puerto).

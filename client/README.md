@@ -37,3 +37,9 @@ ng generate component component-name
 > ```sh
 > ng generate --help
 > ```
+
+## Acceso al cliente
+
+Aunque el servicio del cliente se ejecuta en el puerto `4200` dentro de la red privada de Docker, **el único puerto expuesto hacia el host es el puerto 80** a través del reverse proxy.
+
+Por lo tanto, la aplicación web está disponible en [http://localhost](http://localhost), no en [http://localhost:4200](http://localhost:4200).

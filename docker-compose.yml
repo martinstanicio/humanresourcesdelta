@@ -3,11 +3,13 @@ x-api-base: &api-base
     context: ./api
   env_file:
     - .env
-  ports:
-    - "8000:8000"
   depends_on:
     db:
       condition: service_healthy
+  networks:
+    default:
+      aliases:
+        - api
 
 x-api-env: &api-env
   DB_HOST: "db"
@@ -15,8 +17,10 @@ x-api-env: &api-env
 x-client-base: &client-base
   build:
     context: ./client
-  ports:
-    - "4200:4200"
+  networks:
+    default:
+      aliases:
+        - client
 
 services:
   db:
@@ -65,6 +69,14 @@ services:
     environment:
       ENVIRONMENT: "prod"
     profiles: [prod]
+
+  nginx:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
 
 volumes:
   data:
