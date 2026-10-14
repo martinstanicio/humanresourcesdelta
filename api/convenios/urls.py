@@ -1,11 +1,8 @@
-from django.urls import include, path
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 
-from .views import ConvenioViewSet
-
-router = DefaultRouter()
-router.register(r"convenios", ConvenioViewSet, basename="convenio")
+from .views import ConvenioDetailView, ConvenioListCreateView
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path("convenios/", ConvenioListCreateView.as_view(), name="convenio-list"),
+    path("convenios/<int:pk>/", ConvenioDetailView.as_view(), name="convenio-detail"),
 ]

@@ -1,16 +1,31 @@
-from django.urls import include, path
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 
-from .views import HoraExtraViewSet, NotificacionHorasExtrasViewSet
-
-router = DefaultRouter()
-router.register(r"horas-extras", HoraExtraViewSet, basename="hora-extra")
-router.register(
-    r"notificaciones-horas-extras",
-    NotificacionHorasExtrasViewSet,
-    basename="notificacion-horas-extras",
+from .views import (
+    HoraExtraDetailView,
+    HoraExtraListCreateView,
+    NotificacionHorasExtrasDetailView,
+    NotificacionHorasExtrasListCreateView,
 )
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path(
+        "horas-extras/",
+        HoraExtraListCreateView.as_view(),
+        name="hora-extra-list",
+    ),
+    path(
+        "horas-extras/<int:pk>/",
+        HoraExtraDetailView.as_view(),
+        name="hora-extra-detail",
+    ),
+    path(
+        "notificaciones-horas-extras/",
+        NotificacionHorasExtrasListCreateView.as_view(),
+        name="notificacion-horas-extras-list",
+    ),
+    path(
+        "notificaciones-horas-extras/<int:pk>/",
+        NotificacionHorasExtrasDetailView.as_view(),
+        name="notificacion-horas-extras-detail",
+    ),
 ]

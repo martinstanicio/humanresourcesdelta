@@ -1,16 +1,31 @@
-from django.urls import include, path
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 
-from .views import LicenciaViewSet, SolicitudLicenciaViewSet
-
-router = DefaultRouter()
-router.register(r"licencias", LicenciaViewSet, basename="licencia")
-router.register(
-    r"solicitudes-licencias",
-    SolicitudLicenciaViewSet,
-    basename="solicitud-licencia",
+from .views import (
+    LicenciaDetailView,
+    LicenciaListCreateView,
+    SolicitudLicenciaDetailView,
+    SolicitudLicenciaListCreateView,
 )
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path(
+        "licencias/",
+        LicenciaListCreateView.as_view(),
+        name="licencia-list",
+    ),
+    path(
+        "licencias/<int:pk>/",
+        LicenciaDetailView.as_view(),
+        name="licencia-detail",
+    ),
+    path(
+        "solicitudes-licencias/",
+        SolicitudLicenciaListCreateView.as_view(),
+        name="solicitud-licencia-list",
+    ),
+    path(
+        "solicitudes-licencias/<int:pk>/",
+        SolicitudLicenciaDetailView.as_view(),
+        name="solicitud-licencia-detail",
+    ),
 ]

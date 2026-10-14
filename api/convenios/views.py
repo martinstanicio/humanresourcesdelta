@@ -1,19 +1,18 @@
 from django.db.models import QuerySet
-from rest_framework import status, viewsets
+from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import Convenio
 from .serializers import ConvenioSerializer
 
 
-class ConvenioViewSet(viewsets.ModelViewSet):
-    queryset = Convenio.objects.all()
-    serializer_class = ConvenioSerializer
-
-    def get_queryset(self) -> QuerySet[Convenio]:
-        queryset: QuerySet[Convenio] = super().get_queryset()
-        activo = self.request.query_params.get("activo")
+class ConvenioListCreateView(APIView):
+    def get_queryset(self, request: Request) -> QuerySet[Convenio]:
+        queryset = Convenio.objects.all()
+        activo = request.query_params.get("activo")
 
         if activo is not None:
             if activo.lower() in ["si", "true", "1"]:
@@ -23,8 +22,45 @@ class ConvenioViewSet(viewsets.ModelViewSet):
 
         return queryset
 
-    def destroy(self, _: Request, *__: object, **___: object) -> Response:
-        convenio: Convenio = self.get_object()
+    def get(self, request: Request) -> Response:
+        queryset = self.get_queryset(request)
+        serializer = ConvenioSerializer(queryset, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request: Request) -> Response:
+        serializer = ConvenioSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class ConvenioDetailView(APIView):
+    def get(self, _: Request, pk: int) -> Response:
+        convenio = get_object_or_404(Convenio, pk=pk)
+        serializer = ConvenioSerializer(convenio)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request: Request, pk: int) -> Response:
+        convenio = get_object_or_404(Convenio, pk=pk)
+        serializer = ConvenioSerializer(convenio, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def patch(self, request: Request, pk: int) -> Response:
+        convenio = get_object_or_404(Convenio, pk=pk)
+        serializer = ConvenioSerializer(convenio, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, _: Request, pk: int) -> Response:
+        convenio = get_object_or_404(Convenio, pk=pk)
 
         # TODO validar que el convenio no tenga empleados
         # activos asociados antes de deshabilitarlo
