@@ -12,6 +12,7 @@
     "target": "ES2022",
     "module": "preserve",
     "paths": {
+      "@/*": ["./src/*"],
       "@spartan-ng/helm/alert-dialog": [
         "./src/components/ui/alert-dialog/src/index.ts"
       ],
