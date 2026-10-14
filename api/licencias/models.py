@@ -10,6 +10,7 @@ class Licencia(models.Model):
     )
     tipo = models.CharField(max_length=255)
     descripcion = models.TextField()
+    activo = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = "licencia"
@@ -42,7 +43,8 @@ class SolicitudLicencia(models.Model):
     )
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
-    motivo = models.TextField()
+    motivo_solicitud = models.TextField(blank=True)
+    motivo_resolucion = models.TextField(blank=True)
     estado = models.CharField(
         max_length=20,
         choices=EstadoSolicitudLicencia,

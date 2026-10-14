@@ -6,7 +6,7 @@ from rest_framework import serializers
 from convenios.models import Convenio
 from empleados.models import Empleado
 
-from .models import Licencia, SolicitudLicencia
+from .models import EstadoSolicitudLicencia, Licencia, SolicitudLicencia
 
 
 class LicenciaSerializer(serializers.ModelSerializer):
@@ -44,12 +44,6 @@ class SolicitudLicenciaSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ["id"]  # noqa: RUF012
 
-    def validate_motivo(self, value: str) -> str:
-        if not (trimmed := value.strip()):
-            raise serializers.ValidationError("El motivo no puede estar vacío.")
-
-        return trimmed
-
     def validate_empleado(self, value: Empleado) -> Empleado:
         if not value.activo:
             raise serializers.ValidationError(
@@ -58,15 +52,25 @@ class SolicitudLicenciaSerializer(serializers.ModelSerializer):
 
         return value
 
+    def validate_licencia(self, value: Licencia) -> Licencia:
+        if not value.activo:
+            raise serializers.ValidationError(
+                "No se pueden registrar solicitudes para un tipo de licencia inactivo."
+            )
+
+        return value
+
     def validate(self, attrs: dict[str, Any]) -> dict[str, Any]:
         empleado = None
         licencia = None
+        fecha_inicio = None
+        fecha_fin = None
 
         if isinstance(self.instance, SolicitudLicencia):
-            empleado: Empleado = self.instance.empleado
-            licencia: Licencia = self.instance.licencia
-            fecha_inicio: date = self.instance.fecha_inicio
-            fecha_fin: date = self.instance.fecha_fin
+            empleado = self.instance.empleado
+            licencia = self.instance.licencia
+            fecha_inicio = self.instance.fecha_inicio
+            fecha_fin = self.instance.fecha_fin
 
         _empleado = attrs.get("empleado")
         if isinstance(_empleado, Empleado):
@@ -107,3 +111,27 @@ class SolicitudLicenciaSerializer(serializers.ModelSerializer):
             })
 
         return attrs
+
+
+class ResolverSolicitudLicenciaSerializer(serializers.ModelSerializer):
+    estado = serializers.ChoiceField(
+        choices=[
+            EstadoSolicitudLicencia.APROBADA,
+            EstadoSolicitudLicencia.RECHAZADA,
+        ]
+    )
+
+    class Meta:
+        model = SolicitudLicencia
+        fields = ["estado"]  # noqa: RUF012
+
+    def validate_estado(self, value: str) -> str:
+        if (
+            isinstance(self.instance, SolicitudLicencia)
+            and self.instance.estado != EstadoSolicitudLicencia.PENDIENTE
+        ):
+            raise serializers.ValidationError(
+                "Solo se pueden resolver solicitudes en estado pendiente."
+            )
+
+        return value
