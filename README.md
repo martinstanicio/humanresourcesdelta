@@ -29,16 +29,10 @@ Sin embargo, para un desarrollo más cómodo, se recomienda instalar [uv](https:
 El primer paso es clonar el repositorio y acceder a la carpeta del proyecto.
 
 ```sh
-git clone https://github.com/martinstanicio/humanresourcesdelta.git && cd humanresourcesdelta
+git clone https://github.com/martinstanicio/humanresourcesdelta.git
 ```
 
-Antes de poder ejecutar el proyecto, es necesario configurar las **variables de entorno**. Comenzá copiando la plantilla `.env.example` a un nuevo archivo `.env`, mediante el siguiente comando.
-
-```sh
-cp .env.example .env
-```
-
-En este archivo se deben configurar las credenciales deseadas para la base de datos (`DB_NAME`, `DB_USER`, `DB_PASSWORD`) y la aplicación de Django (`DJANGO_SECRET_KEY`). Además, se puede definir el **entorno de ejecución** (`ENVIRONMENT`).
+Antes de poder ejecutar el proyecto, es necesario configurar las **variables de entorno**. Comenzá copiando la plantilla `.env.example` a un nuevo archivo `.env`. En este archivo se deben configurar las credenciales deseadas para la base de datos (`DB_NAME`, `DB_USER`, `DB_PASSWORD`) y la aplicación de Django (`DJANGO_SECRET_KEY`). Además, se puede definir el **entorno de ejecución** (`ENVIRONMENT`).
 
 > [!important]
 > El proyecto usa perfiles de Docker Compose para seleccionar el modo de ejecución.
