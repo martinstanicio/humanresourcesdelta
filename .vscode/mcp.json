@@ -3,6 +3,10 @@
     "angular-cli": {
       "args": ["-y", "@angular/cli", "mcp"],
       "command": "npx"
+    },
+    "spartan-ui": {
+      "args": ["-y", "@spartan-ng/mcp"],
+      "command": "npx"
     }
   }
 }
