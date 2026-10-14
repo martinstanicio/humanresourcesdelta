@@ -1,12 +1,14 @@
 {
-  "servers": {
+  "mcpServers": {
     "angular-cli": {
       "args": ["-y", "@angular/cli", "mcp"],
-      "command": "npx"
+      "command": "npx",
+      "cwd": "${workspaceFolder}/client"
     },
     "spartan-ui": {
       "args": ["-y", "@spartan-ng/mcp"],
-      "command": "npx"
+      "command": "npx",
+      "cwd": "${workspaceFolder}/client"
     }
   }
 }
