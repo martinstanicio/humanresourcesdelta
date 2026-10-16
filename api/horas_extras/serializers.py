@@ -12,7 +12,7 @@ class HoraExtraSerializer(serializers.ModelSerializer):
     class Meta:
         model = HoraExtra
         fields = "__all__"
-        read_only_fields = ["id"]  # noqa: RUF012
+        read_only_fields = ("id",)
 
     def validate_tipo(self, value: str) -> str:
         if not (trimmed := value.strip()):
@@ -47,7 +47,7 @@ class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
     class Meta:
         model = NotificacionHorasExtras
         fields = "__all__"
-        read_only_fields = ["id"]  # noqa: RUF012
+        read_only_fields = ("id",)
 
     def validate_horas(self, value: float) -> float:
         if value <= 0:

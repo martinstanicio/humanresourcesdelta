@@ -13,7 +13,7 @@ class LicenciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Licencia
         fields = "__all__"
-        read_only_fields = ["id"]  # noqa: RUF012
+        read_only_fields = ("id",)
 
     def validate_tipo(self, value: str) -> str:
         if not (trimmed := value.strip()):
@@ -42,7 +42,7 @@ class SolicitudLicenciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = SolicitudLicencia
         fields = "__all__"
-        read_only_fields = ["id"]  # noqa: RUF012
+        read_only_fields = ("id",)
 
     def validate_empleado(self, value: Empleado) -> Empleado:
         if not value.activo:
@@ -123,7 +123,7 @@ class ResolverSolicitudLicenciaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SolicitudLicencia
-        fields = ["estado"]  # noqa: RUF012
+        fields = ("estado",)
 
     def validate_estado(self, value: str) -> str:
         if (
