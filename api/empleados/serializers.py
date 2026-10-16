@@ -33,3 +33,8 @@ class EmpleadoSerializer(serializers.ModelSerializer):
             )
 
         return value
+
+
+class LoginSerializer(serializers.Serializer):
+    legajo = serializers.IntegerField(min_value=1)
+    password = serializers.CharField(write_only=True, trim_whitespace=False)

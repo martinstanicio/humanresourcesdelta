@@ -1,12 +1,75 @@
+from django.contrib.auth import authenticate, login, logout
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Empleado
-from .serializers import EmpleadoSerializer
+from .serializers import EmpleadoSerializer, LoginSerializer
+
+
+class LoginView(APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self, request: Request) -> Response:
+        serializer = LoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        legajo = serializer.validated_data["legajo"]
+        password = serializer.validated_data["password"]
+
+        user = authenticate(request, username=legajo, password=password)
+
+        if not isinstance(user, Empleado):
+            return Response(
+                {"detail": "Credenciales inválidas."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        login(request, user)
+
+        return Response(
+            {
+                "convenio": user.convenio.pk if user.convenio else None,
+                "legajo": user.legajo,
+                "nombre": user.nombre,
+                "rol": user.rol,
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
+class LogoutView(APIView):
+    def post(self, request: Request) -> Response:
+        logout(request)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class MeView(APIView):
+    def get(self, request: Request) -> Response:
+        user = request.user
+
+        if not isinstance(user, Empleado):
+            return Response(
+                {"detail": "Credenciales inválidas."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        return Response(
+            {
+                "convenio": user.convenio.pk if user.convenio else None,
+                "legajo": user.legajo,
+                "nombre": user.nombre,
+                "fecha_ingreso": user.fecha_ingreso,
+                "rol": user.rol,
+                "activo": user.activo,
+            },
+            status=status.HTTP_200_OK,
+        )
 
 
 class EmpleadoListCreateView(APIView):
