@@ -42,15 +42,7 @@ class SolicitudLicenciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = SolicitudLicencia
         fields = "__all__"
-        read_only_fields = ("id",)
-
-    def validate_empleado(self, value: Empleado) -> Empleado:
-        if not value.activo:
-            raise serializers.ValidationError(
-                "No se pueden registrar solicitudes de licencia para un empleado inactivo."
-            )
-
-        return value
+        read_only_fields = ("id", "empleado", "estado")
 
     def validate_licencia(self, value: Licencia) -> Licencia:
         if not value.activo:
@@ -71,10 +63,15 @@ class SolicitudLicenciaSerializer(serializers.ModelSerializer):
             licencia = self.instance.licencia
             fecha_inicio = self.instance.fecha_inicio
             fecha_fin = self.instance.fecha_fin
+        elif "request" in self.context:
+            user = self.context["request"].user
+            if isinstance(user, Empleado):
+                empleado = user
 
-        _empleado = attrs.get("empleado")
-        if isinstance(_empleado, Empleado):
-            empleado = _empleado
+        if empleado is not None and not empleado.activo:
+            raise serializers.ValidationError(
+                "No se pueden registrar solicitudes de licencia para un empleado inactivo."
+            )
 
         _licencia = attrs.get("licencia")
         if isinstance(_licencia, Licencia):
@@ -111,6 +108,13 @@ class SolicitudLicenciaSerializer(serializers.ModelSerializer):
             })
 
         return attrs
+
+    def create(self, validated_data: dict[str, Any]) -> SolicitudLicencia:
+        user = self.context["request"].user
+        if isinstance(user, Empleado):
+            validated_data["empleado"] = user
+
+        return super().create(validated_data)
 
 
 class ResolverSolicitudLicenciaSerializer(serializers.ModelSerializer):

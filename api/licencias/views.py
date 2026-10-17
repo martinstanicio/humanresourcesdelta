@@ -6,6 +6,8 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from empleados.models import Empleado, RolEmpleado
+
 from .models import EstadoSolicitudLicencia, Licencia, SolicitudLicencia
 from .serializers import (
     LicenciaSerializer,
@@ -97,6 +99,10 @@ class LicenciaDetailView(APIView):
 class SolicitudLicenciaListCreateView(APIView):
     def get_queryset(self, request: Request) -> QuerySet[SolicitudLicencia]:
         queryset = SolicitudLicencia.objects.all()
+        user = request.user
+
+        if isinstance(user, Empleado) and user.rol == RolEmpleado.EMPLEADO:
+            queryset = queryset.filter(empleado=user)
 
         if convenio := request.query_params.get("convenio"):
             queryset = queryset.filter(empleado__convenio_id=convenio)
@@ -116,7 +122,10 @@ class SolicitudLicenciaListCreateView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request: Request) -> Response:
-        serializer = SolicitudLicenciaSerializer(data=request.data)
+        serializer = SolicitudLicenciaSerializer(
+            data=request.data,
+            context={"request": request},
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -124,8 +133,20 @@ class SolicitudLicenciaListCreateView(APIView):
 
 
 class SolicitudLicenciaDetailView(APIView):
-    def get(self, _: Request, pk: int) -> Response:
+    def get(self, request: Request, pk: int) -> Response:
         solicitud = get_object_or_404(SolicitudLicencia, pk=pk)
+        user = request.user
+
+        if (
+            isinstance(user, Empleado)
+            and user.rol == RolEmpleado.EMPLEADO
+            and solicitud.empleado != user
+        ):
+            return Response(
+                {"detail": "No tienes permiso para ver esta solicitud."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         serializer = SolicitudLicenciaSerializer(solicitud)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
