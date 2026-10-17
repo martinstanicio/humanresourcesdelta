@@ -1,6 +1,7 @@
 from django.db import transaction
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -201,12 +202,44 @@ class SolicitudLicenciaDetailView(APIView):
             status=status.HTTP_200_OK,
         )
 
-    def delete(self, _: Request, pk: int) -> Response:
+    def delete(self, request: Request, pk: int) -> Response:
         solicitud = get_object_or_404(SolicitudLicencia, pk=pk)
+        user = request.user
 
-        if solicitud.estado != EstadoSolicitudLicencia.PENDIENTE:
+        if solicitud.empleado != user:
             return Response(
-                {"detail": "Solo se pueden cancelar solicitudes en estado pendiente."},
+                {"detail": "No tienes permiso para cancelar esta solicitud."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        if solicitud.estado == EstadoSolicitudLicencia.CANCELADA:
+            return Response(
+                {"detail": "La solicitud ya se encuentra cancelada."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if solicitud.estado == EstadoSolicitudLicencia.RECHAZADA:
+            return Response(
+                {"detail": "No se pueden cancelar solicitudes rechazadas."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if solicitud.estado not in [
+            EstadoSolicitudLicencia.PENDIENTE,
+            EstadoSolicitudLicencia.APROBADA,
+        ]:
+            return Response(
+                {
+                    "detail": "Solo se pueden cancelar solicitudes en estado pendiente o aprobada."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if solicitud.fecha_inicio <= timezone.localdate():
+            return Response(
+                {
+                    "detail": "Solo se pueden cancelar solicitudes cuya fecha de inicio aún no haya llegado."
+                },
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
