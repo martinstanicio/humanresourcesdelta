@@ -5,13 +5,20 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from empleados.models import Empleado, RolEmpleado
+
 from .models import Convenio
 from .serializers import ConvenioSerializer
 
 
 class ConvenioListCreateView(APIView):
     def get_queryset(self, request: Request) -> QuerySet[Convenio]:
-        queryset = Convenio.objects.all()
+        queryset = Convenio.objects.all().order_by("id")
+        user = request.user
+
+        if isinstance(user, Empleado) and user.rol == RolEmpleado.EMPLEADO:
+            return queryset.filter(pk=user.convenio.pk)
+
         activo = request.query_params.get("activo")
 
         if activo is not None:
@@ -29,6 +36,14 @@ class ConvenioListCreateView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request: Request) -> Response:
+        user = request.user
+
+        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         serializer = ConvenioSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -43,27 +58,54 @@ class ConvenioDetailView(APIView):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def put(self, request: Request, pk: int) -> Response:
-        convenio = get_object_or_404(Convenio, pk=pk)
-        serializer = ConvenioSerializer(convenio, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
     def patch(self, request: Request, pk: int) -> Response:
+        user = request.user
+
+        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         convenio = get_object_or_404(Convenio, pk=pk)
+
+        if not convenio.activo:
+            return Response(
+                {"detail": "No se puede modificar un convenio inactivo."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         serializer = ConvenioSerializer(convenio, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def delete(self, _: Request, pk: int) -> Response:
+    def delete(self, request: Request, pk: int) -> Response:
+        user = request.user
+
+        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         convenio = get_object_or_404(Convenio, pk=pk)
 
-        # TODO validar que el convenio no tenga empleados
-        # activos asociados antes de deshabilitarlo
+        if not convenio.activo:
+            return Response(
+                {"detail": "El convenio ya se encuentra inactivo."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if Empleado.objects.filter(convenio=convenio, activo=True).exists():
+            return Response(
+                {
+                    "detail": "No se puede dar de baja un convenio con empleados activos asociados."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         convenio.activo = False
         convenio.save(update_fields=["activo"])
 
