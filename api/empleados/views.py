@@ -7,7 +7,10 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Empleado
+from horas_extras.models import EstadoNotificacionHorasExtras, NotificacionHorasExtras
+from licencias.models import EstadoSolicitudLicencia, SolicitudLicencia
+
+from .models import Empleado, RolEmpleado
 from .serializers import EmpleadoSerializer, LoginSerializer
 
 
@@ -86,12 +89,28 @@ class EmpleadoListCreateView(APIView):
         return queryset
 
     def get(self, request: Request) -> Response:
+        user = request.user
+
+        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         queryset = self.get_queryset(request)
         serializer = EmpleadoSerializer(queryset, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request: Request) -> Response:
+        user = request.user
+
+        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         serializer = EmpleadoSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -100,33 +119,82 @@ class EmpleadoListCreateView(APIView):
 
 
 class EmpleadoDetailView(APIView):
-    def get(self, _: Request, pk: int) -> Response:
+    def get(self, request: Request, pk: int) -> Response:
+        user = request.user
+
+        if (
+            isinstance(user, Empleado)
+            and user.rol == RolEmpleado.EMPLEADO
+            and user.pk != pk
+        ):
+            return Response(
+                {"detail": "No tienes permiso para ver este empleado."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         empleado = get_object_or_404(Empleado, pk=pk)
         serializer = EmpleadoSerializer(empleado)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def put(self, request: Request, pk: int) -> Response:
-        empleado = get_object_or_404(Empleado, pk=pk)
-        serializer = EmpleadoSerializer(empleado, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
     def patch(self, request: Request, pk: int) -> Response:
+        user = request.user
+
+        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         empleado = get_object_or_404(Empleado, pk=pk)
+
+        if not empleado.activo:
+            return Response(
+                {"detail": "No se puede modificar un empleado inactivo."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         serializer = EmpleadoSerializer(empleado, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def delete(self, _: Request, pk: int) -> Response:
+    def delete(self, request: Request, pk: int) -> Response:
+        user = request.user
+
+        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         empleado = get_object_or_404(Empleado, pk=pk)
 
-        # TODO validar si el empleado tiene solicitudes o
-        # notificaciones pendientes antes de deshabilitarlo
+        if not empleado.activo:
+            return Response(
+                {"detail": "El empleado ya se encuentra inactivo."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        tiene_licencias_pendientes = SolicitudLicencia.objects.filter(
+            empleado=empleado,
+            estado=EstadoSolicitudLicencia.PENDIENTE,
+        ).exists()
+
+        tiene_horas_extras_pendientes = NotificacionHorasExtras.objects.filter(
+            empleado=empleado,
+            estado=EstadoNotificacionHorasExtras.PENDIENTE,
+        ).exists()
+
+        if tiene_licencias_pendientes or tiene_horas_extras_pendientes:
+            return Response(
+                {
+                    "detail": "No se puede dar de baja un empleado que tiene solicitudes de licencia o notificaciones de horas extras pendientes."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         empleado.activo = False
         empleado.save(update_fields=["activo"])
 
