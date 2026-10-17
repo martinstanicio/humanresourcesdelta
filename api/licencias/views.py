@@ -45,6 +45,14 @@ class LicenciaListCreateView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request: Request) -> Response:
+        user = request.user
+
+        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         serializer = LicenciaSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -60,6 +68,14 @@ class LicenciaDetailView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request: Request, pk: int) -> Response:
+        user = request.user
+
+        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         licencia = get_object_or_404(Licencia, pk=pk)
 
         if not licencia.activo:
@@ -86,7 +102,15 @@ class LicenciaDetailView(APIView):
             status=status.HTTP_201_CREATED,
         )
 
-    def delete(self, _: Request, pk: int) -> Response:
+    def delete(self, request: Request, pk: int) -> Response:
+        user = request.user
+
+        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         licencia = get_object_or_404(Licencia, pk=pk)
 
         if not licencia.activo:
