@@ -1,0 +1,17 @@
+<nav hlmBreadcrumb>
+  <ol hlmBreadcrumbList>
+    <li
+      hlmBreadcrumbItem
+      [class.hidden]="currentItem() !== null"
+      class="sm:block"
+    >
+      <a hlmBreadcrumbLink link="/">HRΔ</a>
+    </li>
+    @if (currentItem(); as item) {
+      <li hlmBreadcrumbSeparator class="hidden sm:block"></li>
+      <li hlmBreadcrumbItem>
+        <span hlmBreadcrumbPage>{{ item.title }}</span>
+      </li>
+    }
+  </ol>
+</nav>
