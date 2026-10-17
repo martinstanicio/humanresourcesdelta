@@ -19,6 +19,11 @@ from .serializers import (
 class LicenciaListCreateView(APIView):
     def get_queryset(self, request: Request) -> QuerySet[Licencia]:
         queryset = Licencia.objects.all()
+        user = request.user
+
+        if isinstance(user, Empleado) and user.rol == RolEmpleado.EMPLEADO:
+            return queryset.filter(convenio=user.convenio, activo=True)
+
         convenio = request.query_params.get("convenio")
         activo = request.query_params.get("activo")
 
