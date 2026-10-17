@@ -16,7 +16,11 @@
       "@spartan-ng/helm/alert-dialog": [
         "./src/components/ui/alert-dialog/src/index.ts"
       ],
+      "@spartan-ng/helm/avatar": ["./src/components/ui/avatar/src/index.ts"],
       "@spartan-ng/helm/badge": ["./src/components/ui/badge/src/index.ts"],
+      "@spartan-ng/helm/breadcrumb": [
+        "./src/components/ui/breadcrumb/src/index.ts"
+      ],
       "@spartan-ng/helm/button": ["./src/components/ui/button/src/index.ts"],
       "@spartan-ng/helm/calendar": [
         "./src/components/ui/calendar/src/index.ts"
@@ -43,10 +47,16 @@
       "@spartan-ng/helm/separator": [
         "./src/components/ui/separator/src/index.ts"
       ],
+      "@spartan-ng/helm/sheet": ["./src/components/ui/sheet/src/index.ts"],
+      "@spartan-ng/helm/sidebar": ["./src/components/ui/sidebar/src/index.ts"],
+      "@spartan-ng/helm/skeleton": [
+        "./src/components/ui/skeleton/src/index.ts"
+      ],
       "@spartan-ng/helm/switch": ["./src/components/ui/switch/src/index.ts"],
       "@spartan-ng/helm/textarea": [
         "./src/components/ui/textarea/src/index.ts"
       ],
+      "@spartan-ng/helm/tooltip": ["./src/components/ui/tooltip/src/index.ts"],
       "@spartan-ng/helm/utils": ["./src/components/ui/utils/src/index.ts"]
     }
   },
