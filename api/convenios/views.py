@@ -17,6 +17,9 @@ class ConvenioListCreateView(APIView):
         user = request.user
 
         if isinstance(user, Empleado) and user.rol == RolEmpleado.EMPLEADO:
+            if user.convenio is None:
+                return queryset.none()
+
             return queryset.filter(pk=user.convenio.pk)
 
         activo = request.query_params.get("activo")

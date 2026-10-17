@@ -23,6 +23,9 @@ class LicenciaListCreateView(APIView):
         user = request.user
 
         if isinstance(user, Empleado) and user.rol == RolEmpleado.EMPLEADO:
+            if user.convenio is None:
+                return queryset.none()
+
             return queryset.filter(convenio=user.convenio, activo=True)
 
         convenio = request.query_params.get("convenio")
