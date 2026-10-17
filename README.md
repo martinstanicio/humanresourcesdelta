@@ -44,11 +44,17 @@ Para ejecutar el proyecto, basta con levantar los contenedores de Docker con el 
 docker compose up
 ```
 
-> [!tip]
-> Para ejecutar el proyecto en segundo plano, se pueden levantar los contenedores en modo *detached*.
+> [!important]
+> Para que Django pueda funcionar correctamente, es necesario aplicar las migraciones de la base de datos:
 >
 > ```sh
-> docker compose up -d
+> docker compose exec humanresourcesdelta-api-dev-1 uv run manage.py migrate
+> ```
+>
+> O para el entorno de producción:
+>
+> ```sh
+> docker compose exec humanresourcesdelta-api-prod-1 uv run manage.py migrate
 > ```
 
 Utilizar el siguiente comando para detener los contenedores.
