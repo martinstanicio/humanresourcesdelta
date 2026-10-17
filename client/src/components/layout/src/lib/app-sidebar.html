@@ -1,0 +1,79 @@
+<div hlmSidebarWrapper>
+  <hlm-sidebar variant="inset">
+    <hlm-sidebar-header>
+      <ul hlmSidebarMenu>
+        <li hlmSidebarMenuItem>
+          <a hlmSidebarMenuButton size="lg" routerLink="/">
+            <div
+              class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground"
+            >
+              <ng-icon name="lucideTriangle" class="text-base" />
+            </div>
+            <div class="grid flex-1 text-left text-sm leading-tight">
+              <span class="truncate font-semibold">Human Resources Delta</span>
+              <span class="truncate text-xs text-muted-foreground"
+                >Acme Inc</span
+              >
+            </div>
+          </a>
+        </li>
+      </ul>
+    </hlm-sidebar-header>
+
+    <hlm-sidebar-content>
+      <ul hlmSidebarMenu>
+        @for (item of navigation; track item.href) {
+          <li hlmSidebarMenuItem>
+            <a
+              hlmSidebarMenuButton
+              [routerLink]="item.href"
+              routerLinkActive="bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+            >
+              <ng-icon [name]="item.icon" />
+              <span>{{ item.title }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+    </hlm-sidebar-content>
+
+    <hlm-sidebar-footer>
+      <ul hlmSidebarMenu>
+        <li hlmSidebarMenuItem>
+          <a
+            hlmSidebarMenuButton
+            size="lg"
+            routerLink="/me"
+            class="flex items-center gap-2"
+          >
+            <hlm-avatar class="size-8 rounded-lg">
+              <span
+                class="rounded-lg bg-primary text-xs font-semibold text-primary-foreground"
+                hlmAvatarFallback
+              >
+                JP
+              </span>
+            </hlm-avatar>
+            <div class="grid flex-1 text-left text-sm leading-tight">
+              <span class="truncate font-medium">Juan Pérez (#1042)</span>
+              <span class="truncate text-xs text-muted-foreground"
+                >Recursos Humanos</span
+              >
+            </div>
+          </a>
+        </li>
+        <li hlmSidebarMenuItem>
+          <a
+            hlmSidebarMenuButton
+            routerLink="/login"
+            class="text-destructive hover:text-destructive"
+          >
+            <ng-icon name="lucideLogOut" />
+            <span>Cerrar sesión</span>
+          </a>
+        </li>
+      </ul>
+    </hlm-sidebar-footer>
+  </hlm-sidebar>
+  <ng-content />
+</div>
