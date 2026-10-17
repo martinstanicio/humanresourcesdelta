@@ -181,6 +181,14 @@ class SolicitudLicenciaDetailView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request: Request, pk: int) -> Response:
+        user = request.user
+
+        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         solicitud = get_object_or_404(SolicitudLicencia, pk=pk)
         serializer = ResolverSolicitudLicenciaSerializer(
             solicitud, data=request.data, partial=True
