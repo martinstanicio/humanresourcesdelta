@@ -19,12 +19,12 @@ urlpatterns = [
         name="licencia-detail",
     ),
     path(
-        "solicitudes-licencias/",
+        "solicitudes-licencia/",
         SolicitudLicenciaListCreateView.as_view(),
         name="solicitud-licencia-list",
     ),
     path(
-        "solicitudes-licencias/<int:pk>/",
+        "solicitudes-licencia/<int:pk>/",
         SolicitudLicenciaDetailView.as_view(),
         name="solicitud-licencia-detail",
     ),
