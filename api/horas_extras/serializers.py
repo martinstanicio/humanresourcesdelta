@@ -1,11 +1,17 @@
+from datetime import date
 from typing import Any
 
+from django.utils import timezone
 from rest_framework import serializers
 
 from convenios.models import Convenio
 from empleados.models import Empleado
 
-from .models import HoraExtra, NotificacionHorasExtras
+from .models import (
+    EstadoNotificacionHorasExtras,
+    HoraExtra,
+    NotificacionHorasExtras,
+)
 
 
 class HoraExtraSerializer(serializers.ModelSerializer):
@@ -47,7 +53,7 @@ class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
     class Meta:
         model = NotificacionHorasExtras
         fields = "__all__"
-        read_only_fields = ("id",)
+        read_only_fields = ("id", "empleado", "estado")
 
     def validate_horas(self, value: float) -> float:
         if value <= 0:
@@ -63,25 +69,24 @@ class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
 
         return trimmed
 
-    def validate_empleado(self, value: Empleado) -> Empleado:
-        if not value.activo:
-            raise serializers.ValidationError(
-                "No se pueden registrar horas extras para un empleado inactivo."
-            )
-
-        return value
-
     def validate(self, attrs: dict[str, Any]) -> dict[str, Any]:
         empleado = None
         hora_extra = None
+        fecha = None
 
         if isinstance(self.instance, NotificacionHorasExtras):
-            empleado: Empleado = self.instance.empleado
-            hora_extra: HoraExtra = self.instance.hora_extra
+            empleado = self.instance.empleado
+            hora_extra = self.instance.hora_extra
+            fecha = self.instance.fecha
+        elif "request" in self.context:
+            user = self.context["request"].user
+            if isinstance(user, Empleado):
+                empleado = user
 
-        _empleado = attrs.get("empleado")
-        if isinstance(_empleado, Empleado):
-            empleado = _empleado
+        if empleado is not None and not empleado.activo:
+            raise serializers.ValidationError(
+                "No se pueden registrar horas extras para un empleado inactivo."
+            )
 
         _hora_extra = attrs.get("hora_extra")
         if isinstance(_hora_extra, HoraExtra):
@@ -98,4 +103,46 @@ class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
                 )
             })
 
+        _fecha = attrs.get("fecha")
+        if isinstance(_fecha, date):
+            fecha = _fecha
+
+        if fecha is not None and fecha >= timezone.localdate():
+            raise serializers.ValidationError({
+                "fecha": (
+                    "La fecha de las horas extras debe ser anterior a la fecha actual."
+                )
+            })
+
         return attrs
+
+    def create(self, validated_data: dict[str, Any]) -> NotificacionHorasExtras:
+        user = self.context["request"].user
+        if isinstance(user, Empleado):
+            validated_data["empleado"] = user
+
+        return super().create(validated_data)
+
+
+class ResolverNotificacionHorasExtrasSerializer(serializers.ModelSerializer):
+    estado = serializers.ChoiceField(
+        choices=[
+            EstadoNotificacionHorasExtras.APROBADA,
+            EstadoNotificacionHorasExtras.RECHAZADA,
+        ]
+    )
+
+    class Meta:
+        model = NotificacionHorasExtras
+        fields = ("estado",)
+
+    def validate_estado(self, value: str) -> str:
+        if (
+            isinstance(self.instance, NotificacionHorasExtras)
+            and self.instance.estado != EstadoNotificacionHorasExtras.PENDIENTE
+        ):
+            raise serializers.ValidationError(
+                "Solo se pueden resolver notificaciones en estado pendiente."
+            )
+
+        return value
