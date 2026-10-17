@@ -6,10 +6,10 @@ Plataforma de gestión de licencias y horas extras para recursos humanos. Utiliz
 
 La documentación detallada del sistema se encuentra en [`/docs`](./docs):
 
-- [🎯 Objetivos del sistema](docs/objectives.md)
-- [📋 Requerimientos](docs/requirements.md)
-- [👥 Casos de Uso](docs/use-cases.md)
-- [🏗️ Diagramas](docs/diagrams.md)
+- [🎯 Objetivos del sistema](docs/objetivos.md)
+- [📋 Requerimientos](docs/requerimientos.md)
+- [👥 Casos de Uso](docs/casos-de-uso.md)
+- [🏗️ Diagramas](docs/diagramas.md)
 
 La API REST y el cliente SPA también cuentan con su propia documentación:
 
@@ -19,8 +19,6 @@ La API REST y el cliente SPA también cuentan con su propia documentación:
 ## 🛠️ Prerrequisitos
 
 El proyecto está preparado para ejecutarse en **contenedores**, por lo que no es necesario instalar ninguna dependencia adicional en tu máquina local, solo [Docker](https://www.docker.com/products/docker-desktop/) y [Docker Compose](https://docs.docker.com/compose/install/).
-
-<!-- The Angular CLI is a command-line interface tool which allows you to scaffold, develop, test, deploy, and maintain Angular applications directly from a command shell. -->
 
 Sin embargo, para un desarrollo más cómodo, se recomienda instalar [uv](https://docs.astral.sh/uv/getting-started/installation/), un gestor de entornos, paquetes y proyectos de Python, y [Angular CLI](https://angular.dev/tools/cli), una herramienta que permite crear, desarrollar, probar, desplegar y mantener aplicaciones Angular desde la terminal.
 

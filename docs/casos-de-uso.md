@@ -1,7 +1,5 @@
 # Casos de uso
 
-![Diagrama de casos de uso](diagrams/svg/use-cases.svg)
-
 - [CU-01 Solicitar licencia](#cu-01-solicitar-licencia)
 - [CU-02 Evaluar licencia](#cu-02-evaluar-licencia)
 - [CU-03 Notificar horas extras](#cu-03-notificar-horas-extras)
@@ -14,13 +12,49 @@
 - [CU-10 ABM empleados](#cu-10-abm-empleados)
 - [CU-11 ABM convenios de trabajo](#cu-11-abm-convenios-de-trabajo)
 
+## Diagrama de casos de uso
+
+```mermaid
+flowchart LR
+    Empleado(("fa:fa-user\nEmpleado "))
+    RRHH(("fa:fa-user\nRecursos \nHumanos "))
+
+    CU-01(["CU-01 Solicitar licencia"])
+    CU-02(["CU-02 Evaluar licencia"])
+    CU-03(["CU-03 Notificar horas extras"])
+    CU-04(["CU-04 Evaluar horas extras"])
+    CU-05(["CU-05 Consultar estado de solicitud"])
+    CU-06(["CU-06 Consultar estado de horas extras"])
+    CU-07(["CU-07 Cancelar solicitud de licencia"])
+    CU-08(["CU-08 Cancelar notificación de horas extras"])
+    CU-09(["CU-09 Ver reporte mensual"])
+    CU-10(["CU-10 ABM empleados"])
+    CU-11(["CU-11 ABM convenios de trabajo"])
+
+    CU-01 --- Empleado
+    CU-05 --- Empleado
+    CU-03 --- Empleado
+    CU-06 --- Empleado
+
+    RRHH --- CU-02
+    RRHH --- CU-04
+    RRHH --- CU-09
+    RRHH --- CU-10
+    RRHH --- CU-11
+
+    CU-02 -. "<< include >>" .-> CU-01
+    CU-04 -. "<< include >>" .-> CU-03
+    CU-07 -. "<< extend >>" .-> CU-05
+    CU-08 -. "<< extend >>" .-> CU-06
+```
+
 ## CU-01 Solicitar licencia
 
 Permite al empleado generar una solicitud formal de licencia a través del sistema, indicando el tipo de licencia, el rango de fechas y el motivo, con la posibilidad de adjuntar documentación respaldatoria digital.
 
 El sistema valida la solicitud contra las reglas del convenio de trabajo asociado al legajo del empleado ([CU-11](#cu-11-abm-convenios-de-trabajo)): tipos de licencia admitidos, cantidad de días disponibles, antelación mínima exigida y documentación obligatoria. Cada tipo tiene reglas propias: algunos requieren documentación obligatoria, otros descuentan del saldo anual y otros no tienen límite de días.
 
-La solicitud queda en estado 'Pendiente' hasta que RRHH la evalúe ([CU-02](#cu-02-evaluar-licencia)), y genera una notificación automática al área de Recursos Humanos ([RF-08](requirements.md#rf-08)). El empleado puede consultar el estado en cualquier momento ([CU-05](#cu-05-consultar-estado-de-solicitud)) y cancelarla mientras no haya sido resuelta ([CU-07](#cu-07-cancelar-solicitud-de-licencia)). Toda la operación queda asentada en el log de auditoría con usuario, fecha y hora ([RNF-04](requirements.md#rnf-04)).
+La solicitud queda en estado 'Pendiente' hasta que RRHH la evalúe ([CU-02](#cu-02-evaluar-licencia)), y genera una notificación automática al área de Recursos Humanos ([RF-08](requerimientos.md#rf-08)). El empleado puede consultar el estado en cualquier momento ([CU-05](#cu-05-consultar-estado-de-solicitud)) y cancelarla mientras no haya sido resuelta ([CU-07](#cu-07-cancelar-solicitud-de-licencia)). Toda la operación queda asentada en el log de auditoría con usuario, fecha y hora ([RNF-04](requerimientos.md#rnf-04)).
 
 - **Actores**
   - Empleado (primario)
@@ -39,7 +73,7 @@ La solicitud queda en estado 'Pendiente' hasta que RRHH la evalúe ([CU-02](#cu-
 | Accede al módulo 'Mis Licencias' y selecciona la opción 'Nueva solicitud'. | Verifica el rol del usuario y presenta el formulario con los campos: tipo de licencia, fecha de inicio, fecha de fin, motivo y campo para adjuntar documentación. | Los tipos de licencia ofrecidos surgen del convenio asociado al empleado. |
 | Selecciona el tipo de licencia. | Muestra información contextual según el convenio: días disponibles, documentación requerida y antelación mínima exigida para ese tipo. | |
 | Completa las fechas de inicio y de fin. | Calcula automáticamente la cantidad de días hábiles solicitados, verifica que el saldo disponible sea suficiente y que se respete la antelación mínima. | El cálculo contempla fines de semana y feriados. |
-| Adjunta la documentación respaldatoria (si corresponde) y confirma el envío. | Registra la solicitud en estado 'Pendiente', asigna un número de seguimiento único, notifica automáticamente a RRHH y registra el evento en el log de auditoría. | La notificación a RRHH es automática ([RF-08](requirements.md#rf-08)). |
+| Adjunta la documentación respaldatoria (si corresponde) y confirma el envío. | Registra la solicitud en estado 'Pendiente', asigna un número de seguimiento único, notifica automáticamente a RRHH y registra el evento en el log de auditoría. | La notificación a RRHH es automática ([RF-08](requerimientos.md#rf-08)). |
 | Visualiza la confirmación. | Muestra el número de seguimiento, el resumen de la solicitud y el acceso directo a la consulta de estado ([CU-05](#cu-05-consultar-estado-de-solicitud)). | |
 
 ### Flujo alternativo #1: Saldo de días insuficiente
@@ -64,11 +98,11 @@ La solicitud queda en estado 'Pendiente' hasta que RRHH la evalúe ([CU-02](#cu-
 
 ## CU-02 Evaluar licencia
 
-Permite al área de Recursos Humanos revisar y resolver las solicitudes de licencia enviadas por los empleados. RRHH puede aprobar o rechazar una solicitud y debe registrar una observación cuando la rechaza ([RF-03](requirements.md#rf-03)).
+Permite al área de Recursos Humanos revisar y resolver las solicitudes de licencia enviadas por los empleados. RRHH puede aprobar o rechazar una solicitud y debe registrar una observación cuando la rechaza ([RF-03](requerimientos.md#rf-03)).
 
 Al resolverse la solicitud, el sistema notifica automáticamente al empleado con el resultado y las observaciones registradas. Si la solicitud es aprobada y el tipo descuenta cupo, el sistema descuenta los días del saldo del empleado y las fechas quedan disponibles para el reporte mensual ([CU-09](#cu-09-ver-reporte-mensual)).
 
-Sólo los usuarios con rol RRHH acceden a este caso de uso ([RNF-01](requirements.md#rnf-01)). La decisión queda registrada en el log de auditoría con usuario, fecha y hora ([RNF-04](requirements.md#rnf-04)).
+Sólo los usuarios con rol RRHH acceden a este caso de uso ([RNF-01](requerimientos.md#rnf-01)). La decisión queda registrada en el log de auditoría con usuario, fecha y hora ([RNF-04](requerimientos.md#rnf-04)).
 
 - **Actores**
   - RRHH (primario)
@@ -86,7 +120,7 @@ Sólo los usuarios con rol RRHH acceden a este caso de uso ([RNF-01](requirement
 | Accede al módulo 'Gestión de licencias'. | Verifica el rol RRHH y muestra el listado de solicitudes pendientes ordenadas por fecha de envío ascendente. | Permite filtrar por área, empleado, tipo y período. |
 | Selecciona una solicitud para revisar su detalle. | Muestra: empleado, área, tipo de licencia, motivo, rango de fechas, días solicitados, saldo disponible y documentación adjunta. | |
 | Revisa la información y selecciona una acción: Aprobar o Rechazar. | Solicita el ingreso de una observación, obligatoria si la acción es 'Rechazar'. | |
-| Ingresa la observación y confirma la decisión. | Actualiza el estado de la solicitud, registra la decisión con usuario, fecha y hora, y descuenta los días del saldo del empleado si la licencia fue aprobada y el tipo descuenta cupo. | Registro en log de auditoría ([RNF-04](requirements.md#rnf-04)). |
+| Ingresa la observación y confirma la decisión. | Actualiza el estado de la solicitud, registra la decisión con usuario, fecha y hora, y descuenta los días del saldo del empleado si la licencia fue aprobada y el tipo descuenta cupo. | Registro en log de auditoría ([RNF-04](requerimientos.md#rnf-04)). |
 | Vuelve al listado. | Envía la notificación automática al empleado con el resultado y las observaciones, y actualiza el listado de pendientes. | |
 
 ### Flujo alternativo #1: Solicitud con fechas ya vencidas
@@ -110,11 +144,11 @@ Sólo los usuarios con rol RRHH acceden a este caso de uso ([RNF-01](requirement
 
 ## CU-03 Notificar horas extras
 
-Permite al empleado declarar formalmente las horas trabajadas por fuera de su jornada habitual, indicando la fecha, el horario de inicio y de fin, y el motivo de la extensión, pudiendo adjuntar la autorización previa de su responsable ([RF-04](requirements.md#rf-04)).
+Permite al empleado declarar formalmente las horas trabajadas por fuera de su jornada habitual, indicando la fecha, el horario de inicio y de fin, y el motivo de la extensión, pudiendo adjuntar la autorización previa de su responsable ([RF-04](requerimientos.md#rf-04)).
 
-A partir de los datos ingresados, el sistema calcula automáticamente la cantidad de horas declaradas y determina el multiplicador de remuneración que corresponde según el convenio de trabajo del empleado ([CU-11](#cu-11-abm-convenios-de-trabajo)), por ejemplo 50% para días hábiles y 100% para sábados después del mediodía, domingos y feriados ([RF-01](requirements.md#rf-01)). El sistema no trabaja con montos de dinero: sólo registra la cantidad de horas y el porcentaje aplicable.
+A partir de los datos ingresados, el sistema calcula automáticamente la cantidad de horas declaradas y determina el multiplicador de remuneración que corresponde según el convenio de trabajo del empleado ([CU-11](#cu-11-abm-convenios-de-trabajo)), por ejemplo 50% para días hábiles y 100% para sábados después del mediodía, domingos y feriados ([RF-01](requerimientos.md#rf-01)). El sistema no trabaja con montos de dinero: sólo registra la cantidad de horas y el porcentaje aplicable.
 
-La notificación queda en estado 'Pendiente' hasta que RRHH la evalúe ([CU-04](#cu-04-evaluar-horas-extras)) y dispara una notificación automática al área ([RF-08](requirements.md#rf-08)).
+La notificación queda en estado 'Pendiente' hasta que RRHH la evalúe ([CU-04](#cu-04-evaluar-horas-extras)) y dispara una notificación automática al área ([RF-08](requerimientos.md#rf-08)).
 
 - **Actores**
   - Empleado (primario)
@@ -133,7 +167,7 @@ La notificación queda en estado 'Pendiente' hasta que RRHH la evalúe ([CU-04](
 | Accede al módulo 'Mis Horas Extra' y selecciona 'Nueva notificación'. | Presenta el formulario con los campos: fecha, hora de inicio, hora de fin y motivo. | |
 | Completa la fecha y el rango horario trabajado. | Calcula la cantidad de horas declaradas y determina el multiplicador aplicable según el tipo de día y el convenio del empleado. | Contempla feriados y el corte del sábado al mediodía. |
 | Verifica el resumen calculado, ingresa el motivo y adjunta la autorización si corresponde. | Muestra el desglose: cantidad de horas al 50% y al 100%, y el total declarado. | |
-| Confirma el envío. | Registra la notificación en estado 'Pendiente', asigna un número de seguimiento, notifica automáticamente a RRHH y registra el evento en el log de auditoría. | Notificación automática ([RF-08](requirements.md#rf-08)). |
+| Confirma el envío. | Registra la notificación en estado 'Pendiente', asigna un número de seguimiento, notifica automáticamente a RRHH y registra el evento en el log de auditoría. | Notificación automática ([RF-08](requerimientos.md#rf-08)). |
 
 ### Flujo alternativo #1: Se supera el tope del convenio
 
@@ -156,11 +190,11 @@ La notificación queda en estado 'Pendiente' hasta que RRHH la evalúe ([CU-04](
 
 ## CU-04 Evaluar horas extras
 
-Permite al área de Recursos Humanos revisar y resolver las notificaciones de horas extra enviadas por los empleados, aprobándolas o rechazándolas ([RF-05](requirements.md#rf-05)). Se requiere una observación obligatoria en caso de rechazo.
+Permite al área de Recursos Humanos revisar y resolver las notificaciones de horas extra enviadas por los empleados, aprobándolas o rechazándolas ([RF-05](requerimientos.md#rf-05)). Se requiere una observación obligatoria en caso de rechazo.
 
 RRHH puede además aprobar la notificación con un ajuste sobre la cantidad de horas reconocidas cuando lo declarado no coincide con lo efectivamente autorizado; el ajuste exige justificación y se informa al empleado.
 
-Sólo las horas en estado 'Aprobada' o 'Aprobada con ajuste', por la cantidad reconocida, se incorporan al reporte mensual ([CU-09](#cu-09-ver-reporte-mensual)). Toda decisión queda registrada en el log de auditoría ([RNF-04](requirements.md#rnf-04)).
+Sólo las horas en estado 'Aprobada' o 'Aprobada con ajuste', por la cantidad reconocida, se incorporan al reporte mensual ([CU-09](#cu-09-ver-reporte-mensual)). Toda decisión queda registrada en el log de auditoría ([RNF-04](requerimientos.md#rnf-04)).
 
 - **Actores**
   - RRHH (primario)
@@ -178,7 +212,7 @@ Sólo las horas en estado 'Aprobada' o 'Aprobada con ajuste', por la cantidad re
 | Accede al módulo 'Gestión de horas extra'. | Verifica el rol RRHH y muestra el listado de notificaciones pendientes ordenadas por fecha ascendente, destacando las marcadas como 'Excede tope'. | Permite filtrar por área, empleado y período. |
 | Selecciona una notificación para revisar su detalle. | Muestra: empleado, área, fecha, rango horario declarado, horas calculadas, multiplicador aplicable, motivo, autorización adjunta y acumulado del empleado en el período. | |
 | Revisa la información y selecciona una acción: Aprobar o Rechazar. | Solicita el ingreso de una observación, obligatoria en caso de rechazo. | |
-| Confirma la decisión. | Actualiza el estado de la notificación, registra la decisión con usuario, fecha y hora, incorpora las horas al acumulado del período si fueron aprobadas y notifica automáticamente al empleado. | Registro en log de auditoría ([RNF-04](requirements.md#rnf-04)). |
+| Confirma la decisión. | Actualiza el estado de la notificación, registra la decisión con usuario, fecha y hora, incorpora las horas al acumulado del período si fueron aprobadas y notifica automáticamente al empleado. | Registro en log de auditoría ([RNF-04](requerimientos.md#rnf-04)). |
 
 ### Flujo alternativo #1: Aprobación con ajuste de horas
 
@@ -201,11 +235,11 @@ Sólo las horas en estado 'Aprobada' o 'Aprobada con ajuste', por la cantidad re
 
 ## CU-05 Consultar estado de solicitud
 
-Permite al empleado consultar el historial completo de sus solicitudes de licencia y el estado actual de cada una: Pendiente, En revisión, Aprobada, Rechazada o Cancelada, junto con las observaciones ingresadas por RRHH al resolverlas ([RF-06](requirements.md#rf-06)).
+Permite al empleado consultar el historial completo de sus solicitudes de licencia y el estado actual de cada una: Pendiente, En revisión, Aprobada, Rechazada o Cancelada, junto con las observaciones ingresadas por RRHH al resolverlas ([RF-06](requerimientos.md#rf-06)).
 
 Este caso de uso no permite modificar los datos de la solicitud original. Desde el detalle de una solicitud aún no resuelta, el empleado puede extender el flujo hacia la cancelación ([CU-07](#cu-07-cancelar-solicitud-de-licencia)).
 
-Por aplicación del control de acceso basado en roles, el empleado sólo visualiza sus propias solicitudes ([RNF-01](requirements.md#rnf-01)).
+Por aplicación del control de acceso basado en roles, el empleado sólo visualiza sus propias solicitudes ([RNF-01](requerimientos.md#rnf-01)).
 
 - **Actores**
   - Empleado (primario)
@@ -237,7 +271,7 @@ Por aplicación del control de acceso basado en roles, el empleado sólo visuali
 
 ## CU-06 Consultar estado de horas extras
 
-Permite al empleado consultar el historial de sus notificaciones de horas extra y el estado de cada una: Pendiente, Aprobada, Aprobada con ajuste, Rechazada o Cancelada, junto con las observaciones de RRHH ([RF-06](requirements.md#rf-06)).
+Permite al empleado consultar el historial de sus notificaciones de horas extra y el estado de cada una: Pendiente, Aprobada, Aprobada con ajuste, Rechazada o Cancelada, junto con las observaciones de RRHH ([RF-06](requerimientos.md#rf-06)).
 
 Además del listado, el sistema presenta un resumen acumulado del período en curso con las horas aprobadas discriminadas por multiplicador, lo que permite al empleado anticipar el contenido de su liquidación.
 
@@ -277,7 +311,7 @@ Extiende a [CU-05](#cu-05-consultar-estado-de-solicitud). Permite al empleado de
 
 La cancelación está habilitada mientras la solicitud se encuentre en estado 'Pendiente' o 'En revisión'. También se admite sobre una licencia ya aprobada cuya fecha de inicio sea posterior al día de la cancelación; en ese caso el sistema reintegra los días al saldo del empleado y notifica a RRHH del cambio.
 
-La solicitud pasa al estado terminal 'Cancelada' y el evento queda registrado en el log de auditoría con usuario, fecha y hora ([RNF-04](requirements.md#rnf-04)).
+La solicitud pasa al estado terminal 'Cancelada' y el evento queda registrado en el log de auditoría con usuario, fecha y hora ([RNF-04](requerimientos.md#rnf-04)).
 
 - **Actores**
   - Empleado (primario)
@@ -315,7 +349,7 @@ Extiende a [CU-06](#cu-06-consultar-estado-de-horas-extras). Permite al empleado
 
 La cancelación está habilitada mientras la notificación se encuentre en estado 'Pendiente', y también sobre notificaciones ya aprobadas cuyo período mensual todavía no haya sido cerrado.
 
-La notificación pasa al estado terminal 'Cancelada', deja de computar en el resumen del período y el evento queda registrado en el log de auditoría ([RNF-04](requirements.md#rnf-04)).
+La notificación pasa al estado terminal 'Cancelada', deja de computar en el resumen del período y el evento queda registrado en el log de auditoría ([RNF-04](requerimientos.md#rnf-04)).
 
 - **Actores**
   - Empleado (primario)
@@ -350,11 +384,11 @@ La notificación pasa al estado terminal 'Cancelada', deja de computar en el res
 
 ## CU-09 Ver reporte mensual
 
-Permite al área de Recursos Humanos visualizar y exportar el reporte mensual consolidado de horas extra y licencias por empleado, insumo de los procedimientos posteriores de liquidación de sueldos ([RF-07](requirements.md#rf-07)).
+Permite al área de Recursos Humanos visualizar y exportar el reporte mensual consolidado de horas extra y licencias por empleado, insumo de los procedimientos posteriores de liquidación de sueldos ([RF-07](requerimientos.md#rf-07)).
 
 El reporte presenta, para cada empleado del período seleccionado: las horas extra aprobadas discriminadas por multiplicador de remuneración, los días de licencia aprobados agrupados por tipo y el saldo de días restante. De acuerdo con el alcance definido, el sistema no calcula ni muestra montos de dinero: informa el desglose de horas y el porcentaje o multiplicador aplicable a cada una.
 
-El reporte puede exportarse en formato PDF para su distribución ([RNF-05](requirements.md#rnf-05)). El acceso está restringido al rol RRHH ([RNF-01](requirements.md#rnf-01)).
+El reporte puede exportarse en formato PDF para su distribución ([RNF-05](requerimientos.md#rnf-05)). El acceso está restringido al rol RRHH ([RNF-01](requerimientos.md#rnf-01)).
 
 - **Actores**
   - RRHH (primario)
@@ -371,7 +405,7 @@ El reporte puede exportarse en formato PDF para su distribución ([RNF-05](requi
 | Accede al módulo 'Reportes' y define los filtros de búsqueda: mes, año y, opcionalmente, empleado o área. | Verifica el rol RRHH y presenta la interfaz de selección de parámetros con el período anterior preseleccionado. | |
 | Presiona el botón 'Generar reporte'. | Recupera el reporte consolidado del período o, si se trata de un período abierto, consolida en línea las licencias y horas extra aprobadas. | Sólo se incluyen los registros en estado 'Aprobada'. |
 | Visualiza el resumen en pantalla. | Muestra, por empleado: horas extra al 50%, horas extra al 100%, total de horas extra, días de licencia por tipo y saldo de días restante. Incluye totales por área. | |
-| Selecciona la opción 'Exportar a PDF'. | Genera el archivo PDF con el detalle del período, la fecha y hora de emisión y el usuario que lo solicitó, y registra la descarga en el log de auditoría. | Exportación en PDF ([RNF-05](requirements.md#rnf-05)). |
+| Selecciona la opción 'Exportar a PDF'. | Genera el archivo PDF con el detalle del período, la fecha y hora de emisión y el usuario que lo solicitó, y registra la descarga en el log de auditoría. | Exportación en PDF ([RNF-05](requerimientos.md#rnf-05)). |
 
 ### Flujo alternativo #1: Sin datos en el período seleccionado
 
@@ -390,9 +424,9 @@ El reporte puede exportarse en formato PDF para su distribución ([RNF-05](requi
 
 Permite al personal de Recursos Humanos gestionar el legajo digital de los trabajadores: el alta de nuevos perfiles, la actualización de los datos existentes y la baja de empleados.
 
-En el alta se asocia al empleado un convenio de trabajo ([CU-11](#cu-11-abm-convenios-de-trabajo)), que determina las reglas de licencias y horas extra que le serán aplicadas, y un rol del sistema (Empleado o RRHH) que define sus privilegios de acceso ([RNF-01](requirements.md#rnf-01)).
+En el alta se asocia al empleado un convenio de trabajo ([CU-11](#cu-11-abm-convenios-de-trabajo)), que determina las reglas de licencias y horas extra que le serán aplicadas, y un rol del sistema (Empleado o RRHH) que define sus privilegios de acceso ([RNF-01](requerimientos.md#rnf-01)).
 
-Las bajas son lógicas: el registro no se elimina, de modo de preservar la trazabilidad histórica de sus solicitudes y notificaciones en los reportes de períodos anteriores ([RNF-04](requirements.md#rnf-04)).
+Las bajas son lógicas: el registro no se elimina, de modo de preservar la trazabilidad histórica de sus solicitudes y notificaciones en los reportes de períodos anteriores ([RNF-04](requerimientos.md#rnf-04)).
 
 - **Actores**
   - RRHH (primario)
@@ -430,7 +464,7 @@ Las bajas son lógicas: el registro no se elimina, de modo de preservar la traza
 
 ## CU-11 ABM convenios de trabajo
 
-Permite a Recursos Humanos administrar los convenios de trabajo vigentes en la organización y las regulaciones de licencias y horas extra asociadas a cada uno ([RF-09](requirements.md#rf-09)).
+Permite a Recursos Humanos administrar los convenios de trabajo vigentes en la organización y las regulaciones de licencias y horas extra asociadas a cada uno ([RF-09](requerimientos.md#rf-09)).
 
 Para cada convenio se parametrizan: los tipos de licencia admitidos con su cupo anual, su documentación obligatoria y su antelación mínima; y las reglas de horas extra, es decir los multiplicadores de remuneración por tipo de día y los topes diarios y mensuales admitidos.
 
