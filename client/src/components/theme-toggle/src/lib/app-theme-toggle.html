@@ -1,0 +1,49 @@
+<div
+  class="grid w-full grid-cols-3 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground"
+>
+  <button
+    type="button"
+    hlmTooltip="Tema claro"
+    position="top"
+    (click)="setMode('light')"
+    class="flex h-7 w-full items-center justify-center rounded-md transition-all"
+    [class.bg-background]="mode() === 'light'"
+    [class.text-foreground]="mode() === 'light'"
+    [class.shadow-xs]="mode() === 'light'"
+    [class.text-muted-foreground]="mode() !== 'light'"
+    [class.hover:text-foreground]="mode() !== 'light'"
+  >
+    <ng-icon name="lucideSun" class="text-sm" />
+    <span class="sr-only">Tema claro</span>
+  </button>
+  <button
+    type="button"
+    hlmTooltip="Tema oscuro"
+    position="top"
+    (click)="setMode('dark')"
+    class="flex h-7 w-full items-center justify-center rounded-md transition-all"
+    [class.bg-background]="mode() === 'dark'"
+    [class.text-foreground]="mode() === 'dark'"
+    [class.shadow-xs]="mode() === 'dark'"
+    [class.text-muted-foreground]="mode() !== 'dark'"
+    [class.hover:text-foreground]="mode() !== 'dark'"
+  >
+    <ng-icon name="lucideMoon" class="text-sm" />
+    <span class="sr-only">Tema oscuro</span>
+  </button>
+  <button
+    type="button"
+    hlmTooltip="Tema del sistema"
+    position="top"
+    (click)="setMode('system')"
+    class="flex h-7 w-full items-center justify-center rounded-md transition-all"
+    [class.bg-background]="mode() === 'system'"
+    [class.text-foreground]="mode() === 'system'"
+    [class.shadow-xs]="mode() === 'system'"
+    [class.text-muted-foreground]="mode() !== 'system'"
+    [class.hover:text-foreground]="mode() !== 'system'"
+  >
+    <ng-icon name="lucideMonitor" class="text-sm" />
+    <span class="sr-only">Tema del sistema</span>
+  </button>
+</div>

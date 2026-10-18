@@ -1,3 +1,4 @@
+import { AppThemeToggle } from "@/components/theme-toggle";
 import { navigation } from "@/lib/navigation";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
@@ -24,6 +25,7 @@ import { HlmSidebarImports } from "@spartan-ng/helm/sidebar";
     NgIcon,
     RouterLink,
     RouterLinkActive,
+    AppThemeToggle,
   ],
   providers: [
     provideIcons({
