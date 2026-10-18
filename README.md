@@ -44,18 +44,20 @@ Para ejecutar el proyecto, basta con levantar los contenedores de Docker con el 
 docker compose up
 ```
 
-> [!important]
-> Para que Django pueda funcionar correctamente, es necesario aplicar las migraciones de la base de datos:
+> [!note]
+> La primera vez que se inicializa la base de datos, Django aplica automáticamente las migraciones. Sin embargo, cada vez que se realicen cambios en los modelos de Django, será necesario aplicar las migraciones manualmente para que la base de datos se mantenga actualizada:
 >
 > ```sh
-> docker compose exec humanresourcesdelta-api-dev-1 uv run manage.py migrate
+> docker compose exec <api-dev> uv run manage.py migrate
 > ```
 >
 > O para el entorno de producción:
 >
 > ```sh
-> docker compose exec humanresourcesdelta-api-prod-1 uv run manage.py migrate
+> docker compose exec <api-prod> uv run manage.py migrate
 > ```
+>
+> Donde `<api-dev>` y `<api-prod>` son los nombres de los contenedores, usualmente `api-dev-1` y `api-prod-1`, o `humanresourcesdelta-api-dev-1` y `humanresourcesdelta-api-prod-1`.
 
 Utilizar el siguiente comando para detener los contenedores.
 
