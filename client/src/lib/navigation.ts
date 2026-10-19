@@ -2,6 +2,7 @@ import {
   lucideBell,
   lucideCalendarClock,
   lucideCalendarOff,
+  lucideClipboardList,
   lucideClock,
   lucideFileText,
   lucideLayoutDashboard,
@@ -30,4 +31,5 @@ export const navigation: NavigationItem[] = [
     icon: lucideBell,
     title: "Notificaciones de horas extras",
   },
+  { href: "/reportes", icon: lucideClipboardList, title: "Reportes" },
 ];
