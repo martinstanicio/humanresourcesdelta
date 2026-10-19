@@ -3,17 +3,7 @@ import { navigation } from "@/lib/navigation";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { NgIcon, provideIcons } from "@ng-icons/core";
-import {
-  lucideBell,
-  lucideCalendarClock,
-  lucideCalendarOff,
-  lucideClock,
-  lucideFileText,
-  lucideLayoutDashboard,
-  lucideLogOut,
-  lucideTriangle,
-  lucideUsers,
-} from "@ng-icons/lucide";
+import { lucideLogOut, lucideTriangle } from "@ng-icons/lucide";
 import { HlmAvatarImports } from "@spartan-ng/helm/avatar";
 import { HlmSidebarImports } from "@spartan-ng/helm/sidebar";
 
@@ -29,15 +19,8 @@ import { HlmSidebarImports } from "@spartan-ng/helm/sidebar";
   ],
   providers: [
     provideIcons({
-      lucideTriangle,
-      lucideLayoutDashboard,
-      lucideFileText,
-      lucideUsers,
-      lucideCalendarOff,
-      lucideCalendarClock,
-      lucideClock,
-      lucideBell,
       lucideLogOut,
+      lucideTriangle,
     }),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

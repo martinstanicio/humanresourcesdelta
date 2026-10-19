@@ -1,3 +1,13 @@
+import {
+  lucideBell,
+  lucideCalendarClock,
+  lucideCalendarOff,
+  lucideClock,
+  lucideFileText,
+  lucideLayoutDashboard,
+  lucideUsers,
+} from "@ng-icons/lucide";
+
 export interface NavigationItem {
   href: string;
   icon: string;
@@ -5,19 +15,19 @@ export interface NavigationItem {
 }
 
 export const navigation: NavigationItem[] = [
-  { href: "/", icon: "lucideLayoutDashboard", title: "Dashboard" },
-  { href: "/convenios", icon: "lucideFileText", title: "Convenios" },
-  { href: "/empleados", icon: "lucideUsers", title: "Empleados" },
-  { href: "/licencias", icon: "lucideCalendarOff", title: "Licencias" },
+  { href: "/", icon: lucideLayoutDashboard, title: "Dashboard" },
+  { href: "/convenios", icon: lucideFileText, title: "Convenios" },
+  { href: "/empleados", icon: lucideUsers, title: "Empleados" },
+  { href: "/licencias", icon: lucideCalendarOff, title: "Licencias" },
   {
     href: "/solicitudes-licencia",
-    icon: "lucideCalendarClock",
+    icon: lucideCalendarClock,
     title: "Solicitudes de licencia",
   },
-  { href: "/horas-extras", icon: "lucideClock", title: "Horas extras" },
+  { href: "/horas-extras", icon: lucideClock, title: "Horas extras" },
   {
     href: "/notificaciones-horas-extras",
-    icon: "lucideBell",
+    icon: lucideBell,
     title: "Notificaciones de horas extras",
   },
 ];
