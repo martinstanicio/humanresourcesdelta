@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "empleados",
     "horas_extras",
     "licencias",
+    "reportes",
 ]
 
 MIDDLEWARE = [
