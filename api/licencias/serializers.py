@@ -127,7 +127,7 @@ class ResolverSolicitudLicenciaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SolicitudLicencia
-        fields = ("estado",)
+        fields = ("estado", "motivo_resolucion")
 
     def validate_estado(self, value: str) -> str:
         if (
