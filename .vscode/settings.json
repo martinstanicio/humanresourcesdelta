@@ -29,5 +29,6 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "tailwindCSS.classFunctions": ["hlm", "cva", "classes"],
+  "ty.inlayHints.variableTypes": false,
   "ty.interpreter": "${workspaceFolder}/api/.venv"
 }
