@@ -45,7 +45,9 @@ docker compose up
 ```
 
 > [!note]
-> La primera vez que se inicializa la base de datos, Django aplica automáticamente las migraciones. Sin embargo, cada vez que se realicen cambios en los modelos de Django, será necesario aplicar las migraciones manualmente para que la base de datos se mantenga actualizada:
+> Las migraciones de la base de datos se aplican automáticamente al iniciar los contenedores.
+>
+> Si se generan nuevas migraciones y se desea aplicarlas sin detener los contenedores, se puede ejecutar el siguiente comando:
 >
 > ```sh
 > docker compose exec <api-dev> uv run manage.py migrate
