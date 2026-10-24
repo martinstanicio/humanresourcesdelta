@@ -1,5 +1,5 @@
 import { routes } from "./app.routes";
-import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClient, withXsrfConfiguration } from "@angular/common/http";
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
@@ -10,6 +10,11 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(
+      withXsrfConfiguration({
+        cookieName: "csrftoken",
+        headerName: "X-CSRFToken",
+      }),
+    ),
   ],
 };

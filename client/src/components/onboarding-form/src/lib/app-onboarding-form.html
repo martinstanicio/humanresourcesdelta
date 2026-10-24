@@ -1,0 +1,75 @@
+<hlm-card>
+  <div hlmCardHeader>
+    <h3 hlmCardTitle>Crear contraseña</h3>
+    <p hlmCardDescription>
+      Ingresá tu legajo y creá tu contraseña para acceder por primera vez
+    </p>
+  </div>
+  <div hlmCardContent>
+    <form (ngSubmit)="onSubmit()">
+      <hlm-field-group>
+        <hlm-field [forceInvalid]="getFieldError('legajo').length > 0">
+          <label hlmFieldLabel for="legajo">Legajo</label>
+          <input
+            hlmInput
+            type="text"
+            id="legajo"
+            name="legajo"
+            placeholder="1042"
+            required
+            [(ngModel)]="legajo"
+          />
+          @for (err of getFieldError("legajo"); track err) {
+            <hlm-field-error forceShow>{{ err }}</hlm-field-error>
+          }
+        </hlm-field>
+        <hlm-field [forceInvalid]="getFieldError('password').length > 0">
+          <label hlmFieldLabel for="password">Contraseña</label>
+          <input
+            hlmInput
+            type="password"
+            id="password"
+            name="password"
+            required
+            [(ngModel)]="password"
+          />
+          @for (err of getFieldError("password"); track err) {
+            <hlm-field-error forceShow>{{ err }}</hlm-field-error>
+          }
+        </hlm-field>
+        <hlm-field
+          [forceInvalid]="getFieldError('confirmar_password').length > 0"
+        >
+          <label hlmFieldLabel for="confirmar_password"
+            >Confirmación de contraseña</label
+          >
+          <input
+            hlmInput
+            type="password"
+            id="confirmar_password"
+            name="confirmar_password"
+            required
+            [(ngModel)]="confirmarPassword"
+          />
+          @for (err of getFieldError("confirmar_password"); track err) {
+            <hlm-field-error forceShow>{{ err }}</hlm-field-error>
+          }
+        </hlm-field>
+        <hlm-field>
+          <button hlmBtn type="submit" [disabled]="loading()">
+            {{ loading() ? "Creando contraseña..." : "Crear contraseña" }}
+          </button>
+        </hlm-field>
+      </hlm-field-group>
+    </form>
+    <div class="mt-4 text-center text-sm text-muted-foreground">
+      ¿Ya tenés una contraseña?
+      <a
+        routerLink="/login"
+        class="font-medium text-primary underline underline-offset-4 hover:opacity-80"
+      >
+        Iniciar sesión
+      </a>
+    </div>
+  </div>
+</hlm-card>
