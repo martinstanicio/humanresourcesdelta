@@ -47,9 +47,9 @@ class EmpleadoManager(BaseUserManager["Empleado"]):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
 
-        if not extra_fields.get("is_staff") is not True:
+        if extra_fields.get("is_staff") is not True:
             raise ValueError("El superusuario debe contener is_staff=True.")
-        if not extra_fields.get("is_superuser") is not True:
+        if extra_fields.get("is_superuser") is not True:
             raise ValueError("El superusuario debe contener is_superuser=True.")
 
         return self.create_user(legajo, password, **extra_fields)
