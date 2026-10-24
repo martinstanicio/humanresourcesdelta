@@ -11,7 +11,7 @@ from horas_extras.models import EstadoNotificacionHorasExtras, NotificacionHoras
 from licencias.models import EstadoSolicitudLicencia, SolicitudLicencia
 
 from .models import Empleado, RolEmpleado
-from .serializers import EmpleadoSerializer, LoginSerializer
+from .serializers import EmpleadoSerializer, LoginSerializer, OnboardingSerializer
 
 
 class LoginView(APIView):
@@ -70,6 +70,32 @@ class MeView(APIView):
                 "fecha_ingreso": user.fecha_ingreso,
                 "rol": user.rol,
                 "activo": user.activo,
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
+class OnboardingView(APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self, request: Request) -> Response:
+        serializer = OnboardingSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        empleado: Empleado = serializer.validated_data["empleado"]
+        password = serializer.validated_data["password"]
+
+        empleado.set_password(password)
+        empleado.save(update_fields=["password"])
+
+        login(request, empleado, backend="django.contrib.auth.backends.ModelBackend")
+
+        return Response(
+            {
+                "legajo": empleado.legajo,
+                "nombre": empleado.nombre,
+                "rol": empleado.rol,
+                "convenio": empleado.convenio.pk if empleado.convenio else None,
             },
             status=status.HTTP_200_OK,
         )
