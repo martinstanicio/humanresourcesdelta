@@ -11,35 +11,49 @@ export class AuthService {
   private readonly _endpoint = "/api/auth";
 
   public readonly currentUser = signal<User | null>(null);
+  public readonly isLoaded = signal<boolean>(false);
 
   login(dto: LoginDto): Observable<User> {
-    return this._http
-      .post<User>(`${this._endpoint}/login/`, dto)
-      .pipe(tap((user) => this.currentUser.set(user)));
+    return this._http.post<User>(`${this._endpoint}/login/`, dto).pipe(
+      tap((user) => {
+        this.currentUser.set(user);
+        this.isLoaded.set(true);
+      }),
+    );
   }
 
   onboarding(dto: OnboardingDto): Observable<User> {
-    return this._http
-      .post<User>(`${this._endpoint}/onboarding/`, dto)
-      .pipe(tap((user) => this.currentUser.set(user)));
+    return this._http.post<User>(`${this._endpoint}/onboarding/`, dto).pipe(
+      tap((user) => {
+        this.currentUser.set(user);
+        this.isLoaded.set(true);
+      }),
+    );
   }
 
   logout(): Observable<void> {
-    return this._http
-      .post<void>(`${this._endpoint}/logout/`, {})
-      .pipe(tap(() => this.currentUser.set(null)));
+    return this._http.post<void>(`${this._endpoint}/logout/`, {}).pipe(
+      tap(() => {
+        this.currentUser.set(null);
+        this.isLoaded.set(true);
+      }),
+    );
   }
 
   me(): Observable<User> {
-    return this._http
-      .get<User>(`${this._endpoint}/me/`)
-      .pipe(tap((user) => this.currentUser.set(user)));
+    return this._http.get<User>(`${this._endpoint}/me/`).pipe(
+      tap((user) => {
+        this.currentUser.set(user);
+        this.isLoaded.set(true);
+      }),
+    );
   }
 
   loadCurrentUser(): Observable<User | null> {
     return this.me().pipe(
       catchError(() => {
         this.currentUser.set(null);
+        this.isLoaded.set(true);
         return of(null);
       }),
     );
