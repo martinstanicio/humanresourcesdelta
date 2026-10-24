@@ -67,6 +67,27 @@ Utilizar el siguiente comando para detener los contenedores.
 docker compose down
 ```
 
+### Creación del primer empleado
+
+Para poder iniciar sesión en la aplicación, es necesario tener un usuario configurado en la base de datos.
+
+Una vez que la aplicación esté en funcionamiento, recursos humanos puede crear nuevos usuarios desde la interfaz gráfica, pero para crear el primero, es necesario utilizar el comando personalizado `createuser`:
+
+```sh
+docker compose exec <api-dev> uv run manage.py createuser
+```
+
+O para el entorno de producción:
+
+```sh
+docker compose exec <api-prod> uv run manage.py createuser
+```
+
+Desde la página de inicio de sesión el nuevo usuario deberá crear su contraseña para poder acceder a la aplicación.
+
+> [!tip]
+> Recursos humanos puede crear nuevos empleados directamente desde la interfaz web. Se recomienda crear un primer usuario con este rol, para eliminar la necesidad de volver a utilizar el comando `createuser`.
+
 ## 🌐 Acceso a la aplicación
 
 Una vez iniciados los contenedores, todo el tráfico del sistema se canaliza y unifica a través de **Nginx** en [http://localhost](http://localhost), que actúa como reverse proxy exponiendo el puerto **80**, el puerto estándar por defecto para servidores web HTTP (por esta razón, no es necesario especificar el número de puerto).
