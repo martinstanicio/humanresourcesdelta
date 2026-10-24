@@ -28,10 +28,13 @@ def validate_nombre(nombre: str) -> str:
 def complete_convenio(nombre: str) -> list[tuple[int, str]]:
     convenios = Convenio.objects.filter(activo=True, nombre__startswith=nombre)
 
-    return [(convenio.id, convenio.nombre) for convenio in convenios]
+    return [(convenio.pk, convenio.nombre) for convenio in convenios]
 
 
 def validate_convenio(convenio_id: int) -> int:
+    if convenio_id == 0:
+        return convenio_id
+
     if not Convenio.objects.filter(pk=convenio_id, activo=True).exists():
         raise typer.BadParameter(f"No existe un convenio activo con id {convenio_id}.")
 
@@ -44,58 +47,63 @@ class Command(TyperCommand):
     def handle(
         self,
         legajo: Annotated[
-            int | None,
+            int,
             typer.Option(
                 help="Número de legajo del empleado.",
                 prompt="Número de legajo",
                 confirmation_prompt=True,
                 callback=validate_legajo,
             ),
-        ] = None,
+        ],
         nombre: Annotated[
-            str | None,
+            str,
             typer.Option(
                 help="Nombre y apellido del empleado.",
                 prompt="Nombre y apellido",
                 callback=validate_nombre,
             ),
-        ] = None,
+        ],
         rol: Annotated[
-            RolEmpleado | None,
+            RolEmpleado,
             typer.Option(
                 help="Rol del empleado.",
                 prompt="Rol",
             ),
-        ] = None,
+        ],
         fecha_ingreso: Annotated[
-            datetime | None,
+            datetime,
             typer.Option(
                 help="Fecha de ingreso del empleado.",
                 prompt="Fecha de ingreso (YYYY-MM-DD)",
                 formats=["%Y-%m-%d"],
             ),
-        ] = None,
+        ],
         convenio: Annotated[
-            int | None,
+            int,
             typer.Option(
                 help="ID del convenio del empleado.",
-                prompt="ID del convenio",
+                prompt="ID del convenio (0 para omitir)",
                 autocompletion=complete_convenio,
                 callback=validate_convenio,
+                show_default=False,
             ),
-        ] = None,
+        ] = 0,
     ) -> None:
         is_superuser = rol == RolEmpleado.RECURSOS_HUMANOS.value
 
-        empleado = Empleado.objects.create_user(
-            legajo=legajo,
-            password=None,
-            nombre=nombre,
-            rol=rol,
-            fecha_ingreso=fecha_ingreso,
-            convenio_id=convenio,
-            is_superuser=is_superuser,
-        )
+        user = {
+            "legajo": legajo,
+            "password": None,
+            "nombre": nombre,
+            "rol": rol,
+            "fecha_ingreso": fecha_ingreso,
+            "is_superuser": is_superuser,
+        }
+
+        if convenio:
+            user["convenio_id"] = convenio
+
+        empleado = Empleado.objects.create_user(**user)
 
         self.stdout.write(
             self.style.SUCCESS(
