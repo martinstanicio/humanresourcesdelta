@@ -1,0 +1,16 @@
+services:
+  api:
+    command:
+      - sh
+      - -c
+      - |
+        uv run manage.py migrate
+        uv run manage.py collectstatic --noinput
+        exec uv run gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
+    environment:
+      ENVIRONMENT: prod
+
+  client:
+    command: npm run start -- --host 0.0.0.0 --configuration production
+    environment:
+      ENVIRONMENT: prod

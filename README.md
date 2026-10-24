@@ -30,42 +30,33 @@ El primer paso es clonar el repositorio y acceder a la carpeta del proyecto.
 git clone https://github.com/martinstanicio/humanresourcesdelta.git
 ```
 
-Antes de poder ejecutar el proyecto, es necesario configurar las **variables de entorno**. Comenzá copiando la plantilla `.env.example` a un nuevo archivo `.env`. En este archivo se deben configurar las credenciales deseadas para la base de datos (`DB_NAME`, `DB_USER`, `DB_PASSWORD`) y la aplicación de Django (`DJANGO_SECRET_KEY`). Además, se puede definir el **entorno de ejecución** (`ENVIRONMENT`).
+Antes de poder ejecutar el proyecto, es necesario configurar las **variables de entorno**. Comenzá copiando la plantilla `.env.example` a un nuevo archivo `.env`. En este archivo se deben configurar las credenciales deseadas para la base de datos (`DB_NAME`, `DB_USER`, `DB_PASSWORD`) y la aplicación de Django (`DJANGO_SECRET_KEY`).
 
-> [!important]
-> El proyecto usa perfiles de Docker Compose para seleccionar el modo de ejecución.
->
-> - Con `ENVIRONMENT=dev` se ejecuta el entorno de desarrollo, ideal para desarrollo local.
-> - Con `ENVIRONMENT=prod` se ejecuta el entorno de producción, que es más seguro y estable.
-
-Para ejecutar el proyecto, basta con levantar los contenedores de Docker con el siguiente comando.
+Para ejecutar el proyecto, se puede utilizar el siguiente comando, que levantará todos los servicios definidos en `docker-compose.yml` y `docker-compose.override.yml`:
 
 ```sh
 docker compose up
 ```
 
-> [!note]
-> Las migraciones de la base de datos se aplican automáticamente al iniciar los contenedores.
->
-> Si se generan nuevas migraciones y se desea aplicarlas sin detener los contenedores, se puede ejecutar el siguiente comando:
+> [!important]
+> Para desplegar el proyecto en un entorno de producción, se debe utilizar `docker-compose.prod.yml` en lugar de `docker-compose.override.yml`, seleccionando explicitamente los archivos.
 >
 > ```sh
-> docker compose exec <api-dev> uv run manage.py migrate
+> docker compose -f docker-compose.yml -f docker-compose.prod.yml up
 > ```
->
-> O para el entorno de producción:
->
-> ```sh
-> docker compose exec <api-prod> uv run manage.py migrate
-> ```
->
-> Donde `<api-dev>` y `<api-prod>` son los nombres de los contenedores, usualmente `api-dev-1` y `api-prod-1`, o `humanresourcesdelta-api-dev-1` y `humanresourcesdelta-api-prod-1`.
 
-Utilizar el siguiente comando para detener los contenedores.
+Las migraciones de la base de datos se aplican automáticamente al iniciar los contenedores. Si se generan nuevas migraciones y se desea aplicarlas sin detener los contenedores, se puede ejecutar el siguiente comando:
 
 ```sh
-docker compose down
+docker compose exec humanresourcesdelta-api uv run manage.py migrate
 ```
+
+> [!note]
+> Utilizar el siguiente comando para detener los contenedores.
+>
+> ```sh
+> docker compose down
+> ```
 
 ### Creación del primer empleado
 
@@ -74,13 +65,7 @@ Para poder iniciar sesión en la aplicación, es necesario tener un usuario conf
 Una vez que la aplicación esté en funcionamiento, recursos humanos puede crear nuevos usuarios desde la interfaz gráfica, pero para crear el primero, es necesario utilizar el comando personalizado `createuser`:
 
 ```sh
-docker compose exec <api-dev> uv run manage.py createuser
-```
-
-O para el entorno de producción:
-
-```sh
-docker compose exec <api-prod> uv run manage.py createuser
+docker compose exec humanresourcesdelta-api uv run manage.py createuser
 ```
 
 Desde la página de inicio de sesión el nuevo usuario deberá crear su contraseña para poder acceder a la aplicación.

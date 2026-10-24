@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("ENVIRONMENT") == "dev"
+DEBUG = os.environ.get("ENVIRONMENT", "dev") == "dev"
 
 ALLOWED_HOSTS = ["localhost", "0.0.0.0"]
 
@@ -86,7 +86,7 @@ DATABASES = {
         "NAME": os.environ.get("DB_NAME"),
         "USER": os.environ.get("DB_USER"),
         "PASSWORD": os.environ.get("DB_PASSWORD"),
-        "HOST": os.environ.get("DB_HOST", "db"),
+        "HOST": os.environ.get("DB_HOST"),
         "PORT": os.environ.get("DB_PORT", "5432"),
     }
 }

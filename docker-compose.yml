@@ -1,80 +1,44 @@
-x-api-base: &api-base
-  build:
-    context: ./api
-  env_file:
-    - .env
-  depends_on:
-    db:
-      condition: service_healthy
-  networks:
-    default:
-      aliases:
-        - api
-
-x-api-env: &api-env
-  DB_HOST: "db"
-
-x-client-base: &client-base
-  build:
-    context: ./client
-  networks:
-    default:
-      aliases:
-        - client
-
 services:
-  db:
-    image: postgres:18
+  api:
+    build:
+      context: ./api
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      DB_HOST: "db"
+    image: humanresourcesdelta-api
     restart: unless-stopped
+
+  client:
+    build:
+      context: ./client
+    image: humanresourcesdelta-client
+    restart: unless-stopped
+
+  db:
     environment:
       POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-    volumes:
-      - data:/var/lib/postgresql
+      POSTGRES_USER: ${DB_USER}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 10s
-      timeout: 5s
       retries: 5
       start_period: 10s
-
-  api-dev:
-    <<: *api-base
-    environment:
-      <<: *api-env
-      ENVIRONMENT: "dev"
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      timeout: 5s
+    image: postgres:18
+    restart: unless-stopped
     volumes:
-      - ./api:/api
-    profiles: [dev]
-
-  api-prod:
-    <<: *api-base
-    environment:
-      <<: *api-env
-      ENVIRONMENT: "prod"
-    profiles: [prod]
-
-  client-dev:
-    <<: *client-base
-    environment:
-      ENVIRONMENT: "dev"
-    volumes:
-      - ./client:/client
-      - /client/node_modules
-    profiles: [dev]
-
-  client-prod:
-    <<: *client-base
-    environment:
-      ENVIRONMENT: "prod"
-    profiles: [prod]
+      - data:/var/lib/postgresql
 
   nginx:
     image: nginx:alpine
-    restart: unless-stopped
     ports:
       - "80:80"
+    restart: unless-stopped
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
 

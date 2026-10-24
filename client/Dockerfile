@@ -8,5 +8,3 @@ RUN npm ci
 COPY . .
 
 EXPOSE 4200
-
-ENTRYPOINT ["/bin/sh", "entrypoint.sh"]
