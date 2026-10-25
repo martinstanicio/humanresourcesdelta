@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.db import models
 
 from horas_extras.models import EstadoNotificacionHorasExtras
@@ -33,7 +35,7 @@ class Reporte(models.Model):
     def __str__(self) -> str:
         return f"Reporte {self.empleado} ({self.fecha_inicio} a {self.fecha_fin})"
 
-    def calcular_horas_extras(self) -> dict[str, float]:
+    def calcular_horas_extras(self) -> dict[str, Any]:
         notificaciones = self.empleado.notificaciones_horas_extras.filter(
             fecha_inicio__date__gte=self.fecha_inicio,
             fecha_fin__date__lte=self.fecha_fin,
@@ -45,8 +47,10 @@ class Reporte(models.Model):
             tipo = notif.hora_extra.tipo
             desglose[tipo] = round(desglose.get(tipo, 0.0) + notif.horas, 2)
 
-        desglose["total"] = round(sum(desglose.values()), 2)
-        return desglose
+        return {
+            "desglose": desglose,
+            "total_horas_reloj": round(sum(desglose.values()), 2),
+        }
 
     def calcular_licencias(self) -> dict[str, int]:
         solicitudes = self.empleado.solicitudes_licencia.filter(
