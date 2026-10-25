@@ -21,59 +21,12 @@
     </hlm-sidebar-header>
 
     <hlm-sidebar-content>
-      <ul hlmSidebarMenu>
-        @for (item of navigation; track item.href) {
-          <li hlmSidebarMenuItem>
-            <a
-              hlmSidebarMenuButton
-              [routerLink]="item.href"
-              routerLinkActive="bg-sidebar-accent text-sidebar-accent-foreground font-medium"
-            >
-              <ng-icon [svg]="item.icon" />
-              <span>{{ item.title }}</span>
-            </a>
-          </li>
-        }
-      </ul>
+      <app-navigation />
     </hlm-sidebar-content>
 
     <hlm-sidebar-footer>
       <app-theme-toggle />
-      <ul hlmSidebarMenu>
-        <li hlmSidebarMenuItem>
-          <a
-            hlmSidebarMenuButton
-            size="lg"
-            routerLink="/me"
-            class="flex items-center gap-2"
-          >
-            <hlm-avatar class="size-8 rounded-lg">
-              <span
-                class="rounded-lg bg-primary text-xs font-semibold text-primary-foreground"
-                hlmAvatarFallback
-              >
-                {{ initials() }}
-              </span>
-            </hlm-avatar>
-            <div class="grid flex-1 text-left text-sm leading-tight">
-              <span class="truncate font-medium">{{ userDisplayName() }}</span>
-              <span class="truncate text-xs text-muted-foreground">{{
-                userRoleName()
-              }}</span>
-            </div>
-          </a>
-        </li>
-        <li hlmSidebarMenuItem>
-          <button
-            hlmSidebarMenuButton
-            (click)="logout()"
-            class="w-full cursor-pointer justify-start text-destructive hover:text-destructive"
-          >
-            <ng-icon name="lucideLogOut" />
-            <span>Cerrar sesión</span>
-          </button>
-        </li>
-      </ul>
+      <app-user />
     </hlm-sidebar-footer>
   </hlm-sidebar>
   <ng-content />

@@ -1,0 +1,77 @@
+@let u = currentUser();
+<ul hlmSidebarMenu>
+  <li hlmSidebarMenuItem>
+    <button
+      hlmSidebarMenuButton
+      size="lg"
+      [hlmDropdownMenuTrigger]="menu"
+      [side]="_menuSide()"
+      align="end"
+    >
+      <hlm-avatar class="size-8 rounded-lg">
+        <span
+          class="rounded-lg bg-primary text-xs font-semibold text-primary-foreground"
+          hlmAvatarFallback
+        >
+          {{ initials() }}
+        </span>
+      </hlm-avatar>
+      <div class="grid flex-1 text-left text-sm leading-tight">
+        <span class="truncate font-medium">{{ userName() }}</span>
+        <span class="truncate text-xs text-muted-foreground">{{
+          userRoleName()
+        }}</span>
+      </div>
+      <ng-icon name="lucideChevronsUpDown" class="ml-auto text-base" />
+    </button>
+  </li>
+</ul>
+
+<ng-template #menu>
+  <hlm-dropdown-menu class="min-w-56 rounded-lg">
+    <hlm-dropdown-menu-label class="p-0 font-normal text-foreground">
+      <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+        <hlm-avatar class="size-8 rounded-lg">
+          <span
+            class="rounded-lg bg-primary text-xs font-semibold text-primary-foreground"
+            hlmAvatarFallback
+          >
+            {{ initials() }}
+          </span>
+        </hlm-avatar>
+        <div class="grid flex-1 text-left text-sm leading-tight">
+          <span class="truncate font-semibold"
+            >{{ userName() }} (#{{ u?.legajo }})</span
+          >
+          @if (userRoleName()) {
+            <span class="truncate text-xs text-muted-foreground">{{
+              userRoleName()
+            }}</span>
+          }
+        </div>
+      </div>
+    </hlm-dropdown-menu-label>
+    <hlm-dropdown-menu-separator />
+    <hlm-dropdown-menu-group>
+      <a
+        hlmDropdownMenuItem
+        routerLink="/me"
+        (click)="onNavigateProfile()"
+        class="cursor-pointer"
+      >
+        <ng-icon name="lucideUser" />
+        <span>Mi perfil</span>
+      </a>
+    </hlm-dropdown-menu-group>
+    <hlm-dropdown-menu-separator />
+    <button
+      hlmDropdownMenuItem
+      variant="destructive"
+      (click)="logout()"
+      class="cursor-pointer"
+    >
+      <ng-icon name="lucideLogOut" />
+      <span>Cerrar sesión</span>
+    </button>
+  </hlm-dropdown-menu>
+</ng-template>
