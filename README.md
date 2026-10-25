@@ -48,7 +48,7 @@ docker compose up
 Las migraciones de la base de datos se aplican automáticamente al iniciar los contenedores. Si se generan nuevas migraciones y se desea aplicarlas sin detener los contenedores, se puede ejecutar el siguiente comando:
 
 ```sh
-docker compose exec humanresourcesdelta-api uv run manage.py migrate
+docker compose exec api uv run manage.py migrate
 ```
 
 > [!note]
@@ -65,7 +65,7 @@ Para poder iniciar sesión en la aplicación, es necesario tener un usuario conf
 Una vez que la aplicación esté en funcionamiento, recursos humanos puede crear nuevos usuarios desde la interfaz gráfica, pero para crear el primero, es necesario utilizar el comando personalizado `createuser`:
 
 ```sh
-docker compose exec humanresourcesdelta-api uv run manage.py createuser
+docker compose exec api uv run manage.py createuser
 ```
 
 Desde la página de inicio de sesión el nuevo usuario deberá crear su contraseña para poder acceder a la aplicación.
