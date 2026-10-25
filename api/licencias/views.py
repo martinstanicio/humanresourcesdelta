@@ -1,3 +1,4 @@
+from datetime import date
 from uuid import UUID
 
 from django.db import transaction
@@ -245,6 +246,30 @@ class SolicitudLicenciaListCreateView(APIView):
             context={"request": request},
         )
         serializer.is_valid(raise_exception=True)
+
+        user = request.user
+        if isinstance(user, Empleado):
+            fecha_inicio: date = serializer.validated_data["fecha_inicio"]
+            fecha_fin: date = serializer.validated_data["fecha_fin"]
+
+            superpuesta = SolicitudLicencia.objects.filter(
+                empleado=user,
+                estado__in=[
+                    EstadoSolicitudLicencia.PENDIENTE,
+                    EstadoSolicitudLicencia.APROBADA,
+                ],
+                fecha_inicio__lte=fecha_fin,
+                fecha_fin__gte=fecha_inicio,
+            ).exists()
+
+            if superpuesta:
+                return Response(
+                    {
+                        "detail": "El rango de fechas seleccionado se superpone con otra solicitud existente."
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
