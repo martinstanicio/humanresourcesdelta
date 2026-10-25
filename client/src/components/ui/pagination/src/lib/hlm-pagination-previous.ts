@@ -1,4 +1,3 @@
-import { HlmPaginationLink } from "./hlm-pagination-link";
 import type { BooleanInput } from "@angular/cdk/coercion";
 import {
   booleanAttribute,
@@ -13,6 +12,8 @@ import { lucideChevronLeft } from "@ng-icons/lucide";
 import type { ButtonVariants } from "@spartan-ng/helm/button";
 import { hlm } from "@spartan-ng/helm/utils";
 import type { ClassValue } from "clsx";
+
+import { HlmPaginationLink } from "./hlm-pagination-link";
 
 @Component({
   selector: "hlm-pagination-previous",

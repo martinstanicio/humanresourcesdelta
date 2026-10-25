@@ -1,4 +1,3 @@
-import { HlmSwitchThumb } from "./hlm-switch-thumb";
 import type { BooleanInput } from "@angular/cdk/coercion";
 import {
   booleanAttribute,
@@ -15,6 +14,8 @@ import type { ChangeFn, TouchFn } from "@spartan-ng/brain/forms";
 import { BrnSwitch, type BrnSwitchSize } from "@spartan-ng/brain/switch";
 import { hlm } from "@spartan-ng/helm/utils";
 import type { ClassValue } from "clsx";
+
+import { HlmSwitchThumb } from "./hlm-switch-thumb";
 
 export const HLM_SWITCH_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,

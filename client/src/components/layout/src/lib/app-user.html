@@ -5,9 +5,9 @@
       type="button"
       hlmSidebarMenuButton
       size="lg"
+      align="end"
       [hlmDropdownMenuTrigger]="menu"
       [side]="_menuSide()"
-      align="end"
     >
       <hlm-avatar class="size-8 rounded-lg">
         <span
@@ -57,8 +57,8 @@
       <a
         hlmDropdownMenuItem
         routerLink="/me"
-        (click)="onNavigateProfile()"
         class="cursor-pointer"
+        (click)="onNavigateProfile()"
       >
         <ng-icon name="lucideUser" />
         <span>Mi perfil</span>
@@ -69,8 +69,8 @@
       type="button"
       hlmDropdownMenuItem
       variant="destructive"
-      (click)="logout()"
       class="cursor-pointer"
+      (click)="logout()"
     >
       <ng-icon name="lucideLogOut" />
       <span>Cerrar sesión</span>

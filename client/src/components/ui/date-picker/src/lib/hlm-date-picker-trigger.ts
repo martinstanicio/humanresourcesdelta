@@ -26,21 +26,24 @@ import { ClassValue } from "clsx";
 @Component({
   selector: "hlm-date-picker-trigger",
   imports: [
+    BrnFieldControlDescribedBy,
     HlmButtonImports,
     HlmPopoverTrigger,
     NgIcon,
-    BrnFieldControlDescribedBy,
   ],
   providers: [
-    provideIcons({ lucideChevronDown }),
     provideBrnDatePickerTrigger(HlmDatePickerTrigger),
+    provideIcons({ lucideChevronDown }),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { "data-slot": "date-picker-trigger" },
   template: `
     <button
-      [id]="buttonId()"
       type="button"
+      hlmBtn
+      hlmPopoverTrigger
+      brnFieldControlDescribedBy
+      [id]="buttonId()"
       [class]="_computedClass()"
       [disabled]="_disabled()"
       [attr.aria-invalid]="_ariaInvalid()"
@@ -48,11 +51,8 @@ import { ClassValue } from "clsx";
       [attr.data-touched]="_touched?.() ? 'true' : null"
       [attr.data-dirty]="_dirty?.() ? 'true' : null"
       [attr.data-matches-spartan-invalid]="_spartanInvalid() ? 'true' : null"
-      hlmBtn
       [variant]="variant()"
-      hlmPopoverTrigger
       [hlmPopoverTriggerFor]="_popover()"
-      brnFieldControlDescribedBy
       [attr.data-placeholder]="_isPlaceholder() ? '' : null"
     >
       <span class="truncate">

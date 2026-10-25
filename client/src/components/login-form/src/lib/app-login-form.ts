@@ -1,4 +1,3 @@
-import { AuthService } from "@/services/auth.service";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,15 +11,17 @@ import { HlmCardImports } from "@spartan-ng/helm/card";
 import { HlmFieldImports } from "@spartan-ng/helm/field";
 import { HlmInputImports } from "@spartan-ng/helm/input";
 
+import { AuthService } from "@/services/auth.service";
+
 @Component({
   selector: "app-login-form",
   imports: [
     FormsModule,
-    RouterLink,
+    HlmButtonImports,
     HlmCardImports,
     HlmFieldImports,
     HlmInputImports,
-    HlmButtonImports,
+    RouterLink,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./app-login-form.html",

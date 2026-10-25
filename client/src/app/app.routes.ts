@@ -1,8 +1,10 @@
-import { Login } from "./login/login";
-import { Onboarding } from "./onboarding/onboarding";
+import { Routes } from "@angular/router";
+
 import { AppLayout } from "@/components/layout";
 import { authChildGuard, authGuard, guestGuard } from "@/guards/auth.guard";
-import { Routes } from "@angular/router";
+
+import { Login } from "./login/login";
+import { Onboarding } from "./onboarding/onboarding";
 
 export const routes: Routes = [
   {

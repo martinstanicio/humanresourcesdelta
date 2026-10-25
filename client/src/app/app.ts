@@ -1,6 +1,7 @@
-import { AppThemeToggleService } from "@/components/theme-toggle";
 import { Component, inject } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
+
+import { AppThemeToggleService } from "@/components/theme-toggle";
 
 @Component({
   imports: [RouterOutlet],

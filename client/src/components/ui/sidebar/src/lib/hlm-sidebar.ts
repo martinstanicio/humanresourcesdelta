@@ -1,5 +1,3 @@
-import { HlmSidebarService, type SidebarVariant } from "./hlm-sidebar.service";
-import { injectHlmSidebarConfig } from "./hlm-sidebar.token";
 import { NgTemplateOutlet } from "@angular/common";
 import {
   ChangeDetectionStrategy,
@@ -13,9 +11,12 @@ import { HlmSheetImports } from "@spartan-ng/helm/sheet";
 import { classes, hlm } from "@spartan-ng/helm/utils";
 import type { ClassValue } from "clsx";
 
+import { HlmSidebarService, type SidebarVariant } from "./hlm-sidebar.service";
+import { injectHlmSidebarConfig } from "./hlm-sidebar.token";
+
 @Component({
   selector: "hlm-sidebar",
-  imports: [NgTemplateOutlet, HlmSheetImports],
+  imports: [HlmSheetImports, NgTemplateOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     "[attr.data-slot]": "_dataSlot()",

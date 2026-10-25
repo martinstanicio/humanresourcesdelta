@@ -22,10 +22,10 @@ import { classes, hlm } from "@spartan-ng/helm/utils";
   selector: "hlm-calendar-multi",
   imports: [
     BrnCalendarImports,
+    HlmButtonImports,
+    HlmSelectImports,
     NgIcon,
     NgTemplateOutlet,
-    HlmSelectImports,
-    HlmButtonImports,
   ],
   viewProviders: [provideIcons({ lucideChevronLeft, lucideChevronRight })],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,8 +1,9 @@
-import { HlmSidebarService } from "./hlm-sidebar.service";
-import { injectHlmSidebarConfig } from "./hlm-sidebar.token";
 import { type BooleanInput } from "@angular/cdk/coercion";
 import { booleanAttribute, Directive, inject, input } from "@angular/core";
 import { classes } from "@spartan-ng/helm/utils";
+
+import { HlmSidebarService } from "./hlm-sidebar.service";
+import { injectHlmSidebarConfig } from "./hlm-sidebar.token";
 
 @Directive({
   selector: "a[hlmSidebarMenuSubButton], button[hlmSidebarMenuSubButton]",

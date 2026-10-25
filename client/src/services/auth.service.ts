@@ -1,7 +1,8 @@
-import { LoginDto, OnboardingDto, User } from "@/models/auth.model";
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable, signal } from "@angular/core";
 import { catchError, Observable, of, tap } from "rxjs";
+
+import { LoginDto, OnboardingDto, User } from "@/models/auth.model";
 
 @Injectable({
   providedIn: "root",

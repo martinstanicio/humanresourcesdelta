@@ -11,12 +11,12 @@ import { HlmMonthYearPicker } from "./lib/hlm-month-year-picker";
 
 export * from "./lib/hlm-date-multi-input";
 export * from "./lib/hlm-date-picker";
+export * from "./lib/hlm-date-picker.token";
 export * from "./lib/hlm-date-picker-anchor";
 export * from "./lib/hlm-date-picker-input";
 export * from "./lib/hlm-date-picker-multi";
 export * from "./lib/hlm-date-picker-multi.token";
 export * from "./lib/hlm-date-picker-trigger";
-export * from "./lib/hlm-date-picker.token";
 export * from "./lib/hlm-date-range-input";
 export * from "./lib/hlm-date-range-picker";
 export * from "./lib/hlm-date-range-picker.token";

@@ -15,7 +15,7 @@ import type { ClassValue } from "clsx";
 
 @Component({
   selector: "hlm-select-trigger",
-  imports: [NgIcon, BrnSelectTrigger, BrnFieldControlDescribedBy],
+  imports: [BrnFieldControlDescribedBy, BrnSelectTrigger, NgIcon],
   providers: [provideIcons({ lucideChevronDown })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -23,12 +23,12 @@ import type { ClassValue } from "clsx";
       type="button"
       brnSelectTrigger
       brnFieldControlDescribedBy
+      data-slot="select-trigger"
       [forceInvalid]="forceInvalid()"
       [id]="buttonId()"
       [class]="_computedClass()"
       [aria-invalid]="ariaInvalidInput()"
       [attr.data-size]="size()"
-      data-slot="select-trigger"
     >
       <ng-content />
       <ng-icon

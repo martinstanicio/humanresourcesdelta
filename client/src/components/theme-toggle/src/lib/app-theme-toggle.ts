@@ -1,12 +1,13 @@
-import { ThemeMode, AppThemeToggleService } from "./app-theme-toggle.service";
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { NgIcon, provideIcons } from "@ng-icons/core";
 import { lucideMonitor, lucideMoon, lucideSun } from "@ng-icons/lucide";
 import { HlmTooltipImports } from "@spartan-ng/helm/tooltip";
 
+import { AppThemeToggleService, ThemeMode } from "./app-theme-toggle.service";
+
 @Component({
   selector: "app-theme-toggle",
-  imports: [NgIcon, HlmTooltipImports],
+  imports: [HlmTooltipImports, NgIcon],
   providers: [provideIcons({ lucideSun, lucideMoon, lucideMonitor })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

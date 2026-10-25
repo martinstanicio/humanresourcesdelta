@@ -1,5 +1,3 @@
-import { navigation, NavigationItem } from "@/lib/navigation";
-import { AuthService } from "@/services/auth.service";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,6 +8,9 @@ import {
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { NgIcon } from "@ng-icons/core";
 import { HlmSidebarImports } from "@spartan-ng/helm/sidebar";
+
+import { navigation, NavigationItem } from "@/lib/navigation";
+import { AuthService } from "@/services/auth.service";
 
 @Component({
   selector: "app-navigation",

@@ -1,4 +1,3 @@
-import { injectHlmDatePickerMultiConfig } from "./hlm-date-picker-multi.token";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,6 +17,8 @@ import {
   HlmInputGroup,
   HlmInputGroupImports,
 } from "@spartan-ng/helm/input-group";
+
+import { injectHlmDatePickerMultiConfig } from "./hlm-date-picker-multi.token";
 
 @Component({
   selector: "hlm-date-multi-input",
@@ -57,8 +58,8 @@ import {
           size="icon-xs"
           variant="ghost"
           [attr.aria-label]="clearAriaLabel()"
-          (click)="_clear()"
           [disabled]="_disabled()"
+          (click)="_clear()"
         >
           <ng-icon name="lucideX" />
         </button>
@@ -68,8 +69,8 @@ import {
         hlmInputGroupButton
         size="icon-xs"
         [attr.aria-label]="calendarAriaLabel()"
-        (click)="_popover().open()"
         [disabled]="_disabled()"
+        (click)="_popover().open()"
       >
         <ng-icon name="lucideCalendar" />
       </button>

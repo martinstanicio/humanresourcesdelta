@@ -38,9 +38,10 @@
     "@spartan-ng/cli": "^1.6.3",
     "@spartan-ng/mcp": "^1.8.2",
     "@tailwindcss/postcss": "^4.1.12",
-    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "angular-eslint": "22.6.0",
     "eslint": "^10.12.0",
+    "eslint-plugin-ng-module-sort": "^1.4.0",
+    "eslint-plugin-simple-import-sort": "^14.0.0",
     "jsdom": "^28.0.0",
     "postcss": "^8.5.3",
     "prettier": "^3.8.1",
@@ -50,5 +51,10 @@
     "typescript": "~6.0.2",
     "typescript-eslint": "8.71.0",
     "vitest": "^4.0.8"
+  },
+  "overrides": {
+    "eslint-plugin-ng-module-sort": {
+      "@typescript-eslint/utils": "$typescript-eslint"
+    }
   }
 }

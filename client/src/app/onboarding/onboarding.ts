@@ -1,6 +1,7 @@
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+
 import { AppOnboardingForm } from "@/components/onboarding-form";
 import { AppThemeToggle } from "@/components/theme-toggle";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
 
 @Component({
   selector: "app-onboarding",

@@ -1,6 +1,7 @@
-import { injectHlmSidebarConfig } from "./hlm-sidebar.token";
 import { Directive, input } from "@angular/core";
 import { classes } from "@spartan-ng/helm/utils";
+
+import { injectHlmSidebarConfig } from "./hlm-sidebar.token";
 
 @Directive({
   selector: "[hlmSidebarWrapper],hlm-sidebar-wrapper",

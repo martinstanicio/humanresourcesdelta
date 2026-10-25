@@ -1,4 +1,3 @@
-import { injectHlmDatePickerMultiConfig } from "./hlm-date-picker-multi.token";
 import type { BooleanInput, NumberInput } from "@angular/cdk/coercion";
 import {
   booleanAttribute,
@@ -27,6 +26,8 @@ import { BrnPopover, type BrnPopoverAlign } from "@spartan-ng/brain/popover";
 import { HlmCalendarMulti } from "@spartan-ng/helm/calendar";
 import { HlmPopoverImports } from "@spartan-ng/helm/popover";
 
+import { injectHlmDatePickerMultiConfig } from "./hlm-date-picker-multi.token";
+
 export const HLM_DATE_PICKER_MULTI_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => HlmDatePickerMulti),
@@ -35,7 +36,7 @@ export const HLM_DATE_PICKER_MULTI_VALUE_ACCESSOR = {
 
 @Component({
   selector: "hlm-date-picker-multi",
-  imports: [HlmPopoverImports, HlmCalendarMulti],
+  imports: [HlmCalendarMulti, HlmPopoverImports],
   providers: [
     HLM_DATE_PICKER_MULTI_VALUE_ACCESSOR,
     provideBrnDatePicker(HlmDatePickerMulti),
@@ -46,14 +47,14 @@ export const HLM_DATE_PICKER_MULTI_VALUE_ACCESSOR = {
   host: { class: "block" },
   template: `
     <hlm-popover
-      [align]="align()"
       sideOffset="5"
+      [align]="align()"
       [state]="_popoverState()"
       (stateChanged)="_onStateChange($event)"
     >
       <ng-content />
 
-      <hlm-popover-content class="w-fit p-0" *hlmPopoverPortal="let ctx">
+      <hlm-popover-content *hlmPopoverPortal="let ctx" class="w-fit p-0">
         <ng-content select="[hlmDatePickerHeader]" />
         <hlm-calendar-multi
           class="rounded-none border-0"

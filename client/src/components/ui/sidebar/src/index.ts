@@ -23,6 +23,8 @@ import { HlmSidebarTrigger } from "./lib/hlm-sidebar-trigger";
 import { HlmSidebarWrapper } from "./lib/hlm-sidebar-wrapper";
 
 export * from "./lib/hlm-sidebar";
+export * from "./lib/hlm-sidebar.service";
+export * from "./lib/hlm-sidebar.token";
 export * from "./lib/hlm-sidebar-content";
 export * from "./lib/hlm-sidebar-footer";
 export * from "./lib/hlm-sidebar-group";
@@ -45,8 +47,6 @@ export * from "./lib/hlm-sidebar-rail";
 export * from "./lib/hlm-sidebar-separator";
 export * from "./lib/hlm-sidebar-trigger";
 export * from "./lib/hlm-sidebar-wrapper";
-export * from "./lib/hlm-sidebar.service";
-export * from "./lib/hlm-sidebar.token";
 
 export const HlmSidebarImports = [
   HlmSidebar,

@@ -1,4 +1,3 @@
-import { navigation } from "@/lib/navigation";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,6 +8,8 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { NavigationEnd, Router } from "@angular/router";
 import { HlmBreadcrumbImports } from "@spartan-ng/helm/breadcrumb";
 import { filter, map } from "rxjs/operators";
+
+import { navigation } from "@/lib/navigation";
 
 @Component({
   selector: "app-breadcrumbs",

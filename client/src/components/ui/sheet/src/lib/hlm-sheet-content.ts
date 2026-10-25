@@ -1,4 +1,3 @@
-import { HlmSheetClose } from "./hlm-sheet-close";
 import type { BooleanInput } from "@angular/cdk/coercion";
 import {
   booleanAttribute,
@@ -19,6 +18,8 @@ import {
 } from "@spartan-ng/brain/core";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { classes } from "@spartan-ng/helm/utils";
+
+import { HlmSheetClose } from "./hlm-sheet-close";
 
 @Component({
   selector: "hlm-sheet-content",

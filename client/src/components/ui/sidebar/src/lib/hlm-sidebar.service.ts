@@ -1,4 +1,3 @@
-import { injectHlmSidebarConfig } from "./hlm-sidebar.token";
 import { isPlatformServer } from "@angular/common";
 import {
   afterNextRender,
@@ -12,6 +11,8 @@ import {
   type Signal,
   signal,
 } from "@angular/core";
+
+import { injectHlmSidebarConfig } from "./hlm-sidebar.token";
 
 export type SidebarVariant = "sidebar" | "floating" | "inset";
 

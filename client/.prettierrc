@@ -1,5 +1,4 @@
 {
-  "importOrderParserPlugins": ["typescript", "decorators-legacy"],
   "overrides": [
     {
       "files": "*.html",
@@ -8,10 +7,7 @@
       }
     }
   ],
-  "plugins": [
-    "@trivago/prettier-plugin-sort-imports",
-    "prettier-plugin-tailwindcss"
-  ],
+  "plugins": ["prettier-plugin-tailwindcss"],
   "tailwindFunctions": ["hlm", "cva", "classes"],
   "tailwindStylesheet": "./src/styles.css"
 }

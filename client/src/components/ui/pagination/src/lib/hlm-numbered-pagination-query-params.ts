@@ -1,14 +1,3 @@
-import {
-  createPageArray,
-  outOfBoundCorrection,
-} from "./hlm-numbered-pagination";
-import { HlmPagination } from "./hlm-pagination";
-import { HlmPaginationContent } from "./hlm-pagination-content";
-import { HlmPaginationEllipsis } from "./hlm-pagination-ellipsis";
-import { HlmPaginationItem } from "./hlm-pagination-item";
-import { HlmPaginationLink } from "./hlm-pagination-link";
-import { HlmPaginationNext } from "./hlm-pagination-next";
-import { HlmPaginationPrevious } from "./hlm-pagination-previous";
 import type { BooleanInput, NumberInput } from "@angular/cdk/coercion";
 import {
   booleanAttribute,
@@ -23,16 +12,28 @@ import {
 import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { classes } from "@spartan-ng/helm/utils";
 
+import {
+  createPageArray,
+  outOfBoundCorrection,
+} from "./hlm-numbered-pagination";
+import { HlmPagination } from "./hlm-pagination";
+import { HlmPaginationContent } from "./hlm-pagination-content";
+import { HlmPaginationEllipsis } from "./hlm-pagination-ellipsis";
+import { HlmPaginationItem } from "./hlm-pagination-item";
+import { HlmPaginationLink } from "./hlm-pagination-link";
+import { HlmPaginationNext } from "./hlm-pagination-next";
+import { HlmPaginationPrevious } from "./hlm-pagination-previous";
+
 @Component({
   selector: "hlm-numbered-pagination-query-params",
   imports: [
     HlmPagination,
     HlmPaginationContent,
-    HlmPaginationItem,
-    HlmPaginationPrevious,
-    HlmPaginationNext,
-    HlmPaginationLink,
     HlmPaginationEllipsis,
+    HlmPaginationItem,
+    HlmPaginationLink,
+    HlmPaginationNext,
+    HlmPaginationPrevious,
     HlmSelectImports,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,9 +50,9 @@ import { classes } from "@spartan-ng/helm/utils";
         @if (showEdges() && !_isFirstPageActive()) {
           <li hlmPaginationItem>
             <hlm-pagination-previous
+              queryParamsHandling="merge"
               [link]="link()"
               [queryParams]="{ page: currentPage() - 1 }"
-              queryParamsHandling="merge"
             />
           </li>
         }
@@ -63,9 +64,9 @@ import { classes } from "@spartan-ng/helm/utils";
             } @else {
               <a
                 hlmPaginationLink
+                queryParamsHandling="merge"
                 [link]="currentPage() !== page ? link() : undefined"
                 [queryParams]="{ page }"
-                queryParamsHandling="merge"
                 [isActive]="currentPage() === page"
               >
                 {{ page }}
@@ -77,9 +78,9 @@ import { classes } from "@spartan-ng/helm/utils";
         @if (showEdges() && !_isLastPageActive()) {
           <li hlmPaginationItem>
             <hlm-pagination-next
+              queryParamsHandling="merge"
               [link]="link()"
               [queryParams]="{ page: currentPage() + 1 }"
-              queryParamsHandling="merge"
             />
           </li>
         }
@@ -87,7 +88,7 @@ import { classes } from "@spartan-ng/helm/utils";
     </nav>
 
     <!-- Show Page Size selector -->
-    <hlm-select [(value)]="itemsPerPage" class="ml-auto">
+    <hlm-select class="ml-auto" [(value)]="itemsPerPage">
       <hlm-select-trigger class="w-fit">
         <hlm-select-value />
       </hlm-select-trigger>

@@ -1,5 +1,6 @@
+import { inject, InjectionToken, type ValueProvider } from "@angular/core";
+
 import type { ButtonVariants } from "./hlm-button";
-import { InjectionToken, type ValueProvider, inject } from "@angular/core";
 
 export type BrnButtonConfig = {
   variant: ButtonVariants["variant"];

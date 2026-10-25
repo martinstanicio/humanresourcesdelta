@@ -1,12 +1,13 @@
-import { HlmDropdownMenuFocusOnHover } from "./hlm-dropdown-menu-focus-on-hover";
 import { type BooleanInput } from "@angular/cdk/coercion";
 import {
   CdkMenuItem,
   CdkMenuItemRadio,
   CdkMenuItemSelectable,
 } from "@angular/cdk/menu";
-import { Directive, booleanAttribute, inject, input } from "@angular/core";
+import { booleanAttribute, Directive, inject, input } from "@angular/core";
 import { classes } from "@spartan-ng/helm/utils";
+
+import { HlmDropdownMenuFocusOnHover } from "./hlm-dropdown-menu-focus-on-hover";
 
 /** @internal. Use HlmDropdownMenuRadio instead. */
 @Directive({

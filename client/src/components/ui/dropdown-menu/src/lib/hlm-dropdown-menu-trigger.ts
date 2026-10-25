@@ -1,4 +1,3 @@
-import { injectHlmDropdownMenuConfig } from "./hlm-dropdown-menu-token";
 import { CdkMenuTrigger } from "@angular/cdk/menu";
 import {
   computed,
@@ -15,6 +14,8 @@ import {
   type MenuSide,
   updateMenuPosition,
 } from "@spartan-ng/brain/core";
+
+import { injectHlmDropdownMenuConfig } from "./hlm-dropdown-menu-token";
 
 @Directive({
   selector: "[hlmDropdownMenuTrigger]",

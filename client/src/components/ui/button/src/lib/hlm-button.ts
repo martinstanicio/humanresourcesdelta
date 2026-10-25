@@ -1,9 +1,10 @@
-import { injectBrnButtonConfig } from "./hlm-button.token";
 import { Directive, input, signal } from "@angular/core";
 import { BrnButton } from "@spartan-ng/brain/button";
 import { classes } from "@spartan-ng/helm/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import type { ClassValue } from "clsx";
+
+import { injectBrnButtonConfig } from "./hlm-button.token";
 
 export const buttonVariants = cva(
   "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px data-[matches-spartan-invalid=true]:border-destructive data-[matches-spartan-invalid=true]:ring-3 data-[matches-spartan-invalid=true]:ring-destructive/20 dark:data-[matches-spartan-invalid=true]:border-destructive/50 dark:data-[matches-spartan-invalid=true]:ring-destructive/40 data-disabled:pointer-events-none data-disabled:opacity-50 [&_ng-icon]:pointer-events-none [&_ng-icon]:shrink-0 [&_ng-icon:not([class*='text-'])]:text-[--spacing(4)]",

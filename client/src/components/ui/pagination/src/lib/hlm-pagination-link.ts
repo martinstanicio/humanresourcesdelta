@@ -1,7 +1,7 @@
 import type { BooleanInput } from "@angular/cdk/coercion";
-import { Directive, booleanAttribute, input } from "@angular/core";
+import { booleanAttribute, Directive, input } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { buttonVariants, type ButtonVariants } from "@spartan-ng/helm/button";
+import { type ButtonVariants, buttonVariants } from "@spartan-ng/helm/button";
 import { classes } from "@spartan-ng/helm/utils";
 
 @Directive({

@@ -1,8 +1,10 @@
 // @ts-check
-const eslint = require("@eslint/js");
 const { defineConfig } = require("eslint/config");
-const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
+const eslint = require("@eslint/js");
+const ngModuleSort = require("eslint-plugin-ng-module-sort");
+const simpleImportSort = require("eslint-plugin-simple-import-sort");
+const tseslint = require("typescript-eslint");
 
 module.exports = defineConfig([
   {
@@ -13,6 +15,10 @@ module.exports = defineConfig([
       angular.configs.tsRecommended,
     ],
     files: ["**/*.ts"],
+    plugins: {
+      "ng-module-sort": /** @type {any} */ (ngModuleSort),
+      "simple-import-sort": simpleImportSort,
+    },
     processor: angular.processInlineTemplates,
     rules: {
       "@angular-eslint/component-selector": [
@@ -32,6 +38,9 @@ module.exports = defineConfig([
         },
       ],
       "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+      "ng-module-sort/decorator-array-items": "error",
+      "simple-import-sort/exports": "error",
+      "simple-import-sort/imports": "error",
     },
   },
   {
@@ -63,7 +72,8 @@ module.exports = defineConfig([
     ],
     files: ["**/*.html"],
     rules: {
-      "@angular-eslint/template/button-has-type": "error"
+      "@angular-eslint/template/attributes-order": "error",
+      "@angular-eslint/template/button-has-type": "error",
     },
   },
 ]);

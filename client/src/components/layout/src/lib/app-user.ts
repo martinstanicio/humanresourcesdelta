@@ -1,5 +1,3 @@
-import { ROL_LABEL } from "@/models/auth.model";
-import { AuthService } from "@/services/auth.service";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,12 +16,15 @@ import { HlmAvatarImports } from "@spartan-ng/helm/avatar";
 import { HlmDropdownMenuImports } from "@spartan-ng/helm/dropdown-menu";
 import { HlmSidebarImports, HlmSidebarService } from "@spartan-ng/helm/sidebar";
 
+import { ROL_LABEL } from "@/models/auth.model";
+import { AuthService } from "@/services/auth.service";
+
 @Component({
   selector: "app-user",
   imports: [
-    HlmSidebarImports,
     HlmAvatarImports,
     HlmDropdownMenuImports,
+    HlmSidebarImports,
     NgIcon,
     RouterLink,
   ],

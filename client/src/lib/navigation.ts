@@ -1,4 +1,3 @@
-import { Rol } from "@/models/auth.model";
 import {
   lucideBell,
   lucideCalendarClock,
@@ -9,6 +8,8 @@ import {
   lucideLayoutDashboard,
   lucideUsers,
 } from "@ng-icons/lucide";
+
+import { Rol } from "@/models/auth.model";
 
 export type NavigationItem = {
   href: string;

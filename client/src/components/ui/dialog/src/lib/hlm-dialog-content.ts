@@ -1,4 +1,3 @@
-import { HlmDialogClose } from "./hlm-dialog-close";
 import type { BooleanInput } from "@angular/cdk/coercion";
 import type { ComponentType } from "@angular/cdk/portal";
 import { NgComponentOutlet } from "@angular/common";
@@ -16,6 +15,8 @@ import { BrnDialogRef, injectBrnDialogContext } from "@spartan-ng/brain/dialog";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { classes } from "@spartan-ng/helm/utils";
 
+import { HlmDialogClose } from "./hlm-dialog-close";
+
 type HlmDialogContentContext = {
   $component?: ComponentType<unknown>;
   $dynamicComponentClass?: string;
@@ -25,7 +26,7 @@ type HlmDialogContentContext = {
 
 @Component({
   selector: "hlm-dialog-content",
-  imports: [NgComponentOutlet, HlmButton, HlmDialogClose, NgIcon],
+  imports: [HlmButton, HlmDialogClose, NgComponentOutlet, NgIcon],
   providers: [provideIcons({ lucideX })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

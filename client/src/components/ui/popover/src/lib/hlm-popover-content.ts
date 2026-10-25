@@ -1,9 +1,9 @@
 import {
   Directive,
-  ElementRef,
-  Renderer2,
   effect,
+  ElementRef,
   inject,
+  Renderer2,
   signal,
 } from "@angular/core";
 import { injectExposesStateProvider } from "@spartan-ng/brain/core";
