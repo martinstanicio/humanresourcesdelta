@@ -39,7 +39,6 @@ class EstadoNotificacionHorasExtras(models.TextChoices):
     PENDIENTE = "pendiente", "Pendiente"
     APROBADA = "aprobada", "Aprobada"
     RECHAZADA = "rechazada", "Rechazada"
-    CANCELADA = "cancelada", "Cancelada"
 
 
 class NotificacionHorasExtras(models.Model):
