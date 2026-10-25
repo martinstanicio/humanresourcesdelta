@@ -1,6 +1,6 @@
 import { inject, InjectionToken, type ValueProvider } from "@angular/core";
 
-export interface HlmSidebarConfig {
+export type HlmSidebarConfig = {
   defaultOpen: boolean;
   sidebarWidth: string;
   sidebarWidthMobile: string;
@@ -10,7 +10,7 @@ export interface HlmSidebarConfig {
   sidebarKeyboardShortcut: string;
   mobileBreakpoint: string;
   closeMobileSidebarOnMenuButtonClick: boolean;
-}
+};
 
 const defaultConfig: HlmSidebarConfig = {
   defaultOpen: true,

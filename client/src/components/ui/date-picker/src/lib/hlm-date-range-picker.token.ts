@@ -1,6 +1,6 @@
 import { inject, InjectionToken, type ValueProvider } from "@angular/core";
 
-export interface HlmDateRangePickerConfig<T> {
+export type HlmDateRangePickerConfig<T> = {
   /**
    * If true, the date picker will close when the max selection of dates is reached.
    */
@@ -38,7 +38,7 @@ export interface HlmDateRangePickerConfig<T> {
    * @returns the parsed range, or `null` when the value can't be parsed
    */
   parseDate: (value: string) => [T, T] | null;
-}
+};
 
 function getDefaultConfig<T>(): HlmDateRangePickerConfig<T> {
   return {

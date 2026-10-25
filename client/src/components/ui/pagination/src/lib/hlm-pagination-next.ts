@@ -20,18 +20,31 @@ import type { ClassValue } from "clsx";
   providers: [provideIcons({ lucideChevronRight })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <a
-      hlmPaginationLink
-      [class]="_computedClass()"
-      [link]="link()"
-      [queryParams]="queryParams()"
-      [queryParamsHandling]="queryParamsHandling()"
-      [size]="_size()"
-      [attr.aria-label]="ariaLabel()"
-    >
-      <span [class]="_labelClass()">{{ text() }}</span>
-      <ng-icon name="lucideChevronRight" class="rtl:rotate-180" />
-    </a>
+    @if (link()) {
+      <a
+        hlmPaginationLink
+        [class]="_computedClass()"
+        [link]="link()"
+        [queryParams]="queryParams()"
+        [queryParamsHandling]="queryParamsHandling()"
+        [size]="_size()"
+        [attr.aria-label]="ariaLabel()"
+      >
+        <span [class]="_labelClass()">{{ text() }}</span>
+        <ng-icon name="lucideChevronRight" class="rtl:rotate-180" />
+      </a>
+    } @else {
+      <button
+        type="button"
+        hlmPaginationLink
+        [class]="_computedClass()"
+        [size]="_size()"
+        [attr.aria-label]="ariaLabel()"
+      >
+        <span [class]="_labelClass()">{{ text() }}</span>
+        <ng-icon name="lucideChevronRight" class="rtl:rotate-180" />
+      </button>
+    }
   `,
 })
 export class HlmPaginationNext {

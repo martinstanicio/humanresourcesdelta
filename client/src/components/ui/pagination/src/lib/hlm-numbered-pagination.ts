@@ -43,8 +43,8 @@ import { HlmSelectImports } from "@spartan-ng/helm/select";
       <nav hlmPagination>
         <ul hlmPaginationContent>
           @if (showEdges() && !_isFirstPageActive()) {
-            <li hlmPaginationItem (click)="goToPrevious()">
-              <hlm-pagination-previous />
+            <li hlmPaginationItem>
+              <hlm-pagination-previous (click)="goToPrevious()" />
             </li>
           }
 
@@ -53,20 +53,21 @@ import { HlmSelectImports } from "@spartan-ng/helm/select";
               @if (page === "...") {
                 <hlm-pagination-ellipsis />
               } @else {
-                <a
+                <button
+                  type="button"
                   hlmPaginationLink
                   [isActive]="currentPage() === page"
                   (click)="currentPage.set(page)"
                 >
                   {{ page }}
-                </a>
+                </button>
               }
             </li>
           }
 
           @if (showEdges() && !_isLastPageActive()) {
-            <li hlmPaginationItem (click)="goToNext()">
-              <hlm-pagination-next />
+            <li hlmPaginationItem>
+              <hlm-pagination-next (click)="goToNext()" />
             </li>
           }
         </ul>

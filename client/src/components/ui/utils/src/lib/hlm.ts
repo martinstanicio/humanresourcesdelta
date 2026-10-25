@@ -22,7 +22,7 @@ const elementClassManagers = new WeakMap<HTMLElement, ElementClassManager>();
 let globalObserver: MutationObserver | null = null;
 const observedElements = new Set<HTMLElement>();
 
-interface ElementClassManager {
+type ElementClassManager = {
   element: HTMLElement;
   sources: Map<number, { classes: Set<string>; order: number }>;
   baseClasses: Set<string>;
@@ -36,7 +36,7 @@ interface ElementClassManager {
   previousTransition: string;
   /** Original inline transition priority to preserve !important when restoring */
   previousTransitionPriority: string;
-}
+};
 
 let sourceCounter = 0;
 
@@ -296,10 +296,10 @@ function cleanupManager(element: HTMLElement): void {
   }
 }
 
-interface ClassesOptions {
+type ClassesOptions = {
   elementRef?: ElementRef<HTMLElement>;
   injector?: Injector;
-}
+};
 
 // Cache for parsed class lists to avoid repeated string operations
 const classListCache = new Map<string, string[]>();

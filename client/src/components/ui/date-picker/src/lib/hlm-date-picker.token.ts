@@ -1,6 +1,6 @@
 import { inject, InjectionToken, type ValueProvider } from "@angular/core";
 
-export interface HlmDatePickerConfig<T> {
+export type HlmDatePickerConfig<T> = {
   /**
    * If true, the date picker will close when a date is selected.
    */
@@ -38,7 +38,7 @@ export interface HlmDatePickerConfig<T> {
    * @returns the parsed date, or `null` when the value can't be parsed
    */
   parseDate: (value: string) => T | null;
-}
+};
 
 function getDefaultConfig<T>(): HlmDatePickerConfig<T> {
   return {

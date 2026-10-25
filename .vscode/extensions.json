@@ -4,6 +4,7 @@
     "astral-sh.ty",
     "bradlc.vscode-tailwindcss",
     "charliermarsh.ruff",
+    "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "ms-python.python",
     "vstirbu.vscode-mermaid-preview"

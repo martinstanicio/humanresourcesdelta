@@ -10,12 +10,12 @@ import {
   lucideUsers,
 } from "@ng-icons/lucide";
 
-export interface NavigationItem {
+export type NavigationItem = {
   href: string;
   icon: string;
   title: string;
   roles?: Rol[];
-}
+};
 
 export const navigation: NavigationItem[] = [
   {

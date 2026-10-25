@@ -1,6 +1,6 @@
 import { inject, InjectionToken, type ValueProvider } from "@angular/core";
 
-export interface HlmDatePickerMultiConfig<T> {
+export type HlmDatePickerMultiConfig<T> = {
   /**
    * If true, the date picker will close when the max selection of dates is reached.
    */
@@ -38,7 +38,7 @@ export interface HlmDatePickerMultiConfig<T> {
    * @returns the parsed date, or `null` when the value can't be parsed
    */
   parseDate: (value: string) => T[] | null;
-}
+};
 
 function getDefaultConfig<T>(): HlmDatePickerMultiConfig<T> {
   return {

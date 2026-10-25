@@ -1,6 +1,6 @@
 import { inject, InjectionToken, type ValueProvider } from "@angular/core";
 
-export interface HlmMonthYearPickerConfig<T> {
+export type HlmMonthYearPickerConfig<T> = {
   /**
    * If true, the date picker will close when a date is selected.
    */
@@ -38,7 +38,7 @@ export interface HlmMonthYearPickerConfig<T> {
    * @returns the parsed date, or `null` when the value can't be parsed
    */
   parseDate: (value: string) => T | null;
-}
+};
 
 const mmYYYY = <T>(date: T) => {
   if (!(date instanceof Date)) return `${date}`;

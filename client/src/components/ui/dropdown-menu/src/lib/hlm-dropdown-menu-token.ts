@@ -1,10 +1,10 @@
 import { InjectionToken, type ValueProvider, inject } from "@angular/core";
 import { type MenuAlign, type MenuSide } from "@spartan-ng/brain/core";
 
-export interface HlmDropdownMenuConfig {
+export type HlmDropdownMenuConfig = {
   align: MenuAlign;
   side: MenuSide;
-}
+};
 
 const defaultConfig: HlmDropdownMenuConfig = {
   align: "start",
