@@ -62,6 +62,8 @@ module.exports = defineConfig([
       angular.configs.templateAccessibility,
     ],
     files: ["**/*.html"],
-    rules: {},
+    rules: {
+      "@angular-eslint/template/button-has-type": "error"
+    },
   },
 ]);

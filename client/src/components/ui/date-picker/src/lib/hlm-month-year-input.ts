@@ -52,6 +52,7 @@ import {
     <hlm-input-group-addon align="inline-end">
       @if (_showClearButton()) {
         <button
+          type="button"
           hlmInputGroupButton
           size="icon-xs"
           variant="ghost"
@@ -63,6 +64,7 @@ import {
         </button>
       }
       <button
+        type="button"
         hlmInputGroupButton
         size="icon-xs"
         [attr.aria-label]="calendarAriaLabel()"

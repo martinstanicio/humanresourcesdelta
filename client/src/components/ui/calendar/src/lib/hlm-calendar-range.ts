@@ -82,6 +82,7 @@ import { classes, hlm } from "@spartan-ng/helm/utils";
         @let heading = _heading();
 
         <button
+          type="button"
           brnCalendarPreviousButton
           variant="ghost"
           hlmBtn
@@ -115,6 +116,7 @@ import { classes, hlm } from "@spartan-ng/helm/utils";
         }
 
         <button
+          type="button"
           brnCalendarNextButton
           hlmBtn
           variant="ghost"
@@ -145,7 +147,12 @@ import { classes, hlm } from "@spartan-ng/helm/utils";
                 brnCalendarCell
                 class="group/day relative isolate z-0 aspect-square h-full w-full rounded-(--cell-radius) p-0 text-center select-none has-[button[data-range-end=true]]:rounded-e-(--cell-radius) has-[button[data-range-end=true]]:bg-muted has-[button[data-range-end=true]]:after:absolute has-[button[data-range-end=true]]:after:inset-y-0 has-[button[data-range-end=true]]:after:inset-s-0 has-[button[data-range-end=true]]:after:w-4 has-[button[data-range-end=true]]:after:bg-muted has-[button[data-range-start=true]]:rounded-s-(--cell-radius) has-[button[data-range-start=true]]:bg-muted has-[button[data-range-start=true]]:after:absolute has-[button[data-range-start=true]]:after:inset-y-0 has-[button[data-range-start=true]]:after:inset-e-0 has-[button[data-range-start=true]]:after:w-4 has-[button[data-range-start=true]]:after:bg-muted [&:first-child[data-selected=true]_button]:rounded-s-(--cell-radius) [&:last-child[data-selected=true]_button]:rounded-e-(--cell-radius)"
               >
-                <button brnCalendarCellButton [date]="date" [class]="_btnClass">
+                <button
+                  type="button"
+                  brnCalendarCellButton
+                  [date]="date"
+                  [class]="_btnClass"
+                >
                   {{ _dateAdapter.getDate(date) }}
                 </button>
               </td>

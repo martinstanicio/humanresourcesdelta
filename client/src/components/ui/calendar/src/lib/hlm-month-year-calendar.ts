@@ -33,6 +33,7 @@ import { classes, hlm } from "@spartan-ng/helm/utils";
       <!-- Header -->
       <div class="flex w-full items-center justify-between gap-1.5">
         <button
+          type="button"
           brnMonthYearCalendarPreviousButton
           hlmBtn
           variant="ghost"
@@ -42,6 +43,7 @@ import { classes, hlm } from "@spartan-ng/helm/utils";
         </button>
 
         <button
+          type="button"
           hlmBtn
           variant="ghost"
           class="h-(--cell-size) py-0 select-none aria-disabled:opacity-50"
@@ -51,6 +53,7 @@ import { classes, hlm } from "@spartan-ng/helm/utils";
         </button>
 
         <button
+          type="button"
           brnMonthYearCalendarNextButton
           hlmBtn
           variant="ghost"
@@ -66,6 +69,7 @@ import { classes, hlm } from "@spartan-ng/helm/utils";
           <div brnMonthYearCalendarGrid class="grid grid-cols-4 gap-2">
             @for (year of _picker.years(); track _dateAdapter.getYear(year)) {
               <button
+                type="button"
                 brnMonthYearCalendarYearButton
                 [date]="year"
                 [class]="_btnClass"
@@ -82,6 +86,7 @@ import { classes, hlm } from "@spartan-ng/helm/utils";
               track _dateAdapter.getMonth(month)
             ) {
               <button
+                type="button"
                 brnMonthYearCalendarMonthButton
                 [date]="month"
                 [class]="_btnClass"

@@ -35,6 +35,7 @@ import { classes } from "@spartan-ng/helm/utils";
 
     @if (showCloseButton()) {
       <button
+        type="button"
         hlmBtn
         variant="ghost"
         size="icon-sm"

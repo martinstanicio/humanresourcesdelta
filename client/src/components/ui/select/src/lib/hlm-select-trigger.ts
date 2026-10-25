@@ -20,6 +20,7 @@ import type { ClassValue } from "clsx";
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <button
+      type="button"
       brnSelectTrigger
       brnFieldControlDescribedBy
       [forceInvalid]="forceInvalid()"

@@ -81,6 +81,7 @@ import { classes, hlm } from "@spartan-ng/helm/utils";
         @let heading = _heading();
 
         <button
+          type="button"
           brnCalendarPreviousButton
           variant="ghost"
           hlmBtn
@@ -114,6 +115,7 @@ import { classes, hlm } from "@spartan-ng/helm/utils";
         }
 
         <button
+          type="button"
           brnCalendarNextButton
           hlmBtn
           variant="ghost"
@@ -144,7 +146,12 @@ import { classes, hlm } from "@spartan-ng/helm/utils";
                 brnCalendarCell
                 class="group/day relative aspect-square h-full w-full rounded-(--cell-radius) p-0 text-center select-none [&:first-child[data-selected=true]_button]:rounded-s-(--cell-radius) [&:last-child[data-selected=true]_button]:rounded-e-(--cell-radius)"
               >
-                <button brnCalendarCellButton [date]="date" [class]="_btnClass">
+                <button
+                  type="button"
+                  brnCalendarCellButton
+                  [date]="date"
+                  [class]="_btnClass"
+                >
                   {{ _dateAdapter.getDate(date) }}
                 </button>
               </td>

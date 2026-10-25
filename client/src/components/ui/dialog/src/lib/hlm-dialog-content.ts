@@ -41,6 +41,7 @@ type HlmDialogContentContext = {
 
     @if (showCloseButton()) {
       <button
+        type="button"
         hlmBtn
         variant="ghost"
         size="icon-sm"
