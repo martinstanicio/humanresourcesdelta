@@ -40,7 +40,7 @@ import { HlmSheetClose } from "./hlm-sheet-close";
         hlmBtn
         variant="ghost"
         size="icon-sm"
-        class="absolute end-3 top-3"
+        class="absolute inset-e-3 top-3"
         hlmSheetClose
       >
         <span class="sr-only">Close</span>

@@ -4,9 +4,20 @@ const angular = require("angular-eslint");
 const eslint = require("@eslint/js");
 const ngModuleSort = require("eslint-plugin-ng-module-sort");
 const simpleImportSort = require("eslint-plugin-simple-import-sort");
+const tailwind = require("eslint-plugin-tailwindcss");
 const tseslint = require("typescript-eslint");
 
 module.exports = defineConfig([
+  {
+    .../** @type {any} */ (tailwind.configs.recommended),
+    files: ["**/*.ts", "**/*.html"],
+    settings: {
+      tailwindcss: {
+        cssConfigPath: "src/styles.css",
+        functions: ["hlm", "classes", "cva", "clsx", "twMerge"],
+      },
+    },
+  },
   {
     extends: [
       eslint.configs.recommended,

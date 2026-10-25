@@ -13,6 +13,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function hlm(...inputs: ClassValue[]) {
+  // eslint-disable-next-line tailwindcss/no-custom-classname
   return twMerge(clsx(inputs));
 }
 
@@ -310,6 +311,7 @@ function toClassList(className: string | ClassValue[]): string[] {
     return classListCache.get(className)!;
   }
 
+  // eslint-disable-next-line tailwindcss/no-custom-classname
   const result = clsx(className)
     .split(" ")
     .filter((c) => c.length > 0);
