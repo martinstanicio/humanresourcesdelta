@@ -1,3 +1,6 @@
+from uuid import UUID
+
+from django.db import transaction
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -24,12 +27,29 @@ class HoraExtraListCreateView(APIView):
             if user.convenio is None:
                 return queryset.none()
 
-            return queryset.filter(convenio=user.convenio)
+            return queryset.filter(convenio=user.convenio, activo=True)
 
-        if convenio := request.query_params.get("convenio"):
+        convenio = request.query_params.get("convenio")
+        if convenio is not None:
             queryset = queryset.filter(convenio_id=convenio)
 
-        return queryset
+        activo = request.query_params.get("activo")
+        if activo is not None:
+            if activo.lower() in ["si", "true", "1"]:
+                return queryset.filter(activo=True).order_by("tipo")
+            elif activo.lower() in ["no", "false", "0"]:
+                active_codigos = HoraExtra.objects.filter(activo=True).values_list(
+                    "codigo", flat=True
+                )
+
+                return (
+                    queryset
+                    .exclude(codigo__in=active_codigos)
+                    .order_by("codigo", "-fecha_creacion")
+                    .distinct("codigo")
+                )
+
+        return queryset.order_by("codigo", "-fecha_creacion").distinct("codigo")
 
     def get(self, request: Request) -> Response:
         queryset = self.get_queryset(request)
@@ -54,41 +74,143 @@ class HoraExtraListCreateView(APIView):
 
 
 class HoraExtraDetailView(APIView):
+    def get(self, request: Request, codigo: UUID) -> Response:
+        hora_extra = (
+            HoraExtra.objects.filter(codigo=codigo).order_by("-fecha_creacion").first()
+        )
+
+        if not hora_extra:
+            return Response(
+                {"detail": "No se encontró la hora extra."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        user = request.user
+        if (
+            isinstance(user, Empleado)
+            and user.rol == RolEmpleado.EMPLEADO
+            and hora_extra.convenio != user.convenio
+        ):
+            return Response(
+                {"detail": "No tienes permiso para ver esta hora extra."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = HoraExtraSerializer(hora_extra)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def patch(self, request: Request, codigo: UUID) -> Response:
+        user = request.user
+
+        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        hora_extra = (
+            HoraExtra.objects.filter(codigo=codigo).order_by("-fecha_creacion").first()
+        )
+
+        if not hora_extra:
+            return Response(
+                {"detail": "No se encontró la hora extra."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if not isinstance(request.data, dict):
+            return Response(
+                {"detail": "Se esperaba un objeto JSON."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # si lo único que cambia es "activo", se actualiza la misma fila
+        sent_fields = set(request.data.keys())
+        if sent_fields == {"activo"}:
+            nuevo_activo = bool(request.data["activo"])
+
+            if hora_extra.activo != nuevo_activo:
+                hora_extra.activo = nuevo_activo
+                hora_extra.save(update_fields=["activo"])
+
+            return Response(
+                HoraExtraSerializer(hora_extra).data, status=status.HTTP_200_OK
+            )
+
+        # si cambia algo más, se crea una nueva fila inmutable
+        data = dict(HoraExtraSerializer(hora_extra).data)
+        data.update(request.data)
+        data.pop("id", None)
+        data.pop("codigo", None)
+        data.pop("fecha_creacion", None)
+        data["activo"] = request.data.get("activo", True)
+
+        serializer = HoraExtraSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+
+        with transaction.atomic():
+            if hora_extra.activo:
+                hora_extra.activo = False
+                hora_extra.save(update_fields=["activo"])
+
+            nueva_hora_extra = serializer.save(codigo=hora_extra.codigo)
+
+        return Response(
+            HoraExtraSerializer(nueva_hora_extra).data,
+            status=status.HTTP_200_OK,
+        )
+
+    def delete(self, request: Request, codigo: UUID) -> Response:
+        user = request.user
+
+        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        hora_extra = (
+            HoraExtra.objects.filter(codigo=codigo).order_by("-fecha_creacion").first()
+        )
+
+        if not hora_extra:
+            return Response(
+                {"detail": "No se encontró la hora extra."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if not hora_extra.activo:
+            return Response(
+                {"detail": "La hora extra ya se encuentra inactiva."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        hora_extra.activo = False
+        hora_extra.save(update_fields=["activo"])
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class HoraExtraVersionDetailView(APIView):
     def get(self, _: Request, pk: int) -> Response:
         hora_extra = get_object_or_404(HoraExtra, pk=pk)
         serializer = HoraExtraSerializer(hora_extra)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def patch(self, request: Request, pk: int) -> Response:
-        user = request.user
 
-        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+class HoraExtraHistorialListView(APIView):
+    def get(self, _: Request, codigo: UUID) -> Response:
+        versiones = HoraExtra.objects.filter(codigo=codigo).order_by("-fecha_creacion")
+
+        if not versiones.exists():
             return Response(
-                {"detail": "No tienes permiso para realizar esta acción."},
-                status=status.HTTP_403_FORBIDDEN,
+                {"detail": "No se encontró la hora extra."},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
-        hora_extra = get_object_or_404(HoraExtra, pk=pk)
-        serializer = HoraExtraSerializer(hora_extra, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
+        serializer = HoraExtraSerializer(versiones, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def delete(self, request: Request, pk: int) -> Response:
-        user = request.user
-
-        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
-            return Response(
-                {"detail": "No tienes permiso para realizar esta acción."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        hora_extra = get_object_or_404(HoraExtra, pk=pk)
-        hora_extra.delete()
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class NotificacionHorasExtrasListCreateView(APIView):

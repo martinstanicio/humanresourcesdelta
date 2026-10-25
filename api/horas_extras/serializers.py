@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from typing import Any
 
 from django.utils import timezone
@@ -18,7 +18,7 @@ class HoraExtraSerializer(serializers.ModelSerializer):
     class Meta:
         model = HoraExtra
         fields = "__all__"
-        read_only_fields = ("id",)
+        read_only_fields = ("id", "codigo", "fecha_creacion")
 
     def validate_tipo(self, value: str) -> str:
         if not (trimmed := value.strip()):
@@ -50,15 +50,18 @@ class HoraExtraSerializer(serializers.ModelSerializer):
 
 
 class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
+    fecha_inicio = serializers.DateTimeField()
+    fecha_fin = serializers.DateTimeField()
+
     class Meta:
         model = NotificacionHorasExtras
         fields = "__all__"
         read_only_fields = ("id", "empleado", "estado")
 
-    def validate_horas(self, value: float) -> float:
-        if value <= 0:
+    def validate_hora_extra(self, value: HoraExtra) -> HoraExtra:
+        if not value.activo:
             raise serializers.ValidationError(
-                "La cantidad de horas debe ser mayor a cero."
+                "No se pueden registrar notificaciones para un tipo de hora extra inactivo."
             )
 
         return value
@@ -72,12 +75,14 @@ class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
     def validate(self, attrs: dict[str, Any]) -> dict[str, Any]:
         empleado = None
         hora_extra = None
-        fecha = None
+        fecha_inicio = None
+        fecha_fin = None
 
         if isinstance(self.instance, NotificacionHorasExtras):
             empleado = self.instance.empleado
             hora_extra = self.instance.hora_extra
-            fecha = self.instance.fecha
+            fecha_inicio = self.instance.fecha_inicio
+            fecha_fin = self.instance.fecha_fin
         elif "request" in self.context:
             user = self.context["request"].user
             if isinstance(user, Empleado):
@@ -103,16 +108,28 @@ class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
                 )
             })
 
-        _fecha = attrs.get("fecha")
-        if isinstance(_fecha, date):
-            fecha = _fecha
+        _fecha_inicio = attrs.get("fecha_inicio")
+        if isinstance(_fecha_inicio, datetime):
+            fecha_inicio = _fecha_inicio
 
-        if fecha is not None and fecha >= timezone.localdate():
-            raise serializers.ValidationError({
-                "fecha": (
-                    "La fecha de las horas extras debe ser anterior a la fecha actual."
-                )
-            })
+        _fecha_fin = attrs.get("fecha_fin")
+        if isinstance(_fecha_fin, datetime):
+            fecha_fin = _fecha_fin
+
+        if fecha_inicio is not None and fecha_fin is not None:
+            if fecha_fin <= fecha_inicio:
+                raise serializers.ValidationError({
+                    "fecha_fin": (
+                        "La fecha de fin debe ser posterior a la fecha de inicio."
+                    )
+                })
+
+            if fecha_fin > timezone.now():
+                raise serializers.ValidationError({
+                    "fecha_fin": (
+                        "La fecha y hora de las horas extras debe ser anterior a la fecha actual."
+                    )
+                })
 
         return attrs
 
