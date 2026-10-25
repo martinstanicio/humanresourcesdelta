@@ -2,7 +2,9 @@ from django.urls import path
 
 from .views import (
     LicenciaDetailView,
+    LicenciaHistorialListView,
     LicenciaListCreateView,
+    LicenciaVersionDetailView,
     SolicitudLicenciaDetailView,
     SolicitudLicenciaListCreateView,
 )
@@ -14,9 +16,19 @@ urlpatterns = [
         name="licencia-list",
     ),
     path(
-        "licencias/<int:pk>/",
+        "licencias/versiones/<int:pk>/",
+        LicenciaVersionDetailView.as_view(),
+        name="licencia-version-detail",
+    ),
+    path(
+        "licencias/<uuid:codigo>/",
         LicenciaDetailView.as_view(),
         name="licencia-detail",
+    ),
+    path(
+        "licencias/<uuid:codigo>/historial/",
+        LicenciaHistorialListView.as_view(),
+        name="licencia-historial",
     ),
     path(
         "solicitudes-licencia/",

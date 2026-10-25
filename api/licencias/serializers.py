@@ -13,7 +13,7 @@ class LicenciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Licencia
         fields = "__all__"
-        read_only_fields = ("id",)
+        read_only_fields = ("id", "codigo", "fecha_creacion")
 
     def validate_tipo(self, value: str) -> str:
         if not (trimmed := value.strip()):

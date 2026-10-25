@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from django.db import transaction
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
@@ -29,18 +31,26 @@ class LicenciaListCreateView(APIView):
             return queryset.filter(convenio=user.convenio, activo=True)
 
         convenio = request.query_params.get("convenio")
-        activo = request.query_params.get("activo")
-
         if convenio is not None:
             queryset = queryset.filter(convenio_id=convenio)
 
+        activo = request.query_params.get("activo")
         if activo is not None:
             if activo.lower() in ["si", "true", "1"]:
-                queryset = queryset.filter(activo=True)
+                return queryset.filter(activo=True).order_by("tipo")
             elif activo.lower() in ["no", "false", "0"]:
-                queryset = queryset.filter(activo=False)
+                active_codigos = Licencia.objects.filter(activo=True).values_list(
+                    "codigo", flat=True
+                )
 
-        return queryset
+                return (
+                    queryset
+                    .exclude(codigo__in=active_codigos)
+                    .order_by("codigo", "-fecha_creacion")
+                    .distinct("codigo")
+                )
+
+        return queryset.order_by("codigo", "-fecha_creacion").distinct("codigo")
 
     def get(self, request: Request) -> Response:
         queryset = self.get_queryset(request)
@@ -65,13 +75,32 @@ class LicenciaListCreateView(APIView):
 
 
 class LicenciaDetailView(APIView):
-    def get(self, _: Request, pk: int) -> Response:
-        licencia = get_object_or_404(Licencia, pk=pk)
-        serializer = LicenciaSerializer(licencia)
+    def get(self, request: Request, codigo: UUID) -> Response:
+        licencia = (
+            Licencia.objects.filter(codigo=codigo).order_by("-fecha_creacion").first()
+        )
 
+        if not licencia:
+            return Response(
+                {"detail": "No se encontró la licencia."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        user = request.user
+        if (
+            isinstance(user, Empleado)
+            and user.rol == RolEmpleado.EMPLEADO
+            and licencia.convenio != user.convenio
+        ):
+            return Response(
+                {"detail": "No tienes permiso para ver esta licencia."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = LicenciaSerializer(licencia)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def patch(self, request: Request, pk: int) -> Response:
+    def patch(self, request: Request, codigo: UUID) -> Response:
         user = request.user
 
         if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
@@ -80,33 +109,59 @@ class LicenciaDetailView(APIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        licencia = get_object_or_404(Licencia, pk=pk)
+        licencia = (
+            Licencia.objects.filter(codigo=codigo).order_by("-fecha_creacion").first()
+        )
 
-        if not licencia.activo:
+        if not licencia:
             return Response(
-                {"detail": "No se puede modificar una licencia inactiva."},
+                {"detail": "No se encontró la licencia."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if not isinstance(request.data, dict):
+            return Response(
+                {"detail": "Se esperaba un objeto JSON."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+        # si lo único que cambia es "activo", se actualiza la misma fila
+        sent_fields = set(request.data.keys())
+        if sent_fields == {"activo"}:
+            nuevo_activo = bool(request.data["activo"])
+
+            if licencia.activo != nuevo_activo:
+                licencia.activo = nuevo_activo
+                licencia.save(update_fields=["activo"])
+
+            return Response(
+                LicenciaSerializer(licencia).data, status=status.HTTP_200_OK
+            )
+
+        # si cambia algo más, se crea una nueva fila inmutable
         data = dict(LicenciaSerializer(licencia).data)
         data.update(request.data)
         data.pop("id", None)
-        data["activo"] = True
+        data.pop("codigo", None)
+        data.pop("fecha_creacion", None)
+        data["activo"] = request.data.get("activo", True)
 
         serializer = LicenciaSerializer(data=data)
         serializer.is_valid(raise_exception=True)
 
         with transaction.atomic():
-            licencia.activo = False
-            licencia.save(update_fields=["activo"])
-            serializer.save()
+            if licencia.activo:
+                licencia.activo = False
+                licencia.save(update_fields=["activo"])
+
+            nueva_licencia = serializer.save(codigo=licencia.codigo)
 
         return Response(
-            serializer.data,
-            status=status.HTTP_201_CREATED,
+            LicenciaSerializer(nueva_licencia).data,
+            status=status.HTTP_200_OK,
         )
 
-    def delete(self, request: Request, pk: int) -> Response:
+    def delete(self, request: Request, codigo: UUID) -> Response:
         user = request.user
 
         if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
@@ -115,7 +170,15 @@ class LicenciaDetailView(APIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        licencia = get_object_or_404(Licencia, pk=pk)
+        licencia = (
+            Licencia.objects.filter(codigo=codigo).order_by("-fecha_creacion").first()
+        )
+
+        if not licencia:
+            return Response(
+                {"detail": "No se encontró la licencia."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
         if not licencia.activo:
             return Response(
@@ -127,6 +190,28 @@ class LicenciaDetailView(APIView):
         licencia.save(update_fields=["activo"])
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class LicenciaVersionDetailView(APIView):
+    def get(self, _: Request, pk: int) -> Response:
+        licencia = get_object_or_404(Licencia, pk=pk)
+        serializer = LicenciaSerializer(licencia)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class LicenciaHistorialListView(APIView):
+    def get(self, _: Request, codigo: UUID) -> Response:
+        versiones = Licencia.objects.filter(codigo=codigo).order_by("-fecha_creacion")
+
+        if not versiones.exists():
+            return Response(
+                {"detail": "No se encontró la licencia."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        serializer = LicenciaSerializer(versiones, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class SolicitudLicenciaListCreateView(APIView):

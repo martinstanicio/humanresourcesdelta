@@ -1,4 +1,7 @@
+import uuid
+
 from django.db import models
+from django.utils import timezone
 
 
 class Licencia(models.Model):
@@ -8,6 +11,8 @@ class Licencia(models.Model):
         on_delete=models.PROTECT,
         related_name="licencias",
     )
+    codigo = models.UUIDField(default=uuid.uuid4, editable=False, db_index=True)
+    fecha_creacion = models.DateTimeField(default=timezone.now, editable=False)
     tipo = models.CharField(max_length=255)
     descripcion = models.TextField()
     activo = models.BooleanField(default=True)
@@ -15,6 +20,13 @@ class Licencia(models.Model):
     class Meta:
         verbose_name = "licencia"
         verbose_name_plural = "licencias"
+        constraints = (
+            models.UniqueConstraint(
+                fields=["codigo"],
+                condition=models.Q(activo=True),
+                name="unique_active_licencia_per_codigo",
+            ),
+        )
 
     def __str__(self) -> str:
         return f"{self.tipo} ({self.convenio})"
