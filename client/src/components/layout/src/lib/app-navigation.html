@@ -5,6 +5,7 @@
         hlmSidebarMenuButton
         routerLinkActive="bg-sidebar-accent text-sidebar-accent-foreground font-medium"
         [routerLink]="item.href"
+        [routerLinkActiveOptions]="{ exact: item.exact ?? item.href === '/' }"
       >
         <ng-icon [svg]="item.icon" />
         <span>{{ item.title }}</span>

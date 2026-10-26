@@ -16,6 +16,7 @@ export type NavigationItem = {
   icon: string;
   title: string;
   roles?: Rol[];
+  exact?: boolean;
 };
 
 export const navigation: NavigationItem[] = [
@@ -24,6 +25,7 @@ export const navigation: NavigationItem[] = [
     icon: lucideLayoutDashboard,
     title: "Dashboard",
     roles: ["rrhh"],
+    exact: true,
   },
   {
     href: "/convenios",
