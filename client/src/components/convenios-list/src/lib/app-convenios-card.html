@@ -1,0 +1,20 @@
+<a hlmCard [routerLink]="['/convenios', convenio().id]">
+  <div hlmCardHeader>
+    <div class="flex items-center justify-between gap-2">
+      <h3 hlmCardTitle>{{ convenio().nombre }}</h3>
+      <span hlmBadge [variant]="convenio().activo ? 'default' : 'secondary'">
+        {{ convenio().activo ? "Activo" : "Inactivo" }}
+      </span>
+    </div>
+  </div>
+  <div hlmCardContent>
+    <p class="text-sm text-muted-foreground">
+      {{ convenio().empleados_activos }}
+      {{
+        convenio().empleados_activos === 1
+          ? "empleado activo"
+          : "empleados activos"
+      }}
+    </p>
+  </div>
+</a>

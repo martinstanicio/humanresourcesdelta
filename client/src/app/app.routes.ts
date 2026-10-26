@@ -22,7 +22,15 @@ export const routes: Routes = [
     component: AppLayout,
     canActivate: [authGuard],
     canActivateChild: [authChildGuard],
-    children: [],
+    children: [
+      {
+        path: "convenios",
+        loadComponent: () =>
+          import("./convenios/convenios-list/convenios-list").then(
+            (m) => m.ConveniosList,
+          ),
+      },
+    ],
   },
   {
     path: "**",

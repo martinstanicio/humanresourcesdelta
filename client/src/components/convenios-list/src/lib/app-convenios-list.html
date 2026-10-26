@@ -1,0 +1,101 @@
+<div class="flex flex-col gap-6">
+  <div>
+    <h1 class="text-2xl font-bold tracking-tight">Convenios</h1>
+    <p class="text-sm text-muted-foreground">
+      Listado y estado de convenios colectivos de trabajo.
+    </p>
+  </div>
+
+  <div
+    class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div class="max-w-xs" hlmInputGroup>
+      <div hlmInputGroupAddon>
+        <ng-icon [svg]="searchIcon" />
+      </div>
+      <input
+        hlmInputGroupInput
+        placeholder="Buscar convenios..."
+        type="search"
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)"
+      />
+    </div>
+
+    <div class="flex items-center gap-2">
+      <button
+        hlmBtn
+        size="sm"
+        type="button"
+        [variant]="statusFilter() === 'all' ? 'default' : 'outline'"
+        (click)="statusFilter.set('all')"
+      >
+        Todos ({{ totalCount() }})
+      </button>
+
+      <button
+        hlmBtn
+        size="sm"
+        type="button"
+        [variant]="statusFilter() === 'activos' ? 'default' : 'outline'"
+        (click)="statusFilter.set('activos')"
+      >
+        Activos ({{ activosCount() }})
+      </button>
+
+      <button
+        hlmBtn
+        size="sm"
+        type="button"
+        [variant]="statusFilter() === 'inactivos' ? 'default' : 'outline'"
+        (click)="statusFilter.set('inactivos')"
+      >
+        Inactivos ({{ inactivosCount() }})
+      </button>
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="p-8 text-center text-destructive" hlmCard>
+      <p class="text-sm">{{ error() }}</p>
+      <button
+        class="mt-4"
+        hlmBtn
+        size="sm"
+        type="button"
+        variant="outline"
+        (click)="loadConvenios()"
+      >
+        Reintentar
+      </button>
+    </div>
+  } @else if (loading()) {
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      @for (item of skeletonPlaceholders; track item) {
+        <app-convenios-card-skeleton />
+      }
+    </div>
+  } @else if (filteredConvenios().length === 0) {
+    <div class="p-8 text-center" hlmCard>
+      <p class="text-sm text-muted-foreground">No se encontraron convenios.</p>
+      @if (searchQuery() || statusFilter() !== "all") {
+        <button
+          class="mt-4"
+          hlmBtn
+          size="sm"
+          type="button"
+          variant="outline"
+          (click)="clearFilters()"
+        >
+          Limpiar filtros
+        </button>
+      }
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      @for (convenio of filteredConvenios(); track convenio.id) {
+        <app-convenios-card [convenio]="convenio" />
+      }
+    </div>
+  }
+</div>
