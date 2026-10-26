@@ -144,7 +144,7 @@ import { classes, hlm } from "@spartan-ng/helm/utils";
             @for (date of week; track _dateAdapter.getTime(date)) {
               <td
                 brnCalendarCell
-                class="group/day relative aspect-square h-full w-full rounded-(--cell-radius) p-0 text-center select-none [&:first-child[data-selected=true]_button]:rounded-s-(--cell-radius) [&:last-child[data-selected=true]_button]:rounded-e-(--cell-radius)"
+                class="group/day relative aspect-square size-full rounded-(--cell-radius) p-0 text-center select-none [&:first-child[data-selected=true]_button]:rounded-s-(--cell-radius) [&:last-child[data-selected=true]_button]:rounded-e-(--cell-radius)"
               >
                 <button
                   type="button"

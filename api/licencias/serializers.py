@@ -1,11 +1,13 @@
 from datetime import date
 from typing import Any
 
+from pydantic import ValidationError as PydanticValidationError
 from rest_framework import serializers
 
 from convenios.models import Convenio
 from empleados.models import Empleado
 
+from .estrategias import obtener_estrategia
 from .models import EstadoSolicitudLicencia, Licencia, SolicitudLicencia
 
 
@@ -36,6 +38,34 @@ class LicenciaSerializer(serializers.ModelSerializer):
             )
 
         return value
+
+    def validate_reglas(self, value: object) -> dict[str, Any]:
+        if not isinstance(value, dict):
+            raise serializers.ValidationError("Las reglas deben ser un objeto JSON.")
+
+        estrategia = value.get("estrategia")
+        if not isinstance(estrategia, dict):
+            raise serializers.ValidationError(
+                "El campo 'estrategia' con su propiedad 'tipo' es obligatorio."
+            )
+
+        tipo = estrategia.get("tipo")
+        if not isinstance(tipo, str):
+            raise serializers.ValidationError(
+                "La propiedad 'tipo' de la estrategia debe ser una cadena de texto."
+            )
+
+        try:
+            estrategia_cls = obtener_estrategia(tipo)
+        except ValueError as e:
+            raise serializers.ValidationError(str(e)) from e
+
+        try:
+            validated = estrategia_cls.reglas_schema.model_validate(value)
+        except PydanticValidationError as e:
+            raise serializers.ValidationError(e.errors()) from e
+
+        return validated.model_dump()
 
 
 class SolicitudLicenciaSerializer(serializers.ModelSerializer):

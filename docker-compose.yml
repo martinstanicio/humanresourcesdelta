@@ -9,15 +9,11 @@ services:
       - .env
     environment:
       DB_HOST: "db"
-    container_name: humanresourcesdelta-api
-    image: humanresourcesdelta-api
     restart: unless-stopped
 
   client:
     build:
       context: ./client
-    container_name: humanresourcesdelta-client
-    image: humanresourcesdelta-client
     restart: unless-stopped
 
   db:

@@ -29,7 +29,7 @@ Sin embargo, otros comandos como `makemigrations` y `migrate` requieren acceso a
 > Para ejecutar comandos dentro del contenedor, el mismo debe estar corriendo. Si no lo está, se puede iniciar con `docker compose up`.
 
 ```sh
-docker compose exec humanresourcesdelta-api uv run manage.py makemigrations
+docker compose exec api uv run manage.py makemigrations
 ```
 
 > [!warning]

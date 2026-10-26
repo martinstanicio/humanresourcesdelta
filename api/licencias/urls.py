@@ -4,6 +4,7 @@ from .views import (
     LicenciaDetailView,
     LicenciaHistorialListView,
     LicenciaListCreateView,
+    LicenciaSaldoView,
     LicenciaVersionDetailView,
     SolicitudLicenciaDetailView,
     SolicitudLicenciaListCreateView,
@@ -19,6 +20,11 @@ urlpatterns = [
         "licencias/versiones/<int:pk>/",
         LicenciaVersionDetailView.as_view(),
         name="licencia-version-detail",
+    ),
+    path(
+        "licencias/<uuid:codigo>/saldo/",
+        LicenciaSaldoView.as_view(),
+        name="licencia-saldo",
     ),
     path(
         "licencias/<uuid:codigo>/",

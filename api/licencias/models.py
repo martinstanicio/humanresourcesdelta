@@ -15,6 +15,7 @@ class Licencia(models.Model):
     fecha_creacion = models.DateTimeField(default=timezone.now, editable=False)
     tipo = models.CharField(max_length=255)
     descripcion = models.TextField()
+    reglas = models.JSONField()
     activo = models.BooleanField(default=True)
 
     class Meta:

@@ -127,7 +127,7 @@ Sólo los usuarios con rol RRHH acceden a este caso de uso ([RNF-01](requerimien
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Intenta evaluar una solicitud cuyo rango de fechas ya transcurrió. | Muestra la advertencia: 'Las fechas de esta solicitud ya han vencido. La decisión quedará registrada como histórico'. | |
+| Intenta evaluar una solicitud cuyo rango de fechas ya transcurrió. | Muestra la advertencia: 'Las fechas de esta solicitud ya han vencido. La decisión quedará registrada como histórica'. | |
 | Confirma la decisión. | Registra la resolución en el historial de auditoría y la incluye en el reporte del período correspondiente. | |
 
 ### Flujo alternativo #2: Solicitud cancelada por el empleado
@@ -169,20 +169,13 @@ La notificación queda en estado 'Pendiente' hasta que RRHH la evalúe ([CU-04](
 | Verifica el resumen calculado, ingresa el motivo y adjunta la autorización si corresponde. | Muestra el desglose: cantidad de horas al 50% y al 100%, y el total declarado. | |
 | Confirma el envío. | Registra la notificación en estado 'Pendiente', asigna un número de seguimiento, notifica automáticamente a RRHH y registra el evento en el log de auditoría. | Notificación automática ([RF-08](requerimientos.md#rf-08)). |
 
-### Flujo alternativo #1: Se supera el tope del convenio
-
-| Usuario | Sistema | Observaciones |
-| :--- | :--- | :--- |
-| Declara una cantidad de horas que excede el tope diario o mensual definido en el convenio. | Muestra la alerta indicando el tope aplicable y las horas ya declaradas en el período. | Tope parametrizado en [CU-11](#cu-11-abm-convenios-de-trabajo). |
-| Confirma igualmente el envío o corrige el rango horario. | Si confirma: registra la notificación con la marca 'Excede tope' para que RRHH la revise con prioridad. Si corrige: vuelve al formulario con los datos ingresados. | |
-
-### Flujo alternativo #2: Superposición con otra notificación
+### Flujo alternativo #1: Superposición con otra notificación
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
 | Declara un rango horario que se superpone con una notificación ya registrada para la misma fecha. | Detecta el conflicto, muestra la notificación existente e impide continuar hasta que el empleado corrija el rango. | No se genera ningún registro nuevo. |
 
-### Flujo alternativo #3: Período ya cerrado
+### Flujo alternativo #2: Período ya cerrado
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
@@ -194,7 +187,7 @@ Permite al área de Recursos Humanos revisar y resolver las notificaciones de ho
 
 RRHH puede además aprobar la notificación con un ajuste sobre la cantidad de horas reconocidas cuando lo declarado no coincide con lo efectivamente autorizado; el ajuste exige justificación y se informa al empleado.
 
-Sólo las horas en estado 'Aprobada' o 'Aprobada con ajuste', por la cantidad reconocida, se incorporan al reporte mensual ([CU-09](#cu-09-ver-reporte-mensual)). Toda decisión queda registrada en el log de auditoría ([RNF-04](requerimientos.md#rnf-04)).
+Sólo las horas en estado 'Aprobada' se incorporan al reporte mensual ([CU-09](#cu-09-ver-reporte-mensual)). Toda decisión queda registrada en el log de auditoría ([RNF-04](requerimientos.md#rnf-04)).
 
 - **Actores**
   - RRHH (primario)
@@ -235,7 +228,7 @@ Sólo las horas en estado 'Aprobada' o 'Aprobada con ajuste', por la cantidad re
 
 ## CU-05 Consultar estado de solicitud
 
-Permite al empleado consultar el historial completo de sus solicitudes de licencia y el estado actual de cada una: Pendiente, En revisión, Aprobada, Rechazada o Cancelada, junto con las observaciones ingresadas por RRHH al resolverlas ([RF-06](requerimientos.md#rf-06)).
+Permite al empleado consultar el historial completo de sus solicitudes de licencia y el estado actual de cada una: Pendiente, Aprobada, Rechazada o Cancelada, junto con las observaciones ingresadas por RRHH al resolverlas ([RF-06](requerimientos.md#rf-06)).
 
 Este caso de uso no permite modificar los datos de la solicitud original. Desde el detalle de una solicitud aún no resuelta, el empleado puede extender el flujo hacia la cancelación ([CU-07](#cu-07-cancelar-solicitud-de-licencia)).
 
@@ -253,7 +246,7 @@ Por aplicación del control de acceso basado en roles, el empleado sólo visuali
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Accede al módulo 'Mis Licencias'. | Recupera y muestra el listado de todas las solicitudes del empleado autenticado, ordenadas por fecha de envío descendente, con el estado de cada una resaltado visualmente. | Pendiente: amarillo / En revisión: azul / Aprobada: verde / Rechazada: rojo / Cancelada: gris |
+| Accede al módulo 'Mis Licencias'. | Recupera y muestra el listado de todas las solicitudes del empleado autenticado, ordenadas por fecha de envío descendente, con el estado de cada una resaltado visualmente. | Pendiente: amarillo / Aprobada: verde / Rechazada: rojo / Cancelada: azul |
 | Selecciona una solicitud para ver su detalle. | Muestra: número de seguimiento, tipo de licencia, rango de fechas, días solicitados, fecha de envío, estado actual, usuario de RRHH que la resolvió, fecha de resolución y observaciones. | |
 | Revisa la información y vuelve al listado. | Regresa al listado general de solicitudes. | |
 
@@ -271,7 +264,7 @@ Por aplicación del control de acceso basado en roles, el empleado sólo visuali
 
 ## CU-06 Consultar estado de horas extras
 
-Permite al empleado consultar el historial de sus notificaciones de horas extra y el estado de cada una: Pendiente, Aprobada, Aprobada con ajuste, Rechazada o Cancelada, junto con las observaciones de RRHH ([RF-06](requerimientos.md#rf-06)).
+Permite al empleado consultar el historial de sus notificaciones de horas extra y el estado de cada una: Pendiente, Aprobada, Rechazada o Cancelada, junto con las observaciones de RRHH ([RF-06](requerimientos.md#rf-06)).
 
 Además del listado, el sistema presenta un resumen acumulado del período en curso con las horas aprobadas discriminadas por multiplicador, lo que permite al empleado anticipar el contenido de su liquidación.
 
@@ -309,7 +302,7 @@ Este caso de uso no permite modificar datos. Desde el detalle de una notificaci�
 
 Extiende a [CU-05](#cu-05-consultar-estado-de-solicitud). Permite al empleado dejar sin efecto una solicitud de licencia que él mismo generó, dando de baja el trámite sin eliminar el registro histórico.
 
-La cancelación está habilitada mientras la solicitud se encuentre en estado 'Pendiente' o 'En revisión'. También se admite sobre una licencia ya aprobada cuya fecha de inicio sea posterior al día de la cancelación; en ese caso el sistema reintegra los días al saldo del empleado y notifica a RRHH del cambio.
+La cancelación está habilitada mientras la solicitud se encuentre en estado 'Pendiente' o 'Aprobado'.
 
 La solicitud pasa al estado terminal 'Cancelada' y el evento queda registrado en el log de auditoría con usuario, fecha y hora ([RNF-04](requerimientos.md#rnf-04)).
 
@@ -326,22 +319,9 @@ La solicitud pasa al estado terminal 'Cancelada' y el evento queda registrado en
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Desde el detalle de una solicitud ([CU-05](#cu-05-consultar-estado-de-solicitud)), selecciona la opción 'Cancelar solicitud'. | Verifica que el estado de la solicitud admita la cancelación y solicita el ingreso de un motivo de cancelación. | Estados habilitados: Pendiente y En revisión. |
+| Desde el detalle de una solicitud ([CU-05](#cu-05-consultar-estado-de-solicitud)), selecciona la opción 'Cancelar solicitud'. | Verifica que el estado de la solicitud admita la cancelación y solicita el ingreso de un motivo de cancelación. | Estados habilitados: Pendiente y Aprobado. |
 | Ingresa el motivo y confirma la acción. | Solicita la confirmación definitiva advirtiendo que la operación no puede deshacerse. | |
 | Confirma. | Actualiza el estado a 'Cancelada', retira la solicitud de la bandeja de pendientes de RRHH, notifica al área y registra el evento en el log de auditoría. | |
-
-### Flujo alternativo #1: Licencia aprobada con fecha de inicio futura
-
-| Usuario | Sistema | Observaciones |
-| :--- | :--- | :--- |
-| Solicita la cancelación de una licencia ya aprobada que aún no comenzó. | Advierte que la licencia fue aprobada y que la cancelación reintegrará los días al saldo disponible. | |
-| Confirma la cancelación. | Actualiza el estado, reintegra los días al saldo del empleado, notifica a RRHH y registra el evento en auditoría. | |
-
-### Flujo alternativo #2: Licencia ya iniciada o finalizada
-
-| Usuario | Sistema | Observaciones |
-| :--- | :--- | :--- |
-| Intenta cancelar una licencia aprobada cuyo rango de fechas ya comenzó. | Bloquea la acción e informa que la licencia ya se encuentra en curso o finalizada, indicando que el ajuste debe gestionarse con RRHH. | Preserva la consistencia del reporte mensual. |
 
 ## CU-08 Cancelar notificación de horas extras
 
@@ -405,7 +385,7 @@ El reporte puede exportarse en formato PDF para su distribución ([RNF-05](reque
 | Accede al módulo 'Reportes' y define los filtros de búsqueda: mes, año y, opcionalmente, empleado o área. | Verifica el rol RRHH y presenta la interfaz de selección de parámetros con el período anterior preseleccionado. | |
 | Presiona el botón 'Generar reporte'. | Recupera el reporte consolidado del período o, si se trata de un período abierto, consolida en línea las licencias y horas extra aprobadas. | Sólo se incluyen los registros en estado 'Aprobada'. |
 | Visualiza el resumen en pantalla. | Muestra, por empleado: horas extra al 50%, horas extra al 100%, total de horas extra, días de licencia por tipo y saldo de días restante. Incluye totales por área. | |
-| Selecciona la opción 'Exportar a PDF'. | Genera el archivo PDF con el detalle del período, la fecha y hora de emisión y el usuario que lo solicitó, y registra la descarga en el log de auditoría. | Exportación en PDF ([RNF-05](requerimientos.md#rnf-05)). |
+| Selecciona la opción 'Exportar a PDF'. | Genera el archivo PDF con el detalle del período, la fecha y hora de emisión y el usuario que lo solicita, y registra la descarga en el log de auditoría. | Exportación en PDF ([RNF-05](requerimientos.md#rnf-05)). |
 
 ### Flujo alternativo #1: Sin datos en el período seleccionado
 

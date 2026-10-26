@@ -50,7 +50,7 @@ import { injectHlmSidebarConfig } from "./hlm-sidebar.token";
             <h2 hlmSheetTitle>{{ srOnlySheetTitle() }}</h2>
             <p hlmSheetDescription>{{ srOnlySheetDescription() }}</p>
           </hlm-sheet-header>
-          <div class="flex h-full w-full flex-col">
+          <div class="flex size-full flex-col">
             <ng-container *ngTemplateOutlet="contentContainer" />
           </div>
         </hlm-sheet-content>
@@ -108,7 +108,7 @@ export class HlmSidebar {
   public readonly sidebarContainerClass = input<ClassValue>("");
   protected readonly _sidebarContainerComputedClass = computed(() =>
     hlm(
-      "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear data-[side=left]:left-0 data-[side=left]:group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)] data-[side=right]:right-0 data-[side=right]:group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)] md:flex",
+      "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear data-[side=left]:left-0 data-[side=left]:group-data-[collapsible=offcanvas]:-left-(--sidebar-width) data-[side=right]:right-0 data-[side=right]:group-data-[collapsible=offcanvas]:-right-(--sidebar-width) md:flex",
       this.variant() === "floating" || this.variant() === "inset"
         ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
         : "group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l",

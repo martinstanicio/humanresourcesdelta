@@ -1,16 +1,18 @@
+from datetime import date
 from uuid import UUID
 
 from django.db import transaction
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-from rest_framework import status
+from rest_framework import serializers, status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from empleados.models import Empleado, RolEmpleado
 
+from .estrategias import obtener_estrategia
 from .models import EstadoSolicitudLicencia, Licencia, SolicitudLicencia
 from .serializers import (
     LicenciaSerializer,
@@ -214,6 +216,105 @@ class LicenciaHistorialListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class LicenciaSaldoView(APIView):
+    def get(self, request: Request, codigo: UUID) -> Response:
+        user = request.user
+        if not isinstance(user, Empleado):
+            return Response(
+                {"detail": "Credenciales inválidas."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        empleado = user
+
+        _legajo = request.query_params.get("empleado")
+        if _legajo is not None:
+            try:
+                legajo = int(_legajo)
+            except ValueError:
+                return Response(
+                    {"detail": "El legajo debe ser un número entero."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            if user.rol != RolEmpleado.RECURSOS_HUMANOS and user.legajo != legajo:
+                return Response(
+                    {
+                        "detail": "No tienes permiso para consultar el saldo de otro empleado."
+                    },
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+
+            empleado = get_object_or_404(Empleado, legajo=legajo)
+
+        if not empleado.activo:
+            return Response(
+                {"detail": "El empleado se encuentra inactivo."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        licencia = (
+            Licencia.objects.filter(codigo=codigo).order_by("-fecha_creacion").first()
+        )
+
+        if not licencia:
+            return Response(
+                {"detail": "No se encontró la licencia."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if not licencia.activo:
+            return Response(
+                {"detail": "La licencia se encuentra inactiva."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if empleado.convenio != licencia.convenio:
+            return Response(
+                {
+                    "detail": (
+                        "El tipo de licencia no corresponde al convenio del empleado."
+                    )
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if not isinstance(licencia.reglas, dict):
+            return Response(
+                {"detail": "La licencia no tiene reglas configuradas."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        estrategia_data = licencia.reglas.get("estrategia")
+        if not isinstance(estrategia_data, dict):
+            return Response(
+                {
+                    "detail": "Las reglas de la licencia no configuran una estrategia válida."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        tipo = estrategia_data.get("tipo")
+        if not isinstance(tipo, str):
+            return Response(
+                {"detail": ("La estrategia configurada no posee un tipo válido.")},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            estrategia_cls = obtener_estrategia(tipo)
+        except ValueError as e:
+            return Response(
+                {"detail": str(e)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        estrategia = estrategia_cls()
+        resultado = estrategia.calcular_saldo(licencia=licencia, empleado=empleado)
+
+        return Response(resultado.model_dump(), status=status.HTTP_200_OK)
+
+
 class SolicitudLicenciaListCreateView(APIView):
     def get_queryset(self, request: Request) -> QuerySet[SolicitudLicencia]:
         queryset = SolicitudLicencia.objects.all()
@@ -245,6 +346,56 @@ class SolicitudLicenciaListCreateView(APIView):
             context={"request": request},
         )
         serializer.is_valid(raise_exception=True)
+
+        user = request.user
+        if isinstance(user, Empleado):
+            fecha_inicio: date = serializer.validated_data["fecha_inicio"]
+            fecha_fin: date = serializer.validated_data["fecha_fin"]
+            licencia: Licencia = serializer.validated_data["licencia"]
+
+            superpuesta = SolicitudLicencia.objects.filter(
+                empleado=user,
+                estado__in=[
+                    EstadoSolicitudLicencia.PENDIENTE,
+                    EstadoSolicitudLicencia.APROBADA,
+                ],
+                fecha_inicio__lte=fecha_fin,
+                fecha_fin__gte=fecha_inicio,
+            ).exists()
+
+            if superpuesta:
+                return Response(
+                    {
+                        "detail": "El rango de fechas seleccionado se superpone con otra solicitud existente."
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            if isinstance(licencia.reglas, dict):
+                estrategia_data = licencia.reglas.get("estrategia")
+                if isinstance(estrategia_data, dict):
+                    tipo = estrategia_data.get("tipo")
+                    if isinstance(tipo, str):
+                        try:
+                            estrategia_cls = obtener_estrategia(tipo)
+                        except ValueError as e:
+                            raise serializers.ValidationError({
+                                "non_field_errors": [str(e)]
+                            }) from e
+
+                        estrategia = estrategia_cls()
+                        resultado = estrategia.validar_solicitud(
+                            licencia=licencia,
+                            empleado=user,
+                            fecha_inicio=fecha_inicio,
+                            fecha_fin=fecha_fin,
+                        )
+
+                        if not resultado.es_valido:
+                            raise serializers.ValidationError({
+                                "non_field_errors": resultado.errores
+                            })
+
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
