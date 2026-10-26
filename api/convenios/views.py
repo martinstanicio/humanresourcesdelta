@@ -1,4 +1,4 @@
-from django.db.models import QuerySet
+from django.db.models import Count, Q, QuerySet
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.request import Request
@@ -13,7 +13,9 @@ from .serializers import ConvenioSerializer
 
 class ConvenioListCreateView(APIView):
     def get_queryset(self, request: Request) -> QuerySet[Convenio]:
-        queryset = Convenio.objects.all().order_by("id")
+        queryset = Convenio.objects.annotate(
+            empleados_activos=Count("empleados", filter=Q(empleados__activo=True))
+        ).order_by("id")
         user = request.user
 
         if isinstance(user, Empleado) and user.rol == RolEmpleado.EMPLEADO:
