@@ -22,7 +22,7 @@ El proyecto está preparado para ejecutarse en **contenedores**, por lo que no e
 
 Sin embargo, para un desarrollo más cómodo, se recomienda instalar [uv](https://docs.astral.sh/uv/getting-started/installation/), un gestor de entornos, paquetes y proyectos de Python, y [Angular CLI](https://angular.dev/tools/cli), una herramienta que permite crear, desarrollar, probar, desplegar y mantener aplicaciones Angular desde la terminal.
 
-## 🚀 Guía de desarrollo
+## 🚀 Guía de despliegue
 
 El primer paso es clonar el repositorio y acceder a la carpeta del proyecto.
 
