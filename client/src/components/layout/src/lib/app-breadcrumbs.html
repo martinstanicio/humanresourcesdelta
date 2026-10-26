@@ -9,9 +9,19 @@
     </li>
     @if (currentItem(); as item) {
       <li class="hidden sm:block" hlmBreadcrumbSeparator></li>
-      <li hlmBreadcrumbItem>
-        <span hlmBreadcrumbPage>{{ item.title }}</span>
-      </li>
+      @if (extraLabel(); as extra) {
+        <li hlmBreadcrumbItem>
+          <a hlmBreadcrumbLink [link]="item.href">{{ item.title }}</a>
+        </li>
+        <li hlmBreadcrumbSeparator></li>
+        <li hlmBreadcrumbItem>
+          <span hlmBreadcrumbPage>{{ extra }}</span>
+        </li>
+      } @else {
+        <li hlmBreadcrumbItem>
+          <span hlmBreadcrumbPage>{{ item.title }}</span>
+        </li>
+      }
     }
   </ol>
 </nav>

@@ -10,6 +10,7 @@ import { HlmBreadcrumbImports } from "@spartan-ng/helm/breadcrumb";
 import { filter, map } from "rxjs/operators";
 
 import { navigation } from "@/lib/navigation";
+import { BreadcrumbService } from "@/services/breadcrumb.service";
 
 @Component({
   selector: "app-breadcrumbs",
@@ -19,6 +20,9 @@ import { navigation } from "@/lib/navigation";
 })
 export class AppBreadcrumbs {
   private readonly _router = inject(Router);
+  private readonly _breadcrumbService = inject(BreadcrumbService);
+
+  protected readonly extraLabel = this._breadcrumbService.label;
 
   private readonly _currentUrl = toSignal(
     this._router.events.pipe(
