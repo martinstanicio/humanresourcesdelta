@@ -39,11 +39,15 @@ class Command(TyperCommand):
                 anio = hoy.year
 
         if not 1 <= mes <= 12:
-            self.stderr.write(self.style.ERROR("Error: El mes debe estar entre 1 y 12."))
+            self.stderr.write(
+                self.style.ERROR("Error: El mes debe estar entre 1 y 12.")
+            )
             raise typer.Exit(code=1)
 
         if anio < 2000:
-            self.stderr.write(self.style.ERROR("Error: El año debe ser mayor o igual al 2000."))
+            self.stderr.write(
+                self.style.ERROR("Error: El año debe ser mayor o igual al 2000.")
+            )
             raise typer.Exit(code=1)
 
         fecha_inicio = date(anio, mes, 1)
@@ -53,7 +57,9 @@ class Command(TyperCommand):
         empleados = Empleado.objects.filter(activo=True).order_by("legajo")
         creados = 0
 
-        self.stdout.write(f"\n=== Reporte Mensual de Liquidacion ({mes:02d}/{anio}) ===")
+        self.stdout.write(
+            f"\n=== Reporte Mensual de Liquidacion ({mes:02d}/{anio}) ==="
+        )
 
         for emp in empleados:
             reporte, created = Reporte.objects.get_or_create(
@@ -80,8 +86,12 @@ class Command(TyperCommand):
 
             tipos_lic = {k: v for k, v in lic.items() if k != "total"}
             if tipos_lic:
-                lic_str = ", ".join(f"{tipo}: {dias} dias" for tipo, dias in tipos_lic.items())
-                self.stdout.write(f"  - Licencias: {lic_str} (Total: {lic['total']} dias)")
+                lic_str = ", ".join(
+                    f"{tipo}: {dias} dias" for tipo, dias in tipos_lic.items()
+                )
+                self.stdout.write(
+                    f"  - Licencias: {lic_str} (Total: {lic['total']} dias)"
+                )
             else:
                 self.stdout.write("  - Licencias: 0 dias")
 
