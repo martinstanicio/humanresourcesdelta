@@ -95,5 +95,3 @@ export class AppConvenioList implements OnInit {
     this.statusFilter.set("all");
   }
 }
-
-export { AppConvenioList as ConveniosList };

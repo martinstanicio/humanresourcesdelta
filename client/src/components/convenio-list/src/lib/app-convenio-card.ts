@@ -14,5 +14,3 @@ import { Convenio } from "@/models/convenio.model";
 export class AppConvenioCard {
   public readonly convenio = input.required<Convenio>();
 }
-
-export { AppConvenioCard as ConveniosCard };

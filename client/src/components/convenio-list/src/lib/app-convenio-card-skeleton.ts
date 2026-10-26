@@ -8,5 +8,3 @@ import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
   templateUrl: "./app-convenio-card-skeleton.html",
 })
 export class AppConvenioCardSkeleton {}
-
-export { AppConvenioCardSkeleton as ConveniosCardSkeleton };
