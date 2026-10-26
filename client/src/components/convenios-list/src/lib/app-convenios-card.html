@@ -1,4 +1,4 @@
-<a hlmCard [routerLink]="['/convenios', convenio().id]">
+<div class="justify-between" hlmCard>
   <div hlmCardHeader>
     <div class="flex items-center justify-between gap-2">
       <h3 hlmCardTitle>{{ convenio().nombre }}</h3>
@@ -17,4 +17,14 @@
       }}
     </p>
   </div>
-</a>
+  <div class="justify-end" hlmCardFooter>
+    <a
+      hlmBtn
+      size="sm"
+      variant="outline"
+      [routerLink]="['/convenios', convenio().id]"
+    >
+      Ver detalle
+    </a>
+  </div>
+</div>
