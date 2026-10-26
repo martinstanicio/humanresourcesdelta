@@ -1,3 +1,4 @@
+from datetime import datetime
 from uuid import UUID
 
 from django.db import transaction
@@ -10,7 +11,11 @@ from rest_framework.views import APIView
 
 from empleados.models import Empleado, RolEmpleado
 
-from .models import HoraExtra, NotificacionHorasExtras
+from .models import (
+    EstadoNotificacionHorasExtras,
+    HoraExtra,
+    NotificacionHorasExtras,
+)
 from .serializers import (
     HoraExtraSerializer,
     NotificacionHorasExtrasSerializer,
@@ -244,6 +249,30 @@ class NotificacionHorasExtrasListCreateView(APIView):
             context={"request": request},
         )
         serializer.is_valid(raise_exception=True)
+
+        user = request.user
+        if isinstance(user, Empleado):
+            fecha_inicio: datetime = serializer.validated_data["fecha_inicio"]
+            fecha_fin: datetime = serializer.validated_data["fecha_fin"]
+
+            superpuesta = NotificacionHorasExtras.objects.filter(
+                empleado=user,
+                estado__in=[
+                    EstadoNotificacionHorasExtras.PENDIENTE,
+                    EstadoNotificacionHorasExtras.APROBADA,
+                ],
+                fecha_inicio__lt=fecha_fin,
+                fecha_fin__gt=fecha_inicio,
+            ).exists()
+
+            if superpuesta:
+                return Response(
+                    {
+                        "detail": "El rango de fechas seleccionado se superpone con otra notificación existente."
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
