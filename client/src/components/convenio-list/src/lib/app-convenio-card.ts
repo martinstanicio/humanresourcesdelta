@@ -7,12 +7,12 @@ import { HlmCardImports } from "@spartan-ng/helm/card";
 import { Convenio } from "@/models/convenio.model";
 
 @Component({
-  selector: "app-convenios-card",
+  selector: "app-convenio-card",
   imports: [HlmBadge, HlmButton, HlmCardImports, RouterLink],
-  templateUrl: "./app-convenios-card.html",
+  templateUrl: "./app-convenio-card.html",
 })
-export class AppConveniosCard {
+export class AppConvenioCard {
   public readonly convenio = input.required<Convenio>();
 }
 
-export { AppConveniosCard as ConveniosCard };
+export { AppConvenioCard as ConveniosCard };

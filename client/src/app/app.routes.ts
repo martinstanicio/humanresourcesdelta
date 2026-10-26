@@ -26,8 +26,8 @@ export const routes: Routes = [
       {
         path: "convenios",
         loadComponent: () =>
-          import("./convenios/convenios-list/convenios-list").then(
-            (m) => m.ConveniosList,
+          import("./convenios/convenio-list/convenio-list").then(
+            (m) => m.ConvenioList,
           ),
       },
     ],

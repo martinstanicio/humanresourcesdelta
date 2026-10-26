@@ -3,10 +3,10 @@ import { HlmCardImports } from "@spartan-ng/helm/card";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 
 @Component({
-  selector: "app-convenios-card-skeleton",
+  selector: "app-convenio-card-skeleton",
   imports: [HlmCardImports, HlmSkeleton],
-  templateUrl: "./app-convenios-card-skeleton.html",
+  templateUrl: "./app-convenio-card-skeleton.html",
 })
-export class AppConveniosCardSkeleton {}
+export class AppConvenioCardSkeleton {}
 
-export { AppConveniosCardSkeleton as ConveniosCardSkeleton };
+export { AppConvenioCardSkeleton as ConveniosCardSkeleton };

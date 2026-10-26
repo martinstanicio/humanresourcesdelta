@@ -11,7 +11,7 @@ import {
 @Injectable({
   providedIn: "root",
 })
-export class ConveniosService {
+export class ConvenioService {
   private readonly _http = inject(HttpClient);
   private readonly _endpoint = "/api/convenios";
 

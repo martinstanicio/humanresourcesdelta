@@ -7,28 +7,28 @@ import { HlmCardImports } from "@spartan-ng/helm/card";
 import { HlmInputGroupImports } from "@spartan-ng/helm/input-group";
 
 import { Convenio } from "@/models/convenio.model";
-import { ConveniosService } from "@/services/convenios.service";
+import { ConvenioService } from "@/services/convenio.service";
 
-import { AppConveniosCard } from "./app-convenios-card";
-import { AppConveniosCardSkeleton } from "./app-convenios-card-skeleton";
+import { AppConvenioCard } from "./app-convenio-card";
+import { AppConvenioCardSkeleton } from "./app-convenio-card-skeleton";
 
 export type StatusFilter = "all" | "activos" | "inactivos";
 
 @Component({
-  selector: "app-convenios-list",
+  selector: "app-convenio-list",
   imports: [
-    AppConveniosCard,
-    AppConveniosCardSkeleton,
+    AppConvenioCard,
+    AppConvenioCardSkeleton,
     FormsModule,
     HlmButton,
     HlmCardImports,
     HlmInputGroupImports,
     NgIcon,
   ],
-  templateUrl: "./app-convenios-list.html",
+  templateUrl: "./app-convenio-list.html",
 })
-export class AppConveniosList implements OnInit {
-  private readonly _conveniosService = inject(ConveniosService);
+export class AppConvenioList implements OnInit {
+  private readonly _convenioService = inject(ConvenioService);
 
   public readonly convenios = signal<Convenio[]>([]);
   public readonly loading = signal(true);
@@ -78,7 +78,7 @@ export class AppConveniosList implements OnInit {
     this.loading.set(true);
     this.error.set(null);
 
-    this._conveniosService.getAll().subscribe({
+    this._convenioService.getAll().subscribe({
       next: (data) => {
         this.convenios.set(data);
         this.loading.set(false);
@@ -96,4 +96,4 @@ export class AppConveniosList implements OnInit {
   }
 }
 
-export { AppConveniosList as ConveniosList };
+export { AppConvenioList as ConveniosList };

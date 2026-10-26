@@ -1,11 +1,4 @@
 <div class="flex flex-col gap-6">
-  <div>
-    <h1 class="text-2xl font-bold tracking-tight">Convenios</h1>
-    <p class="text-sm text-muted-foreground">
-      Listado y estado de convenios colectivos de trabajo.
-    </p>
-  </div>
-
   <div
     class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
   >
@@ -72,7 +65,7 @@
   } @else if (loading()) {
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       @for (item of skeletonPlaceholders; track item) {
-        <app-convenios-card-skeleton />
+        <app-convenio-card-skeleton />
       }
     </div>
   } @else if (filteredConvenios().length === 0) {
@@ -94,7 +87,7 @@
   } @else {
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       @for (convenio of filteredConvenios(); track convenio.id) {
-        <app-convenios-card [convenio]="convenio" />
+        <app-convenio-card [convenio]="convenio" />
       }
     </div>
   }
