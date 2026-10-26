@@ -104,6 +104,11 @@ class OnboardingView(APIView):
 class EmpleadoListCreateView(APIView):
     def get_queryset(self, request: Request) -> QuerySet[Empleado]:
         queryset = Empleado.objects.all().order_by("legajo")
+
+        convenio = request.query_params.get("convenio")
+        if convenio is not None:
+            queryset = queryset.filter(convenio_id=convenio)
+
         activo = request.query_params.get("activo")
 
         if activo is not None:
