@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "django_typer",
+    "config",
     "convenios",
     "empleados",
     "horas_extras",

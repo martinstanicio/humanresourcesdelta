@@ -58,9 +58,20 @@ docker compose exec api uv run manage.py migrate
 > docker compose down
 > ```
 
+### Creación de datos de prueba
+
+Para facilitar el desarrollo, se puede ejecutar un comando que creará datos de prueba de todas las entidades en la base de datos.
+
+```sh
+docker compose exec api uv run manage.py seed
+```
+
 ### Creación del primer empleado
 
 Para poder iniciar sesión en la aplicación, es necesario tener un usuario configurado en la base de datos.
+
+> [!note]
+> El comando `seed` explicado en el paso anterior ya crea una serie de empleados de prueba. En ese caso, no es necesario crear un usuario adicional para poder iniciar sesión.
 
 Una vez que la aplicación esté en funcionamiento, recursos humanos puede crear nuevos usuarios desde la interfaz gráfica, pero para crear el primero, es necesario utilizar el comando personalizado `createuser`:
 
