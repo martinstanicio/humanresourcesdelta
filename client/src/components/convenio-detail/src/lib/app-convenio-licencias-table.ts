@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 import { HlmTableImports } from "@spartan-ng/helm/table";
 import {
   createColumnHelper,
+  flexRenderComponent,
   FlexRenderDirective,
   injectTable,
 } from "@tanstack/angular-table";
@@ -12,25 +13,26 @@ import {
 } from "@/lib/data-table-features";
 import { Licencia } from "@/models/licencia.model";
 
+import { AppTableItemStatus } from "./app-table-item-status";
 import { AppDataTablePagination } from "./data-table-pagination";
 import { AppDataTableSearch } from "./data-table-search";
 
 const columnHelper = createColumnHelper<DataTableFeatures, Licencia>();
 
 export const LICENCIA_COLUMNS = columnHelper.columns([
-  columnHelper.accessor("codigo", {
-    header: "Código",
-  }),
   columnHelper.accessor("tipo", {
     header: "Tipo",
+    cell: (info) =>
+      flexRenderComponent(AppTableItemStatus, {
+        inputs: {
+          label: info.getValue(),
+          activo: info.row.original.activo,
+        },
+      }),
   }),
   columnHelper.accessor("descripcion", {
     header: "Descripción",
     cell: (info) => info.getValue() || "-",
-  }),
-  columnHelper.accessor("activo", {
-    header: "Estado",
-    cell: (info) => (info.getValue() ? "Activo" : "Inactivo"),
   }),
 ]);
 

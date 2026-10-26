@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 import { HlmTableImports } from "@spartan-ng/helm/table";
 import {
   createColumnHelper,
+  flexRenderComponent,
   FlexRenderDirective,
   injectTable,
 } from "@tanstack/angular-table";
@@ -12,6 +13,7 @@ import {
 } from "@/lib/data-table-features";
 import { Empleado } from "@/models/empleado.model";
 
+import { AppTableItemStatus } from "./app-table-item-status";
 import { AppDataTablePagination } from "./data-table-pagination";
 import { AppDataTableSearch } from "./data-table-search";
 
@@ -23,6 +25,13 @@ export const EMPLEADO_COLUMNS = columnHelper.columns([
   }),
   columnHelper.accessor("nombre", {
     header: "Nombre",
+    cell: (info) =>
+      flexRenderComponent(AppTableItemStatus, {
+        inputs: {
+          label: info.getValue(),
+          activo: info.row.original.activo,
+        },
+      }),
   }),
   columnHelper.accessor("fecha_ingreso", {
     header: "Fecha de ingreso",
@@ -36,10 +45,6 @@ export const EMPLEADO_COLUMNS = columnHelper.columns([
   columnHelper.accessor("rol", {
     header: "Rol",
     cell: (info) => (info.getValue() === "rrhh" ? "RRHH" : "Empleado"),
-  }),
-  columnHelper.accessor("activo", {
-    header: "Estado",
-    cell: (info) => (info.getValue() ? "Activo" : "Inactivo"),
   }),
 ]);
 
