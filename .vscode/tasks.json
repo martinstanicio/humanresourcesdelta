@@ -98,6 +98,14 @@
     {
       "icon": { "id": "code" },
       "isBackground": true,
+      "label": "npm: lint with eslint",
+      "options": { "cwd": "${workspaceFolder}/client" },
+      "script": "lint",
+      "type": "npm"
+    },
+    {
+      "icon": { "id": "code" },
+      "isBackground": true,
       "label": "npm: format with prettier",
       "options": { "cwd": "${workspaceFolder}/client" },
       "script": "format",
