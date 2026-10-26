@@ -5,13 +5,14 @@ from django.db import transaction
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-from rest_framework import status
+from rest_framework import serializers, status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from empleados.models import Empleado, RolEmpleado
 
+from .estrategias import obtener_estrategia
 from .models import EstadoSolicitudLicencia, Licencia, SolicitudLicencia
 from .serializers import (
     LicenciaSerializer,
@@ -251,6 +252,7 @@ class SolicitudLicenciaListCreateView(APIView):
         if isinstance(user, Empleado):
             fecha_inicio: date = serializer.validated_data["fecha_inicio"]
             fecha_fin: date = serializer.validated_data["fecha_fin"]
+            licencia: Licencia = serializer.validated_data["licencia"]
 
             superpuesta = SolicitudLicencia.objects.filter(
                 empleado=user,
@@ -269,6 +271,31 @@ class SolicitudLicenciaListCreateView(APIView):
                     },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
+
+            if isinstance(licencia.reglas, dict):
+                estrategia_data = licencia.reglas.get("estrategia")
+                if isinstance(estrategia_data, dict):
+                    tipo = estrategia_data.get("tipo")
+                    if isinstance(tipo, str):
+                        try:
+                            estrategia_cls = obtener_estrategia(tipo)
+                        except ValueError as e:
+                            raise serializers.ValidationError({
+                                "non_field_errors": [str(e)]
+                            }) from e
+
+                        estrategia = estrategia_cls()
+                        resultado = estrategia.validar_solicitud(
+                            licencia=licencia,
+                            empleado=user,
+                            fecha_inicio=fecha_inicio,
+                            fecha_fin=fecha_fin,
+                        )
+
+                        if not resultado.es_valido:
+                            raise serializers.ValidationError({
+                                "non_field_errors": resultado.errores
+                            })
 
         serializer.save()
 
