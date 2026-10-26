@@ -19,13 +19,13 @@ import { classes } from "@spartan-ng/helm/utils";
   template: `
     @if (showIcon()) {
       <hlm-skeleton
-        data-sidebar="menu-skeleton-icon"
         class="size-4 rounded-md"
+        data-sidebar="menu-skeleton-icon"
       />
     } @else {
       <hlm-skeleton
-        data-sidebar="menu-skeleton-text"
         class="h-4 max-w-(--skeleton-width) flex-1"
+        data-sidebar="menu-skeleton-text"
         [style.--skeleton-width]="_width"
       />
     }

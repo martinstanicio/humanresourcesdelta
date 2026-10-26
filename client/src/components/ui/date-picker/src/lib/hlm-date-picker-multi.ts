@@ -58,13 +58,13 @@ export const HLM_DATE_PICKER_MULTI_VALUE_ACCESSOR = {
         <ng-content select="[hlmDatePickerHeader]" />
         <hlm-calendar-multi
           class="rounded-none border-0"
-          [date]="_mutableDate()"
           [captionLayout]="captionLayout()"
-          [min]="minDate()"
-          [max]="maxDate()"
-          [minSelection]="minSelection()"
-          [maxSelection]="maxSelection()"
+          [date]="_mutableDate()"
           [disabled]="_disabled()"
+          [max]="maxDate()"
+          [maxSelection]="maxSelection()"
+          [min]="minDate()"
+          [minSelection]="minSelection()"
           (dateChange)="_handleChange($event)"
         />
         <ng-content select="[hlmDatePickerFooter]" />

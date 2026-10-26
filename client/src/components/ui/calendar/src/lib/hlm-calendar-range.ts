@@ -82,13 +82,13 @@ import { classes, hlm } from "@spartan-ng/helm/utils";
         @let heading = _heading();
 
         <button
-          type="button"
           brnCalendarPreviousButton
-          variant="ghost"
-          hlmBtn
           class="order-first size-(--cell-size) p-0 select-none aria-disabled:opacity-50"
+          hlmBtn
+          type="button"
+          variant="ghost"
         >
-          <ng-icon name="lucideChevronLeft" class="rtl:rotate-180" />
+          <ng-icon class="rtl:rotate-180" name="lucideChevronLeft" />
         </button>
 
         @switch (captionLayout()) {
@@ -116,23 +116,23 @@ import { classes, hlm } from "@spartan-ng/helm/utils";
         }
 
         <button
-          type="button"
           brnCalendarNextButton
-          hlmBtn
-          variant="ghost"
           class="order-last size-(--cell-size) p-0 select-none aria-disabled:opacity-50"
+          hlmBtn
+          type="button"
+          variant="ghost"
         >
-          <ng-icon name="lucideChevronRight" class="rtl:rotate-180" />
+          <ng-icon class="rtl:rotate-180" name="lucideChevronRight" />
         </button>
       </div>
 
-      <table class="w-full border-collapse space-y-1" brnCalendarGrid>
+      <table brnCalendarGrid class="w-full border-collapse space-y-1">
         <thead aria-hidden="true">
           <tr class="flex">
             <th
               *brnCalendarWeekday="let weekday"
-              scope="col"
               class="flex-1 rounded-(--cell-radius) text-[0.8rem] font-normal text-muted-foreground select-none"
+              scope="col"
               [attr.aria-label]="_i18n.config().labelWeekday(weekday)"
             >
               {{ _i18n.config().formatWeekdayName(weekday) }}
@@ -148,10 +148,10 @@ import { classes, hlm } from "@spartan-ng/helm/utils";
                 class="group/day relative isolate z-0 aspect-square size-full rounded-(--cell-radius) p-0 text-center select-none has-[button[data-range-end=true]]:rounded-e-(--cell-radius) has-[button[data-range-end=true]]:bg-muted has-[button[data-range-end=true]]:after:absolute has-[button[data-range-end=true]]:after:inset-y-0 has-[button[data-range-end=true]]:after:inset-s-0 has-[button[data-range-end=true]]:after:w-4 has-[button[data-range-end=true]]:after:bg-muted has-[button[data-range-start=true]]:rounded-s-(--cell-radius) has-[button[data-range-start=true]]:bg-muted has-[button[data-range-start=true]]:after:absolute has-[button[data-range-start=true]]:after:inset-y-0 has-[button[data-range-start=true]]:after:inset-e-0 has-[button[data-range-start=true]]:after:w-4 has-[button[data-range-start=true]]:after:bg-muted [&:first-child[data-selected=true]_button]:rounded-s-(--cell-radius) [&:last-child[data-selected=true]_button]:rounded-e-(--cell-radius)"
               >
                 <button
-                  type="button"
                   brnCalendarCellButton
-                  [date]="date"
+                  type="button"
                   [class]="_btnClass"
+                  [date]="date"
                 >
                   {{ _dateAdapter.getDate(date) }}
                 </button>

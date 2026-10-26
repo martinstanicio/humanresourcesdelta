@@ -20,20 +20,20 @@ import type { ClassValue } from "clsx";
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <button
-      type="button"
-      brnSelectTrigger
       brnFieldControlDescribedBy
+      brnSelectTrigger
       data-slot="select-trigger"
-      [forceInvalid]="forceInvalid()"
-      [id]="buttonId()"
-      [class]="_computedClass()"
+      type="button"
       [aria-invalid]="ariaInvalidInput()"
       [attr.data-size]="size()"
+      [class]="_computedClass()"
+      [forceInvalid]="forceInvalid()"
+      [id]="buttonId()"
     >
       <ng-content />
       <ng-icon
-        name="lucideChevronDown"
         class="ms-auto text-[--spacing(4)] text-muted-foreground"
+        name="lucideChevronDown"
       />
     </button>
   `,

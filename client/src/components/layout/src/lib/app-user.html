@@ -2,10 +2,10 @@
 <ul hlmSidebarMenu>
   <li hlmSidebarMenuItem>
     <button
-      type="button"
+      align="end"
       hlmSidebarMenuButton
       size="lg"
-      align="end"
+      type="button"
       [hlmDropdownMenuTrigger]="menu"
       [side]="_menuSide()"
     >
@@ -23,7 +23,7 @@
           userRoleName()
         }}</span>
       </div>
-      <ng-icon name="lucideChevronsUpDown" class="ml-auto text-base" />
+      <ng-icon class="ml-auto text-base" name="lucideChevronsUpDown" />
     </button>
   </li>
 </ul>
@@ -55,9 +55,9 @@
     <hlm-dropdown-menu-separator />
     <hlm-dropdown-menu-group>
       <a
+        class="cursor-pointer"
         hlmDropdownMenuItem
         routerLink="/me"
-        class="cursor-pointer"
         (click)="onNavigateProfile()"
       >
         <ng-icon name="lucideUser" />
@@ -66,10 +66,10 @@
     </hlm-dropdown-menu-group>
     <hlm-dropdown-menu-separator />
     <button
-      type="button"
-      hlmDropdownMenuItem
-      variant="destructive"
       class="cursor-pointer"
+      hlmDropdownMenuItem
+      type="button"
+      variant="destructive"
       (click)="logout()"
     >
       <ng-icon name="lucideLogOut" />

@@ -58,9 +58,9 @@ export const HLM_MONTH_YEAR_PICKER_VALUE_ACCESSOR = {
           class="rounded-none border-0"
           [date]="_mutableDate()"
           [defaultFocusedDate]="_mutableDate() ?? defaultFocusedDate()"
-          [min]="minDate()"
-          [max]="maxDate()"
           [disabled]="_disabled()"
+          [max]="maxDate()"
+          [min]="minDate()"
           (dateChange)="_handleChange($event)"
         />
         <ng-content select="[hlmDatePickerFooter]" />

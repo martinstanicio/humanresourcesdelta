@@ -65,9 +65,9 @@ import { HlmPaginationPrevious } from "./hlm-pagination-previous";
               <a
                 hlmPaginationLink
                 queryParamsHandling="merge"
+                [isActive]="currentPage() === page"
                 [link]="currentPage() !== page ? link() : undefined"
                 [queryParams]="{ page }"
-                [isActive]="currentPage() === page"
               >
                 {{ page }}
               </a>

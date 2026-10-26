@@ -58,14 +58,14 @@ export const HLM_DATE_RANGE_PICKER_VALUE_ACCESSOR = {
         <ng-content select="[hlmDatePickerHeader]" />
         <hlm-calendar-range
           class="rounded-none border-0"
-          [startDate]="_start()"
           [captionLayout]="captionLayout()"
-          [endDate]="_end()"
-          [min]="minDate()"
-          [max]="maxDate()"
           [disabled]="_disabled()"
-          (startDateChange)="_handleStartDayChange($event)"
+          [endDate]="_end()"
+          [max]="maxDate()"
+          [min]="minDate()"
+          [startDate]="_start()"
           (endDateChange)="_handleEndDateChange($event)"
+          (startDateChange)="_handleStartDayChange($event)"
         />
         <ng-content select="[hlmDatePickerFooter]" />
       </hlm-popover-content>

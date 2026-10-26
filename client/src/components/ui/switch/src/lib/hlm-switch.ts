@@ -37,15 +37,15 @@ export const HLM_SWITCH_VALUE_ACCESSOR = {
   },
   template: `
     <brn-switch
-      [class]="_computedClass()"
-      [size]="size()"
-      [checked]="checked()"
-      [disabled]="_disabled()"
-      [id]="inputId()"
-      [forceInvalid]="forceInvalid()"
+      [aria-describedby]="ariaDescribedby()"
       [aria-label]="ariaLabel()"
       [aria-labelledby]="ariaLabelledby()"
-      [aria-describedby]="ariaDescribedby()"
+      [checked]="checked()"
+      [class]="_computedClass()"
+      [disabled]="_disabled()"
+      [forceInvalid]="forceInvalid()"
+      [id]="inputId()"
+      [size]="size()"
       (checkedChange)="handleChange($event)"
       (touched)="_onTouched?.()"
     >

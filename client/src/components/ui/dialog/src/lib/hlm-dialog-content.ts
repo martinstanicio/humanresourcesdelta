@@ -42,12 +42,12 @@ type HlmDialogContentContext = {
 
     @if (showCloseButton()) {
       <button
-        type="button"
-        hlmBtn
-        variant="ghost"
-        size="icon-sm"
         class="absolute inset-e-2 top-2"
+        hlmBtn
         hlmDialogClose
+        size="icon-sm"
+        type="button"
+        variant="ghost"
       >
         <span class="sr-only">{{ closeLabel() }}</span>
         <ng-icon name="lucideX" />

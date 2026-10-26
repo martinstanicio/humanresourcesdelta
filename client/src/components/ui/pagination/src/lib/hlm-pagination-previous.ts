@@ -24,25 +24,25 @@ import { HlmPaginationLink } from "./hlm-pagination-link";
     @if (link()) {
       <a
         hlmPaginationLink
+        [attr.aria-label]="ariaLabel()"
         [class]="_computedClass()"
         [link]="link()"
         [queryParams]="queryParams()"
         [queryParamsHandling]="queryParamsHandling()"
         [size]="_size()"
-        [attr.aria-label]="ariaLabel()"
       >
-        <ng-icon name="lucideChevronLeft" class="rtl:rotate-180" />
+        <ng-icon class="rtl:rotate-180" name="lucideChevronLeft" />
         <span [class]="_labelClass()">{{ text() }}</span>
       </a>
     } @else {
       <button
-        type="button"
         hlmPaginationLink
+        type="button"
+        [attr.aria-label]="ariaLabel()"
         [class]="_computedClass()"
         [size]="_size()"
-        [attr.aria-label]="ariaLabel()"
       >
-        <ng-icon name="lucideChevronLeft" class="rtl:rotate-180" />
+        <ng-icon class="rtl:rotate-180" name="lucideChevronLeft" />
         <span [class]="_labelClass()">{{ text() }}</span>
       </button>
     }

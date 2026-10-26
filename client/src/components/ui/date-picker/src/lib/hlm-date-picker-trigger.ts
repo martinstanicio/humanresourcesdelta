@@ -39,21 +39,21 @@ import { ClassValue } from "clsx";
   host: { "data-slot": "date-picker-trigger" },
   template: `
     <button
-      type="button"
+      brnFieldControlDescribedBy
       hlmBtn
       hlmPopoverTrigger
-      brnFieldControlDescribedBy
-      [id]="buttonId()"
+      type="button"
+      [attr.aria-invalid]="_ariaInvalid()"
+      [attr.data-dirty]="_dirty?.() ? 'true' : null"
+      [attr.data-invalid]="_ariaInvalid()"
+      [attr.data-matches-spartan-invalid]="_spartanInvalid() ? 'true' : null"
+      [attr.data-placeholder]="_isPlaceholder() ? '' : null"
+      [attr.data-touched]="_touched?.() ? 'true' : null"
       [class]="_computedClass()"
       [disabled]="_disabled()"
-      [attr.aria-invalid]="_ariaInvalid()"
-      [attr.data-invalid]="_ariaInvalid()"
-      [attr.data-touched]="_touched?.() ? 'true' : null"
-      [attr.data-dirty]="_dirty?.() ? 'true' : null"
-      [attr.data-matches-spartan-invalid]="_spartanInvalid() ? 'true' : null"
-      [variant]="variant()"
       [hlmPopoverTriggerFor]="_popover()"
-      [attr.data-placeholder]="_isPlaceholder() ? '' : null"
+      [id]="buttonId()"
+      [variant]="variant()"
     >
       <span class="truncate">
         @if (_formattedDate(); as formattedDate) {

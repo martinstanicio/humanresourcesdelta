@@ -40,10 +40,10 @@ import { injectHlmSidebarConfig } from "./hlm-sidebar.token";
       >
         <hlm-sheet-content
           *hlmSheetPortal="let ctx"
-          data-slot="sidebar"
-          data-sidebar="sidebar"
-          data-mobile="true"
           class="h-svh w-(--sidebar-width) bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
+          data-mobile="true"
+          data-sidebar="sidebar"
+          data-slot="sidebar"
           [style.--sidebar-width]="sidebarWidthMobile()"
         >
           <hlm-sheet-header class="sr-only">
@@ -64,9 +64,9 @@ import { injectHlmSidebarConfig } from "./hlm-sidebar.token";
         [class]="_sidebarContainerComputedClass()"
       >
         <div
+          class="flex size-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:shadow-sm group-data-[variant=floating]:ring-1 group-data-[variant=floating]:ring-sidebar-border"
           data-sidebar="sidebar"
           data-slot="sidebar-inner"
-          class="flex size-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:shadow-sm group-data-[variant=floating]:ring-1 group-data-[variant=floating]:ring-sidebar-border"
         >
           <ng-container *ngTemplateOutlet="contentContainer" />
         </div>

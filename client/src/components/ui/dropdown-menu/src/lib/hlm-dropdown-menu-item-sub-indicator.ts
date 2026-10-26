@@ -10,8 +10,8 @@ import { classes } from "@spartan-ng/helm/utils";
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ng-icon
-      name="lucideChevronRight"
       class="text-[--spacing(4)] rtl:rotate-180"
+      name="lucideChevronRight"
     />
   `,
 })

@@ -10,8 +10,8 @@ import { classes } from "@spartan-ng/helm/utils";
   template: `
     <hlm-separator class="absolute inset-0 top-1/2" />
     <span
-      data-slot="field-separator-content"
       class="relative mx-auto block w-fit bg-background px-2 text-muted-foreground"
+      data-slot="field-separator-content"
     >
       <ng-content />
     </span>

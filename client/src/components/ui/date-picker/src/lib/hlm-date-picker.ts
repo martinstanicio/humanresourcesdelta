@@ -60,9 +60,9 @@ export const HLM_DATE_PICKER_VALUE_ACCESSOR = {
           [captionLayout]="captionLayout()"
           [date]="_mutableDate()"
           [defaultFocusedDate]="_mutableDate() ?? defaultFocusedDate()"
-          [min]="minDate()"
-          [max]="maxDate()"
           [disabled]="_disabled()"
+          [max]="maxDate()"
+          [min]="minDate()"
           (dateChange)="_handleChange($event)"
         />
         <ng-content select="[hlmDatePickerFooter]" />

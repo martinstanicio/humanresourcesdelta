@@ -9,14 +9,14 @@
     <form (ngSubmit)="onSubmit()">
       <hlm-field-group>
         <hlm-field [forceInvalid]="getFieldError('legajo').length > 0">
-          <label hlmFieldLabel for="legajo">Legajo</label>
+          <label for="legajo" hlmFieldLabel>Legajo</label>
           <input
             hlmInput
-            type="text"
             id="legajo"
             name="legajo"
             placeholder="1042"
             required
+            type="text"
             [(ngModel)]="legajo"
           />
           @for (err of getFieldError("legajo"); track err) {
@@ -24,13 +24,13 @@
           }
         </hlm-field>
         <hlm-field [forceInvalid]="getFieldError('password').length > 0">
-          <label hlmFieldLabel for="password">Contraseña</label>
+          <label for="password" hlmFieldLabel>Contraseña</label>
           <input
             hlmInput
-            type="password"
             id="password"
             name="password"
             required
+            type="password"
             [(ngModel)]="password"
           />
           @for (err of getFieldError("password"); track err) {
@@ -40,15 +40,15 @@
         <hlm-field
           [forceInvalid]="getFieldError('confirmar_password').length > 0"
         >
-          <label hlmFieldLabel for="confirmar_password"
+          <label for="confirmar_password" hlmFieldLabel
             >Confirmación de contraseña</label
           >
           <input
             hlmInput
-            type="password"
             id="confirmar_password"
             name="confirmar_password"
             required
+            type="password"
             [(ngModel)]="confirmarPassword"
           />
           @for (err of getFieldError("confirmar_password"); track err) {

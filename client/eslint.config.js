@@ -83,7 +83,12 @@ module.exports = defineConfig([
     ],
     files: ["**/*.html"],
     rules: {
-      "@angular-eslint/template/attributes-order": "error",
+      "@angular-eslint/template/attributes-order": [
+        "error",
+        {
+          alphabetical: true,
+        },
+      ],
       "@angular-eslint/template/button-has-type": "error",
     },
   },

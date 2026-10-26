@@ -55,8 +55,8 @@ import { HlmPaginationPrevious } from "./hlm-pagination-previous";
                 <hlm-pagination-ellipsis />
               } @else {
                 <button
-                  type="button"
                   hlmPaginationLink
+                  type="button"
                   [isActive]="currentPage() === page"
                   (click)="currentPage.set(page)"
                 >

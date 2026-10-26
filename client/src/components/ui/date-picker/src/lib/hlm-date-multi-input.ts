@@ -33,29 +33,29 @@ import { injectHlmDatePickerMultiConfig } from "./hlm-date-picker-multi.token";
     <input
       #input
       hlmInputGroupInput
-      [value]="_inputValue()"
-      [id]="inputId()"
-      [placeholder]="placeholder()"
+      [attr.aria-invalid]="_ariaInvalid()"
+      [attr.data-dirty]="_dirty?.() ? 'true' : null"
+      [attr.data-invalid]="_ariaInvalid()"
+      [attr.data-matches-spartan-invalid]="_spartanInvalid() ? 'true' : null"
+      [attr.data-touched]="_touched?.() ? 'true' : null"
       [disabled]="_disabled()"
       [forceInvalid]="forceInvalid()"
-      [attr.aria-invalid]="_ariaInvalid()"
-      [attr.data-invalid]="_ariaInvalid()"
-      [attr.data-touched]="_touched?.() ? 'true' : null"
-      [attr.data-dirty]="_dirty?.() ? 'true' : null"
-      [attr.data-matches-spartan-invalid]="_spartanInvalid() ? 'true' : null"
+      [id]="inputId()"
+      [placeholder]="placeholder()"
+      [value]="_inputValue()"
+      (blur)="_handleBlur()"
       (click)="_handleClick()"
+      (focus)="_handleFocus()"
+      (input)="_handleInputChange($event)"
       (keydown.arrowDown)="_open()"
       (keydown.enter)="_handleEnter($event)"
-      (input)="_handleInputChange($event)"
-      (focus)="_handleFocus()"
-      (blur)="_handleBlur()"
     />
     <hlm-input-group-addon align="inline-end">
       @if (_showClearButton()) {
         <button
-          type="button"
           hlmInputGroupButton
           size="icon-xs"
+          type="button"
           variant="ghost"
           [attr.aria-label]="clearAriaLabel()"
           [disabled]="_disabled()"
@@ -65,9 +65,9 @@ import { injectHlmDatePickerMultiConfig } from "./hlm-date-picker-multi.token";
         </button>
       }
       <button
-        type="button"
         hlmInputGroupButton
         size="icon-xs"
+        type="button"
         [attr.aria-label]="calendarAriaLabel()"
         [disabled]="_disabled()"
         (click)="_popover().open()"
