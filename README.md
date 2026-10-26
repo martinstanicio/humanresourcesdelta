@@ -1,6 +1,6 @@
 # Human Resources Delta
 
-Plataforma de gestión de licencias y horas extras para recursos humanos. Utiliza PostgreSQL como base de datos, una API REST construida con Django y Django Rest Framework, una aplicación web construida con Angular, y Nginx como reverse proxy. El sistema está diseñado para ser ejecutado en contenedores Docker para facilitar el despliegue y mantenimiento.
+Plataforma de gestión de licencias y horas extras para recursos humanos. Utiliza [PostgreSQL](https://www.postgresql.org/) como base de datos, una API REST construida con [Django](https://www.djangoproject.com/) y [Django Rest Framework](https://www.django-rest-framework.org/), una aplicación web construida con [Angular](https://angular.dev/) y [Spartan](https://spartan.ng/), y [Nginx](https://nginx.org/) como reverse proxy. El sistema está diseñado para ser ejecutado en contenedores Docker para facilitar el despliegue y mantenimiento.
 
 ## 📚 Documentación
 

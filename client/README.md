@@ -17,26 +17,19 @@ npm install
 
 ## Scripts
 
-Dentro del `package.json` se encuentran definidos algunos scripts útiles para interactuar con la aplicación, como `start`, `test` y `format`.
+Dentro del `package.json` se encuentran definidos algunos scripts útiles para interactuar con la aplicación, como `start`, `lint` y `format`.
 
 ```sh
 npm run format
 ```
 
-## Generación de código
+## Gestión de componentes
 
-El CLI de Angular incluye potentes herramientas de generación de código, que nos permiten crear componentes, servicios, etc.
+El CLI de Spartan permite agregar componentes al proyecto mediante un comando simple, que instala las dependencias necesarias y genera los archivos correspondientes.
 
 ```sh
-ng generate component component-name
+ng g @spartan-ng/cli:ui
 ```
-
-> [!note]
-> Para una lista completa de esquemas disponibles (como `components`, `directives` o `pipes`), ejecuta:
->
-> ```sh
-> ng generate --help
-> ```
 
 ## Acceso al cliente
 
