@@ -9,7 +9,7 @@ import { Empleado } from "@/models/empleado.model";
 })
 export class EmpleadoService {
   private readonly _http = inject(HttpClient);
-  private readonly _endpoint = "/api/empleados";
+  private readonly _endpoint = "/api/empleados/";
 
   getAll(): Observable<Empleado[]> {
     return this._http.get<Empleado[]>(this._endpoint);
@@ -22,6 +22,6 @@ export class EmpleadoService {
   }
 
   getById(pk: number): Observable<Empleado> {
-    return this._http.get<Empleado>(`${this._endpoint}/${pk}/`);
+    return this._http.get<Empleado>(`${this._endpoint}${pk}/`);
   }
 }

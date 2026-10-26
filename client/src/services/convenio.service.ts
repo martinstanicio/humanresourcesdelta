@@ -13,14 +13,14 @@ import {
 })
 export class ConvenioService {
   private readonly _http = inject(HttpClient);
-  private readonly _endpoint = "/api/convenios";
+  private readonly _endpoint = "/api/convenios/";
 
   getAll(): Observable<Convenio[]> {
     return this._http.get<Convenio[]>(this._endpoint);
   }
 
   getById(id: number): Observable<Convenio> {
-    return this._http.get<Convenio>(`${this._endpoint}/${id}`);
+    return this._http.get<Convenio>(`${this._endpoint}${id}/`);
   }
 
   create(dto: CreateConvenioDto): Observable<Convenio> {
@@ -28,10 +28,10 @@ export class ConvenioService {
   }
 
   update(id: number, dto: UpdateConvenioDto): Observable<Convenio> {
-    return this._http.patch<Convenio>(`${this._endpoint}/${id}`, dto);
+    return this._http.patch<Convenio>(`${this._endpoint}${id}/`, dto);
   }
 
   delete(id: number): Observable<void> {
-    return this._http.delete<void>(`${this._endpoint}/${id}`);
+    return this._http.delete<void>(`${this._endpoint}${id}/`);
   }
 }

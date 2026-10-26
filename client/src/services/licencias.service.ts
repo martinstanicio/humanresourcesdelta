@@ -9,7 +9,7 @@ import { Licencia } from "@/models/licencia.model";
 })
 export class LicenciaService {
   private readonly _http = inject(HttpClient);
-  private readonly _endpoint = "/api/licencias";
+  private readonly _endpoint = "/api/licencias/";
 
   getAll(): Observable<Licencia[]> {
     return this._http.get<Licencia[]>(this._endpoint);

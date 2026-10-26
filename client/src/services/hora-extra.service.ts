@@ -9,7 +9,7 @@ import { HoraExtra } from "@/models/hora-extra.model";
 })
 export class HoraExtraService {
   private readonly _http = inject(HttpClient);
-  private readonly _endpoint = "/api/horas-extras";
+  private readonly _endpoint = "/api/horas-extras/";
 
   getAll(): Observable<HoraExtra[]> {
     return this._http.get<HoraExtra[]>(this._endpoint);
