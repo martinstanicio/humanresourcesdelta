@@ -8,6 +8,9 @@ import { HlmBadge } from "@spartan-ng/helm/badge";
   template: `
     <div class="inline-flex items-center gap-2">
       <span>{{ label() }}</span>
+      @if (rol() === "rrhh") {
+        <span hlmBadge variant="default">RRHH</span>
+      }
       @if (!activo()) {
         <span hlmBadge variant="destructive">Inactivo</span>
       }
@@ -17,4 +20,5 @@ import { HlmBadge } from "@spartan-ng/helm/badge";
 export class AppTableItemStatus {
   public readonly label = input.required<string>();
   public readonly activo = input.required<boolean>();
+  public readonly rol = input<string | null>(null);
 }

@@ -3,6 +3,7 @@ import { AppConvenioEmpleadosTable } from "./lib/app-convenio-empleados-table";
 import { AppConvenioHorasExtrasTable } from "./lib/app-convenio-horas-extras-table";
 import { AppConvenioLicenciasTable } from "./lib/app-convenio-licencias-table";
 import { AppTableItemStatus } from "./lib/app-table-item-status";
+import { AppDataTableFilter } from "./lib/data-table-filter";
 import { AppDataTablePagination } from "./lib/data-table-pagination";
 import { AppDataTableSearch } from "./lib/data-table-search";
 
@@ -11,6 +12,7 @@ export * from "./lib/app-convenio-empleados-table";
 export * from "./lib/app-convenio-horas-extras-table";
 export * from "./lib/app-convenio-licencias-table";
 export * from "./lib/app-table-item-status";
+export * from "./lib/data-table-filter";
 export * from "./lib/data-table-pagination";
 export * from "./lib/data-table-search";
 
@@ -21,5 +23,6 @@ export const AppConvenioDetailImports = [
   AppConvenioHorasExtrasTable,
   AppDataTableSearch,
   AppDataTablePagination,
+  AppDataTableFilter,
   AppTableItemStatus,
 ] as const;

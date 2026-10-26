@@ -1,4 +1,20 @@
-<app-data-table-search placeholder="Buscar empleados..." [table]="table" />
+<div
+  class="flex flex-col gap-4 py-4 lg:flex-row lg:items-center lg:justify-between"
+>
+  <app-data-table-search placeholder="Buscar empleados..." [table]="table" />
+  <div class="flex flex-wrap items-center gap-4">
+    <app-data-table-filter
+      label="Estado"
+      [options]="estadoFilterOptions"
+      [(value)]="estadoFilter"
+    />
+    <app-data-table-filter
+      label="Rol"
+      [options]="rolFilterOptions"
+      [(value)]="rolFilter"
+    />
+  </div>
+</div>
 
 <div class="overflow-hidden rounded-md border">
   <div hlmTableContainer>
@@ -9,15 +25,51 @@
             @for (header of headerGroup.headers; track header.id) {
               <th hlmTableHead>
                 @if (!header.isPlaceholder) {
-                  <ng-container
-                    *flexRender="
-                      header.column.columnDef.header;
-                      props: header.getContext();
-                      let headerText
-                    "
-                  >
-                    {{ headerText }}
-                  </ng-container>
+                  @if (header.column.getCanSort()) {
+                    <button
+                      class="-ml-3 h-8 gap-1 font-medium"
+                      hlmBtn
+                      size="sm"
+                      type="button"
+                      variant="ghost"
+                      (click)="
+                        header.column.toggleSorting(
+                          header.column.getIsSorted() === 'asc'
+                        )
+                      "
+                    >
+                      <ng-container
+                        *flexRender="
+                          header.column.columnDef.header;
+                          props: header.getContext();
+                          let headerText
+                        "
+                      >
+                        {{ headerText }}
+                      </ng-container>
+                      @switch (header.column.getIsSorted()) {
+                        @case ("desc") {
+                          <ng-icon [svg]="arrowDownIcon" />
+                        }
+                        @case ("asc") {
+                          <ng-icon [svg]="arrowUpIcon" />
+                        }
+                        @default {
+                          <ng-icon [svg]="arrowUpDownIcon" />
+                        }
+                      }
+                    </button>
+                  } @else {
+                    <ng-container
+                      *flexRender="
+                        header.column.columnDef.header;
+                        props: header.getContext();
+                        let headerText
+                      "
+                    >
+                      {{ headerText }}
+                    </ng-container>
+                  }
                 }
               </th>
             }
