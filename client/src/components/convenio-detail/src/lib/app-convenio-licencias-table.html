@@ -1,0 +1,60 @@
+<app-data-table-search placeholder="Buscar licencias..." [table]="table" />
+
+<div class="overflow-hidden rounded-md border">
+  <div hlmTableContainer>
+    <table hlmTable>
+      <thead hlmTableHeader>
+        @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
+          <tr hlmTableRow>
+            @for (header of headerGroup.headers; track header.id) {
+              <th hlmTableHead>
+                @if (!header.isPlaceholder) {
+                  <ng-container
+                    *flexRender="
+                      header.column.columnDef.header;
+                      props: header.getContext();
+                      let headerText
+                    "
+                  >
+                    {{ headerText }}
+                  </ng-container>
+                }
+              </th>
+            }
+          </tr>
+        }
+      </thead>
+      <tbody hlmTableBody>
+        @for (row of table.getRowModel().rows; track row.id) {
+          <tr hlmTableRow>
+            @for (cell of row.getVisibleCells(); track cell.id) {
+              <td hlmTableCell>
+                <ng-container
+                  *flexRender="
+                    cell.column.columnDef.cell;
+                    props: cell.getContext();
+                    let cellValue
+                  "
+                >
+                  {{ cellValue }}
+                </ng-container>
+              </td>
+            }
+          </tr>
+        } @empty {
+          <tr hlmTableRow>
+            <td
+              class="h-24 text-center"
+              hlmTableCell
+              [attr.colspan]="columns.length"
+            >
+              No se encontraron licencias.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<app-data-table-pagination [table]="table" />

@@ -1,0 +1,39 @@
+@if (loading()) {
+  <div class="flex flex-col gap-6">
+    <div class="flex flex-col gap-2">
+      <div class="h-6 w-32" hlmSkeleton></div>
+      <div class="h-10 w-full max-w-sm" hlmSkeleton></div>
+      <div class="h-48 w-full rounded-md border" hlmSkeleton></div>
+    </div>
+    <div class="flex flex-col gap-2">
+      <div class="h-6 w-32" hlmSkeleton></div>
+      <div class="h-10 w-full max-w-sm" hlmSkeleton></div>
+      <div class="h-48 w-full rounded-md border" hlmSkeleton></div>
+    </div>
+  </div>
+} @else if (error()) {
+  <div
+    class="rounded-md border border-destructive/50 p-4 text-sm text-destructive"
+  >
+    {{ error() }}
+  </div>
+} @else if (convenio(); as c) {
+  <div class="flex flex-col gap-8">
+    @if (c.activo) {
+      <section class="flex flex-col gap-2">
+        <h2 class="text-lg font-semibold tracking-tight">Empleados</h2>
+        <app-convenio-empleados-table [empleados]="empleados()" />
+      </section>
+    }
+
+    <section class="flex flex-col gap-2">
+      <h2 class="text-lg font-semibold tracking-tight">Licencias</h2>
+      <app-convenio-licencias-table [licencias]="latestLicencias()" />
+    </section>
+
+    <section class="flex flex-col gap-2">
+      <h2 class="text-lg font-semibold tracking-tight">Horas extras</h2>
+      <app-convenio-horas-extras-table [horasExtras]="latestHorasExtras()" />
+    </section>
+  </div>
+}

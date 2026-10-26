@@ -30,6 +30,13 @@ export const routes: Routes = [
             (m) => m.ConvenioList,
           ),
       },
+      {
+        path: "convenios/:id",
+        loadComponent: () =>
+          import("./convenios/convenio-detail/convenio-detail").then(
+            (m) => m.ConvenioDetail,
+          ),
+      },
     ],
   },
   {

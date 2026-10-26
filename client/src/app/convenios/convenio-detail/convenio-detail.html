@@ -1,0 +1,22 @@
+<div class="flex flex-col gap-6">
+  <div class="flex items-center gap-4">
+    <a class="gap-2" hlmBtn routerLink="/convenios" size="sm" variant="ghost">
+      <ng-icon [svg]="backIcon" />
+      Volver a convenios
+    </a>
+  </div>
+
+  @if (convenio(); as c) {
+    <div class="flex items-center gap-3">
+      <h1 class="text-2xl font-bold tracking-tight">{{ c.nombre }}</h1>
+      <span hlmBadge [variant]="c.activo ? 'default' : 'secondary'">
+        {{ c.activo ? "Activo" : "Inactivo" }}
+      </span>
+    </div>
+  }
+
+  <app-convenio-detail
+    [convenioId]="id()"
+    (convenioLoaded)="convenio.set($event)"
+  />
+</div>
