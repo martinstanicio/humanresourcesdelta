@@ -1,5 +1,7 @@
 from datetime import date
-from typing import TYPE_CHECKING, Protocol
+from typing import TYPE_CHECKING, ClassVar, Protocol
+
+from pydantic import BaseModel
 
 from licencias.schemas import ResultadoSaldo, ResultadoValidacion
 
@@ -11,6 +13,8 @@ if TYPE_CHECKING:
 
 
 class EstrategiaProtocol(Protocol):
+    reglas_schema: ClassVar[type[BaseModel]]
+
     def calcular_saldo(
         self,
         licencia: Licencia,

@@ -43,6 +43,8 @@ class ReglasCupoFijo(BaseModel):
 
 
 class CupoFijoEstrategia:
+    reglas_schema = ReglasCupoFijo
+
     def _sumar_meses_a_ancla(
         self,
         base_year: int,
@@ -130,7 +132,7 @@ class CupoFijoEstrategia:
         licencia: Licencia,
         empleado: Empleado,
     ) -> ResultadoSaldo:
-        reglas = ReglasCupoFijo.model_validate(getattr(licencia, "reglas", None))
+        reglas = ReglasCupoFijo.model_validate(licencia.reglas)
         hoy = timezone.localdate()
         inicio_periodo, fin_periodo = self.obtener_periodo(
             hoy, empleado, reglas.estrategia
@@ -171,7 +173,7 @@ class CupoFijoEstrategia:
         fecha_inicio: date,
         fecha_fin: date,
     ) -> ResultadoValidacion:
-        reglas = ReglasCupoFijo.model_validate(getattr(licencia, "reglas", None))
+        reglas = ReglasCupoFijo.model_validate(licencia.reglas)
         errores: list[str] = []
 
         if fecha_fin < fecha_inicio:
