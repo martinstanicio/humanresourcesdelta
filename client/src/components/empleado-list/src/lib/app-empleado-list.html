@@ -1,0 +1,137 @@
+<div class="flex flex-col gap-6">
+  <div
+    class="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between"
+  >
+    <div class="w-full sm:max-w-xs" hlmInputGroup>
+      <div hlmInputGroupAddon>
+        <ng-icon [svg]="searchIcon" />
+      </div>
+      <input
+        hlmInputGroupInput
+        placeholder="Buscar empleados..."
+        type="search"
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)"
+      />
+    </div>
+
+    <div class="flex flex-wrap items-center gap-4">
+      <div class="flex flex-wrap items-center gap-1.5">
+        <span class="mr-1 text-xs font-medium text-muted-foreground">Estado:</span>
+        <button
+          hlmBtn
+          size="sm"
+          type="button"
+          [variant]="statusFilter() === 'all' ? 'default' : 'outline'"
+          (click)="statusFilter.set('all')"
+        >
+          Todos ({{ totalCount() }})
+        </button>
+
+        <button
+          hlmBtn
+          size="sm"
+          type="button"
+          [variant]="statusFilter() === 'activos' ? 'default' : 'outline'"
+          (click)="statusFilter.set('activos')"
+        >
+          Activo ({{ activosCount() }})
+        </button>
+
+        <button
+          hlmBtn
+          size="sm"
+          type="button"
+          [variant]="statusFilter() === 'inactivos' ? 'default' : 'outline'"
+          (click)="statusFilter.set('inactivos')"
+        >
+          Inactivo ({{ inactivosCount() }})
+        </button>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-1.5">
+        <span class="mr-1 text-xs font-medium text-muted-foreground">Rol:</span>
+        <button
+          hlmBtn
+          size="sm"
+          type="button"
+          [variant]="rolFilter() === 'all' ? 'default' : 'outline'"
+          (click)="rolFilter.set('all')"
+        >
+          Todos
+        </button>
+
+        <button
+          hlmBtn
+          size="sm"
+          type="button"
+          [variant]="rolFilter() === 'rrhh' ? 'default' : 'outline'"
+          (click)="rolFilter.set('rrhh')"
+        >
+          RRHH ({{ rrhhCount() }})
+        </button>
+
+        <button
+          hlmBtn
+          size="sm"
+          type="button"
+          [variant]="rolFilter() === 'empleado' ? 'default' : 'outline'"
+          (click)="rolFilter.set('empleado')"
+        >
+          Empleado ({{ empleadoRolCount() }})
+        </button>
+      </div>
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="p-8 text-center text-destructive" hlmCard>
+      <p class="text-sm">{{ error() }}</p>
+      <button
+        class="mt-4"
+        hlmBtn
+        size="sm"
+        type="button"
+        variant="outline"
+        (click)="loadEmpleados()"
+      >
+        Reintentar
+      </button>
+    </div>
+  } @else if (loading()) {
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      @for (item of skeletonPlaceholders; track item) {
+        <app-empleado-card-skeleton />
+      }
+    </div>
+  } @else if (filteredEmpleados().length === 0) {
+    <div class="p-8 text-center" hlmCard>
+      <p class="text-sm text-muted-foreground">No se encontraron empleados.</p>
+      @if (searchQuery() || statusFilter() !== "all" || rolFilter() !== "all") {
+        <button
+          class="mt-4"
+          hlmBtn
+          size="sm"
+          type="button"
+          variant="outline"
+          (click)="clearFilters()"
+        >
+          Limpiar filtros
+        </button>
+      }
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      @for (empleado of filteredEmpleados(); track empleado.legajo) {
+        <app-empleado-card
+          [convenioNombre]="
+            empleado.convenio !== null
+              ? (conveniosMap().get(empleado.convenio) ?? ('Convenio #' + empleado.convenio))
+              : null
+          "
+          [empleado]="empleado"
+        />
+      }
+    </div>
+  }
+</div>
