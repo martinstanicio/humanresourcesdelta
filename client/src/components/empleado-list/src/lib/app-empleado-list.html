@@ -1,8 +1,8 @@
 <div class="flex flex-col gap-6">
   <div
-    class="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between"
+    class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
   >
-    <div class="w-full sm:max-w-xs" hlmInputGroup>
+    <div class="max-w-xs" hlmInputGroup>
       <div hlmInputGroupAddon>
         <ng-icon [svg]="searchIcon" />
       </div>
@@ -16,8 +16,7 @@
     </div>
 
     <div class="flex flex-wrap items-center gap-4">
-      <div class="flex flex-wrap items-center gap-1.5">
-        <span class="mr-1 text-xs font-medium text-muted-foreground">Estado:</span>
+      <div class="flex items-center gap-2">
         <button
           hlmBtn
           size="sm"
@@ -35,7 +34,7 @@
           [variant]="statusFilter() === 'activos' ? 'default' : 'outline'"
           (click)="statusFilter.set('activos')"
         >
-          Activo ({{ activosCount() }})
+          Activos ({{ activosCount() }})
         </button>
 
         <button
@@ -45,12 +44,11 @@
           [variant]="statusFilter() === 'inactivos' ? 'default' : 'outline'"
           (click)="statusFilter.set('inactivos')"
         >
-          Inactivo ({{ inactivosCount() }})
+          Inactivos ({{ inactivosCount() }})
         </button>
       </div>
 
-      <div class="flex flex-wrap items-center gap-1.5">
-        <span class="mr-1 text-xs font-medium text-muted-foreground">Rol:</span>
+      <div class="flex items-center gap-2">
         <button
           hlmBtn
           size="sm"
