@@ -1,0 +1,105 @@
+<div
+  class="flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between"
+>
+  <app-data-table-search placeholder="Buscar solicitudes..." [table]="table" />
+  <app-data-table-filter
+    label="Estado"
+    [options]="estadoFilterOptions"
+    [(value)]="estadoFilter"
+  />
+</div>
+
+<div class="overflow-hidden rounded-md border">
+  <div hlmTableContainer>
+    <table hlmTable>
+      <thead hlmTableHeader>
+        @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
+          <tr hlmTableRow>
+            @for (header of headerGroup.headers; track header.id) {
+              <th hlmTableHead>
+                @if (!header.isPlaceholder) {
+                  @if (header.column.getCanSort()) {
+                    <button
+                      class="-ml-3 h-8 gap-1 font-medium"
+                      hlmBtn
+                      size="sm"
+                      type="button"
+                      variant="ghost"
+                      (click)="
+                        header.column.toggleSorting(
+                          header.column.getIsSorted() === 'asc'
+                        )
+                      "
+                    >
+                      <ng-container
+                        *flexRender="
+                          header.column.columnDef.header;
+                          props: header.getContext();
+                          let headerText
+                        "
+                      >
+                        {{ headerText }}
+                      </ng-container>
+                      @switch (header.column.getIsSorted()) {
+                        @case ("desc") {
+                          <ng-icon [svg]="arrowDownIcon" />
+                        }
+                        @case ("asc") {
+                          <ng-icon [svg]="arrowUpIcon" />
+                        }
+                        @default {
+                          <ng-icon [svg]="arrowUpDownIcon" />
+                        }
+                      }
+                    </button>
+                  } @else {
+                    <ng-container
+                      *flexRender="
+                        header.column.columnDef.header;
+                        props: header.getContext();
+                        let headerText
+                      "
+                    >
+                      {{ headerText }}
+                    </ng-container>
+                  }
+                }
+              </th>
+            }
+          </tr>
+        }
+      </thead>
+      <tbody hlmTableBody>
+        @for (row of table.getRowModel().rows; track row.id) {
+          <tr hlmTableRow>
+            @for (cell of row.getVisibleCells(); track cell.id) {
+              <td hlmTableCell>
+                <ng-container
+                  *flexRender="
+                    cell.column.columnDef.cell;
+                    props: cell.getContext();
+                    let cellValue
+                  "
+                >
+                  {{ cellValue }}
+                </ng-container>
+              </td>
+            }
+          </tr>
+        } @empty {
+          <tr hlmTableRow>
+            <td
+              class="h-24 text-center"
+              hlmTableCell
+              [attr.colspan]="columns.length"
+            >
+              No se encontraron solicitudes de licencia.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<app-data-table-pagination [table]="table" />

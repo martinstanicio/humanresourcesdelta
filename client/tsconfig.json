@@ -26,6 +26,9 @@
         "./src/components/ui/calendar/src/index.ts"
       ],
       "@spartan-ng/helm/card": ["./src/components/ui/card/src/index.ts"],
+      "@spartan-ng/helm/combobox": [
+        "./src/components/ui/combobox/src/index.ts"
+      ],
       "@spartan-ng/helm/date-picker": [
         "./src/components/ui/date-picker/src/index.ts"
       ],
