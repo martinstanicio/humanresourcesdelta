@@ -20,9 +20,7 @@ from reportes.models import Reporte
 tz_buenos_aires = ZoneInfo("America/Argentina/Buenos_Aires")
 
 
-def generar_pdf_reporte_mensual(
-    reporte: Reporte, provisorio: bool = False
-) -> BytesIO:
+def generar_pdf_reporte_mensual(reporte: Reporte) -> BytesIO:
 
     # Configuración del "lienzo" en memoria"
     buffer = BytesIO()
@@ -89,11 +87,7 @@ def generar_pdf_reporte_mensual(
     elements.append(Paragraph("SISTEMA DE RECURSOS HUMANOS - DELTA", audit_style))
     elements.append(Paragraph("Reporte Mensual de Liquidación", title_style))
     periodo_str = f"{reporte.fecha_inicio.strftime('%m/%Y')} (del {reporte.fecha_inicio.strftime('%d/%m/%Y')} al {reporte.fecha_fin.strftime('%d/%m/%Y')})"
-    if provisorio:
-        subtitulo = f"Período: {periodo_str} &nbsp;&nbsp;<font color='#C53030'><b>[ESTADO PROVISORIO]</b></font>"
-    else:
-        subtitulo = f"Período: {periodo_str}"
-    elements.append(Paragraph(subtitulo, subtitle_style))
+    elements.append(Paragraph(f"Período: {periodo_str}", subtitle_style))
     elements.append(Spacer(1, 0.4 * cm))
     elements.append(
         HRFlowable(

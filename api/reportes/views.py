@@ -8,8 +8,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from empleados.models import Empleado, RolEmpleado
-from horas_extras.models import EstadoNotificacionHorasExtras, NotificacionHorasExtras
-from licencias.models import EstadoSolicitudLicencia, SolicitudLicencia
 
 from .models import Reporte
 from .pdf import generar_pdf_reporte_mensual
@@ -38,25 +36,6 @@ class ReporteMensualView(APIView):
         _, ultimo_dia = calendar.monthrange(anio, mes)
         fecha_fin = date(anio, mes, ultimo_dia)
 
-        # Flujo alternativo #2: Verificar si hay trámites pendientes en el mes
-        pendientes_he_qs = NotificacionHorasExtras.objects.filter(
-            fecha_inicio__date__gte=fecha_inicio,
-            fecha_fin__date__lte=fecha_fin,
-            estado=EstadoNotificacionHorasExtras.PENDIENTE,
-        )
-        pendientes_lic_qs = SolicitudLicencia.objects.filter(
-            fecha_inicio__lte=fecha_fin,
-            fecha_fin__gte=fecha_inicio,
-            estado=EstadoSolicitudLicencia.PENDIENTE,
-        )
-
-        if legajo is not None:
-            pendientes_he_qs = pendientes_he_qs.filter(empleado__legajo=legajo)
-            pendientes_lic_qs = pendientes_lic_qs.filter(empleado__legajo=legajo)
-
-        total_pendientes = pendientes_he_qs.count() + pendientes_lic_qs.count()
-        provisorio = total_pendientes > 0
-
         # Consultar los reportes ya generados por el Sistema para ese período (Solo Lectura)
         reportes = (
             Reporte.objects
@@ -79,8 +58,6 @@ class ReporteMensualView(APIView):
                     "mes": mes,
                     "fecha_inicio": fecha_inicio,
                     "fecha_fin": fecha_fin,
-                    "provisorio": provisorio,
-                    "tramites_pendientes": total_pendientes,
                     "total_empleados": 0,
                     "reportes": [],
                     "detail": "No se encontraron reportes generados para el período seleccionado.",
@@ -97,8 +74,6 @@ class ReporteMensualView(APIView):
                 "mes": mes,
                 "fecha_inicio": fecha_inicio,
                 "fecha_fin": fecha_fin,
-                "provisorio": provisorio,
-                "tramites_pendientes": total_pendientes,
                 "total_empleados": len(reportes_data),
                 "reportes": reportes_data,
             },
@@ -156,23 +131,8 @@ class ReporteMensualPDFView(APIView):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        # Verificar si para este empleado el reporte es provisorio
-        pendientes_he = NotificacionHorasExtras.objects.filter(
-            empleado__legajo=legajo,
-            fecha_inicio__date__gte=fecha_inicio,
-            fecha_fin__date__lte=fecha_fin,
-            estado=EstadoNotificacionHorasExtras.PENDIENTE,
-        ).exists()
-        pendientes_lic = SolicitudLicencia.objects.filter(
-            empleado__legajo=legajo,
-            fecha_inicio__lte=fecha_fin,
-            fecha_fin__gte=fecha_inicio,
-            estado=EstadoSolicitudLicencia.PENDIENTE,
-        ).exists()
-        provisorio = pendientes_he or pendientes_lic
-
         # Generar el archivo PDF en memoria
-        pdf_buffer = generar_pdf_reporte_mensual(reporte=reporte, provisorio=provisorio)
+        pdf_buffer = generar_pdf_reporte_mensual(reporte=reporte)
 
         response = HttpResponse(pdf_buffer.getvalue(), content_type="application/pdf")
         filename = f"reporte_mensual_legajo_{legajo}_{mes:02d}_{anio}.pdf"
