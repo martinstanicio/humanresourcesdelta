@@ -90,7 +90,6 @@ class Command(TyperCommand):
         ] = 0,
     ) -> None:
         is_superuser = rol == RolEmpleado.RECURSOS_HUMANOS.value
-        is_staff = True
 
         user = {
             "legajo": legajo,
@@ -99,7 +98,6 @@ class Command(TyperCommand):
             "rol": rol,
             "fecha_ingreso": fecha_ingreso,
             "is_superuser": is_superuser,
-            "is_staff": is_staff,
         }
 
         if convenio:
