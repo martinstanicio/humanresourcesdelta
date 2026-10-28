@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from empleados.models import Empleado, RolEmpleado
+from reportes.models import Reporte
 
 from .estrategias import obtener_estrategia
 from .models import EstadoSolicitudLicencia, Licencia, SolicitudLicencia
@@ -352,6 +353,23 @@ class SolicitudLicenciaListCreateView(APIView):
             fecha_inicio: date = serializer.validated_data["fecha_inicio"]
             fecha_fin: date = serializer.validated_data["fecha_fin"]
             licencia: Licencia = serializer.validated_data["licencia"]
+
+            # Período ya cerrado: si ya existe un reporte para ese empleado en esas fechas
+            periodo_cerrado = Reporte.objects.filter(
+                empleado=user,
+                fecha_inicio__lte=fecha_fin,
+                fecha_fin__gte=fecha_inicio,
+            ).exists()
+            if periodo_cerrado:
+                return Response(
+                    {
+                        "detail": (
+                            "El período correspondiente a estas fechas ya se encuentra cerrado. "
+                            "Para reclamos o solicitudes fuera de término, comuníquese con Recursos Humanos."
+                        )
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
             superpuesta = SolicitudLicencia.objects.filter(
                 empleado=user,
