@@ -1,0 +1,13 @@
+<div class="flex flex-col gap-6">
+  <div class="flex items-center gap-4">
+    <a class="gap-2" hlmBtn routerLink="/empleados" size="sm" variant="ghost">
+      <ng-icon [svg]="backIcon" />
+      Volver a empleados
+    </a>
+  </div>
+
+  <app-empleado-detail
+    [legajo]="legajo()"
+    (empleadoLoaded)="onEmpleadoLoaded($event)"
+  />
+</div>

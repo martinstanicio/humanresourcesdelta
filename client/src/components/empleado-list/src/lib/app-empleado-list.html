@@ -124,7 +124,8 @@
         <app-empleado-card
           [convenioNombre]="
             empleado.convenio !== null
-              ? (conveniosMap().get(empleado.convenio) ?? ('Convenio #' + empleado.convenio))
+              ? (conveniosMap().get(empleado.convenio) ??
+                'Convenio #' + empleado.convenio)
               : null
           "
           [empleado]="empleado"

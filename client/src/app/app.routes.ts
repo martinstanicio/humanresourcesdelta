@@ -44,6 +44,13 @@ export const routes: Routes = [
             (m) => m.EmpleadoList,
           ),
       },
+      {
+        path: "empleados/:legajo",
+        loadComponent: () =>
+          import("./empleados/empleado-detail/empleado-detail").then(
+            (m) => m.EmpleadoDetail,
+          ),
+      },
     ],
   },
   {
