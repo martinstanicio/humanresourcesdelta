@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from empleados.models import Empleado, RolEmpleado
+from reportes.models import Reporte
 
 from .models import (
     EstadoNotificacionHorasExtras,
@@ -254,6 +255,23 @@ class NotificacionHorasExtrasListCreateView(APIView):
         if isinstance(user, Empleado):
             fecha_inicio: datetime = serializer.validated_data["fecha_inicio"]
             fecha_fin: datetime = serializer.validated_data["fecha_fin"]
+
+            # Flujo alternativo #2: Período ya cerrado
+            periodo_cerrado = Reporte.objects.filter(
+                empleado=user,
+                fecha_inicio__lte=fecha_fin.date(),
+                fecha_fin__gte=fecha_inicio.date(),
+            ).exists()
+            if periodo_cerrado:
+                return Response(
+                    {
+                        "detail": (
+                            "El período correspondiente a esta fecha ya se encuentra cerrado. "
+                            "Para reclamos o solicitudes fuera de término, comuníquese con Recursos Humanos."
+                        )
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
             superpuesta = NotificacionHorasExtras.objects.filter(
                 empleado=user,
