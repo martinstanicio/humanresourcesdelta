@@ -18,28 +18,22 @@ export type FilterOption<T = string> = {
   imports: [HlmButton],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="flex items-center gap-1.5">
-      @if (label()) {
-        <span class="text-xs text-muted-foreground">{{ label() }}:</span>
+    <div class="flex flex-wrap items-center gap-1 sm:justify-end">
+      @for (opt of options(); track opt.value) {
+        <button
+          hlmBtn
+          size="sm"
+          type="button"
+          [variant]="value() === opt.value ? 'default' : 'outline'"
+          (click)="value.set(opt.value)"
+        >
+          {{ opt.label }}
+        </button>
       }
-      <div class="flex items-center gap-1">
-        @for (opt of options(); track opt.value) {
-          <button
-            hlmBtn
-            size="sm"
-            type="button"
-            [variant]="value() === opt.value ? 'default' : 'outline'"
-            (click)="value.set(opt.value)"
-          >
-            {{ opt.label }}
-          </button>
-        }
-      </div>
     </div>
   `,
 })
 export class AppDataTableFilter<T = string> {
-  public readonly label = input<string>("");
   public readonly options = input.required<FilterOption<T>[]>();
   public readonly value = model.required<T>();
 }
