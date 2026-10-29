@@ -9,7 +9,7 @@ import { DataTableFeatures } from "@/lib/data-table-features";
   imports: [HlmInput],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="flex items-center py-4">
+    <div class="flex items-center">
       <input
         class="max-w-sm"
         hlmInput

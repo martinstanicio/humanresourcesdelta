@@ -66,9 +66,11 @@ class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
 
         return value
 
-    def validate_motivo(self, value: str) -> str:
+    def validate_motivo_resolucion(self, value: str) -> str:
         if not (trimmed := value.strip()):
-            raise serializers.ValidationError("El motivo no puede estar vacío.")
+            raise serializers.ValidationError(
+                "El motivo de resolución no puede estar vacío."
+            )
 
         return trimmed
 

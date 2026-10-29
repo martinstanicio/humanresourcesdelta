@@ -62,67 +62,82 @@ classDiagram
 
 ```mermaid
 erDiagram
-    CONVENIO_DE_TRABAJO {
+    CONVENIO {
         int id PK
         string nombre
+        boolean activo
     }
-    
+
     EMPLEADO {
         int legajo PK
         int id_convenio FK
         string nombre
         date fecha_ingreso
+        string rol
+        string password
+        boolean activo
     }
-    
+
     HORA_EXTRA {
         int id PK
         int id_convenio FK
+        uuid codigo
+        datetime fecha_creacion
         string tipo
         string descripcion
         float multiplicador
+        json reglas
+        boolean activo
     }
-    
+
+    NOTIFICACION_HORAS_EXTRAS {
+        int id PK
+        int legajo_empleado FK
+        int id_hora_extra FK
+        datetime fecha_inicio
+        datetime fecha_fin
+        string motivo_resolucion
+        string estado
+    }
+
     LICENCIA {
         int id PK
         int id_convenio FK
+        uuid codigo
+        datetime fecha_creacion
         string tipo
         string descripcion
+        json reglas
+        boolean activo
     }
-    
-    REPORTE {
-        int id PK
-        int legajo FK
-        date fecha_generacion
-        date fecha_inicio
-        date fecha_fin
-    }
+
     SOLICITUD_LICENCIA {
         int id PK
         int legajo_empleado FK
         int id_licencia FK
         date fecha_inicio
         date fecha_fin
+        string motivo_solicitud
+        string motivo_resolucion
         string estado
-        string motivo
     }
-    
-    NOTIFICACION_HORAS_EXTRAS {
+
+    REPORTE {
         int id PK
         int legajo_empleado FK
-        int id_hora_extra FK
-        date fecha
-        float horas
-        string estado
-        string motivo
+        date fecha_inicio
+        date fecha_fin
+        datetime fecha_generacion
     }
-    
 
-    CONVENIO_DE_TRABAJO ||--o{ EMPLEADO : "agrupa"
-    CONVENIO_DE_TRABAJO ||--o{ HORA_EXTRA : "establece"
-    CONVENIO_DE_TRABAJO ||--o{ LICENCIA : "establece"
-    EMPLEADO ||--o{ REPORTE : "le corresponde"
+    CONVENIO ||--o{ EMPLEADO : "rige a"
+    CONVENIO ||--o{ HORA_EXTRA : "establece"
+    CONVENIO ||--o{ LICENCIA : "establece"
+
     EMPLEADO ||--o{ NOTIFICACION_HORAS_EXTRAS : "genera"
     EMPLEADO ||--o{ SOLICITUD_LICENCIA : "genera"
+    EMPLEADO ||--o{ REPORTE : "le corresponde"
+
     HORA_EXTRA ||--o{ NOTIFICACION_HORAS_EXTRAS : "corresponde a"
     LICENCIA ||--o{ SOLICITUD_LICENCIA : "corresponde a"
 ```

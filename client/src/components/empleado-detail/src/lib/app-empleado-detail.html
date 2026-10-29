@@ -9,7 +9,7 @@
       <div class="h-4 w-24" hlmSkeleton></div>
     </div>
     <div class="h-32 w-full rounded-md border" hlmSkeleton></div>
-    <div class="grid gap-8 lg:grid-cols-2">
+    <div class="flex flex-col gap-8">
       <div class="flex flex-col gap-2">
         <div class="h-6 w-40" hlmSkeleton></div>
         <div class="h-48 w-full rounded-md border" hlmSkeleton></div>
@@ -28,47 +28,50 @@
   </div>
 } @else if (empleado(); as e) {
   <div class="flex flex-col gap-8">
-    <div class="flex flex-col gap-1">
-      <p class="text-sm text-muted-foreground">Legajo #{{ e.legajo }}</p>
-      <div class="flex items-center gap-2">
-        <h1 class="text-2xl font-bold tracking-tight">{{ e.nombre }}</h1>
-        @if (!e.activo) {
-          <span hlmBadge variant="destructive">Inactivo</span>
-        }
-        @if (e.rol === "rrhh") {
-          <span hlmBadge>RRHH</span>
-        }
+    <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:gap-8">
+      <div class="flex flex-col gap-1 lg:flex-1">
+        <p class="text-sm text-muted-foreground">Legajo #{{ e.legajo }}</p>
+        <div class="flex items-center gap-2">
+          <h1 class="text-2xl font-bold tracking-tight">{{ e.nombre }}</h1>
+          @if (!e.activo) {
+            <span hlmBadge variant="destructive">Inactivo</span>
+          }
+          @if (e.rol === "rrhh") {
+            <span hlmBadge>RRHH</span>
+          }
+        </div>
+        <p class="text-sm text-muted-foreground">
+          Ingreso: {{ formattedFechaIngreso() }}
+          <span class="text-foreground/50"> · </span>
+          Antigüedad: {{ antiguedad() }}
+        </p>
       </div>
-      <p class="text-sm text-muted-foreground">
-        Ingreso: {{ formattedFechaIngreso() }}
-        <span class="text-foreground/50"> · </span>
-        Antigüedad: {{ antiguedad() }}
-      </p>
+
+      @if (convenio(); as c) {
+        <div class="lg:w-80">
+          <app-convenio-card [convenio]="c" />
+        </div>
+      }
     </div>
 
-    @if (convenio(); as c) {
-      <section class="flex flex-col gap-2">
-        <h2 class="text-lg font-semibold tracking-tight">Convenio</h2>
-        <app-convenio-card [convenio]="c" />
-      </section>
-    }
+    <section class="flex flex-col gap-2">
+      <h2 class="text-lg font-semibold tracking-tight">
+        Solicitudes de licencia
+      </h2>
+      <app-empleado-solicitudes-table
+        [licencias]="licencias()"
+        [solicitudes]="solicitudes()"
+      />
+    </section>
 
-    <div class="grid gap-8 lg:grid-cols-2">
-      <section class="flex flex-col gap-2">
-        <h2 class="text-lg font-semibold tracking-tight">
-          Solicitudes de licencia
-        </h2>
-        <app-empleado-solicitudes-table [solicitudes]="solicitudes()" />
-      </section>
-
-      <section class="flex flex-col gap-2">
-        <h2 class="text-lg font-semibold tracking-tight">
-          Notificaciones de horas extras
-        </h2>
-        <app-empleado-notificaciones-table
-          [notificaciones]="notificaciones()"
-        />
-      </section>
-    </div>
+    <section class="flex flex-col gap-2">
+      <h2 class="text-lg font-semibold tracking-tight">
+        Notificaciones de horas extras
+      </h2>
+      <app-empleado-notificaciones-table
+        [horasExtras]="horasExtras()"
+        [notificaciones]="notificaciones()"
+      />
+    </section>
   </div>
 }

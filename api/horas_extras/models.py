@@ -57,7 +57,7 @@ class NotificacionHorasExtras(models.Model):
     )
     fecha_inicio = models.DateTimeField(default=timezone.now)
     fecha_fin = models.DateTimeField(default=timezone.now)
-    motivo = models.TextField()
+    motivo_resolucion = models.TextField()
     estado = models.CharField(
         max_length=20,
         choices=EstadoNotificacionHorasExtras,

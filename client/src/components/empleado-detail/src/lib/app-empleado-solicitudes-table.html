@@ -1,9 +1,8 @@
 <div
-  class="flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between"
+  class="flex flex-col gap-4 py-4 sm:flex-row sm:items-start sm:justify-between"
 >
   <app-data-table-search placeholder="Buscar solicitudes..." [table]="table" />
   <app-data-table-filter
-    label="Estado"
     [options]="estadoFilterOptions"
     [(value)]="estadoFilter"
   />
