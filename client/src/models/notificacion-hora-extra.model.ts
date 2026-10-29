@@ -7,6 +7,6 @@ export type NotificacionHoraExtra = {
   hora_extra: number;
   fecha_inicio: string;
   fecha_fin: string;
-  motivo: string;
+  motivo_resolucion: string;
   estado: EstadoNotificacionHorasExtras;
 };

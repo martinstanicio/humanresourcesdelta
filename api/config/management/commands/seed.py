@@ -446,7 +446,7 @@ class Command(TyperCommand):
                     hora_extra=he_comercio_50,
                     fecha_inicio=ahora - timedelta(days=12, hours=4),
                     fecha_fin=ahora - timedelta(days=12, hours=1),
-                    motivo="Cierre mensual de balances y arqueo general.",
+                    motivo_resolucion="Cierre mensual de balances y arqueo general.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
                 ),
                 NotificacionHorasExtras.objects.create(
@@ -454,7 +454,7 @@ class Command(TyperCommand):
                     hora_extra=he_comercio_100,
                     fecha_inicio=ahora - timedelta(days=7, hours=6),
                     fecha_fin=ahora - timedelta(days=7, hours=2),
-                    motivo="Auditoría e inventario rotativo durante fin de semana.",
+                    motivo_resolucion="Auditoría e inventario rotativo durante fin de semana.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
                 ),
                 NotificacionHorasExtras.objects.create(
@@ -462,7 +462,7 @@ class Command(TyperCommand):
                     hora_extra=he_comercio_50,
                     fecha_inicio=ahora - timedelta(days=1, hours=3),
                     fecha_fin=ahora - timedelta(days=1, hours=1),
-                    motivo="Atención extraordinaria al público por liquidación.",
+                    motivo_resolucion="Atención extraordinaria al público por liquidación.",
                     estado=EstadoNotificacionHorasExtras.PENDIENTE,
                 ),
                 NotificacionHorasExtras.objects.create(
@@ -470,7 +470,7 @@ class Command(TyperCommand):
                     hora_extra=he_comercio_50,
                     fecha_inicio=ahora - timedelta(days=15, hours=4),
                     fecha_fin=ahora - timedelta(days=15, hours=1),
-                    motivo="Conciliación bancaria y carga de facturación diferida.",
+                    motivo_resolucion="Conciliación bancaria y carga de facturación diferida.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
                 ),
                 NotificacionHorasExtras.objects.create(
@@ -478,7 +478,7 @@ class Command(TyperCommand):
                     hora_extra=he_comercio_100,
                     fecha_inicio=ahora - timedelta(days=8, hours=5),
                     fecha_fin=ahora - timedelta(days=8, hours=2),
-                    motivo="Migración de servidores y soporte a sistemas.",
+                    motivo_resolucion="Migración de servidores y soporte a sistemas.",
                     estado=EstadoNotificacionHorasExtras.RECHAZADA,
                 ),
                 NotificacionHorasExtras.objects.create(
@@ -486,7 +486,7 @@ class Command(TyperCommand):
                     hora_extra=he_uocra_50,
                     fecha_inicio=ahora - timedelta(days=9, hours=4),
                     fecha_fin=ahora - timedelta(days=9, hours=1),
-                    motivo="Llenado continuo de losa en obra antes de lluvias.",
+                    motivo_resolucion="Llenado continuo de losa en obra antes de lluvias.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
                 ),
                 NotificacionHorasExtras.objects.create(
@@ -494,7 +494,7 @@ class Command(TyperCommand):
                     hora_extra=he_uocra_100,
                     fecha_inicio=ahora - timedelta(days=3, hours=5),
                     fecha_fin=ahora - timedelta(days=3, hours=1),
-                    motivo="Reparación urgente de sistema de bombeo y montacargas.",
+                    motivo_resolucion="Reparación urgente de sistema de bombeo y montacargas.",
                     estado=EstadoNotificacionHorasExtras.PENDIENTE,
                 ),
                 NotificacionHorasExtras.objects.create(
@@ -502,7 +502,7 @@ class Command(TyperCommand):
                     hora_extra=he_sanidad_50,
                     fecha_inicio=ahora - timedelta(days=14, hours=5),
                     fecha_fin=ahora - timedelta(days=14, hours=1),
-                    motivo="Cobertura de guardia asistencial por ausencias imprevistas.",
+                    motivo_resolucion="Cobertura de guardia asistencial por ausencias imprevistas.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
                 ),
                 NotificacionHorasExtras.objects.create(
@@ -510,7 +510,7 @@ class Command(TyperCommand):
                     hora_extra=he_sanidad_100,
                     fecha_inicio=ahora - timedelta(days=6, hours=6),
                     fecha_fin=ahora - timedelta(days=6, hours=1),
-                    motivo="Refuerzo en guardia médica pediátrica por urgencias.",
+                    motivo_resolucion="Refuerzo en guardia médica pediátrica por urgencias.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
                 ),
                 NotificacionHorasExtras.objects.create(
@@ -518,7 +518,7 @@ class Command(TyperCommand):
                     hora_extra=he_uocra_50,
                     fecha_inicio=ahora - timedelta(days=4, hours=3),
                     fecha_fin=ahora - timedelta(days=4, hours=1),
-                    motivo="Descarga de materiales pesados fuera de jornada habitual.",
+                    motivo_resolucion="Descarga de materiales pesados fuera de jornada habitual.",
                     estado=EstadoNotificacionHorasExtras.PENDIENTE,
                 ),
                 NotificacionHorasExtras.objects.create(
@@ -526,7 +526,7 @@ class Command(TyperCommand):
                     hora_extra=he_sanidad_50,
                     fecha_inicio=ahora - timedelta(days=5, hours=4),
                     fecha_fin=ahora - timedelta(days=5, hours=1),
-                    motivo="Esterilización de equipamiento quirúrgico urgente.",
+                    motivo_resolucion="Esterilización de equipamiento quirúrgico urgente.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
                 ),
             ]
