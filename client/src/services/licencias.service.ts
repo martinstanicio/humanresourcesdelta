@@ -20,4 +20,8 @@ export class LicenciaService {
       `${this._endpoint}?convenio=${convenioId}`,
     );
   }
+
+  getVersion(id: number): Observable<Licencia> {
+    return this._http.get<Licencia>(`${this._endpoint}versiones/${id}/`);
+  }
 }

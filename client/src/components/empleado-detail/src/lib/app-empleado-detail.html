@@ -58,14 +58,20 @@
       <h2 class="text-lg font-semibold tracking-tight">
         Solicitudes de licencia
       </h2>
-      <app-empleado-solicitudes-table [solicitudes]="solicitudes()" />
+      <app-empleado-solicitudes-table
+        [licencias]="licencias()"
+        [solicitudes]="solicitudes()"
+      />
     </section>
 
     <section class="flex flex-col gap-2">
       <h2 class="text-lg font-semibold tracking-tight">
         Notificaciones de horas extras
       </h2>
-      <app-empleado-notificaciones-table [notificaciones]="notificaciones()" />
+      <app-empleado-notificaciones-table
+        [horasExtras]="horasExtras()"
+        [notificaciones]="notificaciones()"
+      />
     </section>
   </div>
 }

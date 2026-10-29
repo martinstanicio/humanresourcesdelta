@@ -20,4 +20,8 @@ export class HoraExtraService {
       `${this._endpoint}?convenio=${convenioId}`,
     );
   }
+
+  getVersion(id: number): Observable<HoraExtra> {
+    return this._http.get<HoraExtra>(`${this._endpoint}versiones/${id}/`);
+  }
 }
