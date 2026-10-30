@@ -4,6 +4,7 @@ import { HlmBadge } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
 
+import { calcularAntiguedad } from "@/lib/antiguedad";
 import { Empleado } from "@/models/empleado.model";
 
 @Component({
@@ -15,10 +16,8 @@ export class AppEmpleadoCard {
   public readonly empleado = input.required<Empleado>();
   public readonly convenioNombre = input<string | null>(null);
 
-  protected readonly formattedFechaIngreso = computed(() => {
+  protected readonly antiguedad = computed(() => {
     const val = this.empleado().fecha_ingreso;
-    if (!val) return "-";
-    const [year, month, day] = val.split("-");
-    return year && month && day ? `${day}/${month}/${year}` : val;
+    return val ? calcularAntiguedad(val) : "-";
   });
 }
