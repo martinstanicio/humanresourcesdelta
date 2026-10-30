@@ -51,6 +51,13 @@ export const routes: Routes = [
             (m) => m.EmpleadoDetail,
           ),
       },
+      {
+        path: "reportes",
+        loadComponent: () =>
+          import("./reportes/reporte-list/reporte-list").then(
+            (m) => m.ReporteList,
+          ),
+      },
     ],
   },
   {
