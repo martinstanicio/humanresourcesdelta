@@ -1,0 +1,412 @@
+<div class="flex flex-col gap-6">
+  <!-- Encabezado de la página -->
+  <div class="flex flex-col gap-1">
+    <h2 class="text-2xl font-bold tracking-tight">Reportes Mensuales</h2>
+    <p class="text-sm text-muted-foreground">
+      Consolidado mensual de horas extras y licencias para liquidación de
+      sueldos.
+    </p>
+  </div>
+
+  <!-- Card de Parámetros y Filtros -->
+  <div class="p-5" hlmCard>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <!-- Selector de Mes -->
+      <div class="flex flex-col gap-1.5">
+        <label
+          class="text-xs font-semibold text-muted-foreground"
+          for="filtro-mes"
+        >
+          Mes
+        </label>
+        <select
+          hlmInput
+          id="filtro-mes"
+          class="cursor-pointer bg-background"
+          [ngModel]="selectedMes()"
+          (ngModelChange)="selectedMes.set(+$event)"
+        >
+          @for (m of meses; track m.value) {
+            <option [value]="m.value">{{ m.label }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Selector de Año -->
+      <div class="flex flex-col gap-1.5">
+        <label
+          class="text-xs font-semibold text-muted-foreground"
+          for="filtro-anio"
+        >
+          Año
+        </label>
+        <select
+          hlmInput
+          id="filtro-anio"
+          class="cursor-pointer bg-background"
+          [ngModel]="selectedAnio()"
+          (ngModelChange)="selectedAnio.set(+$event)"
+        >
+          @for (a of anios; track a) {
+            <option [value]="a">{{ a }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Selector opcional de Convenio -->
+      <div class="flex flex-col gap-1.5">
+        <label
+          class="text-xs font-semibold text-muted-foreground"
+          for="filtro-convenio"
+        >
+          Convenio (opcional)
+        </label>
+        <select
+          hlmInput
+          id="filtro-convenio"
+          class="cursor-pointer bg-background"
+          [ngModel]="selectedConvenio()"
+          (ngModelChange)="selectedConvenio.set($event)"
+        >
+          <option value="all">Todos los convenios</option>
+          @for (c of convenios(); track c.id) {
+            <option [value]="c.id">{{ c.nombre }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Selector opcional de Empleado -->
+      <div class="flex flex-col gap-1.5">
+        <label
+          class="text-xs font-semibold text-muted-foreground"
+          for="filtro-empleado"
+        >
+          Empleado (opcional)
+        </label>
+        <select
+          hlmInput
+          id="filtro-empleado"
+          class="cursor-pointer bg-background"
+          [ngModel]="selectedEmpleado()"
+          (ngModelChange)="selectedEmpleado.set($event)"
+        >
+          <option value="all">Todos los empleados</option>
+          @for (e of availableEmpleados(); track e.legajo) {
+            <option [value]="e.legajo">#{{ e.legajo }} - {{ e.nombre }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <!-- Botonera de acciones -->
+    <div
+      class="mt-5 flex flex-wrap items-center justify-between gap-3 border-t pt-4"
+    >
+      <div class="flex items-center gap-2 text-xs text-muted-foreground">
+        <ng-icon [svg]="calendarIcon" />
+        <span>
+          Período a consultar:
+          <strong>{{ selectedMesNombre() }} {{ selectedAnio() }}</strong>
+        </span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <button
+          hlmBtn
+          type="button"
+          [disabled]="loading()"
+          (click)="loadReporte()"
+        >
+          <ng-icon
+            class="mr-2"
+            [class.animate-spin]="loading()"
+            [svg]="loading() ? refreshCwIcon : searchIcon"
+          />
+          {{ loading() ? "Generando reporte..." : "Ver reporte" }}
+        </button>
+
+        <button
+          hlmBtn
+          type="button"
+          variant="outline"
+          [disabled]="
+            selectedEmpleado() === 'all' ||
+            loading() ||
+            exportingPdfLegajo() !== null
+          "
+          [title]="
+            selectedEmpleado() === 'all'
+              ? 'Selecciona un empleado específico para exportar su liquidación en PDF'
+              : 'Exportar PDF del empleado seleccionado'
+          "
+          (click)="descargarPDFSeleccionado()"
+        >
+          <ng-icon class="mr-2" [svg]="downloadIcon" />
+          Exportar PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Estado de Error -->
+  @if (error()) {
+    <div class="p-6 text-center text-destructive" hlmCard>
+      <div class="flex flex-col items-center justify-center gap-2">
+        <ng-icon class="text-2xl" [svg]="alertCircleIcon" />
+        <p class="text-sm font-medium">{{ error() }}</p>
+        <button
+          class="mt-2"
+          hlmBtn
+          size="sm"
+          type="button"
+          variant="outline"
+          (click)="loadReporte()"
+        >
+          Reintentar
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Estado de Carga (Skeletons) -->
+  @if (loading()) {
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      @for (i of [1, 2, 3, 4]; track i) {
+        <div class="flex flex-col gap-2 p-4" hlmCard>
+          <hlm-skeleton class="h-4 w-24" />
+          <hlm-skeleton class="h-8 w-16" />
+        </div>
+      }
+    </div>
+
+    <div class="flex flex-col gap-3 p-4" hlmCard>
+      <hlm-skeleton class="h-6 w-48" />
+      <hlm-skeleton class="h-10 w-full" />
+      <hlm-skeleton class="h-10 w-full" />
+      <hlm-skeleton class="h-10 w-full" />
+    </div>
+  }
+
+  <!-- Estado Inicial Informativo -->
+  @if (!loading() && !hasSearched() && !error()) {
+    <div
+      class="flex flex-col items-center justify-center gap-3 border-dashed py-14 text-center"
+      hlmCard
+    >
+      <div
+        class="flex h-14 w-14 items-center justify-center rounded-full bg-muted text-muted-foreground"
+      >
+        <ng-icon class="text-2xl" [svg]="fileTextIcon" />
+      </div>
+      <div class="max-w-md">
+        <h3 class="text-base font-semibold">Listo para consultar reportes</h3>
+        <p class="mt-1 text-sm text-muted-foreground">
+          Configura los filtros de mes, año y empleado arriba y presiona
+          <strong>"Ver reporte"</strong> para cargar los datos consolidados en
+          pantalla.
+        </p>
+      </div>
+    </div>
+  }
+
+  <!-- Resultados de Reportes -->
+  @if (!loading() && hasSearched() && !error()) {
+    @if (filteredReportes().length === 0) {
+      <div
+        class="flex flex-col items-center justify-center gap-3 py-12 text-center"
+        hlmCard
+      >
+        <ng-icon
+          class="text-3xl text-muted-foreground"
+          [svg]="alertCircleIcon"
+        />
+        <h3 class="text-base font-semibold">Sin reportes registrados</h3>
+        <p class="max-w-sm text-sm text-muted-foreground">
+          No se encontraron reportes generados para el período seleccionado ({{
+            selectedMesNombre()
+          }}
+          {{ selectedAnio() }}).
+        </p>
+      </div>
+    } @else {
+      <!-- KPIs Resumen del Período -->
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="p-4" hlmCard>
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-muted-foreground"
+              >Empleados Registrados</span
+            >
+            <ng-icon class="text-muted-foreground" [svg]="usersIcon" />
+          </div>
+          <div class="mt-2 text-2xl font-bold">{{ kpiTotalEmpleados() }}</div>
+          <p class="mt-1 text-xs text-muted-foreground">
+            en el período consultado
+          </p>
+        </div>
+
+        <div class="p-4" hlmCard>
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-muted-foreground"
+              >Horas Extras 50%</span
+            >
+            <ng-icon class="text-muted-foreground" [svg]="clockIcon" />
+          </div>
+          <div class="mt-2 text-2xl font-bold">{{ kpiTotalHoras50() }} hrs</div>
+          <p class="mt-1 text-xs text-muted-foreground">remuneración al 50%</p>
+        </div>
+
+        <div class="p-4" hlmCard>
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-muted-foreground"
+              >Horas Extras 100%</span
+            >
+            <ng-icon class="text-muted-foreground" [svg]="clockIcon" />
+          </div>
+          <div class="mt-2 text-2xl font-bold">
+            {{ kpiTotalHoras100() }} hrs
+          </div>
+          <p class="mt-1 text-xs text-muted-foreground">remuneración al 100%</p>
+        </div>
+
+        <div class="p-4" hlmCard>
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-muted-foreground"
+              >Días de Licencia</span
+            >
+            <ng-icon class="text-muted-foreground" [svg]="calendarIcon" />
+          </div>
+          <div class="mt-2 text-2xl font-bold">
+            {{ kpiTotalLicencias() }} días
+          </div>
+          <p class="mt-1 text-xs text-muted-foreground">
+            total acumulado aprobado
+          </p>
+        </div>
+      </div>
+
+      <!-- Barra de búsqueda rápida en resultados -->
+      <div
+        class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <div class="max-w-xs" hlmInputGroup>
+          <div hlmInputGroupAddon>
+            <ng-icon [svg]="searchIcon" />
+          </div>
+          <input
+            hlmInputGroupInput
+            placeholder="Filtrar por empleado o legajo..."
+            type="search"
+            [ngModel]="searchQuery()"
+            (ngModelChange)="searchQuery.set($event)"
+          />
+        </div>
+
+        <span class="text-xs text-muted-foreground">
+          Mostrando {{ filteredReportes().length }} de
+          {{ reportes().length }} registros
+        </span>
+      </div>
+
+      <!-- Tabla Consolidada de Resultados -->
+      <div class="overflow-hidden rounded-md border bg-card">
+        <div hlmTableContainer>
+          <table hlmTable>
+            <thead hlmTableHeader>
+              <tr hlmTableRow>
+                <th hlmTableHead class="w-20">Legajo</th>
+                <th hlmTableHead>Empleado</th>
+                <th hlmTableHead>Convenio</th>
+                <th hlmTableHead class="text-right">Horas 50%</th>
+                <th hlmTableHead class="text-right">Horas 100%</th>
+                <th hlmTableHead class="text-right">Total Reloj</th>
+                <th hlmTableHead>Licencias Aprobadas</th>
+                <th hlmTableHead class="text-right">Acciones</th>
+              </tr>
+            </thead>
+            <tbody hlmTableBody>
+              @for (item of filteredReportes(); track item.id) {
+                <tr hlmTableRow>
+                  <!-- Legajo -->
+                  <td hlmTableCell class="font-mono text-xs font-semibold">
+                    #{{ item.legajo }}
+                  </td>
+
+                  <!-- Empleado -->
+                  <td hlmTableCell>
+                    <span class="font-medium text-foreground">{{
+                      item.nombre
+                    }}</span>
+                  </td>
+
+                  <!-- Convenio -->
+                  <td hlmTableCell class="text-muted-foreground">
+                    {{ getConvenioNombre(item.legajo) }}
+                  </td>
+
+                  <!-- Horas 50% -->
+                  <td hlmTableCell class="text-right font-medium">
+                    {{ item.horas_extras.desglose["50%"] || 0 }} hrs
+                  </td>
+
+                  <!-- Horas 100% -->
+                  <td hlmTableCell class="text-right font-medium">
+                    {{ item.horas_extras.desglose["100%"] || 0 }} hrs
+                  </td>
+
+                  <!-- Total Horas Reloj -->
+                  <td hlmTableCell class="text-right">
+                    <span hlmBadge variant="secondary">
+                      {{ item.horas_extras.total_horas_reloj || 0 }} hrs
+                    </span>
+                  </td>
+
+                  <!-- Licencias -->
+                  <td hlmTableCell>
+                    <div class="flex flex-wrap items-center gap-1">
+                      @if (getLicenciasEntries(item.licencias).length === 0) {
+                        <span class="text-xs text-muted-foreground">-</span>
+                      } @else {
+                        @for (
+                          lic of getLicenciasEntries(item.licencias);
+                          track lic.tipo
+                        ) {
+                          <span hlmBadge variant="outline" class="text-xs">
+                            {{ lic.tipo }}: {{ lic.dias }}d
+                          </span>
+                        }
+                      }
+                    </div>
+                  </td>
+
+                  <!-- Acciones: Descarga Individual de PDF -->
+                  <td hlmTableCell class="text-right">
+                    <button
+                      hlmBtn
+                      size="sm"
+                      variant="ghost"
+                      [disabled]="exportingPdfLegajo() === item.legajo"
+                      (click)="descargarPDF(item.legajo, item.nombre)"
+                    >
+                      <ng-icon
+                        class="mr-1.5"
+                        [class.animate-spin]="
+                          exportingPdfLegajo() === item.legajo
+                        "
+                        [svg]="
+                          exportingPdfLegajo() === item.legajo
+                            ? refreshCwIcon
+                            : fileDownIcon
+                        "
+                      />
+                      PDF
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+  }
+</div>
