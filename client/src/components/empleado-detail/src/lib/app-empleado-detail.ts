@@ -13,6 +13,7 @@ import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { catchError, forkJoin, of } from "rxjs";
 
 import { AppConvenioCard } from "@/components/convenio-list";
+import { calcularAntiguedad } from "@/lib/antiguedad";
 import { Convenio } from "@/models/convenio.model";
 import { Empleado } from "@/models/empleado.model";
 import { HoraExtra } from "@/models/hora-extra.model";
@@ -28,26 +29,6 @@ import { SolicitudLicenciaService } from "@/services/solicitud-licencia.service"
 
 import { AppEmpleadoNotificacionesTable } from "./app-empleado-notificaciones-table";
 import { AppEmpleadoSolicitudesTable } from "./app-empleado-solicitudes-table";
-
-function calcularAntiguedad(fechaIngreso: string): string {
-  const inicio = new Date(fechaIngreso);
-  const hoy = new Date();
-
-  let años = hoy.getFullYear() - inicio.getFullYear();
-  let meses = hoy.getMonth() - inicio.getMonth();
-
-  if (meses < 0) {
-    años--;
-    meses += 12;
-  }
-
-  const partes: string[] = [];
-  if (años > 0) partes.push(`${años} ${años === 1 ? "año" : "años"}`);
-  if (meses > 0) partes.push(`${meses} ${meses === 1 ? "mes" : "meses"}`);
-  if (partes.length === 0) partes.push("menos de un mes");
-
-  return partes.join(" y ");
-}
 
 @Component({
   selector: "app-empleado-detail",
