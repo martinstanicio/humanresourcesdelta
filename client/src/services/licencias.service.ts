@@ -4,6 +4,11 @@ import { Observable } from "rxjs";
 
 import { Licencia } from "@/models/licencia.model";
 
+export type LicenciaSaldo = {
+  dias_disponibles: number;
+  fecha_renovacion?: string | null;
+};
+
 @Injectable({
   providedIn: "root",
 })
@@ -23,5 +28,9 @@ export class LicenciaService {
 
   getVersion(id: number): Observable<Licencia> {
     return this._http.get<Licencia>(`${this._endpoint}versiones/${id}/`);
+  }
+
+  getSaldo(codigo: string): Observable<LicenciaSaldo> {
+    return this._http.get<LicenciaSaldo>(`${this._endpoint}${codigo}/saldo/`);
   }
 }

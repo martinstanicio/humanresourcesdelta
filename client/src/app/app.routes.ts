@@ -52,6 +52,20 @@ export const routes: Routes = [
           ),
       },
       {
+        path: "solicitudes-licencia",
+        loadComponent: () =>
+          import(
+            "./solicitudes-licencia/solicitud-licencia-list/solicitud-licencia-list"
+          ).then((m) => m.SolicitudLicenciaListPage),
+      },
+      {
+        path: "solicitudes-licencia/nueva",
+        loadComponent: () =>
+          import(
+            "./solicitudes-licencia/solicitud-licencia-form/solicitud-licencia-form"
+          ).then((m) => m.SolicitudLicenciaFormPage),
+      },
+      {
         path: "reportes",
         loadComponent: () =>
           import("./reportes/reporte-list/reporte-list").then(

@@ -1,0 +1,318 @@
+<div class="space-y-6">
+  <!-- Header con título y botón de acción -->
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-bold tracking-tight">Mis Solicitudes de Licencia</h1>
+      <p class="text-sm text-muted-foreground">
+        Gestiona y consulta el estado de tus solicitudes de licencia y ausencias laborales.
+      </p>
+    </div>
+    <div>
+      <a
+        routerLink="/solicitudes-licencia/nueva"
+        hlmBtn
+        class="gap-2 shadow-sm font-medium"
+      >
+        <ng-icon [name]="'lucidePlus'" class="size-4" />
+        Nueva solicitud
+      </a>
+    </div>
+  </div>
+
+  <!-- Alerta de éxito al cancelar -->
+  @if (cancelSuccess()) {
+    <div class="flex items-center gap-3 p-4 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 text-sm">
+      <ng-icon [name]="'lucideCheckCircle2'" class="size-5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+      <span>{{ cancelSuccess() }}</span>
+    </div>
+  }
+
+  <!-- Tarjetas de métricas -->
+  <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+    <div class="rounded-xl border bg-card p-4 text-card-foreground shadow-sm">
+      <div class="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+        <ng-icon [name]="'lucideClock'" class="size-4 text-amber-500" />
+        Pendientes
+      </div>
+      <div class="mt-2 text-2xl font-bold text-amber-600 dark:text-amber-400">
+        {{ pendientesCount() }}
+      </div>
+    </div>
+
+    <div class="rounded-xl border bg-card p-4 text-card-foreground shadow-sm">
+      <div class="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+        <ng-icon [name]="'lucideCheckCircle2'" class="size-4 text-emerald-500" />
+        Aprobadas
+      </div>
+      <div class="mt-2 text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+        {{ aprobadasCount() }}
+      </div>
+    </div>
+
+    <div class="rounded-xl border bg-card p-4 text-card-foreground shadow-sm">
+      <div class="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+        <ng-icon [name]="'lucideXCircle'" class="size-4 text-rose-500" />
+        Rechazadas
+      </div>
+      <div class="mt-2 text-2xl font-bold text-rose-600 dark:text-rose-400">
+        {{ rechazadasCount() }}
+      </div>
+    </div>
+
+    <div class="rounded-xl border bg-card p-4 text-card-foreground shadow-sm">
+      <div class="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+        <ng-icon [name]="'lucideCalendarOff'" class="size-4 text-muted-foreground" />
+        Canceladas
+      </div>
+      <div class="mt-2 text-2xl font-bold text-muted-foreground">
+        {{ canceladasCount() }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra de búsqueda y filtros -->
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div class="relative w-full max-w-sm">
+      <div class="flex items-center border rounded-md px-3 bg-background">
+        <ng-icon [name]="'lucideSearch'" class="size-4 text-muted-foreground shrink-0 mr-2" />
+        <input
+          hlmInput
+          type="text"
+          placeholder="Buscar por tipo o motivo..."
+          [(ngModel)]="searchQuery"
+          class="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 px-0 h-9"
+        />
+      </div>
+    </div>
+
+    <!-- Pestañas de filtro por estado -->
+    <div class="flex flex-wrap gap-1.5 p-1 bg-muted/60 rounded-lg text-xs font-medium">
+      <button
+        type="button"
+        (click)="statusFilter.set('all')"
+        [class]="statusFilter() === 'all' ? 'bg-background text-foreground shadow-sm font-semibold' : 'text-muted-foreground hover:text-foreground'"
+        class="px-3 py-1.5 rounded-md transition-colors"
+      >
+        Todas ({{ solicitudes().length }})
+      </button>
+      <button
+        type="button"
+        (click)="statusFilter.set('pendiente')"
+        [class]="statusFilter() === 'pendiente' ? 'bg-background text-foreground shadow-sm font-semibold' : 'text-muted-foreground hover:text-foreground'"
+        class="px-3 py-1.5 rounded-md transition-colors"
+      >
+        Pendientes
+      </button>
+      <button
+        type="button"
+        (click)="statusFilter.set('aprobada')"
+        [class]="statusFilter() === 'aprobada' ? 'bg-background text-foreground shadow-sm font-semibold' : 'text-muted-foreground hover:text-foreground'"
+        class="px-3 py-1.5 rounded-md transition-colors"
+      >
+        Aprobadas
+      </button>
+      <button
+        type="button"
+        (click)="statusFilter.set('rechazada')"
+        [class]="statusFilter() === 'rechazada' ? 'bg-background text-foreground shadow-sm font-semibold' : 'text-muted-foreground hover:text-foreground'"
+        class="px-3 py-1.5 rounded-md transition-colors"
+      >
+        Rechazadas
+      </button>
+      <button
+        type="button"
+        (click)="statusFilter.set('cancelada')"
+        [class]="statusFilter() === 'cancelada' ? 'bg-background text-foreground shadow-sm font-semibold' : 'text-muted-foreground hover:text-foreground'"
+        class="px-3 py-1.5 rounded-md transition-colors"
+      >
+        Canceladas
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabla de solicitudes -->
+  <div class="rounded-xl border bg-card text-card-foreground shadow-sm overflow-hidden">
+    @if (loading()) {
+      <div class="p-6 space-y-4">
+        <hlm-skeleton class="h-10 w-full" />
+        <hlm-skeleton class="h-16 w-full" />
+        <hlm-skeleton class="h-16 w-full" />
+        <hlm-skeleton class="h-16 w-full" />
+      </div>
+    } @else if (error()) {
+      <div class="p-8 text-center">
+        <ng-icon [name]="'lucideAlertCircle'" class="size-10 mx-auto text-destructive mb-2" />
+        <p class="text-sm font-medium text-destructive">{{ error() }}</p>
+        <button hlmBtn variant="outline" size="sm" class="mt-4 gap-2" (click)="loadData()">
+          <ng-icon [name]="'lucideRefreshCw'" class="size-4" />
+          Reintentar
+        </button>
+      </div>
+    } @else if (filteredSolicitudes().length === 0) {
+      <div class="p-12 text-center">
+        <div class="mx-auto size-12 rounded-full bg-muted flex items-center justify-center mb-3 text-muted-foreground">
+          <ng-icon [name]="'lucideCalendarClock'" class="size-6" />
+        </div>
+        <h3 class="text-base font-semibold">No se encontraron solicitudes</h3>
+        <p class="text-sm text-muted-foreground mt-1 max-w-sm mx-auto">
+          @if (searchQuery() || statusFilter() !== 'all') {
+            No hay solicitudes que coincidan con los filtros aplicados.
+          } @else {
+            Todavía no has generado ninguna solicitud de licencia en el sistema.
+          }
+        </p>
+        @if (!searchQuery() && statusFilter() === 'all') {
+          <a routerLink="/solicitudes-licencia/nueva" hlmBtn size="sm" class="mt-4 gap-2">
+            <ng-icon [name]="'lucidePlus'" class="size-4" />
+            Solicitar licencia
+          </a>
+        }
+      </div>
+    } @else {
+      <div class="overflow-x-auto">
+        <table hlmTable class="w-full text-sm">
+          <thead hlmTHead>
+            <tr hlmTr class="border-b bg-muted/40">
+              <th hlmTh class="w-20 font-semibold">N°</th>
+              <th hlmTh class="font-semibold">Tipo de Licencia</th>
+              <th hlmTh class="font-semibold">Período</th>
+              <th hlmTh class="font-semibold">Motivo</th>
+              <th hlmTh class="w-32 font-semibold text-center">Estado</th>
+              <th hlmTh class="w-28 text-right font-semibold">Acciones</th>
+            </tr>
+          </thead>
+          <tbody hlmTBody>
+            @for (solicitud of filteredSolicitudes(); track solicitud.id) {
+              <tr hlmTr class="hover:bg-muted/30 transition-colors border-b">
+                <!-- N° Seguimiento -->
+                <td hlmTd class="font-mono font-medium text-xs text-muted-foreground">
+                  #{{ solicitud.id }}
+                </td>
+
+                <!-- Tipo de licencia -->
+                <td hlmTd>
+                  <div class="font-medium text-foreground">
+                    {{ getLicenciaNombre(solicitud.licencia) }}
+                  </div>
+                </td>
+
+                <!-- Período -->
+                <td hlmTd class="whitespace-nowrap">
+                  <div class="flex items-center gap-1.5 text-xs text-foreground">
+                    <span>{{ solicitud.fecha_inicio | date:'dd/MM/yyyy' }}</span>
+                    <span class="text-muted-foreground">al</span>
+                    <span>{{ solicitud.fecha_fin | date:'dd/MM/yyyy' }}</span>
+                  </div>
+                </td>
+
+                <!-- Motivo -->
+                <td hlmTd class="max-w-xs">
+                  <p class="truncate text-xs text-muted-foreground" [title]="solicitud.motivo_solicitud || 'Sin motivo indicado'">
+                    {{ solicitud.motivo_solicitud || '-' }}
+                  </p>
+                  @if (solicitud.motivo_resolucion) {
+                    <p class="text-[11px] text-destructive italic truncate mt-0.5" [title]="solicitud.motivo_resolucion">
+                      Resp: {{ solicitud.motivo_resolucion }}
+                    </p>
+                  }
+                </td>
+
+                <!-- Estado -->
+                <td hlmTd class="text-center">
+                  <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border"
+                    [class]="getBadgeClasses(solicitud.estado)"
+                  >
+                    {{ solicitud.estado | titlecase }}
+                  </span>
+                </td>
+
+                <!-- Acciones -->
+                <td hlmTd class="text-right">
+                  @if (solicitud.estado === 'pendiente') {
+                    <button
+                      hlmBtn
+                      variant="ghost"
+                      size="sm"
+                      (click)="openCancelModal(solicitud)"
+                      class="h-8 px-2 text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/30 gap-1 text-xs"
+                      title="Cancelar solicitud pendiente"
+                    >
+                      <ng-icon [name]="'lucideTrash2'" class="size-3.5" />
+                      Cancelar
+                    </button>
+                  } @else {
+                    <span class="text-xs text-muted-foreground">-</span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+
+  <!-- Diálogo de Confirmación de Cancelación (CU-07) -->
+  @if (confirmCancelSolicitud(); as solicitud) {
+    <div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in">
+      <div class="bg-card border text-card-foreground rounded-xl shadow-xl max-w-md w-full p-6 space-y-4">
+        <div class="flex items-center gap-3 text-destructive">
+          <div class="size-10 rounded-full bg-destructive/10 flex items-center justify-center shrink-0">
+            <ng-icon [name]="'lucideAlertCircle'" class="size-6 text-destructive" />
+          </div>
+          <div>
+            <h3 class="font-semibold text-lg text-foreground">¿Cancelar solicitud de licencia?</h3>
+            <p class="text-xs text-muted-foreground">Esta operación es irreversible (CU-07).</p>
+          </div>
+        </div>
+
+        <div class="bg-muted/50 rounded-lg p-3 text-xs space-y-1.5 border">
+          <div class="flex justify-between">
+            <span class="text-muted-foreground">N° de Solicitud:</span>
+            <span class="font-medium">#{{ solicitud.id }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-muted-foreground">Tipo de licencia:</span>
+            <span class="font-medium">{{ getLicenciaNombre(solicitud.licencia) }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-muted-foreground">Período:</span>
+            <span class="font-medium">{{ solicitud.fecha_inicio | date:'dd/MM/yyyy' }} al {{ solicitud.fecha_fin | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+
+        @if (cancelError()) {
+          <div class="p-3 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 rounded-md text-xs text-rose-700 dark:text-rose-300">
+            {{ cancelError() }}
+          </div>
+        }
+
+        <div class="flex justify-end gap-2 pt-2">
+          <button
+            hlmBtn
+            variant="outline"
+            (click)="closeCancelModal()"
+            [disabled]="cancelingId() !== null"
+          >
+            No, conservar
+          </button>
+          <button
+            hlmBtn
+            variant="destructive"
+            (click)="executeCancel()"
+            [disabled]="cancelingId() !== null"
+            class="gap-2"
+          >
+            @if (cancelingId() !== null) {
+              <ng-icon [name]="'lucideRefreshCw'" class="size-4 animate-spin" />
+              Cancelando...
+            } @else {
+              Sí, cancelar solicitud
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
