@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   inject,
+  OnDestroy,
   OnInit,
   signal,
 } from "@angular/core";
@@ -64,7 +65,7 @@ import { NotificacionHoraExtraService } from "@/services/notificacion-hora-extra
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./app-notificacion-hora-extra-form.html",
 })
-export class AppNotificacionHoraExtraForm implements OnInit {
+export class AppNotificacionHoraExtraForm implements OnInit, OnDestroy {
   private readonly _notificacionService = inject(NotificacionHoraExtraService);
   private readonly _horaExtraService = inject(HoraExtraService);
   private readonly _authService = inject(AuthService);
@@ -156,13 +157,12 @@ export class AppNotificacionHoraExtraForm implements OnInit {
   });
 
   ngOnInit(): void {
-    this._breadcrumbService.setBreadcrumbs([
-      { label: "Inicio", url: "/" },
-      { label: "Mis Horas Extra", url: "/notificaciones-horas-extras" },
-      { label: "Nueva Notificación", url: "/notificaciones-horas-extras/nueva" },
-    ]);
-
+    this._breadcrumbService.setLabel("Nueva notificación");
     this.cargarDatosIniciales();
+  }
+
+  ngOnDestroy(): void {
+    this._breadcrumbService.setLabel(null);
   }
 
   public cargarDatosIniciales(): void {

@@ -37,7 +37,6 @@ import {
   NotificacionHoraExtra,
 } from "@/models/notificacion-hora-extra.model";
 import { AuthService } from "@/services/auth.service";
-import { BreadcrumbService } from "@/services/breadcrumb.service";
 import { HoraExtraService } from "@/services/hora-extra.service";
 import { NotificacionHoraExtraService } from "@/services/notificacion-hora-extra.service";
 
@@ -64,7 +63,6 @@ export class AppNotificacionHoraExtraList implements OnInit {
   private readonly _notificacionService = inject(NotificacionHoraExtraService);
   private readonly _horaExtraService = inject(HoraExtraService);
   private readonly _authService = inject(AuthService);
-  private readonly _breadcrumbService = inject(BreadcrumbService);
 
   public readonly currentUser = this._authService.currentUser;
 
@@ -125,11 +123,6 @@ export class AppNotificacionHoraExtraList implements OnInit {
   });
 
   ngOnInit(): void {
-    this._breadcrumbService.setBreadcrumbs([
-      { label: "Inicio", url: "/" },
-      { label: "Mis Horas Extra", url: "/notificaciones-horas-extras" },
-    ]);
-
     this.cargarDatos();
   }
 
