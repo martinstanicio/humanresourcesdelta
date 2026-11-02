@@ -1,0 +1,388 @@
+<div class="space-y-6 max-w-5xl mx-auto pb-10">
+  <!-- Cabecera de la página -->
+  <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+    <div class="space-y-1">
+      <div class="flex items-center gap-2">
+        <a
+          routerLink="/notificaciones-horas-extras"
+          hlmBtn
+          variant="ghost"
+          size="sm"
+          class="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+          title="Volver a mis horas extras"
+        >
+          <ng-icon [name]="'lucideArrowLeft'" class="size-4" />
+        </a>
+        <h1 class="text-2xl font-bold tracking-tight">Notificar Horas Extras</h1>
+      </div>
+      <p class="text-sm text-muted-foreground">
+        Declara formalmente las horas trabajadas por fuera de tu jornada habitual (CU-03).
+      </p>
+    </div>
+  </div>
+
+  @if (loadingInitial()) {
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="md:col-span-2 space-y-4">
+        <hlm-skeleton class="h-12 w-full rounded-lg" />
+        <hlm-skeleton class="h-12 w-full rounded-lg" />
+        <hlm-skeleton class="h-32 w-full rounded-lg" />
+      </div>
+      <div class="md:col-span-1">
+        <hlm-skeleton class="h-64 w-full rounded-lg" />
+      </div>
+    </div>
+  } @else if (confirmedNotificaciones(); as notifs) {
+    <!-- PANTALLA DE ÉXITO Y CONFIRMACIÓN -->
+    <div hlmCard class="border-emerald-200 dark:border-emerald-800 bg-emerald-50/40 dark:bg-emerald-950/20">
+      <div hlmCardHeader class="pb-4 text-center items-center">
+        <div class="inline-flex size-14 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/60 text-emerald-600 dark:text-emerald-400 mb-2">
+          <ng-icon [name]="'lucideCheckCircle2'" class="size-8" />
+        </div>
+        <h2 hlmCardTitle class="text-xl text-emerald-900 dark:text-emerald-100">
+          Notificación Registrada con Éxito
+        </h2>
+        <p hlmCardDescription class="text-emerald-700 dark:text-emerald-300">
+          La declaración ha sido ingresada en estado 'Pendiente' y se envió la notificación automática al área de Recursos Humanos (RF-08).
+        </p>
+      </div>
+
+      <div hlmCardContent class="space-y-4 max-w-xl mx-auto">
+        <div class="rounded-lg border bg-card p-4 space-y-3">
+          <div class="flex items-center justify-between border-b pb-2">
+            <span class="text-sm text-muted-foreground">Número(s) de seguimiento:</span>
+            <div class="flex gap-1.5 flex-wrap">
+              @for (n of notifs; track n.id) {
+                <span hlmBadge variant="secondary" class="font-mono text-xs font-semibold">
+                  #{{ n.id }}
+                </span>
+              }
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between border-b pb-2">
+            <span class="text-sm text-muted-foreground">Estado inicial:</span>
+            <span hlmBadge class="bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300 border-amber-300">
+              Pendiente de evaluación
+            </span>
+          </div>
+
+          <div class="flex items-center justify-between border-b pb-2">
+            <span class="text-sm text-muted-foreground">Fecha declarada:</span>
+            <span class="text-sm font-medium">{{ fecha() }}</span>
+          </div>
+
+          <div class="flex items-center justify-between border-b pb-2">
+            <span class="text-sm text-muted-foreground">Rango horario:</span>
+            <span class="text-sm font-medium">{{ horaInicio() }} hs a {{ horaFin() }} hs</span>
+          </div>
+
+          @if (desglose(); as d) {
+            <div class="space-y-1.5 pt-1">
+              <span class="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Desglose calculado</span>
+              <div class="grid grid-cols-3 gap-2 text-center pt-1">
+                <div class="bg-muted/50 rounded p-2">
+                  <div class="text-xs text-muted-foreground">Horas al 50%</div>
+                  <div class="text-base font-bold text-foreground">{{ d.horas50 | number: '1.1-2' }} hs</div>
+                </div>
+                <div class="bg-muted/50 rounded p-2">
+                  <div class="text-xs text-muted-foreground">Horas al 100%</div>
+                  <div class="text-base font-bold text-foreground">{{ d.horas100 | number: '1.1-2' }} hs</div>
+                </div>
+                <div class="bg-primary/10 rounded p-2 border border-primary/20">
+                  <div class="text-xs text-primary font-medium">Total declarado</div>
+                  <div class="text-base font-bold text-primary">{{ d.total | number: '1.1-2' }} hs</div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="flex items-center gap-2 p-3 rounded-md bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900 text-blue-800 dark:text-blue-200 text-xs">
+          <ng-icon [name]="'lucideInfo'" class="size-4 shrink-0 text-blue-500" />
+          <span>
+            Podrás consultar el estado de tu notificación o cancelarla mientras no haya sido evaluada desde el módulo 'Mis Horas Extra' (CU-06 / CU-08).
+          </span>
+        </div>
+      </div>
+
+      <div hlmCardFooter class="flex flex-col sm:flex-row justify-center gap-3 pt-2">
+        <a
+          routerLink="/notificaciones-horas-extras"
+          hlmBtn
+          class="w-full sm:w-auto"
+        >
+          Ver mis notificaciones
+        </a>
+        <button
+          type="button"
+          hlmBtn
+          variant="outline"
+          (click)="resetForm()"
+          class="w-full sm:w-auto gap-2"
+        >
+          <ng-icon [name]="'lucidePlus'" class="size-4" />
+          Cargar otra notificación
+        </button>
+      </div>
+    </div>
+  } @else {
+    <!-- FORMULARIO DE CARGA DE HORAS EXTRAS -->
+    <form (ngSubmit)="onSubmit()" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Columna izquierda: Datos del formulario -->
+      <div class="lg:col-span-2 space-y-6">
+        <div hlmCard>
+          <div hlmCardHeader>
+            <h2 hlmCardTitle class="text-lg">Datos de la Jornada Extraordinaria</h2>
+            <p hlmCardDescription>
+              Indica la fecha, el horario de inicio y fin, y el motivo de la extensión horaria.
+            </p>
+          </div>
+
+          <div hlmCardContent class="space-y-4">
+            <!-- Fecha -->
+            <div class="space-y-2">
+              <label for="fecha" class="text-sm font-medium leading-none">
+                Fecha trabajada <span class="text-destructive">*</span>
+              </label>
+              <input
+                id="fecha"
+                type="date"
+                hlmInput
+                class="w-full"
+                [max]="getHoyString()"
+                [ngModel]="fecha()"
+                (ngModelChange)="fecha.set($event)"
+                name="fecha"
+                required
+              />
+              <p class="text-xs text-muted-foreground">
+                No se pueden registrar horas extras para fechas posteriores a la actual.
+              </p>
+            </div>
+
+            <!-- Horarios: Inicio y Fin -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-2">
+                <label for="horaInicio" class="text-sm font-medium leading-none">
+                  Hora de inicio <span class="text-destructive">*</span>
+                </label>
+                <input
+                  id="horaInicio"
+                  type="time"
+                  hlmInput
+                  class="w-full"
+                  [ngModel]="horaInicio()"
+                  (ngModelChange)="horaInicio.set($event)"
+                  name="horaInicio"
+                  required
+                />
+              </div>
+
+              <div class="space-y-2">
+                <label for="horaFin" class="text-sm font-medium leading-none">
+                  Hora de fin <span class="text-destructive">*</span>
+                </label>
+                <input
+                  id="horaFin"
+                  type="time"
+                  hlmInput
+                  class="w-full"
+                  [ngModel]="horaFin()"
+                  (ngModelChange)="horaFin.set($event)"
+                  name="horaFin"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- Mensajes de advertencia y validación horaria -->
+            @if (horaInicio() && horaFin() && horaFin() <= horaInicio()) {
+              <div class="flex items-center gap-2 p-3 rounded-md bg-destructive/10 text-destructive text-sm border border-destructive/20">
+                <ng-icon [name]="'lucideAlertCircle'" class="size-4 shrink-0" />
+                <span>La hora de fin debe ser posterior a la hora de inicio.</span>
+              </div>
+            }
+
+            @if (esFechaFutura()) {
+              <div class="flex items-center gap-2 p-3 rounded-md bg-destructive/10 text-destructive text-sm border border-destructive/20">
+                <ng-icon [name]="'lucideAlertCircle'" class="size-4 shrink-0" />
+                <span>No es posible registrar horas extras con horario posterior al momento actual.</span>
+              </div>
+            }
+
+            <!-- Flujo alternativo #1: Detección proactiva de superposición -->
+            @if (superposicionConflicto(); as c) {
+              <div class="flex items-start gap-3 p-3 rounded-md bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800 text-amber-900 dark:text-amber-200 text-sm">
+                <ng-icon [name]="'lucideAlertTriangle'" class="size-5 shrink-0 text-amber-600 dark:text-amber-400 mt-0.5" />
+                <div class="space-y-1">
+                  <div class="font-semibold">Conflicto de superposición detectado (Flujo Alternativo #1)</div>
+                  <p class="text-xs">
+                    El rango horario declarado se superpone con la notificación existente
+                    <strong>#{{ c.id }}</strong> (registrada de {{ c.fecha_inicio | date:'shortTime' }} a {{ c.fecha_fin | date:'shortTime' }} en estado '{{ c.estado }}').
+                  </p>
+                  <p class="text-xs font-medium">
+                    Corrige el rango horario para poder continuar con el envío.
+                  </p>
+                </div>
+              </div>
+            }
+
+            <!-- Motivo de la extensión -->
+            <div class="space-y-2 pt-2">
+              <label for="motivo" class="text-sm font-medium leading-none">
+                Motivo de la extensión <span class="text-destructive">*</span>
+              </label>
+              <textarea
+                id="motivo"
+                hlmTextarea
+                rows="4"
+                class="w-full resize-y"
+                placeholder="Describe brevemente la tarea o motivo por el cual se realizaron las horas extras..."
+                [ngModel]="motivo()"
+                (ngModelChange)="motivo.set($event)"
+                name="motivo"
+                required
+              ></textarea>
+              <p class="text-xs text-muted-foreground">
+                Mínimo 5 caracteres. Este motivo será revisado por Recursos Humanos al momento de la evaluación.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alerta de error al enviar (ej. Flujo alternativo #2: Período cerrado) -->
+        @if (submitError(); as errorMsg) {
+          <div class="flex items-start gap-3 p-4 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive text-sm">
+            <ng-icon [name]="'lucideShieldAlert'" class="size-5 shrink-0 mt-0.5" />
+            <div class="space-y-1">
+              <div class="font-semibold">No fue posible registrar la notificación</div>
+              <p class="text-xs">{{ errorMsg }}</p>
+            </div>
+          </div>
+        }
+
+        <!-- Botones de acción del formulario -->
+        <div class="flex items-center justify-end gap-3">
+          <a
+            routerLink="/notificaciones-horas-extras"
+            hlmBtn
+            variant="ghost"
+          >
+            Cancelar
+          </a>
+          <button
+            type="submit"
+            hlmBtn
+            [disabled]="!isFormValid() || submitting()"
+            class="min-w-36 gap-2"
+          >
+            @if (submitting()) {
+              <ng-icon [name]="'lucideRefreshCw'" class="size-4 animate-spin" />
+              <span>Enviando...</span>
+            } @else {
+              <span>Confirmar envío</span>
+            }
+          </button>
+        </div>
+      </div>
+
+      <!-- Columna derecha: Resumen calculado y reglas de convenio -->
+      <div class="lg:col-span-1 space-y-6">
+        <div hlmCard class="sticky top-6">
+          <div hlmCardHeader class="pb-3">
+            <h3 hlmCardTitle class="text-base flex items-center gap-2">
+              <ng-icon [name]="'lucideClock'" class="size-4 text-primary" />
+              Resumen Calculado
+            </h3>
+            <p hlmCardDescription class="text-xs">
+              Cálculo automático según tipo de día y reglas de convenio (RF-01 / CU-03).
+            </p>
+          </div>
+
+          <div hlmCardContent class="space-y-4">
+            @if (desglose(); as d) {
+              <!-- Tarjeta de total -->
+              <div class="p-3.5 rounded-lg bg-primary/10 border border-primary/20 text-center space-y-0.5">
+                <span class="text-xs font-medium text-primary">Total Declarado</span>
+                <div class="text-3xl font-extrabold text-primary">
+                  {{ d.total | number: '1.1-2' }} <span class="text-sm font-normal">horas</span>
+                </div>
+              </div>
+
+              <!-- Desglose por porcentaje -->
+              <div class="space-y-2 border-t pt-3">
+                <span class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Desglose por Multiplicador
+                </span>
+
+                <div class="flex items-center justify-between p-2 rounded-md bg-muted/40 text-sm">
+                  <div class="flex items-center gap-2">
+                    <span class="size-2 rounded-full bg-blue-500"></span>
+                    <span class="text-muted-foreground">Horas al 50%:</span>
+                  </div>
+                  <span class="font-bold font-mono">{{ d.horas50 | number: '1.1-2' }} hs</span>
+                </div>
+
+                <div class="flex items-center justify-between p-2 rounded-md bg-muted/40 text-sm">
+                  <div class="flex items-center gap-2">
+                    <span class="size-2 rounded-full bg-purple-500"></span>
+                    <span class="text-muted-foreground">Horas al 100%:</span>
+                  </div>
+                  <span class="font-bold font-mono">{{ d.horas100 | number: '1.1-2' }} hs</span>
+                </div>
+              </div>
+
+              <!-- Detalle del criterio aplicado -->
+              <div class="space-y-1.5 border-t pt-3 text-xs text-muted-foreground">
+                <div class="font-semibold text-foreground flex items-center gap-1.5">
+                  <ng-icon [name]="'lucideInfo'" class="size-3.5 text-primary" />
+                  Criterio aplicado
+                </div>
+                @if (d.esFeriado) {
+                  <p class="text-purple-700 dark:text-purple-300 font-medium">
+                    Día Feriado Nacional: 100% de remuneración según convenio.
+                  </p>
+                } @else if (d.esDomingo) {
+                  <p class="text-purple-700 dark:text-purple-300 font-medium">
+                    Día Domingo: 100% de remuneración según convenio.
+                  </p>
+                } @else if (d.esSabadoTarde) {
+                  @if (d.horas50 > 0 && d.horas100 > 0) {
+                    <p class="text-amber-700 dark:text-amber-300 font-medium">
+                      Sábado con corte a las 13:00 hs: tramo matutino al 50% y tramo vespertino al 100%.
+                    </p>
+                  } @else {
+                    <p class="text-purple-700 dark:text-purple-300 font-medium">
+                      Sábado posterior a las 13:00 hs: 100% de remuneración.
+                    </p>
+                  }
+                } @else {
+                  <p>
+                    Día hábil: 50% de remuneración según convenio de trabajo.
+                  </p>
+                }
+              </div>
+            } @else {
+              <!-- Estado sin horario seleccionado -->
+              <div class="py-8 text-center text-muted-foreground space-y-2">
+                <ng-icon [name]="'lucideCalendar'" class="size-8 mx-auto opacity-40" />
+                <p class="text-xs">
+                  Completa la fecha y los horarios de inicio y fin para calcular el desglose de horas.
+                </p>
+              </div>
+            }
+
+            <!-- Nota de alcance legal -->
+            <div class="p-3 rounded-md bg-muted/60 text-xs text-muted-foreground space-y-1 border border-border">
+              <div class="font-medium text-foreground">Alcance del Sistema</div>
+              <p>
+                El sistema no trabaja con montos de dinero: sólo registra la cantidad de horas y el porcentaje aplicable (CU-03 / RF-01).
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  }
+</div>

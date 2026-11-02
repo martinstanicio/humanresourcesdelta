@@ -66,6 +66,20 @@ export const routes: Routes = [
           ).then((m) => m.SolicitudLicenciaFormPage),
       },
       {
+        path: "notificaciones-horas-extras",
+        loadComponent: () =>
+          import(
+            "./notificaciones-horas-extras/notificacion-hora-extra-list/notificacion-hora-extra-list"
+          ).then((m) => m.NotificacionHoraExtraListPage),
+      },
+      {
+        path: "notificaciones-horas-extras/nueva",
+        loadComponent: () =>
+          import(
+            "./notificaciones-horas-extras/notificacion-hora-extra-form/notificacion-hora-extra-form"
+          ).then((m) => m.NotificacionHoraExtraFormPage),
+      },
+      {
         path: "reportes",
         loadComponent: () =>
           import("./reportes/reporte-list/reporte-list").then(
