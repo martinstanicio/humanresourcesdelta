@@ -1,4 +1,4 @@
-import { DatePipe } from "@angular/common";
+import { DatePipe, TitleCasePipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -47,6 +47,7 @@ export type SolicitudFilter = "all" | EstadoSolicitudLicencia;
   selector: "app-solicitud-licencia-list",
   imports: [
     DatePipe,
+    TitleCasePipe,
     FormsModule,
     HlmBadgeImports,
     HlmButton,
