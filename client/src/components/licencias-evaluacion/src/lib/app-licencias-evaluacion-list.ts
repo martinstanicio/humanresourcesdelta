@@ -8,7 +8,6 @@ import {
   signal,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { RouterLink } from "@angular/router";
 import { NgIcon } from "@ng-icons/core";
 import {
   lucideAlertCircle,
@@ -69,7 +68,6 @@ export type SolicitudStatusFilter = "all" | EstadoSolicitudLicencia;
     HlmSkeleton,
     HlmTableImports,
     NgIcon,
-    RouterLink,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./app-licencias-evaluacion-list.html",
