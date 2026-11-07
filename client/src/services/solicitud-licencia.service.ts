@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 
 import {
   CreateSolicitudLicenciaDto,
+  ResolverSolicitudLicenciaDto,
   SolicitudLicencia,
 } from "@/models/solicitud-licencia.model";
 
@@ -30,6 +31,13 @@ export class SolicitudLicenciaService {
 
   create(dto: CreateSolicitudLicenciaDto): Observable<SolicitudLicencia> {
     return this._http.post<SolicitudLicencia>(this._endpoint, dto);
+  }
+
+  resolver(
+    id: number,
+    dto: ResolverSolicitudLicenciaDto,
+  ): Observable<SolicitudLicencia> {
+    return this._http.patch<SolicitudLicencia>(`${this._endpoint}${id}/`, dto);
   }
 
   cancelar(id: number): Observable<void> {

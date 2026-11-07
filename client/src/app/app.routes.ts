@@ -52,6 +52,11 @@ export const routes: Routes = [
           ),
       },
       {
+        path: "licencias",
+        loadComponent: () =>
+          import("./licencias/licencias").then((m) => m.LicenciasPage),
+      },
+      {
         path: "solicitudes-licencia",
         loadComponent: () =>
           import(

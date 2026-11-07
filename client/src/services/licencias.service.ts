@@ -30,7 +30,11 @@ export class LicenciaService {
     return this._http.get<Licencia>(`${this._endpoint}versiones/${id}/`);
   }
 
-  getSaldo(codigo: string): Observable<LicenciaSaldo> {
-    return this._http.get<LicenciaSaldo>(`${this._endpoint}${codigo}/saldo/`);
+  getSaldo(codigo: string, legajo?: number): Observable<LicenciaSaldo> {
+    const url =
+      legajo !== undefined
+        ? `${this._endpoint}${codigo}/saldo/?empleado=${legajo}`
+        : `${this._endpoint}${codigo}/saldo/`;
+    return this._http.get<LicenciaSaldo>(url);
   }
 }

@@ -28,3 +28,8 @@ export type CreateSolicitudLicenciaDto = {
   fecha_fin: string;
   motivo_solicitud?: string;
 };
+
+export type ResolverSolicitudLicenciaDto = {
+  estado: "aprobada" | "rechazada";
+  motivo_resolucion?: string;
+};

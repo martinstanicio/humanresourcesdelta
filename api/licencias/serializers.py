@@ -169,3 +169,19 @@ class ResolverSolicitudLicenciaSerializer(serializers.ModelSerializer):
             )
 
         return value
+
+    def validate(self, attrs: dict[str, Any]) -> dict[str, Any]:
+        estado = attrs.get("estado")
+        motivo_resolucion = attrs.get("motivo_resolucion", "")
+        if estado == EstadoSolicitudLicencia.RECHAZADA and (
+            not motivo_resolucion or not str(motivo_resolucion).strip()
+        ):
+            raise serializers.ValidationError(
+                {
+                    "motivo_resolucion": (
+                        "La observación es obligatoria para rechazar una solicitud."
+                    )
+                }
+            )
+
+        return attrs
