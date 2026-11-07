@@ -1,5 +1,7 @@
 export type EstadoNotificacionHorasExtras =
-  "pendiente" | "aprobada" | "rechazada";
+  | "pendiente"
+  | "aprobada"
+  | "rechazada";
 
 export type NotificacionHoraExtra = {
   id: number;
@@ -9,4 +11,9 @@ export type NotificacionHoraExtra = {
   fecha_fin: string;
   motivo_resolucion: string;
   estado: EstadoNotificacionHorasExtras;
+};
+
+export type ResolverNotificacionHoraExtraDto = {
+  estado: "aprobada" | "rechazada";
+  motivo_resolucion?: string;
 };

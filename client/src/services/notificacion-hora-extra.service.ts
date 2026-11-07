@@ -2,7 +2,10 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
-import { NotificacionHoraExtra } from "@/models/notificacion-hora-extra.model";
+import {
+  NotificacionHoraExtra,
+  ResolverNotificacionHoraExtraDto,
+} from "@/models/notificacion-hora-extra.model";
 
 export type CreateNotificacionHoraExtraDto = {
   hora_extra: number;
@@ -34,5 +37,15 @@ export class NotificacionHoraExtraService {
 
   create(dto: CreateNotificacionHoraExtraDto): Observable<NotificacionHoraExtra> {
     return this._http.post<NotificacionHoraExtra>(this._endpoint, dto);
+  }
+
+  resolver(
+    id: number,
+    dto: ResolverNotificacionHoraExtraDto,
+  ): Observable<NotificacionHoraExtra> {
+    return this._http.patch<NotificacionHoraExtra>(
+      `${this._endpoint}${id}/`,
+      dto,
+    );
   }
 }
