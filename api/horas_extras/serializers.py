@@ -153,7 +153,7 @@ class ResolverNotificacionHorasExtrasSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = NotificacionHorasExtras
-        fields = ("estado",)
+        fields = ("estado", "motivo_resolucion")
 
     def validate_estado(self, value: str) -> str:
         if (
@@ -165,3 +165,19 @@ class ResolverNotificacionHorasExtrasSerializer(serializers.ModelSerializer):
             )
 
         return value
+
+    def validate(self, attrs: dict[str, Any]) -> dict[str, Any]:
+        estado = attrs.get("estado")
+        motivo_resolucion = attrs.get("motivo_resolucion", "")
+        if estado == EstadoNotificacionHorasExtras.RECHAZADA and (
+            not motivo_resolucion or not str(motivo_resolucion).strip()
+        ):
+            raise serializers.ValidationError(
+                {
+                    "motivo_resolucion": (
+                        "La observación es obligatoria para rechazar una notificación."
+                    )
+                }
+            )
+
+        return attrs
