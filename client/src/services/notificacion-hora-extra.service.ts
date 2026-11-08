@@ -35,7 +35,9 @@ export class NotificacionHoraExtraService {
     );
   }
 
-  create(dto: CreateNotificacionHoraExtraDto): Observable<NotificacionHoraExtra> {
+  create(
+    dto: CreateNotificacionHoraExtraDto,
+  ): Observable<NotificacionHoraExtra> {
     return this._http.post<NotificacionHoraExtra>(this._endpoint, dto);
   }
 

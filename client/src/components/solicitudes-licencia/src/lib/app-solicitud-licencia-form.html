@@ -1,85 +1,129 @@
-<div class="space-y-6 max-w-4xl mx-auto">
+<div class="mx-auto max-w-4xl space-y-6">
   <!-- PANTALLA DE CONFIRMACIÓN EXITOSA (CU-01) -->
   @if (confirmedSolicitud(); as confirmada) {
-    <div class="rounded-xl border bg-card p-6 sm:p-8 text-card-foreground shadow-sm space-y-6 animate-in fade-in zoom-in-95">
-      <div class="flex flex-col items-center text-center space-y-3">
-        <div class="size-16 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-          <ng-icon [name]="'lucideCheckCircle2'" class="size-10" />
+    <div
+      class="animate-in space-y-6 rounded-xl border bg-card p-6 text-card-foreground shadow-sm zoom-in-95 fade-in sm:p-8"
+    >
+      <div class="flex flex-col items-center space-y-3 text-center">
+        <div
+          class="flex size-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400"
+        >
+          <ng-icon class="size-10" [name]="'lucideCheckCircle2'" />
         </div>
         <h2 class="text-2xl font-bold tracking-tight text-foreground">
           ¡Solicitud registrada con éxito!
         </h2>
-        <p class="text-sm text-muted-foreground max-w-md">
-          Tu solicitud fue asentada en el sistema en estado <strong>Pendiente</strong> y se notificó automáticamente al área de Recursos Humanos para su evaluación.
+        <p class="max-w-md text-sm text-muted-foreground">
+          Tu solicitud fue asentada en el sistema en estado
+          <strong>Pendiente</strong> y se notificó automáticamente al área de
+          Recursos Humanos para su evaluación.
         </p>
 
         <!-- Número de seguimiento destacado -->
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-muted border font-mono text-sm">
-          <span class="text-muted-foreground font-sans text-xs">Número de seguimiento único:</span>
-          <span class="font-bold text-base text-foreground">#{{ confirmada.id }}</span>
+        <div
+          class="inline-flex items-center gap-2 rounded-lg border bg-muted px-4 py-2 font-mono text-sm"
+        >
+          <span class="font-sans text-xs text-muted-foreground"
+            >Número de seguimiento único:</span
+          >
+          <span class="text-base font-bold text-foreground"
+            >#{{ confirmada.id }}</span
+          >
         </div>
       </div>
 
       <!-- Resumen de la solicitud -->
-      <div class="rounded-lg border bg-muted/30 p-5 space-y-3 text-sm">
-        <h3 class="font-semibold text-xs uppercase tracking-wider text-muted-foreground">
+      <div class="space-y-3 rounded-lg border bg-muted/30 p-5 text-sm">
+        <h3
+          class="text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+        >
           Resumen de la Solicitud
         </h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <span class="text-xs text-muted-foreground block">Tipo de Licencia</span>
-            <span class="font-medium text-foreground">{{ selectedLicencia()?.tipo || 'Licencia #' + confirmada.licencia }}</span>
+            <span class="block text-xs text-muted-foreground"
+              >Tipo de Licencia</span
+            >
+            <span class="font-medium text-foreground">{{
+              selectedLicencia()?.tipo || "Licencia #" + confirmada.licencia
+            }}</span>
           </div>
           <div>
-            <span class="text-xs text-muted-foreground block">Estado de la Solicitud</span>
-            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/20">
+            <span class="block text-xs text-muted-foreground"
+              >Estado de la Solicitud</span
+            >
+            <span
+              class="inline-flex items-center rounded-full border border-amber-500/20 bg-amber-500/15 px-2 py-0.5 text-xs font-semibold text-amber-700 dark:text-amber-400"
+            >
               Pendiente de evaluación
             </span>
           </div>
           <div>
-            <span class="text-xs text-muted-foreground block">Rango de Fechas</span>
+            <span class="block text-xs text-muted-foreground"
+              >Rango de Fechas</span
+            >
             <span class="font-medium text-foreground">
-              {{ confirmada.fecha_inicio | date:'dd/MM/yyyy' }} al {{ confirmada.fecha_fin | date:'dd/MM/yyyy' }}
+              {{ confirmada.fecha_inicio | date: "dd/MM/yyyy" }} al
+              {{ confirmada.fecha_fin | date: "dd/MM/yyyy" }}
             </span>
           </div>
           <div>
-            <span class="text-xs text-muted-foreground block">Días Solicitados</span>
+            <span class="block text-xs text-muted-foreground"
+              >Días Solicitados</span
+            >
             <span class="font-medium text-foreground">
-              {{ diasCalculados() }} día(s) {{ selectedLicenciaRules()?.contabilizaDiasNoHabiles ? 'corridos' : 'hábiles' }}
+              {{ diasCalculados() }} día(s)
+              {{
+                selectedLicenciaRules()?.contabilizaDiasNoHabiles
+                  ? "corridos"
+                  : "hábiles"
+              }}
             </span>
           </div>
           @if (confirmada.motivo_solicitud) {
             <div class="sm:col-span-2">
-              <span class="text-xs text-muted-foreground block">Motivo</span>
-              <span class="font-medium text-foreground">{{ confirmada.motivo_solicitud }}</span>
+              <span class="block text-xs text-muted-foreground">Motivo</span>
+              <span class="font-medium text-foreground">{{
+                confirmada.motivo_solicitud
+              }}</span>
             </div>
           }
           @if (attachedFile(); as adjunto) {
-            <div class="sm:col-span-2 flex items-center gap-2 text-xs text-muted-foreground pt-1 border-t">
-              <ng-icon [name]="'lucideFile'" class="size-4 text-primary" />
-              <span>Documentación respaldatoria adjunta: <strong>{{ adjunto.name }}</strong> ({{ adjunto.sizeFormatted }})</span>
+            <div
+              class="flex items-center gap-2 border-t pt-1 text-xs text-muted-foreground sm:col-span-2"
+            >
+              <ng-icon class="size-4 text-primary" [name]="'lucideFile'" />
+              <span
+                >Documentación respaldatoria adjunta:
+                <strong>{{ adjunto.name }}</strong> ({{
+                  adjunto.sizeFormatted
+                }})</span
+              >
             </div>
           }
         </div>
       </div>
 
       <!-- Botones de navegación directa -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+      <div
+        class="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row"
+      >
         <a
-          routerLink="/solicitudes-licencia"
+          class="w-full gap-2 sm:w-auto"
           hlmBtn
-          class="w-full sm:w-auto gap-2"
+          routerLink="/solicitudes-licencia"
         >
-          <ng-icon [name]="'lucideCalendarClock'" class="size-4" />
+          <ng-icon class="size-4" [name]="'lucideCalendarClock'" />
           Ver mis solicitudes (CU-05)
         </a>
         <button
+          class="w-full gap-2 sm:w-auto"
           hlmBtn
+          type="button"
           variant="outline"
           (click)="resetForm()"
-          class="w-full sm:w-auto gap-2"
         >
-          <ng-icon [name]="'lucidePlus'" class="size-4" />
+          <ng-icon class="size-4" [name]="'lucidePlus'" />
           Nueva solicitud
         </button>
       </div>
@@ -88,19 +132,22 @@
     <!-- ENCABEZADO Y FORMULARIO DE CARGA -->
     <div class="flex items-center gap-3">
       <a
-        routerLink="/solicitudes-licencia"
-        hlmBtn
-        variant="ghost"
-        size="icon"
         class="size-8"
+        hlmBtn
+        routerLink="/solicitudes-licencia"
+        size="icon"
         title="Volver a Mis Solicitudes"
+        variant="ghost"
       >
-        <ng-icon [name]="'lucideArrowLeft'" class="size-4" />
+        <ng-icon class="size-4" [name]="'lucideArrowLeft'" />
       </a>
       <div>
-        <h1 class="text-2xl font-bold tracking-tight">Nueva Solicitud de Licencia</h1>
+        <h1 class="text-2xl font-bold tracking-tight">
+          Nueva Solicitud de Licencia
+        </h1>
         <p class="text-sm text-muted-foreground">
-          Genera una solicitud formal según las reglas y cupos de tu convenio de trabajo (CU-01).
+          Genera una solicitud formal según las reglas y cupos de tu convenio de
+          trabajo (CU-01).
         </p>
       </div>
     </div>
@@ -113,28 +160,42 @@
         <hlm-skeleton class="h-10 w-full" />
       </div>
     } @else if (initialError()) {
-      <div class="p-8 text-center rounded-xl border bg-card shadow-sm">
-        <ng-icon [name]="'lucideAlertCircle'" class="size-10 mx-auto text-destructive mb-2" />
+      <div class="rounded-xl border bg-card p-8 text-center shadow-sm">
+        <ng-icon
+          class="mx-auto mb-2 size-10 text-destructive"
+          [name]="'lucideAlertCircle'"
+        />
         <p class="text-sm font-medium text-destructive">{{ initialError() }}</p>
-        <button hlmBtn variant="outline" size="sm" class="mt-4 gap-2" (click)="loadInitialData()">
-          <ng-icon [name]="'lucideRefreshCw'" class="size-4" />
+        <button
+          class="mt-4 gap-2"
+          hlmBtn
+          size="sm"
+          type="button"
+          variant="outline"
+          (click)="loadInitialData()"
+        >
+          <ng-icon class="size-4" [name]="'lucideRefreshCw'" />
           Reintentar
         </button>
       </div>
     } @else {
-      <form (ngSubmit)="onSubmit()" class="space-y-6">
-        <div class="rounded-xl border bg-card p-6 shadow-sm space-y-6">
+      <form class="space-y-6" (ngSubmit)="onSubmit()">
+        <div class="space-y-6 rounded-xl border bg-card p-6 shadow-sm">
           <!-- 1. SELECCIÓN DEL TIPO DE LICENCIA -->
           <div class="space-y-2">
-            <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            <label
+              class="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              for="licencia"
+            >
               Tipo de licencia <span class="text-destructive">*</span>
             </label>
             <select
               #licenciaSelect
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-none"
+              id="licencia"
               (change)="onLicenciaChange(licenciaSelect.value)"
-              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             >
-              <option value="" disabled [selected]="!selectedLicenciaId()">
+              <option disabled value="" [selected]="!selectedLicenciaId()">
                 -- Selecciona el tipo de licencia admitido por tu convenio --
               </option>
               @for (lic of licencias(); track lic.id) {
@@ -152,77 +213,116 @@
 
           <!-- INFORMACIÓN CONTEXTUAL DEL CONVENIO PARA ESTA LICENCIA -->
           @if (selectedLicencia(); as lic) {
-            <div class="rounded-lg border bg-muted/40 p-4 space-y-3 text-xs">
-              <div class="flex items-center gap-2 font-semibold text-foreground text-sm">
-                <ng-icon [name]="'lucideInfo'" class="size-4 text-primary" />
+            <div class="space-y-3 rounded-lg border bg-muted/40 p-4 text-xs">
+              <div
+                class="flex items-center gap-2 text-sm font-semibold text-foreground"
+              >
+                <ng-icon class="size-4 text-primary" [name]="'lucideInfo'" />
                 <span>Condiciones del Convenio: {{ lic.tipo }}</span>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
                 <!-- Días Disponibles -->
-                <div class="p-3 bg-background rounded-md border">
-                  <span class="text-muted-foreground block text-[11px]">Saldo disponible</span>
+                <div class="rounded-md border bg-background p-3">
+                  <span class="block text-[11px] text-muted-foreground"
+                    >Saldo disponible</span
+                  >
                   @if (loadingSaldo()) {
-                    <div class="flex items-center gap-2 mt-1">
-                      <ng-icon [name]="'lucideRefreshCw'" class="size-3 animate-spin text-muted-foreground" />
-                      <span class="text-muted-foreground">Consultando saldo...</span>
+                    <div class="mt-1 flex items-center gap-2">
+                      <ng-icon
+                        class="size-3 animate-spin text-muted-foreground"
+                        [name]="'lucideRefreshCw'"
+                      />
+                      <span class="text-muted-foreground"
+                        >Consultando saldo...</span
+                      >
                     </div>
                   } @else if (saldoInfo(); as saldo) {
                     <div class="mt-1 flex items-baseline gap-1">
-                      <span class="text-lg font-bold text-foreground">{{ saldo.dias_disponibles }}</span>
+                      <span class="text-lg font-bold text-foreground">{{
+                        saldo.dias_disponibles
+                      }}</span>
                       <span class="text-muted-foreground">días</span>
                     </div>
                     @if (saldo.fecha_renovacion) {
-                      <span class="text-[10px] text-muted-foreground block mt-0.5">
-                        Renovación: {{ saldo.fecha_renovacion | date:'dd/MM/yyyy' }}
+                      <span
+                        class="mt-0.5 block text-[10px] text-muted-foreground"
+                      >
+                        Renovación:
+                        {{ saldo.fecha_renovacion | date: "dd/MM/yyyy" }}
                       </span>
                     }
                   } @else if (selectedLicenciaRules()?.diasCupo !== null) {
                     <div class="mt-1 flex items-baseline gap-1">
-                      <span class="text-lg font-bold text-foreground">{{ selectedLicenciaRules()?.diasCupo }}</span>
-                      <span class="text-muted-foreground">días por período</span>
+                      <span class="text-lg font-bold text-foreground">{{
+                        selectedLicenciaRules()?.diasCupo
+                      }}</span>
+                      <span class="text-muted-foreground"
+                        >días por período</span
+                      >
                     </div>
                   } @else {
-                    <span class="text-sm font-semibold text-foreground mt-1 block">Sin límite estricto</span>
+                    <span
+                      class="mt-1 block text-sm font-semibold text-foreground"
+                      >Sin límite estricto</span
+                    >
                   }
                 </div>
 
                 <!-- Antelación Mínima -->
-                <div class="p-3 bg-background rounded-md border">
-                  <span class="text-muted-foreground block text-[11px]">Antelación mínima requerida</span>
+                <div class="rounded-md border bg-background p-3">
+                  <span class="block text-[11px] text-muted-foreground"
+                    >Antelación mínima requerida</span
+                  >
                   <div class="mt-1 flex items-baseline gap-1">
                     <span class="text-lg font-bold text-foreground">
                       {{ selectedLicenciaRules()?.diasAntelacionMinima || 0 }}
                     </span>
                     <span class="text-muted-foreground">
-                      {{ (selectedLicenciaRules()?.diasAntelacionMinima || 0) === 1 ? 'día' : 'días' }}
+                      {{
+                        (selectedLicenciaRules()?.diasAntelacionMinima || 0) ===
+                        1
+                          ? "día"
+                          : "días"
+                      }}
                     </span>
                   </div>
-                  <span class="text-[10px] text-muted-foreground block mt-0.5">
+                  <span class="mt-0.5 block text-[10px] text-muted-foreground">
                     Anticipación mínima para solicitar
                   </span>
                 </div>
 
                 <!-- Documentación requerida -->
-                <div class="p-3 bg-background rounded-md border">
-                  <span class="text-muted-foreground block text-[11px]">Documentación digital</span>
-                  <div class="mt-1 font-semibold text-sm">
+                <div class="rounded-md border bg-background p-3">
+                  <span class="block text-[11px] text-muted-foreground"
+                    >Documentación digital</span
+                  >
+                  <div class="mt-1 text-sm font-semibold">
                     @if (selectedLicenciaRules()?.requiereDocumentacion) {
-                      <span class="text-amber-600 dark:text-amber-400 font-bold">Obligatoria</span>
+                      <span class="font-bold text-amber-600 dark:text-amber-400"
+                        >Obligatoria</span
+                      >
                     } @else {
                       <span class="text-muted-foreground">Opcional</span>
                     }
                   </div>
-                  <span class="text-[10px] text-muted-foreground block mt-0.5">
+                  <span class="mt-0.5 block text-[10px] text-muted-foreground">
                     Formatos: PDF, JPG, PNG
                   </span>
                 </div>
               </div>
 
               @if (selectedLicenciaRules(); as r) {
-                @if (r.diasMinimosConsecutivos > 1 || r.diasMaximosConsecutivos) {
-                  <div class="text-[11px] text-muted-foreground flex items-center gap-1.5 pt-1">
-                    <ng-icon [name]="'lucideCalendar'" class="size-3.5 text-muted-foreground" />
+                @if (
+                  r.diasMinimosConsecutivos > 1 || r.diasMaximosConsecutivos
+                ) {
+                  <div
+                    class="flex items-center gap-1.5 pt-1 text-[11px] text-muted-foreground"
+                  >
+                    <ng-icon
+                      class="size-3.5 text-muted-foreground"
+                      [name]="'lucideCalendar'"
+                    />
                     <span>
                       Días consecutivos: mínimo {{ r.diasMinimosConsecutivos }}
                       @if (r.diasMaximosConsecutivos) {
@@ -236,52 +336,65 @@
           }
 
           <!-- 2. RANGO DE FECHAS (INICIO Y FIN) -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div class="space-y-2">
-              <label class="text-sm font-medium leading-none">
+              <label class="text-sm leading-none font-medium" for="fechaInicio">
                 Fecha de inicio <span class="text-destructive">*</span>
               </label>
               <input
+                class="w-full"
                 hlmInput
+                id="fechaInicio"
+                name="fechaInicio"
+                required
                 type="date"
                 [min]="getHoyString()"
                 [ngModel]="fechaInicio()"
                 (ngModelChange)="fechaInicio.set($event)"
-                name="fechaInicio"
-                required
-                class="w-full"
               />
             </div>
 
             <div class="space-y-2">
-              <label class="text-sm font-medium leading-none">
+              <label class="text-sm leading-none font-medium" for="fechaFin">
                 Fecha de fin <span class="text-destructive">*</span>
               </label>
               <input
+                class="w-full"
                 hlmInput
+                id="fechaFin"
+                name="fechaFin"
+                required
                 type="date"
                 [min]="fechaInicio() || getHoyString()"
                 [ngModel]="fechaFin()"
                 (ngModelChange)="fechaFin.set($event)"
-                name="fechaFin"
-                required
-                class="w-full"
               />
             </div>
           </div>
 
           <!-- COMPUTO EN TIEMPO REAL DE DÍAS HÁBILES Y FERIADOS -->
           @if (fechaInicio() && fechaFin()) {
-            <div class="rounded-lg p-3.5 bg-secondary/50 border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs">
+            <div
+              class="flex flex-col gap-2 rounded-lg border bg-secondary/50 p-3.5 text-xs sm:flex-row sm:items-center sm:justify-between"
+            >
               <div class="flex items-center gap-2">
-                <ng-icon [name]="'lucideCalendarClock'" class="size-4 text-primary" />
+                <ng-icon
+                  class="size-4 text-primary"
+                  [name]="'lucideCalendarClock'"
+                />
                 <span>
                   Cantidad de días computados:
-                  <strong class="text-sm text-foreground">{{ diasCalculados() }}</strong>
-                  {{ selectedLicenciaRules()?.contabilizaDiasNoHabiles ? 'días corridos' : 'días hábiles' }}
+                  <strong class="text-sm text-foreground">{{
+                    diasCalculados()
+                  }}</strong>
+                  {{
+                    selectedLicenciaRules()?.contabilizaDiasNoHabiles
+                      ? "días corridos"
+                      : "días hábiles"
+                  }}
                 </span>
               </div>
-              <div class="text-muted-foreground text-[11px]">
+              <div class="text-[11px] text-muted-foreground">
                 @if (selectedLicenciaRules()?.contabilizaDiasNoHabiles) {
                   * Computa todos los días corridos
                 } @else {
@@ -294,10 +407,17 @@
           <!-- ALERTAS DE VALIDACIÓN EN TIEMPO REAL (FLUJOS ALTERNATIVOS) -->
           <!-- Flujo alternativo #1: Saldo de días insuficiente -->
           @if (errorSaldo()) {
-            <div class="p-3 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-900 text-rose-800 dark:text-rose-200 text-xs flex items-start gap-2.5">
-              <ng-icon [name]="'lucideAlertCircle'" class="size-4 shrink-0 text-rose-600 dark:text-rose-400 mt-0.5" />
+            <div
+              class="flex items-start gap-2.5 rounded-lg border border-rose-300 bg-rose-50 p-3 text-xs text-rose-800 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-200"
+            >
+              <ng-icon
+                class="mt-0.5 size-4 shrink-0 text-rose-600 dark:text-rose-400"
+                [name]="'lucideAlertCircle'"
+              />
               <div>
-                <strong class="font-semibold block">Saldo de días insuficiente</strong>
+                <strong class="block font-semibold"
+                  >Saldo de días insuficiente</strong
+                >
                 <span>{{ errorSaldo() }}</span>
               </div>
             </div>
@@ -305,10 +425,17 @@
 
           <!-- Flujo alternativo #2: Superposición con otra solicitud -->
           @if (errorSuperposicion()) {
-            <div class="p-3 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-900 text-rose-800 dark:text-rose-200 text-xs flex items-start gap-2.5">
-              <ng-icon [name]="'lucideAlertTriangle'" class="size-4 shrink-0 text-rose-600 dark:text-rose-400 mt-0.5" />
+            <div
+              class="flex items-start gap-2.5 rounded-lg border border-rose-300 bg-rose-50 p-3 text-xs text-rose-800 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-200"
+            >
+              <ng-icon
+                class="mt-0.5 size-4 shrink-0 text-rose-600 dark:text-rose-400"
+                [name]="'lucideAlertTriangle'"
+              />
               <div>
-                <strong class="font-semibold block">Conflicto de superposición de fechas</strong>
+                <strong class="block font-semibold"
+                  >Conflicto de superposición de fechas</strong
+                >
                 <span>{{ errorSuperposicion() }}</span>
               </div>
             </div>
@@ -316,10 +443,17 @@
 
           <!-- Validación: Antelación mínima -->
           @if (errorAntelacion()) {
-            <div class="p-3 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-900 text-amber-800 dark:text-amber-200 text-xs flex items-start gap-2.5">
-              <ng-icon [name]="'lucideClock'" class="size-4 shrink-0 text-amber-600 dark:text-amber-400 mt-0.5" />
+            <div
+              class="flex items-start gap-2.5 rounded-lg border border-amber-300 bg-amber-50 p-3 text-xs text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
+            >
+              <ng-icon
+                class="mt-0.5 size-4 shrink-0 text-amber-600 dark:text-amber-400"
+                [name]="'lucideClock'"
+              />
               <div>
-                <strong class="font-semibold block">Antelación mínima exigida</strong>
+                <strong class="block font-semibold"
+                  >Antelación mínima exigida</strong
+                >
                 <span>{{ errorAntelacion() }}</span>
               </div>
             </div>
@@ -327,10 +461,17 @@
 
           <!-- Validación: Consecutivos -->
           @if (errorConsecutivos()) {
-            <div class="p-3 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-900 text-amber-800 dark:text-amber-200 text-xs flex items-start gap-2.5">
-              <ng-icon [name]="'lucideAlertCircle'" class="size-4 shrink-0 text-amber-600 dark:text-amber-400 mt-0.5" />
+            <div
+              class="flex items-start gap-2.5 rounded-lg border border-amber-300 bg-amber-50 p-3 text-xs text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
+            >
+              <ng-icon
+                class="mt-0.5 size-4 shrink-0 text-amber-600 dark:text-amber-400"
+                [name]="'lucideAlertCircle'"
+              />
               <div>
-                <strong class="font-semibold block">Regla de días consecutivos</strong>
+                <strong class="block font-semibold"
+                  >Regla de días consecutivos</strong
+                >
                 <span>{{ errorConsecutivos() }}</span>
               </div>
             </div>
@@ -338,66 +479,89 @@
 
           <!-- 3. MOTIVO DE LA SOLICITUD -->
           <div class="space-y-2">
-            <label class="text-sm font-medium leading-none">
+            <label class="text-sm leading-none font-medium" for="motivo">
               Motivo o justificación de la solicitud
             </label>
             <textarea
+              class="w-full resize-none"
               hlmTextarea
-              rows="3"
+              id="motivo"
+              name="motivo"
               placeholder="Indica brevemente el motivo de la licencia..."
+              rows="3"
               [ngModel]="motivo()"
               (ngModelChange)="motivo.set($event)"
-              name="motivo"
-              class="w-full resize-none"
             ></textarea>
           </div>
 
           <!-- 4. ADJUNTAR DOCUMENTACIÓN DIGITAL (CU-01 / FLUJO ALTERNATIVO #3) -->
           <div class="space-y-2">
             <div class="flex items-center justify-between">
-              <label class="text-sm font-medium leading-none">
+              <label
+                class="text-sm leading-none font-medium"
+                for="documentacion"
+              >
                 Documentación respaldatoria digital
                 @if (selectedLicenciaRules()?.requiereDocumentacion) {
                   <span class="text-destructive">* (Obligatoria)</span>
                 } @else {
-                  <span class="text-muted-foreground text-xs font-normal">(Opcional)</span>
+                  <span class="text-xs font-normal text-muted-foreground"
+                    >(Opcional)</span
+                  >
                 }
               </label>
-              <span class="text-[11px] text-muted-foreground">PDF, JPG, PNG (máx. 5 MB)</span>
+              <span class="text-[11px] text-muted-foreground"
+                >PDF, JPG, PNG (máx. 5 MB)</span
+              >
             </div>
 
             @if (attachedFile(); as adjunto) {
               <!-- Archivo cargado -->
-              <div class="flex items-center justify-between p-3 rounded-lg border bg-muted/40 text-xs">
+              <div
+                class="flex items-center justify-between rounded-lg border bg-muted/40 p-3 text-xs"
+              >
                 <div class="flex items-center gap-2 overflow-hidden">
-                  <div class="size-8 rounded bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                    <ng-icon [name]="'lucideFileText'" class="size-4" />
+                  <div
+                    class="flex size-8 shrink-0 items-center justify-center rounded bg-primary/10 text-primary"
+                  >
+                    <ng-icon class="size-4" [name]="'lucideFileText'" />
                   </div>
                   <div class="truncate">
-                    <span class="font-medium text-foreground block truncate">{{ adjunto.name }}</span>
-                    <span class="text-[11px] text-muted-foreground">{{ adjunto.sizeFormatted }}</span>
+                    <span class="block truncate font-medium text-foreground">{{
+                      adjunto.name
+                    }}</span>
+                    <span class="text-[11px] text-muted-foreground">{{
+                      adjunto.sizeFormatted
+                    }}</span>
                   </div>
                 </div>
                 <button
-                  type="button"
-                  (click)="removeFile(fileInput)"
+                  class="size-7 shrink-0 text-muted-foreground hover:text-destructive"
                   hlmBtn
-                  variant="ghost"
                   size="icon"
-                  class="size-7 text-muted-foreground hover:text-destructive shrink-0"
                   title="Quitar archivo"
+                  type="button"
+                  variant="ghost"
+                  (click)="removeFile(fileInput)"
                 >
-                  <ng-icon [name]="'lucideTrash2'" class="size-4" />
+                  <ng-icon class="size-4" [name]="'lucideTrash2'" />
                 </button>
               </div>
             } @else {
               <!-- Input para seleccionar archivo -->
               <div
+                aria-label="Adjuntar archivo o comprobante"
+                class="flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-lg border-2 border-dashed p-5 text-center transition-colors hover:bg-muted/30"
+                role="button"
+                tabindex="0"
                 (click)="fileInput.click()"
-                class="border-2 border-dashed rounded-lg p-5 text-center hover:bg-muted/30 transition-colors cursor-pointer flex flex-col items-center justify-center gap-1.5"
+                (keydown.enter)="fileInput.click()"
+                (keydown.space)="$event.preventDefault(); fileInput.click()"
               >
-                <div class="size-9 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
-                  <ng-icon [name]="'lucideUpload'" class="size-4" />
+                <div
+                  class="flex size-9 items-center justify-center rounded-full bg-muted text-muted-foreground"
+                >
+                  <ng-icon class="size-4" [name]="'lucideUpload'" />
                 </div>
                 <p class="text-xs font-medium text-foreground">
                   Haz clic para adjuntar comprobante o arrastra el archivo aquí
@@ -410,23 +574,29 @@
 
             <input
               #fileInput
-              type="file"
               accept=".pdf, .jpg, .jpeg, .png, application/pdf, image/jpeg, image/png"
-              (change)="onFileSelected($event)"
               class="hidden"
+              id="documentacion"
+              type="file"
+              (change)="onFileSelected($event)"
             />
 
             <!-- Error de formato o tamaño de archivo -->
             @if (fileError()) {
-              <p class="text-xs text-destructive font-medium mt-1">
+              <p class="mt-1 text-xs font-medium text-destructive">
                 {{ fileError() }}
               </p>
             }
 
             <!-- Alerta si falta documentación obligatoria -->
             @if (errorDocumentacion()) {
-              <div class="p-2.5 rounded-md bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-900 text-amber-800 dark:text-amber-200 text-xs flex items-center gap-2">
-                <ng-icon [name]="'lucideAlertCircle'" class="size-4 shrink-0 text-amber-600 dark:text-amber-400" />
+              <div
+                class="flex items-center gap-2 rounded-md border border-amber-300 bg-amber-50 p-2.5 text-xs text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
+              >
+                <ng-icon
+                  class="size-4 shrink-0 text-amber-600 dark:text-amber-400"
+                  [name]="'lucideAlertCircle'"
+                />
                 <span>{{ errorDocumentacion() }}</span>
               </div>
             }
@@ -434,8 +604,10 @@
 
           <!-- Error general de la API -->
           @if (submitError()) {
-            <div class="p-3 rounded-lg bg-destructive/15 border border-destructive/30 text-destructive text-xs flex items-center gap-2">
-              <ng-icon [name]="'lucideAlertCircle'" class="size-4 shrink-0" />
+            <div
+              class="flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/15 p-3 text-xs text-destructive"
+            >
+              <ng-icon class="size-4 shrink-0" [name]="'lucideAlertCircle'" />
               <span>{{ submitError() }}</span>
             </div>
           }
@@ -444,24 +616,24 @@
         <!-- BOTONES DE ACCIÓN -->
         <div class="flex items-center justify-end gap-3">
           <a
-            routerLink="/solicitudes-licencia"
             hlmBtn
+            routerLink="/solicitudes-licencia"
             variant="outline"
             [class.pointer-events-none]="submitting()"
           >
             Cancelar
           </a>
           <button
-            type="submit"
-            hlmBtn
-            [disabled]="!isFormValid() || submitting()"
             class="gap-2"
+            hlmBtn
+            type="submit"
+            [disabled]="!isFormValid() || submitting()"
           >
             @if (submitting()) {
-              <ng-icon [name]="'lucideRefreshCw'" class="size-4 animate-spin" />
+              <ng-icon class="size-4 animate-spin" [name]="'lucideRefreshCw'" />
               Registrando solicitud...
             } @else {
-              <ng-icon [name]="'lucideCheck'" class="size-4" />
+              <ng-icon class="size-4" [name]="'lucideCheck'" />
               Confirmar envío de solicitud
             }
           </button>

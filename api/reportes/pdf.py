@@ -216,7 +216,9 @@ def generar_pdf_reporte_mensual(reporte: Reporte) -> BytesIO:
 
     # Pie de página: Fecha en que el Sistema generó el reporte
     if reporte.fecha_generacion:
-        fecha_gen = reporte.fecha_generacion.astimezone(tz_buenos_aires).strftime("%d/%m/%Y a las %H:%M:%S")
+        fecha_gen = reporte.fecha_generacion.astimezone(tz_buenos_aires).strftime(
+            "%d/%m/%Y a las %H:%M:%S"
+        )
     else:
         fecha_gen = datetime.now(tz_buenos_aires).strftime("%d/%m/%Y a las %H:%M:%S")
 

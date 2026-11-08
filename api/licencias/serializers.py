@@ -176,12 +176,10 @@ class ResolverSolicitudLicenciaSerializer(serializers.ModelSerializer):
         if estado == EstadoSolicitudLicencia.RECHAZADA and (
             not motivo_resolucion or not str(motivo_resolucion).strip()
         ):
-            raise serializers.ValidationError(
-                {
-                    "motivo_resolucion": (
-                        "La observación es obligatoria para rechazar una solicitud."
-                    )
-                }
-            )
+            raise serializers.ValidationError({
+                "motivo_resolucion": (
+                    "La observación es obligatoria para rechazar una solicitud."
+                )
+            })
 
         return attrs

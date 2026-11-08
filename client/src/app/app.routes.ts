@@ -59,16 +59,16 @@ export const routes: Routes = [
       {
         path: "solicitudes-licencia",
         loadComponent: () =>
-          import(
-            "./solicitudes-licencia/solicitud-licencia-list/solicitud-licencia-list"
-          ).then((m) => m.SolicitudLicenciaListPage),
+          import("./solicitudes-licencia/solicitud-licencia-list/solicitud-licencia-list").then(
+            (m) => m.SolicitudLicenciaListPage,
+          ),
       },
       {
         path: "solicitudes-licencia/nueva",
         loadComponent: () =>
-          import(
-            "./solicitudes-licencia/solicitud-licencia-form/solicitud-licencia-form"
-          ).then((m) => m.SolicitudLicenciaFormPage),
+          import("./solicitudes-licencia/solicitud-licencia-form/solicitud-licencia-form").then(
+            (m) => m.SolicitudLicenciaFormPage,
+          ),
       },
       {
         path: "horas-extras",
@@ -78,16 +78,16 @@ export const routes: Routes = [
       {
         path: "notificaciones-horas-extras",
         loadComponent: () =>
-          import(
-            "./notificaciones-horas-extras/notificacion-hora-extra-list/notificacion-hora-extra-list"
-          ).then((m) => m.NotificacionHoraExtraListPage),
+          import("./notificaciones-horas-extras/notificacion-hora-extra-list/notificacion-hora-extra-list").then(
+            (m) => m.NotificacionHoraExtraListPage,
+          ),
       },
       {
         path: "notificaciones-horas-extras/nueva",
         loadComponent: () =>
-          import(
-            "./notificaciones-horas-extras/notificacion-hora-extra-form/notificacion-hora-extra-form"
-          ).then((m) => m.NotificacionHoraExtraFormPage),
+          import("./notificaciones-horas-extras/notificacion-hora-extra-form/notificacion-hora-extra-form").then(
+            (m) => m.NotificacionHoraExtraFormPage,
+          ),
       },
       {
         path: "reportes",

@@ -9,25 +9,6 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgIcon } from "@ng-icons/core";
-import {
-  lucideAlertCircle,
-  lucideAlertTriangle,
-  lucideArrowUpDown,
-  lucideCalendar,
-  lucideCheck,
-  lucideCheckCircle2,
-  lucideClock,
-  lucideEye,
-  lucideFileText,
-  lucideFilter,
-  lucideInfo,
-  lucideRefreshCw,
-  lucideSearch,
-  lucideShieldAlert,
-  lucideUser,
-  lucideX,
-  lucideXCircle,
-} from "@ng-icons/lucide";
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
@@ -60,7 +41,6 @@ export const TOPE_MENSUAL_HORAS = 30;
   imports: [
     DatePipe,
     DecimalPipe,
-    TitleCasePipe,
     FormsModule,
     HlmBadgeImports,
     HlmButton,
@@ -70,6 +50,7 @@ export const TOPE_MENSUAL_HORAS = 30;
     HlmSkeleton,
     HlmTableImports,
     NgIcon,
+    TitleCasePipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./app-horas-extras-evaluacion-list.html",
@@ -106,8 +87,12 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
   public readonly sortDirection = signal<"asc" | "desc">("asc");
 
   // Drawer de Evaluación / Detalle
-  public readonly selectedNotificacion = signal<NotificacionHoraExtra | null>(null);
-  public readonly decisionAction = signal<"aprobada" | "rechazada" | null>(null);
+  public readonly selectedNotificacion = signal<NotificacionHoraExtra | null>(
+    null,
+  );
+  public readonly decisionAction = signal<"aprobada" | "rechazada" | null>(
+    null,
+  );
   public readonly motivoResolucion = signal("");
   public readonly validationError = signal<string | null>(null);
   public readonly resolvingAction = signal(false);
@@ -123,28 +108,40 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
   });
 
   // Lista de períodos (año-mes) presentes en las notificaciones
-  public readonly periodosList = computed<{ key: string; label: string }[]>(() => {
-    const periodosMap = new Map<string, string>();
-    const meses = [
-      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-    ];
+  public readonly periodosList = computed<{ key: string; label: string }[]>(
+    () => {
+      const periodosMap = new Map<string, string>();
+      const meses = [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+      ];
 
-    for (const n of this.notificaciones()) {
-      if (!n.fecha_inicio) continue;
-      const d = new Date(n.fecha_inicio);
-      const anio = d.getFullYear();
-      const mes = d.getMonth();
-      const key = `${anio}-${String(mes + 1).padStart(2, "0")}`;
-      if (!periodosMap.has(key)) {
-        periodosMap.set(key, `${meses[mes]} ${anio}`);
+      for (const n of this.notificaciones()) {
+        if (!n.fecha_inicio) continue;
+        const d = new Date(n.fecha_inicio);
+        const anio = d.getFullYear();
+        const mes = d.getMonth();
+        const key = `${anio}-${String(mes + 1).padStart(2, "0")}`;
+        if (!periodosMap.has(key)) {
+          periodosMap.set(key, `${meses[mes]} ${anio}`);
+        }
       }
-    }
 
-    return Array.from(periodosMap.entries())
-      .map(([key, label]) => ({ key, label }))
-      .sort((a, b) => b.key.localeCompare(a.key));
-  });
+      return Array.from(periodosMap.entries())
+        .map(([key, label]) => ({ key, label }))
+        .sort((a, b) => b.key.localeCompare(a.key));
+    },
+  );
 
   // Métricas / KPIs para cabecera
   public readonly pendientesCount = computed<number>(() => {
@@ -170,78 +167,80 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
   });
 
   // Lista filtrada y ordenada (fecha ascendente por defecto)
-  public readonly filteredNotificaciones = computed<NotificacionHoraExtra[]>(() => {
-    let result = [...this.notificaciones()];
+  public readonly filteredNotificaciones = computed<NotificacionHoraExtra[]>(
+    () => {
+      let result = [...this.notificaciones()];
 
-    // Filtro por Estado
-    const status = this.statusFilter();
-    if (status !== "all") {
-      result = result.filter((n) => n.estado === status);
-    }
+      // Filtro por Estado
+      const status = this.statusFilter();
+      if (status !== "all") {
+        result = result.filter((n) => n.estado === status);
+      }
 
-    // Filtro Solo Excede Tope
-    if (this.soloExcedeTopeFilter()) {
-      result = result.filter((n) => this.isExcedeTope(n));
-    }
+      // Filtro Solo Excede Tope
+      if (this.soloExcedeTopeFilter()) {
+        result = result.filter((n) => this.isExcedeTope(n));
+      }
 
-    // Filtro por Empleado
-    const empId = this.empleadoFilter();
-    if (empId !== "all") {
-      const legajo = Number(empId);
-      result = result.filter((n) => n.empleado === legajo);
-    }
+      // Filtro por Empleado
+      const empId = this.empleadoFilter();
+      if (empId !== "all") {
+        const legajo = Number(empId);
+        result = result.filter((n) => n.empleado === legajo);
+      }
 
-    // Filtro por Período Mensual
-    const periodo = this.periodoFilter();
-    if (periodo !== "all") {
-      result = result.filter((n) => {
-        if (!n.fecha_inicio) return false;
-        const d = new Date(n.fecha_inicio);
-        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-        return key === periodo;
+      // Filtro por Período Mensual
+      const periodo = this.periodoFilter();
+      if (periodo !== "all") {
+        result = result.filter((n) => {
+          if (!n.fecha_inicio) return false;
+          const d = new Date(n.fecha_inicio);
+          const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+          return key === periodo;
+        });
+      }
+
+      // Filtro por Fecha Específica
+      const fechaEsp = this.fechaEspecificaFilter();
+      if (fechaEsp) {
+        result = result.filter((n) => {
+          if (!n.fecha_inicio) return false;
+          return n.fecha_inicio.startsWith(fechaEsp);
+        });
+      }
+
+      // Filtro por Búsqueda de Texto Libre
+      const query = this.searchQuery().trim().toLowerCase();
+      if (query) {
+        result = result.filter((n) => {
+          const emp = this.empleadosMap().get(n.empleado);
+          const horaExtra = this.horasExtrasMap().get(n.hora_extra);
+
+          const empName = emp ? emp.nombre.toLowerCase() : "";
+          const legajoStr = emp ? String(emp.legajo) : String(n.empleado);
+          const motivoStr = n.motivo_resolucion?.toLowerCase() || "";
+          const tipoStr = horaExtra?.tipo?.toLowerCase() || "";
+
+          return (
+            empName.includes(query) ||
+            legajoStr.includes(query) ||
+            motivoStr.includes(query) ||
+            tipoStr.includes(query)
+          );
+        });
+      }
+
+      // Ordenamiento por fecha de inicio (ascendente por defecto según CU-04)
+      const direction = this.sortDirection();
+      result.sort((a, b) => {
+        const dateA = new Date(a.fecha_inicio).getTime();
+        const dateB = new Date(b.fecha_inicio).getTime();
+        return direction === "asc" ? dateA - dateB : dateB - dateA;
       });
-    }
 
-    // Filtro por Fecha Específica
-    const fechaEsp = this.fechaEspecificaFilter();
-    if (fechaEsp) {
-      result = result.filter((n) => {
-        if (!n.fecha_inicio) return false;
-        return n.fecha_inicio.startsWith(fechaEsp);
-      });
-    }
-
-    // Filtro por Búsqueda de Texto Libre
-    const query = this.searchQuery().trim().toLowerCase();
-    if (query) {
-      result = result.filter((n) => {
-        const emp = this.empleadosMap().get(n.empleado);
-        const horaExtra = this.horasExtrasMap().get(n.hora_extra);
-
-        const empName = emp ? emp.nombre.toLowerCase() : "";
-        const legajoStr = emp ? String(emp.legajo) : String(n.empleado);
-        const motivoStr = n.motivo_resolucion?.toLowerCase() || "";
-        const tipoStr = horaExtra?.tipo?.toLowerCase() || "";
-
-        return (
-          empName.includes(query) ||
-          legajoStr.includes(query) ||
-          motivoStr.includes(query) ||
-          tipoStr.includes(query)
-        );
-      });
-    }
-
-    // Ordenamiento por fecha de inicio (ascendente por defecto según CU-04)
-    const direction = this.sortDirection();
-    result.sort((a, b) => {
-      const dateA = new Date(a.fecha_inicio).getTime();
-      const dateB = new Date(b.fecha_inicio).getTime();
-      return direction === "asc" ? dateA - dateB : dateB - dateA;
-    });
-
-    return result;
-  });
+      return result;
+    },
+  );
 
   ngOnInit(): void {
     this.loadData();
@@ -288,7 +287,10 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
         this.loading.set(false);
       },
       error: (err) => {
-        console.error("Error al cargar datos para evaluación de horas extras:", err);
+        console.error(
+          "Error al cargar datos para evaluación de horas extras:",
+          err,
+        );
         this.error.set(
           "No fue posible cargar las notificaciones de horas extras. Por favor, reintente.",
         );
@@ -298,7 +300,10 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
   }
 
   private detectarPeriodosCerrados(notifs: NotificacionHoraExtra[]): void {
-    const periodosPorConsultar = new Map<string, { legajo: number; anio: number; mes: number }>();
+    const periodosPorConsultar = new Map<
+      string,
+      { legajo: number; anio: number; mes: number }
+    >();
 
     for (const n of notifs) {
       if (!n.fecha_inicio) continue;
@@ -314,17 +319,19 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
     const cerrados = new Set<string>();
     // Consultar reportes para cada período
     for (const [key, item] of periodosPorConsultar.entries()) {
-      this._reporteService.getReporteMensual(item.anio, item.mes, item.legajo).subscribe({
-        next: (res) => {
-          if (res && res.reportes && res.reportes.length > 0) {
-            cerrados.add(key);
-            this.reportesCerrados.set(new Set(cerrados));
-          }
-        },
-        error: () => {
-          // Si no existe o da 404, el período no está cerrado
-        },
-      });
+      this._reporteService
+        .getReporteMensual(item.anio, item.mes, item.legajo)
+        .subscribe({
+          next: (res) => {
+            if (res && res.reportes && res.reportes.length > 0) {
+              cerrados.add(key);
+              this.reportesCerrados.set(new Set(cerrados));
+            }
+          },
+          error: () => {
+            // Si no existe o da 404, el período no está cerrado
+          },
+        });
     }
   }
 
@@ -359,9 +366,13 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
 
   public isExcedeTope(notif: NotificacionHoraExtra): boolean {
     const horasNotif = this.getHorasCalculadas(notif);
-    const acumuladoMes = this.getAcumuladoPeriodo(notif.empleado, notif.fecha_inicio);
+    const acumuladoMes = this.getAcumuladoPeriodo(
+      notif.empleado,
+      notif.fecha_inicio,
+    );
     // Si ya está aprobada, su tiempo ya está en acumuladoMes; si es pendiente, sumamos
-    const totalProyectado = notif.estado === "aprobada" ? acumuladoMes : acumuladoMes + horasNotif;
+    const totalProyectado =
+      notif.estado === "aprobada" ? acumuladoMes : acumuladoMes + horasNotif;
     return totalProyectado > TOPE_MENSUAL_HORAS;
   }
 
@@ -425,7 +436,9 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
     const decision = this.decisionAction();
 
     if (!notif || !decision) {
-      this.validationError.set("Debe seleccionar una decisión (Aprobar o Rechazar).");
+      this.validationError.set(
+        "Debe seleccionar una decisión (Aprobar o Rechazar).",
+      );
       return;
     }
 

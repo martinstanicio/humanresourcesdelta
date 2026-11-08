@@ -10,19 +10,6 @@ import {
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { NgIcon } from "@ng-icons/core";
-import {
-  lucideAlertCircle,
-  lucideCalendarClock,
-  lucideCalendarOff,
-  lucideCheckCircle2,
-  lucideClock,
-  lucideFileText,
-  lucidePlus,
-  lucideRefreshCw,
-  lucideSearch,
-  lucideTrash2,
-  lucideXCircle,
-} from "@ng-icons/lucide";
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
@@ -47,7 +34,6 @@ export type SolicitudFilter = "all" | EstadoSolicitudLicencia;
   selector: "app-solicitud-licencia-list",
   imports: [
     DatePipe,
-    TitleCasePipe,
     FormsModule,
     HlmBadgeImports,
     HlmButton,
@@ -58,6 +44,7 @@ export type SolicitudFilter = "all" | EstadoSolicitudLicencia;
     HlmTableImports,
     NgIcon,
     RouterLink,
+    TitleCasePipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./app-solicitud-licencia-list.html",
@@ -78,7 +65,9 @@ export class AppSolicitudLicenciaList implements OnInit {
 
   // Estado para cancelación
   public readonly cancelingId = signal<number | null>(null);
-  public readonly confirmCancelSolicitud = signal<SolicitudLicencia | null>(null);
+  public readonly confirmCancelSolicitud = signal<SolicitudLicencia | null>(
+    null,
+  );
   public readonly cancelError = signal<string | null>(null);
   public readonly cancelSuccess = signal<string | null>(null);
 
@@ -113,7 +102,9 @@ export class AppSolicitudLicenciaList implements OnInit {
       const motivo = s.motivo_solicitud?.toLowerCase() ?? "";
       const idStr = s.id.toString();
 
-      return tipo.includes(query) || motivo.includes(query) || idStr.includes(query);
+      return (
+        tipo.includes(query) || motivo.includes(query) || idStr.includes(query)
+      );
     });
   });
 
@@ -154,7 +145,9 @@ export class AppSolicitudLicenciaList implements OnInit {
   }
 
   public getLicenciaNombre(licenciaId: number): string {
-    return this.licenciasMap().get(licenciaId)?.tipo ?? `Licencia #${licenciaId}`;
+    return (
+      this.licenciasMap().get(licenciaId)?.tipo ?? `Licencia #${licenciaId}`
+    );
   }
 
   public getBadgeVariant(

@@ -11,26 +11,13 @@ import {
 import { FormsModule } from "@angular/forms";
 import { Router, RouterLink } from "@angular/router";
 import { NgIcon } from "@ng-icons/core";
-import {
-  lucideAlertCircle,
-  lucideAlertTriangle,
-  lucideArrowLeft,
-  lucideCalendar,
-  lucideCheckCircle2,
-  lucideClock,
-  lucideFileText,
-  lucideInfo,
-  lucidePlus,
-  lucideRefreshCw,
-  lucideShieldAlert,
-} from "@ng-icons/lucide";
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
 import { HlmInput } from "@spartan-ng/helm/input";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTextarea } from "@spartan-ng/helm/textarea";
-import { forkJoin, of } from "rxjs";
+import { forkJoin } from "rxjs";
 
 import { formatDateISO } from "@/lib/feriados";
 import {
@@ -50,17 +37,17 @@ import { NotificacionHoraExtraService } from "@/services/notificacion-hora-extra
   selector: "app-notificacion-hora-extra-form",
   standalone: true,
   imports: [
-    FormsModule,
-    RouterLink,
     DatePipe,
     DecimalPipe,
-    NgIcon,
-    HlmCardImports,
-    HlmButton,
-    HlmInput,
-    HlmTextarea,
+    FormsModule,
     HlmBadgeImports,
+    HlmButton,
+    HlmCardImports,
+    HlmInput,
     HlmSkeleton,
+    HlmTextarea,
+    NgIcon,
+    RouterLink,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./app-notificacion-hora-extra-form.html",
@@ -86,7 +73,9 @@ export class AppNotificacionHoraExtraForm implements OnInit, OnDestroy {
   public readonly submitError = signal<string | null>(null);
 
   // Registro exitoso para confirmación
-  public readonly confirmedNotificaciones = signal<NotificacionHoraExtra[] | null>(null);
+  public readonly confirmedNotificaciones = signal<
+    NotificacionHoraExtra[] | null
+  >(null);
 
   // Datos de referencia
   public readonly horasExtrasDisponibles = signal<HoraExtra[]>([]);
@@ -110,31 +99,35 @@ export class AppNotificacionHoraExtraForm implements OnInit, OnDestroy {
   });
 
   // Flujo alternativo #1: Detección proactiva de superposición con notificaciones previas
-  public readonly superposicionConflicto = computed<NotificacionHoraExtra | null>(() => {
-    const f = this.fecha();
-    const hi = this.horaInicio();
-    const hf = this.horaFin();
-    if (!f || !hi || !hf) return null;
+  public readonly superposicionConflicto =
+    computed<NotificacionHoraExtra | null>(() => {
+      const f = this.fecha();
+      const hi = this.horaInicio();
+      const hf = this.horaFin();
+      if (!f || !hi || !hf) return null;
 
-    const inicio = buildLocalDateTime(f, hi);
-    const fin = buildLocalDateTime(f, hf);
-    if (fin.getTime() <= inicio.getTime()) return null;
+      const inicio = buildLocalDateTime(f, hi);
+      const fin = buildLocalDateTime(f, hf);
+      if (fin.getTime() <= inicio.getTime()) return null;
 
-    const existentes = this.notificacionesPrevias();
-    for (const notif of existentes) {
-      if (notif.estado === "rechazada") continue;
+      const existentes = this.notificacionesPrevias();
+      for (const notif of existentes) {
+        if (notif.estado === "rechazada") continue;
 
-      const notifInicio = new Date(notif.fecha_inicio);
-      const notifFin = new Date(notif.fecha_fin);
+        const notifInicio = new Date(notif.fecha_inicio);
+        const notifFin = new Date(notif.fecha_fin);
 
-      // Conflicto de intervalos: newInicio < notifFin && newFin > notifInicio
-      if (inicio.getTime() < notifFin.getTime() && fin.getTime() > notifInicio.getTime()) {
-        return notif;
+        // Conflicto de intervalos: newInicio < notifFin && newFin > notifInicio
+        if (
+          inicio.getTime() < notifFin.getTime() &&
+          fin.getTime() > notifInicio.getTime()
+        ) {
+          return notif;
+        }
       }
-    }
 
-    return null;
-  });
+      return null;
+    });
 
   // Validación integral del formulario
   public readonly isFormValid = computed(() => {
@@ -186,7 +179,10 @@ export class AppNotificacionHoraExtraForm implements OnInit, OnDestroy {
         this.loadingInitial.set(false);
       },
       error: (err) => {
-        console.error("Error al cargar datos iniciales para horas extras:", err);
+        console.error(
+          "Error al cargar datos iniciales para horas extras:",
+          err,
+        );
         this.loadingInitial.set(false);
       },
     });

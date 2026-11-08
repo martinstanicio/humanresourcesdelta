@@ -172,12 +172,10 @@ class ResolverNotificacionHorasExtrasSerializer(serializers.ModelSerializer):
         if estado == EstadoNotificacionHorasExtras.RECHAZADA and (
             not motivo_resolucion or not str(motivo_resolucion).strip()
         ):
-            raise serializers.ValidationError(
-                {
-                    "motivo_resolucion": (
-                        "La observación es obligatoria para rechazar una notificación."
-                    )
-                }
-            )
+            raise serializers.ValidationError({
+                "motivo_resolucion": (
+                    "La observación es obligatoria para rechazar una notificación."
+                )
+            })
 
         return attrs

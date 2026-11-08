@@ -10,19 +10,6 @@ import {
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { NgIcon } from "@ng-icons/core";
-import {
-  lucideAlertCircle,
-  lucideBell,
-  lucideCalendar,
-  lucideCheckCircle2,
-  lucideClock,
-  lucideFileText,
-  lucideFilter,
-  lucidePlus,
-  lucideRefreshCw,
-  lucideSearch,
-  lucideXCircle,
-} from "@ng-icons/lucide";
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
@@ -32,10 +19,7 @@ import { HlmTableImports } from "@spartan-ng/helm/table";
 import { forkJoin } from "rxjs";
 
 import { HoraExtra } from "@/models/hora-extra.model";
-import {
-  EstadoNotificacionHorasExtras,
-  NotificacionHoraExtra,
-} from "@/models/notificacion-hora-extra.model";
+import { NotificacionHoraExtra } from "@/models/notificacion-hora-extra.model";
 import { AuthService } from "@/services/auth.service";
 import { HoraExtraService } from "@/services/hora-extra.service";
 import { NotificacionHoraExtraService } from "@/services/notificacion-hora-extra.service";
@@ -44,17 +28,17 @@ import { NotificacionHoraExtraService } from "@/services/notificacion-hora-extra
   selector: "app-notificacion-hora-extra-list",
   standalone: true,
   imports: [
-    RouterLink,
-    FormsModule,
     DatePipe,
     DecimalPipe,
-    NgIcon,
-    HlmButton,
-    HlmInput,
+    FormsModule,
     HlmBadgeImports,
+    HlmButton,
     HlmCardImports,
+    HlmInput,
     HlmSkeleton,
     HlmTableImports,
+    NgIcon,
+    RouterLink,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./app-notificacion-hora-extra-list.html",
@@ -108,7 +92,9 @@ export class AppNotificacionHoraExtraList implements OnInit {
     if (search) {
       list = list.filter((n) => {
         const idMatch = n.id.toString().includes(search);
-        const motivoMatch = (n.motivo_resolucion || "").toLowerCase().includes(search);
+        const motivoMatch = (n.motivo_resolucion || "")
+          .toLowerCase()
+          .includes(search);
         const fechaMatch = (n.fecha_inicio || "").includes(search);
         const he = this.horasExtrasMap().get(n.hora_extra);
         const heMatch = he ? he.tipo.toLowerCase().includes(search) : false;
@@ -118,7 +104,8 @@ export class AppNotificacionHoraExtraList implements OnInit {
 
     // Ordenar descendente por fecha_inicio
     return [...list].sort(
-      (a, b) => new Date(b.fecha_inicio).getTime() - new Date(a.fecha_inicio).getTime(),
+      (a, b) =>
+        new Date(b.fecha_inicio).getTime() - new Date(a.fecha_inicio).getTime(),
     );
   });
 
@@ -153,7 +140,9 @@ export class AppNotificacionHoraExtraList implements OnInit {
       },
       error: (err) => {
         console.error("Error al cargar notificaciones:", err);
-        this.error.set("No se pudieron cargar las notificaciones de horas extras.");
+        this.error.set(
+          "No se pudieron cargar las notificaciones de horas extras.",
+        );
         this.loading.set(false);
       },
     });

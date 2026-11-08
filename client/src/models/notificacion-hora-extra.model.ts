@@ -1,7 +1,5 @@
 export type EstadoNotificacionHorasExtras =
-  | "pendiente"
-  | "aprobada"
-  | "rechazada";
+  "pendiente" | "aprobada" | "rechazada";
 
 export type NotificacionHoraExtra = {
   id: number;

@@ -50,8 +50,10 @@ function calcularDias(inicio: string, fin: string): number {
   return diffDays > 0 ? diffDays : 0;
 }
 
-const columnHelper =
-  createColumnHelper<DataTableFeatures, SolicitudLicenciaRow>();
+const columnHelper = createColumnHelper<
+  DataTableFeatures,
+  SolicitudLicenciaRow
+>();
 
 const COLUMNS = columnHelper.columns([
   columnHelper.accessor("tipo_licencia", {

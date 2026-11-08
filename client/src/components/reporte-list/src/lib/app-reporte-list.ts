@@ -248,7 +248,7 @@ export class AppReporteList implements OnInit {
     });
   }
 
-  public descargarPDF(legajo: number, nombre?: string): void {
+  public descargarPDF(legajo: number): void {
     const anio = this.selectedAnio();
     const mes = this.selectedMes();
     this.exportingPdfLegajo.set(legajo);

@@ -2,7 +2,7 @@
  * Feriados nacionales oficiales de la República Argentina.
  * Incluye feriados inamovibles, trasladables y con fines turísticos (2025, 2026, 2027).
  */
-export const FERIADOS_ARGENTINA: Set<string> = new Set([
+export const FERIADOS_ARGENTINA = new Set<string>([
   // Feriados fijos anuales (MM-DD)
   "01-01", // Año Nuevo
   "03-24", // Día de la Memoria por la Verdad y la Justicia

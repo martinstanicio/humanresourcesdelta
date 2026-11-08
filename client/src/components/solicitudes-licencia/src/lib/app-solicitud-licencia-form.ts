@@ -11,24 +11,6 @@ import {
 import { FormsModule } from "@angular/forms";
 import { Router, RouterLink } from "@angular/router";
 import { NgIcon } from "@ng-icons/core";
-import {
-  lucideAlertCircle,
-  lucideAlertTriangle,
-  lucideArrowLeft,
-  lucideCalendar,
-  lucideCalendarClock,
-  lucideCheck,
-  lucideCheckCircle2,
-  lucideClock,
-  lucideFile,
-  lucideFileText,
-  lucideInfo,
-  lucidePlus,
-  lucideRefreshCw,
-  lucideTrash2,
-  lucideUpload,
-  lucideX,
-} from "@ng-icons/lucide";
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
@@ -130,14 +112,18 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
       diasMaximosConsecutivos: r["dias_maximos_consecutivos"]
         ? Number(r["dias_maximos_consecutivos"])
         : null,
-      contabilizaDiasNoHabiles: Boolean(r["contabiliza_dias_no_habiles"] ?? false),
+      contabilizaDiasNoHabiles: Boolean(
+        r["contabiliza_dias_no_habiles"] ?? false,
+      ),
       requiereDocumentacion: Boolean(
         r["requiere_documentacion"] ??
-          r["documentacion_obligatoria"] ??
-          r["documentacion_requerida"] ??
-          false,
+        r["documentacion_obligatoria"] ??
+        r["documentacion_requerida"] ??
+        false,
       ),
-      tipoEstrategia: estrategia ? String(estrategia["tipo"] ?? "") : "cupo_fijo",
+      tipoEstrategia: estrategia
+        ? String(estrategia["tipo"] ?? "")
+        : "cupo_fijo",
       diasCupo: estrategia ? Number(estrategia["dias"] ?? 0) : null,
     };
   });
@@ -181,7 +167,10 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
     const rules = this.selectedLicenciaRules();
     if (dias <= 0 || !rules) return null;
 
-    if (rules.diasMinimosConsecutivos > 1 && dias < rules.diasMinimosConsecutivos) {
+    if (
+      rules.diasMinimosConsecutivos > 1 &&
+      dias < rules.diasMinimosConsecutivos
+    ) {
       return `Se debe solicitar un mínimo de ${rules.diasMinimosConsecutivos} días consecutivos.`;
     }
 
@@ -359,7 +348,9 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
     // Tamaño máximo: 5 MB
     const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
-      this.fileError.set("El archivo supera el tamaño máximo permitido de 5 MB.");
+      this.fileError.set(
+        "El archivo supera el tamaño máximo permitido de 5 MB.",
+      );
       input.value = "";
       return;
     }

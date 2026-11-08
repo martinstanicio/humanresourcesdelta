@@ -20,9 +20,9 @@
           Mes
         </label>
         <select
+          class="cursor-pointer bg-background"
           hlmInput
           id="filtro-mes"
-          class="cursor-pointer bg-background"
           [ngModel]="selectedMes()"
           (ngModelChange)="selectedMes.set(+$event)"
         >
@@ -41,9 +41,9 @@
           Año
         </label>
         <select
+          class="cursor-pointer bg-background"
           hlmInput
           id="filtro-anio"
-          class="cursor-pointer bg-background"
           [ngModel]="selectedAnio()"
           (ngModelChange)="selectedAnio.set(+$event)"
         >
@@ -62,9 +62,9 @@
           Convenio (opcional)
         </label>
         <select
+          class="cursor-pointer bg-background"
           hlmInput
           id="filtro-convenio"
-          class="cursor-pointer bg-background"
           [ngModel]="selectedConvenio()"
           (ngModelChange)="selectedConvenio.set($event)"
         >
@@ -84,9 +84,9 @@
           Empleado (opcional)
         </label>
         <select
+          class="cursor-pointer bg-background"
           hlmInput
           id="filtro-empleado"
-          class="cursor-pointer bg-background"
           [ngModel]="selectedEmpleado()"
           (ngModelChange)="selectedEmpleado.set($event)"
         >
@@ -194,7 +194,7 @@
       hlmCard
     >
       <div
-        class="flex h-14 w-14 items-center justify-center rounded-full bg-muted text-muted-foreground"
+        class="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground"
       >
         <ng-icon class="text-2xl" [svg]="fileTextIcon" />
       </div>
@@ -313,21 +313,21 @@
           <table hlmTable>
             <thead hlmTableHeader>
               <tr hlmTableRow>
-                <th hlmTableHead class="w-20">Legajo</th>
+                <th class="w-20" hlmTableHead>Legajo</th>
                 <th hlmTableHead>Empleado</th>
                 <th hlmTableHead>Convenio</th>
-                <th hlmTableHead class="text-right">Horas 50%</th>
-                <th hlmTableHead class="text-right">Horas 100%</th>
-                <th hlmTableHead class="text-right">Total Reloj</th>
+                <th class="text-right" hlmTableHead>Horas 50%</th>
+                <th class="text-right" hlmTableHead>Horas 100%</th>
+                <th class="text-right" hlmTableHead>Total Reloj</th>
                 <th hlmTableHead>Licencias Aprobadas</th>
-                <th hlmTableHead class="text-right">Acciones</th>
+                <th class="text-right" hlmTableHead>Acciones</th>
               </tr>
             </thead>
             <tbody hlmTableBody>
               @for (item of filteredReportes(); track item.id) {
                 <tr hlmTableRow>
                   <!-- Legajo -->
-                  <td hlmTableCell class="font-mono text-xs font-semibold">
+                  <td class="font-mono text-xs font-semibold" hlmTableCell>
                     #{{ item.legajo }}
                   </td>
 
@@ -339,22 +339,22 @@
                   </td>
 
                   <!-- Convenio -->
-                  <td hlmTableCell class="text-muted-foreground">
+                  <td class="text-muted-foreground" hlmTableCell>
                     {{ getConvenioNombre(item.legajo) }}
                   </td>
 
                   <!-- Horas 50% -->
-                  <td hlmTableCell class="text-right font-medium">
+                  <td class="text-right font-medium" hlmTableCell>
                     {{ item.horas_extras.desglose["50%"] || 0 }} hrs
                   </td>
 
                   <!-- Horas 100% -->
-                  <td hlmTableCell class="text-right font-medium">
+                  <td class="text-right font-medium" hlmTableCell>
                     {{ item.horas_extras.desglose["100%"] || 0 }} hrs
                   </td>
 
                   <!-- Total Horas Reloj -->
-                  <td hlmTableCell class="text-right">
+                  <td class="text-right" hlmTableCell>
                     <span hlmBadge variant="secondary">
                       {{ item.horas_extras.total_horas_reloj || 0 }} hrs
                     </span>
@@ -370,7 +370,7 @@
                           lic of getLicenciasEntries(item.licencias);
                           track lic.tipo
                         ) {
-                          <span hlmBadge variant="outline" class="text-xs">
+                          <span class="text-xs" hlmBadge variant="outline">
                             {{ lic.tipo }}: {{ lic.dias }}d
                           </span>
                         }
@@ -379,13 +379,14 @@
                   </td>
 
                   <!-- Acciones: Descarga Individual de PDF -->
-                  <td hlmTableCell class="text-right">
+                  <td class="text-right" hlmTableCell>
                     <button
                       hlmBtn
                       size="sm"
+                      type="button"
                       variant="ghost"
                       [disabled]="exportingPdfLegajo() === item.legajo"
-                      (click)="descargarPDF(item.legajo, item.nombre)"
+                      (click)="descargarPDF(item.legajo)"
                     >
                       <ng-icon
                         class="mr-1.5"

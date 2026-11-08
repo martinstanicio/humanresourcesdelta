@@ -59,8 +59,10 @@ function calcularHoras(inicio: string, fin: string): number {
   return Math.round(((d2 - d1) / 3600000) * 100) / 100;
 }
 
-const columnHelper =
-  createColumnHelper<DataTableFeatures, NotificacionHoraExtraRow>();
+const columnHelper = createColumnHelper<
+  DataTableFeatures,
+  NotificacionHoraExtraRow
+>();
 
 const COLUMNS = columnHelper.columns([
   columnHelper.accessor("tipo_hora_extra", {

@@ -1,8 +1,5 @@
 export type EstadoSolicitudLicencia =
-  | "pendiente"
-  | "aprobada"
-  | "rechazada"
-  | "cancelada";
+  "pendiente" | "aprobada" | "rechazada" | "cancelada";
 
 export const ESTADO_SOLICITUD_LABEL: Record<EstadoSolicitudLicencia, string> = {
   pendiente: "Pendiente",

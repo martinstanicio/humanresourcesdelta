@@ -9,25 +9,6 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgIcon } from "@ng-icons/core";
-import {
-  lucideAlertCircle,
-  lucideAlertTriangle,
-  lucideCalendar,
-  lucideCalendarClock,
-  lucideCalendarOff,
-  lucideCheck,
-  lucideCheckCircle2,
-  lucideClock,
-  lucideEye,
-  lucideFileText,
-  lucideFilter,
-  lucideInfo,
-  lucideRefreshCw,
-  lucideSearch,
-  lucideUser,
-  lucideX,
-  lucideXCircle,
-} from "@ng-icons/lucide";
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
@@ -58,7 +39,6 @@ export type SolicitudStatusFilter = "all" | EstadoSolicitudLicencia;
   selector: "app-licencias-evaluacion-list",
   imports: [
     DatePipe,
-    TitleCasePipe,
     FormsModule,
     HlmBadgeImports,
     HlmButton,
@@ -68,6 +48,7 @@ export type SolicitudStatusFilter = "all" | EstadoSolicitudLicencia;
     HlmSkeleton,
     HlmTableImports,
     NgIcon,
+    TitleCasePipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./app-licencias-evaluacion-list.html",
@@ -263,7 +244,9 @@ export class AppLicenciasEvaluacionList implements OnInit {
 
   public getConvenioNombre(convenioId: number | null | undefined): string {
     if (!convenioId) return "Sin convenio asignado";
-    return this.conveniosMap().get(convenioId)?.nombre ?? `Convenio #${convenioId}`;
+    return (
+      this.conveniosMap().get(convenioId)?.nombre ?? `Convenio #${convenioId}`
+    );
   }
 
   public getDiasSolicitados(solicitud: SolicitudLicencia): number {
@@ -359,7 +342,9 @@ export class AppLicenciasEvaluacionList implements OnInit {
 
     this.validationError.set(null);
     this.drawerError.set(null);
-    this.resolvingAction.set(estado === "aprobada" ? "aprobando" : "rechazando");
+    this.resolvingAction.set(
+      estado === "aprobada" ? "aprobando" : "rechazando",
+    );
 
     const dto: ResolverSolicitudLicenciaDto = {
       estado,

@@ -1,19 +1,22 @@
-<div class="space-y-6 max-w-6xl mx-auto pb-10">
+<div class="mx-auto max-w-6xl space-y-6 pb-10">
   <!-- Encabezado con título y botón de acción principal -->
-  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+  <div
+    class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+  >
     <div>
       <h1 class="text-2xl font-bold tracking-tight">Mis Horas Extra</h1>
       <p class="text-sm text-muted-foreground">
-        Gestiona y consulta el estado de tus declaraciones de horas extraordinarias trabajadas (CU-03 / CU-06).
+        Gestiona y consulta el estado de tus declaraciones de horas
+        extraordinarias trabajadas (CU-03 / CU-06).
       </p>
     </div>
     <div>
       <a
-        routerLink="/notificaciones-horas-extras/nueva"
+        class="gap-2 font-medium shadow-sm"
         hlmBtn
-        class="gap-2 shadow-sm font-medium"
+        routerLink="/notificaciones-horas-extras/nueva"
       >
-        <ng-icon [name]="'lucidePlus'" class="size-4" />
+        <ng-icon class="size-4" [name]="'lucidePlus'" />
         Nueva notificación
       </a>
     </div>
@@ -22,8 +25,10 @@
   <!-- Métricas rápidas / KPIs -->
   <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
     <div class="rounded-xl border bg-card p-4 text-card-foreground shadow-sm">
-      <div class="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-        <ng-icon [name]="'lucideClock'" class="size-4 text-amber-500" />
+      <div
+        class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
+      >
+        <ng-icon class="size-4 text-amber-500" [name]="'lucideClock'" />
         Pendientes
       </div>
       <div class="mt-2 text-2xl font-bold text-amber-600 dark:text-amber-400">
@@ -32,18 +37,27 @@
     </div>
 
     <div class="rounded-xl border bg-card p-4 text-card-foreground shadow-sm">
-      <div class="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-        <ng-icon [name]="'lucideCheckCircle2'" class="size-4 text-emerald-500" />
+      <div
+        class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
+      >
+        <ng-icon
+          class="size-4 text-emerald-500"
+          [name]="'lucideCheckCircle2'"
+        />
         Aprobadas
       </div>
-      <div class="mt-2 text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+      <div
+        class="mt-2 text-2xl font-bold text-emerald-600 dark:text-emerald-400"
+      >
         {{ aprobadasCount() }}
       </div>
     </div>
 
     <div class="rounded-xl border bg-card p-4 text-card-foreground shadow-sm">
-      <div class="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-        <ng-icon [name]="'lucideXCircle'" class="size-4 text-rose-500" />
+      <div
+        class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
+      >
+        <ng-icon class="size-4 text-rose-500" [name]="'lucideXCircle'" />
         Rechazadas
       </div>
       <div class="mt-2 text-2xl font-bold text-rose-600 dark:text-rose-400">
@@ -52,78 +66,83 @@
     </div>
 
     <div class="rounded-xl border bg-card p-4 text-card-foreground shadow-sm">
-      <div class="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-        <ng-icon [name]="'lucideCalendar'" class="size-4 text-primary" />
+      <div
+        class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
+      >
+        <ng-icon class="size-4 text-primary" [name]="'lucideCalendar'" />
         Horas Aprobadas
       </div>
-      <div class="mt-2 text-2xl font-bold text-foreground font-mono">
-        {{ totalHorasAprobadas() | number: '1.1-2' }} <span class="text-xs font-normal text-muted-foreground">hs</span>
+      <div class="mt-2 font-mono text-2xl font-bold text-foreground">
+        {{ totalHorasAprobadas() | number: "1.1-2" }}
+        <span class="text-xs font-normal text-muted-foreground">hs</span>
       </div>
     </div>
   </div>
 
   <!-- Barra de Filtros y Búsqueda -->
-  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+  <div
+    class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+  >
     <div class="relative w-full sm:w-72">
       <ng-icon
+        class="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground"
         [name]="'lucideSearch'"
-        class="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
       />
       <input
-        type="search"
+        class="w-full pl-8"
         hlmInput
         placeholder="Buscar por ID, motivo o fecha..."
-        class="pl-8 w-full"
+        type="search"
         [ngModel]="searchTerm()"
         (ngModelChange)="searchTerm.set($event)"
       />
     </div>
 
     <div class="flex items-center gap-2">
-      <ng-icon [name]="'lucideFilter'" class="size-4 text-muted-foreground" />
+      <ng-icon class="size-4 text-muted-foreground" [name]="'lucideFilter'" />
       <span class="text-xs text-muted-foreground">Estado:</span>
       <div class="flex rounded-lg border bg-muted/40 p-1 text-xs">
         <button
-          type="button"
-          (click)="selectedEstado.set('todos')"
           class="rounded px-2.5 py-1 font-medium transition-colors"
+          type="button"
           [class.bg-background]="selectedEstado() === 'todos'"
           [class.shadow-sm]="selectedEstado() === 'todos'"
           [class.text-foreground]="selectedEstado() === 'todos'"
           [class.text-muted-foreground]="selectedEstado() !== 'todos'"
+          (click)="selectedEstado.set('todos')"
         >
           Todas
         </button>
         <button
-          type="button"
-          (click)="selectedEstado.set('pendiente')"
           class="rounded px-2.5 py-1 font-medium transition-colors"
+          type="button"
           [class.bg-background]="selectedEstado() === 'pendiente'"
           [class.shadow-sm]="selectedEstado() === 'pendiente'"
           [class.text-foreground]="selectedEstado() === 'pendiente'"
           [class.text-muted-foreground]="selectedEstado() !== 'pendiente'"
+          (click)="selectedEstado.set('pendiente')"
         >
           Pendientes
         </button>
         <button
-          type="button"
-          (click)="selectedEstado.set('aprobada')"
           class="rounded px-2.5 py-1 font-medium transition-colors"
+          type="button"
           [class.bg-background]="selectedEstado() === 'aprobada'"
           [class.shadow-sm]="selectedEstado() === 'aprobada'"
           [class.text-foreground]="selectedEstado() === 'aprobada'"
           [class.text-muted-foreground]="selectedEstado() !== 'aprobada'"
+          (click)="selectedEstado.set('aprobada')"
         >
           Aprobadas
         </button>
         <button
-          type="button"
-          (click)="selectedEstado.set('rechazada')"
           class="rounded px-2.5 py-1 font-medium transition-colors"
+          type="button"
           [class.bg-background]="selectedEstado() === 'rechazada'"
           [class.shadow-sm]="selectedEstado() === 'rechazada'"
           [class.text-foreground]="selectedEstado() === 'rechazada'"
           [class.text-muted-foreground]="selectedEstado() !== 'rechazada'"
+          (click)="selectedEstado.set('rechazada')"
         >
           Rechazadas
         </button>
@@ -140,34 +159,50 @@
       <hlm-skeleton class="h-14 w-full rounded-lg" />
     </div>
   } @else if (error()) {
-    <div class="flex items-center gap-3 p-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
-      <ng-icon [name]="'lucideAlertCircle'" class="size-5 shrink-0" />
+    <div
+      class="flex items-center gap-3 rounded-lg border border-destructive/20 bg-destructive/10 p-4 text-sm text-destructive"
+    >
+      <ng-icon class="size-5 shrink-0" [name]="'lucideAlertCircle'" />
       <span>{{ error() }}</span>
-      <button hlmBtn variant="outline" size="sm" (click)="cargarDatos()" class="ml-auto">
+      <button
+        class="ml-auto"
+        hlmBtn
+        size="sm"
+        type="button"
+        variant="outline"
+        (click)="cargarDatos()"
+      >
         Reintentar
       </button>
     </div>
   } @else if (filteredNotificaciones().length === 0) {
     <!-- Estado vacío -->
-    <div class="rounded-xl border border-dashed p-10 text-center space-y-3 bg-muted/20">
-      <div class="inline-flex size-12 items-center justify-center rounded-full bg-muted text-muted-foreground">
-        <ng-icon [name]="'lucideBell'" class="size-6 opacity-60" />
+    <div
+      class="space-y-3 rounded-xl border border-dashed bg-muted/20 p-10 text-center"
+    >
+      <div
+        class="inline-flex size-12 items-center justify-center rounded-full bg-muted text-muted-foreground"
+      >
+        <ng-icon class="size-6 opacity-60" [name]="'lucideBell'" />
       </div>
       <div class="space-y-1">
-        <h3 class="font-semibold text-base">No se encontraron notificaciones</h3>
-        <p class="text-xs text-muted-foreground max-w-sm mx-auto">
-          @if (searchTerm() || selectedEstado() !== 'todos') {
+        <h3 class="text-base font-semibold">
+          No se encontraron notificaciones
+        </h3>
+        <p class="mx-auto max-w-sm text-xs text-muted-foreground">
+          @if (searchTerm() || selectedEstado() !== "todos") {
             No hay notificaciones que coincidan con los filtros aplicados.
           } @else {
             Todavía no realizaste ninguna notificación de horas extras.
           }
         </p>
       </div>
-      @if (searchTerm() || selectedEstado() !== 'todos') {
+      @if (searchTerm() || selectedEstado() !== "todos") {
         <button
           hlmBtn
-          variant="outline"
           size="sm"
+          type="button"
+          variant="outline"
           (click)="searchTerm.set(''); selectedEstado.set('todos')"
         >
           Limpiar filtros
@@ -175,12 +210,12 @@
       } @else {
         <div>
           <a
-            routerLink="/notificaciones-horas-extras/nueva"
-            hlmBtn
-            size="sm"
             class="gap-2"
+            hlmBtn
+            routerLink="/notificaciones-horas-extras/nueva"
+            size="sm"
           >
-            <ng-icon [name]="'lucidePlus'" class="size-4" />
+            <ng-icon class="size-4" [name]="'lucidePlus'" />
             Cargar mi primera notificación
           </a>
         </div>
@@ -193,57 +228,83 @@
         <table hlmTable>
           <thead hlmTableHeader>
             <tr hlmTableRow>
-              <th hlmTableHead class="w-20"># ID</th>
+              <th class="w-20" hlmTableHead># ID</th>
               <th hlmTableHead>Fecha</th>
               <th hlmTableHead>Horario</th>
               <th hlmTableHead>Horas</th>
               <th hlmTableHead>Tipo / Convenio</th>
               <th hlmTableHead>Motivo</th>
-              <th hlmTableHead class="text-right">Estado</th>
+              <th class="text-right" hlmTableHead>Estado</th>
             </tr>
           </thead>
           <tbody hlmTableBody>
             @for (notif of filteredNotificaciones(); track notif.id) {
-              <tr hlmTableRow class="hover:bg-muted/50 transition-colors">
-                <td hlmTableCell class="font-mono text-xs font-semibold text-muted-foreground">
+              <tr class="transition-colors hover:bg-muted/50" hlmTableRow>
+                <td
+                  class="font-mono text-xs font-semibold text-muted-foreground"
+                  hlmTableCell
+                >
                   #{{ notif.id }}
                 </td>
-                <td hlmTableCell class="font-medium whitespace-nowrap">
-                  {{ notif.fecha_inicio | date:'dd/MM/yyyy' }}
+                <td class="font-medium whitespace-nowrap" hlmTableCell>
+                  {{ notif.fecha_inicio | date: "dd/MM/yyyy" }}
                 </td>
-                <td hlmTableCell class="text-xs text-muted-foreground whitespace-nowrap font-mono">
-                  {{ notif.fecha_inicio | date:'shortTime' }} - {{ notif.fecha_fin | date:'shortTime' }}
+                <td
+                  class="font-mono text-xs whitespace-nowrap text-muted-foreground"
+                  hlmTableCell
+                >
+                  {{ notif.fecha_inicio | date: "shortTime" }} -
+                  {{ notif.fecha_fin | date: "shortTime" }}
                 </td>
-                <td hlmTableCell class="font-mono font-semibold">
-                  {{ calcularHorasDeNotificacion(notif) | number:'1.1-2' }} hs
+                <td class="font-mono font-semibold" hlmTableCell>
+                  {{ calcularHorasDeNotificacion(notif) | number: "1.1-2" }} hs
                 </td>
                 <td hlmTableCell>
-                  <div class="flex items-center gap-1.5 flex-wrap">
-                    <span class="text-xs font-medium">{{ getHoraExtraTipo(notif.hora_extra) }}</span>
+                  <div class="flex flex-wrap items-center gap-1.5">
+                    <span class="text-xs font-medium">{{
+                      getHoraExtraTipo(notif.hora_extra)
+                    }}</span>
                     @if (getHoraExtraMultiplicador(notif.hora_extra); as mult) {
-                      <span hlmBadge variant="outline" class="text-[10px] px-1.5 py-0 h-4">
+                      <span
+                        class="h-4 px-1.5 py-0 text-[10px]"
+                        hlmBadge
+                        variant="outline"
+                      >
                         {{ mult }}
                       </span>
                     }
                   </div>
                 </td>
-                <td hlmTableCell class="max-w-xs truncate text-xs text-muted-foreground" [title]="notif.motivo_resolucion">
+                <td
+                  class="max-w-xs truncate text-xs text-muted-foreground"
+                  hlmTableCell
+                  [title]="notif.motivo_resolucion"
+                >
                   {{ notif.motivo_resolucion }}
                 </td>
-                <td hlmTableCell class="text-right">
+                <td class="text-right" hlmTableCell>
                   @switch (notif.estado) {
-                    @case ('pendiente') {
-                      <span hlmBadge class="bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300 border-amber-300">
+                    @case ("pendiente") {
+                      <span
+                        class="border-amber-300 bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300"
+                        hlmBadge
+                      >
                         Pendiente
                       </span>
                     }
-                    @case ('aprobada') {
-                      <span hlmBadge class="bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 border-emerald-300">
+                    @case ("aprobada") {
+                      <span
+                        class="border-emerald-300 bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300"
+                        hlmBadge
+                      >
                         Aprobada
                       </span>
                     }
-                    @case ('rechazada') {
-                      <span hlmBadge class="bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300 border-rose-300">
+                    @case ("rechazada") {
+                      <span
+                        class="border-rose-300 bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300"
+                        hlmBadge
+                      >
                         Rechazada
                       </span>
                     }

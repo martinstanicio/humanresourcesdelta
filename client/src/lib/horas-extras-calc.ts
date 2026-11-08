@@ -64,7 +64,8 @@ export function calcularDesgloseHorasExtras(
   const dayOfWeek = baseDate.getDay(); // 0 = Domingo, 6 = Sábado
 
   const totalMilliseconds = fin.getTime() - inicio.getTime();
-  const totalHoras = Math.round((totalMilliseconds / (1000 * 60 * 60)) * 100) / 100;
+  const totalHoras =
+    Math.round((totalMilliseconds / (1000 * 60 * 60)) * 100) / 100;
 
   // Caso 1: Domingos y Feriados -> 100% en su totalidad (RF-01 / CU-03)
   if (feriado || dayOfWeek === 0) {
