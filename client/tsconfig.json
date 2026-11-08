@@ -33,6 +33,7 @@
         "./src/components/ui/date-picker/src/index.ts"
       ],
       "@spartan-ng/helm/dialog": ["./src/components/ui/dialog/src/index.ts"],
+      "@spartan-ng/helm/drawer": ["./src/components/ui/drawer/src/index.ts"],
       "@spartan-ng/helm/dropdown-menu": [
         "./src/components/ui/dropdown-menu/src/index.ts"
       ],
