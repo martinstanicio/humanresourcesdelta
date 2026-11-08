@@ -28,10 +28,10 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-amber-500" [name]="'lucideClock'" />
+        <ng-icon class="size-4 text-warning" [name]="'lucideClock'" />
         Pendientes
       </div>
-      <div class="mt-2 text-2xl font-bold text-amber-600 dark:text-amber-400">
+      <div class="mt-2 text-2xl font-bold text-warning">
         {{ pendientesCount() }}
       </div>
     </div>
@@ -40,15 +40,10 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon
-          class="size-4 text-emerald-500"
-          [name]="'lucideCheckCircle2'"
-        />
+        <ng-icon class="size-4 text-success" [name]="'lucideCheckCircle2'" />
         Aprobadas
       </div>
-      <div
-        class="mt-2 text-2xl font-bold text-emerald-600 dark:text-emerald-400"
-      >
+      <div class="mt-2 text-2xl font-bold text-success">
         {{ aprobadasCount() }}
       </div>
     </div>
@@ -57,10 +52,10 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-rose-500" [name]="'lucideXCircle'" />
+        <ng-icon class="size-4 text-destructive" [name]="'lucideXCircle'" />
         Rechazadas
       </div>
-      <div class="mt-2 text-2xl font-bold text-rose-600 dark:text-rose-400">
+      <div class="mt-2 text-2xl font-bold text-destructive">
         {{ rechazadasCount() }}
       </div>
     </div>
@@ -285,28 +280,13 @@
                 <td class="text-right" hlmTableCell>
                   @switch (notif.estado) {
                     @case ("pendiente") {
-                      <span
-                        class="border-amber-300 bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300"
-                        hlmBadge
-                      >
-                        Pendiente
-                      </span>
+                      <span hlmBadge variant="warning"> Pendiente </span>
                     }
                     @case ("aprobada") {
-                      <span
-                        class="border-emerald-300 bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300"
-                        hlmBadge
-                      >
-                        Aprobada
-                      </span>
+                      <span hlmBadge variant="success"> Aprobada </span>
                     }
                     @case ("rechazada") {
-                      <span
-                        class="border-rose-300 bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300"
-                        hlmBadge
-                      >
-                        Rechazada
-                      </span>
+                      <span hlmBadge variant="destructive"> Rechazada </span>
                     }
                     @default {
                       <span hlmBadge variant="secondary">

@@ -169,11 +169,11 @@ export class AppSolicitudLicenciaList implements OnInit {
   public getBadgeClasses(estado: EstadoSolicitudLicencia): string {
     switch (estado) {
       case "aprobada":
-        return "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/20";
+        return "bg-success/15 text-success border-success/20";
       case "pendiente":
-        return "bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/20";
+        return "bg-warning/15 text-warning border-warning/20";
       case "rechazada":
-        return "bg-rose-500/15 text-rose-700 dark:text-rose-400 border-rose-500/20";
+        return "bg-destructive/15 text-destructive border-destructive/20";
       case "cancelada":
       default:
         return "bg-muted text-muted-foreground border-border";

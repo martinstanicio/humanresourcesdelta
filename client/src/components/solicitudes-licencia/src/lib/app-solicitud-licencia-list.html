@@ -27,10 +27,10 @@
   <!-- Alerta de éxito al cancelar -->
   @if (cancelSuccess()) {
     <div
-      class="flex items-center gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-200"
+      class="flex items-center gap-3 rounded-lg border border-success/30 bg-success/15 p-4 text-sm text-success"
     >
       <ng-icon
-        class="size-5 shrink-0 text-emerald-600 dark:text-emerald-400"
+        class="size-5 shrink-0 text-success"
         [name]="'lucideCheckCircle2'"
       />
       <span>{{ cancelSuccess() }}</span>
@@ -43,10 +43,10 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-amber-500" [name]="'lucideClock'" />
+        <ng-icon class="size-4 text-warning" [name]="'lucideClock'" />
         Pendientes
       </div>
-      <div class="mt-2 text-2xl font-bold text-amber-600 dark:text-amber-400">
+      <div class="mt-2 text-2xl font-bold text-warning">
         {{ pendientesCount() }}
       </div>
     </div>
@@ -55,15 +55,10 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon
-          class="size-4 text-emerald-500"
-          [name]="'lucideCheckCircle2'"
-        />
+        <ng-icon class="size-4 text-success" [name]="'lucideCheckCircle2'" />
         Aprobadas
       </div>
-      <div
-        class="mt-2 text-2xl font-bold text-emerald-600 dark:text-emerald-400"
-      >
+      <div class="mt-2 text-2xl font-bold text-success">
         {{ aprobadasCount() }}
       </div>
     </div>
@@ -72,10 +67,10 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-rose-500" [name]="'lucideXCircle'" />
+        <ng-icon class="size-4 text-destructive" [name]="'lucideXCircle'" />
         Rechazadas
       </div>
-      <div class="mt-2 text-2xl font-bold text-rose-600 dark:text-rose-400">
+      <div class="mt-2 text-2xl font-bold text-destructive">
         {{ rechazadasCount() }}
       </div>
     </div>
@@ -318,7 +313,7 @@
                 <td class="text-right" hlmTd>
                   @if (solicitud.estado === "pendiente") {
                     <button
-                      class="h-8 gap-1 px-2 text-xs text-rose-600 hover:bg-rose-50 hover:text-rose-700 dark:hover:bg-rose-950/30"
+                      class="h-8 gap-1 px-2 text-xs text-destructive hover:bg-destructive/10 hover:text-destructive"
                       hlmBtn
                       size="sm"
                       title="Cancelar solicitud pendiente"
@@ -390,7 +385,7 @@
 
         @if (cancelError()) {
           <div
-            class="rounded-md border border-rose-200 bg-rose-50 p-3 text-xs text-rose-700 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-300"
+            class="rounded-md border border-destructive/20 bg-destructive/10 p-3 text-xs text-destructive"
           >
             {{ cancelError() }}
           </div>

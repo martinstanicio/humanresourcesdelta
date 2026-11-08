@@ -37,17 +37,17 @@
   <!-- Alerta de éxito de acción -->
   @if (actionSuccess()) {
     <div
-      class="flex animate-in items-start justify-between gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800 fade-in dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-200"
+      class="flex animate-in items-start justify-between gap-3 rounded-lg border border-success/30 bg-success/15 p-4 text-sm text-success fade-in"
     >
       <div class="flex items-start gap-2.5">
         <ng-icon
-          class="mt-0.5 size-5 shrink-0 text-emerald-600 dark:text-emerald-400"
+          class="mt-0.5 size-5 shrink-0 text-success"
           [name]="'lucideCheckCircle2'"
         />
         <span>{{ actionSuccess() }}</span>
       </div>
       <button
-        class="text-emerald-600 hover:text-emerald-900 dark:hover:text-emerald-100"
+        class="text-success hover:text-success/80"
         type="button"
         (click)="actionSuccess.set(null)"
       >
@@ -70,11 +70,11 @@
   <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
     <!-- Pendientes -->
     <div
-      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-amber-400/50"
+      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-warning/50"
       role="button"
       tabindex="0"
       [class.ring-2]="statusFilter() === 'pendiente' && !soloExcedeTopeFilter()"
-      [class.ring-amber-500]="
+      [class.ring-warning]="
         statusFilter() === 'pendiente' && !soloExcedeTopeFilter()
       "
       (click)="statusFilter.set('pendiente'); soloExcedeTopeFilter.set(false)"
@@ -91,14 +91,14 @@
         <div
           class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
         >
-          <ng-icon class="size-4 text-amber-500" [name]="'lucideClock'" />
+          <ng-icon class="size-4 text-warning" [name]="'lucideClock'" />
           Pendientes
         </div>
         @if (pendientesCount() > 0) {
-          <span class="size-2 animate-pulse rounded-full bg-amber-500"></span>
+          <span class="size-2 animate-pulse rounded-full bg-warning"></span>
         }
       </div>
-      <div class="mt-2 text-2xl font-bold text-amber-600 dark:text-amber-400">
+      <div class="mt-2 text-2xl font-bold text-warning">
         {{ pendientesCount() }}
       </div>
       <p class="mt-0.5 text-[11px] text-muted-foreground">
@@ -108,11 +108,11 @@
 
     <!-- Excede Tope (CU-04) -->
     <div
-      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-rose-400/50"
+      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-destructive/50"
       role="button"
       tabindex="0"
       [class.ring-2]="soloExcedeTopeFilter()"
-      [class.ring-rose-500]="soloExcedeTopeFilter()"
+      [class.ring-destructive]="soloExcedeTopeFilter()"
       (click)="soloExcedeTopeFilter.set(!soloExcedeTopeFilter())"
       (keydown.enter)="soloExcedeTopeFilter.set(!soloExcedeTopeFilter())"
       (keydown.space)="
@@ -124,18 +124,21 @@
         <div
           class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
         >
-          <ng-icon class="size-4 text-rose-500" [name]="'lucideShieldAlert'" />
+          <ng-icon
+            class="size-4 text-destructive"
+            [name]="'lucideShieldAlert'"
+          />
           Excede tope (&gt;30 hs)
         </div>
         @if (excedeTopeCount() > 0) {
           <span
-            class="rounded-full bg-rose-500/20 px-1.5 py-0.5 text-[10px] font-bold text-rose-700 dark:text-rose-300"
+            class="rounded-full bg-destructive/20 px-1.5 py-0.5 text-[10px] font-bold text-destructive"
           >
             Atención
           </span>
         }
       </div>
-      <div class="mt-2 text-2xl font-bold text-rose-600 dark:text-rose-400">
+      <div class="mt-2 text-2xl font-bold text-destructive">
         {{ excedeTopeCount() }}
       </div>
       <p class="mt-0.5 text-[11px] text-muted-foreground">
@@ -145,11 +148,11 @@
 
     <!-- Aprobadas -->
     <div
-      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-emerald-400/50"
+      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-success/50"
       role="button"
       tabindex="0"
       [class.ring-2]="statusFilter() === 'aprobada'"
-      [class.ring-emerald-500]="statusFilter() === 'aprobada'"
+      [class.ring-success]="statusFilter() === 'aprobada'"
       (click)="statusFilter.set('aprobada'); soloExcedeTopeFilter.set(false)"
       (keydown.enter)="
         statusFilter.set('aprobada'); soloExcedeTopeFilter.set(false)
@@ -163,15 +166,10 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon
-          class="size-4 text-emerald-500"
-          [name]="'lucideCheckCircle2'"
-        />
+        <ng-icon class="size-4 text-success" [name]="'lucideCheckCircle2'" />
         Aprobadas
       </div>
-      <div
-        class="mt-2 text-2xl font-bold text-emerald-600 dark:text-emerald-400"
-      >
+      <div class="mt-2 text-2xl font-bold text-success">
         {{ aprobadasCount() }}
       </div>
       <p class="mt-0.5 text-[11px] text-muted-foreground">
@@ -181,11 +179,11 @@
 
     <!-- Rechazadas -->
     <div
-      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-rose-400/50"
+      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-destructive/50"
       role="button"
       tabindex="0"
       [class.ring-2]="statusFilter() === 'rechazada'"
-      [class.ring-rose-500]="statusFilter() === 'rechazada'"
+      [class.ring-destructive]="statusFilter() === 'rechazada'"
       (click)="statusFilter.set('rechazada'); soloExcedeTopeFilter.set(false)"
       (keydown.enter)="
         statusFilter.set('rechazada'); soloExcedeTopeFilter.set(false)
@@ -199,10 +197,10 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-rose-500" [name]="'lucideXCircle'" />
+        <ng-icon class="size-4 text-destructive" [name]="'lucideXCircle'" />
         Rechazadas
       </div>
-      <div class="mt-2 text-2xl font-bold text-rose-600 dark:text-rose-400">
+      <div class="mt-2 text-2xl font-bold text-destructive">
         {{ rechazadasCount() }}
       </div>
       <p class="mt-0.5 text-[11px] text-muted-foreground">
@@ -310,7 +308,7 @@
         >
         @if (soloExcedeTopeFilter()) {
           <span
-            class="inline-flex items-center gap-1 rounded-full border border-rose-500/20 bg-rose-500/10 px-2 py-0.5 text-[11px] font-medium text-rose-600 dark:text-rose-400"
+            class="inline-flex items-center gap-1 rounded-full border border-destructive/20 bg-destructive/10 px-2 py-0.5 text-[11px] font-medium text-destructive"
           >
             <ng-icon class="size-3" [name]="'lucideShieldAlert'" />
             Filtro activo: Solo Excede Tope
@@ -415,8 +413,7 @@
               <tr
                 class="border-b border-border/50 transition-colors hover:bg-muted/30"
                 hlmTableRow
-                [class.bg-rose-50/40]="excede && notif.estado === 'pendiente'"
-                [class.dark:bg-rose-950/15]="
+                [class.bg-destructive/10]="
                   excede && notif.estado === 'pendiente'
                 "
               >
@@ -503,7 +500,7 @@
                 <td class="px-4 py-3 text-center" hlmTableCell>
                   @if (excede) {
                     <span
-                      class="inline-flex animate-pulse items-center gap-1 rounded-full border border-rose-500/30 bg-rose-500/15 px-2.5 py-0.5 text-[11px] font-semibold text-rose-700 dark:text-rose-300"
+                      class="inline-flex animate-pulse items-center gap-1 rounded-full border border-destructive/30 bg-destructive/15 px-2.5 py-0.5 text-[11px] font-semibold text-destructive"
                     >
                       <ng-icon class="size-3" [name]="'lucideAlertTriangle'" />
                       Excede tope
@@ -513,7 +510,7 @@
                       class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium text-muted-foreground"
                     >
                       <ng-icon
-                        class="size-3 text-emerald-500"
+                        class="size-3 text-success"
                         [name]="'lucideCheck'"
                       />
                       Dentro de tope
@@ -522,7 +519,7 @@
                   @if (cerrada) {
                     <div class="mt-1">
                       <span
-                        class="inline-flex items-center gap-1 rounded border border-amber-500/20 bg-amber-500/10 px-1.5 text-[10px] font-medium text-amber-700 dark:text-amber-300"
+                        class="inline-flex items-center gap-1 rounded border border-warning/30 bg-warning/15 px-1.5 text-[10px] font-medium text-warning"
                       >
                         Período cerrado
                       </span>
@@ -535,15 +532,15 @@
                   @switch (notif.estado) {
                     @case ("pendiente") {
                       <span
-                        class="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/15 px-2.5 py-0.5 text-xs font-medium text-amber-800 dark:text-amber-300"
+                        class="inline-flex items-center gap-1.5 rounded-full border border-warning/30 bg-warning/15 px-2.5 py-0.5 text-xs font-medium text-warning"
                       >
-                        <span class="size-1.5 rounded-full bg-amber-500"></span>
+                        <span class="size-1.5 rounded-full bg-warning"></span>
                         Pendiente
                       </span>
                     }
                     @case ("aprobada") {
                       <span
-                        class="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-0.5 text-xs font-medium text-emerald-800 dark:text-emerald-300"
+                        class="inline-flex items-center gap-1.5 rounded-full border border-success/30 bg-success/15 px-2.5 py-0.5 text-xs font-medium text-success"
                       >
                         <ng-icon class="size-3" [name]="'lucideCheckCircle2'" />
                         Aprobada
@@ -551,7 +548,7 @@
                     }
                     @case ("rechazada") {
                       <span
-                        class="inline-flex items-center gap-1.5 rounded-full border border-rose-500/30 bg-rose-500/15 px-2.5 py-0.5 text-xs font-medium text-rose-800 dark:text-rose-300"
+                        class="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 bg-destructive/15 px-2.5 py-0.5 text-xs font-medium text-destructive"
                       >
                         <ng-icon class="size-3" [name]="'lucideXCircle'" />
                         Rechazada
@@ -659,10 +656,10 @@
           <!-- ALERTA FLUJO ALTERNATIVO #3: Período ya cerrado -->
           @if (cerrado) {
             <div
-              class="flex items-start gap-2.5 rounded-lg border border-amber-500/30 bg-amber-500/15 p-3.5 text-xs text-amber-900 dark:text-amber-200"
+              class="flex items-start gap-2.5 rounded-lg border border-warning/30 bg-warning/15 p-3.5 text-xs text-warning"
             >
               <ng-icon
-                class="mt-0.5 size-4 shrink-0 text-amber-600 dark:text-amber-400"
+                class="mt-0.5 size-4 shrink-0 text-warning"
                 [name]="'lucideAlertTriangle'"
               />
               <div>
@@ -682,10 +679,10 @@
           <!-- ALERTA CU-04: Excede Tope Mensual -->
           @if (excede) {
             <div
-              class="flex items-start gap-2.5 rounded-lg border border-rose-500/30 bg-rose-500/15 p-3.5 text-xs text-rose-900 dark:text-rose-200"
+              class="flex items-start gap-2.5 rounded-lg border border-destructive/30 bg-destructive/15 p-3.5 text-xs text-destructive"
             >
               <ng-icon
-                class="mt-0.5 size-4 shrink-0 text-rose-600 dark:text-rose-400"
+                class="mt-0.5 size-4 shrink-0 text-destructive"
                 [name]="'lucideShieldAlert'"
               />
               <div>
@@ -891,48 +888,34 @@
                 <button
                   class="flex items-center justify-center gap-2 rounded-lg border-2 p-3 text-xs font-bold transition-all"
                   type="button"
-                  [class.bg-emerald-50]="decisionAction() === 'aprobada'"
+                  [class.bg-success/15]="decisionAction() === 'aprobada'"
                   [class.border-border]="decisionAction() !== 'aprobada'"
-                  [class.border-emerald-600]="decisionAction() === 'aprobada'"
-                  [class.dark:bg-emerald-950/40]="
-                    decisionAction() === 'aprobada'
-                  "
-                  [class.dark:text-emerald-200]="
-                    decisionAction() === 'aprobada'
-                  "
-                  [class.hover:border-emerald-400]="
+                  [class.border-success]="decisionAction() === 'aprobada'"
+                  [class.hover:border-success/50]="
                     decisionAction() !== 'aprobada'
                   "
-                  [class.text-emerald-800]="decisionAction() === 'aprobada'"
+                  [class.text-success]="decisionAction() === 'aprobada'"
                   [disabled]="resolvingAction()"
                   (click)="selectDecision('aprobada')"
                 >
-                  <ng-icon
-                    class="size-4 text-emerald-600 dark:text-emerald-400"
-                    [name]="'lucideCheck'"
-                  />
+                  <ng-icon class="size-4 text-success" [name]="'lucideCheck'" />
                   Aprobar Horas
                 </button>
 
                 <button
                   class="flex items-center justify-center gap-2 rounded-lg border-2 p-3 text-xs font-bold transition-all"
                   type="button"
-                  [class.bg-rose-50]="decisionAction() === 'rechazada'"
+                  [class.bg-destructive/15]="decisionAction() === 'rechazada'"
                   [class.border-border]="decisionAction() !== 'rechazada'"
-                  [class.border-rose-600]="decisionAction() === 'rechazada'"
-                  [class.dark:bg-rose-950/40]="decisionAction() === 'rechazada'"
-                  [class.dark:text-rose-200]="decisionAction() === 'rechazada'"
-                  [class.hover:border-rose-400]="
+                  [class.border-destructive]="decisionAction() === 'rechazada'"
+                  [class.hover:border-destructive/50]="
                     decisionAction() !== 'rechazada'
                   "
-                  [class.text-rose-800]="decisionAction() === 'rechazada'"
+                  [class.text-destructive]="decisionAction() === 'rechazada'"
                   [disabled]="resolvingAction()"
                   (click)="selectDecision('rechazada')"
                 >
-                  <ng-icon
-                    class="size-4 text-rose-600 dark:text-rose-400"
-                    [name]="'lucideX'"
-                  />
+                  <ng-icon class="size-4 text-destructive" [name]="'lucideX'" />
                   Rechazar Notificación
                 </button>
               </div>
@@ -989,15 +972,14 @@
                   class="w-full gap-2 py-2.5 text-xs font-bold"
                   hlmBtn
                   type="button"
-                  [class.bg-emerald-600]="decisionAction() === 'aprobada'"
-                  [class.bg-rose-600]="decisionAction() === 'rechazada'"
-                  [class.hover:bg-emerald-700]="decisionAction() === 'aprobada'"
-                  [class.hover:bg-rose-700]="decisionAction() === 'rechazada'"
-                  [class.text-white]="
-                    decisionAction() === 'aprobada' ||
-                    decisionAction() === 'rechazada'
-                  "
                   [disabled]="!decisionAction() || resolvingAction()"
+                  [variant]="
+                    decisionAction() === 'aprobada'
+                      ? 'success'
+                      : decisionAction() === 'rechazada'
+                        ? 'destructive'
+                        : 'default'
+                  "
                   (click)="confirmarResolucion()"
                 >
                   @if (resolvingAction()) {

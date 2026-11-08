@@ -37,17 +37,17 @@
   <!-- Alerta de éxito de acción -->
   @if (actionSuccess()) {
     <div
-      class="flex animate-in items-start justify-between gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800 fade-in dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-200"
+      class="flex animate-in items-start justify-between gap-3 rounded-lg border border-success/30 bg-success/15 p-4 text-sm text-success fade-in"
     >
       <div class="flex items-start gap-2.5">
         <ng-icon
-          class="mt-0.5 size-5 shrink-0 text-emerald-600 dark:text-emerald-400"
+          class="mt-0.5 size-5 shrink-0 text-success"
           [name]="'lucideCheckCircle2'"
         />
         <span>{{ actionSuccess() }}</span>
       </div>
       <button
-        class="text-emerald-600 hover:text-emerald-900 dark:hover:text-emerald-100"
+        class="text-success hover:text-success/80"
         type="button"
         (click)="actionSuccess.set(null)"
       >
@@ -70,11 +70,11 @@
   <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
     <!-- Pendientes -->
     <div
-      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-amber-400/50"
+      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-warning/50"
       role="button"
       tabindex="0"
       [class.ring-2]="statusFilter() === 'pendiente'"
-      [class.ring-amber-500]="statusFilter() === 'pendiente'"
+      [class.ring-warning]="statusFilter() === 'pendiente'"
       (click)="statusFilter.set('pendiente')"
       (keydown.enter)="statusFilter.set('pendiente')"
       (keydown.space)="$event.preventDefault(); statusFilter.set('pendiente')"
@@ -83,14 +83,14 @@
         <div
           class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
         >
-          <ng-icon class="size-4 text-amber-500" [name]="'lucideClock'" />
+          <ng-icon class="size-4 text-warning" [name]="'lucideClock'" />
           Pendientes
         </div>
         @if (pendientesCount() > 0) {
-          <span class="size-2 animate-pulse rounded-full bg-amber-500"></span>
+          <span class="size-2 animate-pulse rounded-full bg-warning"></span>
         }
       </div>
-      <div class="mt-2 text-2xl font-bold text-amber-600 dark:text-amber-400">
+      <div class="mt-2 text-2xl font-bold text-warning">
         {{ pendientesCount() }}
       </div>
       <p class="mt-0.5 text-[11px] text-muted-foreground">
@@ -100,11 +100,11 @@
 
     <!-- Aprobadas -->
     <div
-      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-emerald-400/50"
+      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-success/50"
       role="button"
       tabindex="0"
       [class.ring-2]="statusFilter() === 'aprobada'"
-      [class.ring-emerald-500]="statusFilter() === 'aprobada'"
+      [class.ring-success]="statusFilter() === 'aprobada'"
       (click)="statusFilter.set('aprobada')"
       (keydown.enter)="statusFilter.set('aprobada')"
       (keydown.space)="$event.preventDefault(); statusFilter.set('aprobada')"
@@ -112,15 +112,10 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon
-          class="size-4 text-emerald-500"
-          [name]="'lucideCheckCircle2'"
-        />
+        <ng-icon class="size-4 text-success" [name]="'lucideCheckCircle2'" />
         Aprobadas
       </div>
-      <div
-        class="mt-2 text-2xl font-bold text-emerald-600 dark:text-emerald-400"
-      >
+      <div class="mt-2 text-2xl font-bold text-success">
         {{ aprobadasCount() }}
       </div>
       <p class="mt-0.5 text-[11px] text-muted-foreground">
@@ -130,11 +125,11 @@
 
     <!-- Rechazadas -->
     <div
-      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-rose-400/50"
+      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-destructive/50"
       role="button"
       tabindex="0"
       [class.ring-2]="statusFilter() === 'rechazada'"
-      [class.ring-rose-500]="statusFilter() === 'rechazada'"
+      [class.ring-destructive]="statusFilter() === 'rechazada'"
       (click)="statusFilter.set('rechazada')"
       (keydown.enter)="statusFilter.set('rechazada')"
       (keydown.space)="$event.preventDefault(); statusFilter.set('rechazada')"
@@ -142,10 +137,10 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-rose-500" [name]="'lucideXCircle'" />
+        <ng-icon class="size-4 text-destructive" [name]="'lucideXCircle'" />
         Rechazadas
       </div>
-      <div class="mt-2 text-2xl font-bold text-rose-600 dark:text-rose-400">
+      <div class="mt-2 text-2xl font-bold text-destructive">
         {{ rechazadasCount() }}
       </div>
       <p class="mt-0.5 text-[11px] text-muted-foreground">
@@ -198,7 +193,7 @@
     >
       <span>Pendientes de evaluación</span>
       <span
-        class="rounded-full bg-amber-500/20 px-1.5 text-[10px] font-bold text-amber-700 dark:text-amber-400"
+        class="rounded-full bg-warning/20 px-1.5 text-[10px] font-bold text-warning"
       >
         {{ pendientesCount() }}
       </span>
@@ -399,10 +394,10 @@
               @let vencida = isVencida(solicitud);
               <tr
                 class="transition-colors hover:bg-muted/40"
-                [class.bg-amber-500/5]="
+                [class.bg-muted/10]="solicitud.estado !== 'pendiente'"
+                [class.bg-warning/5]="
                   solicitud.estado === 'pendiente' && !vencida
                 "
-                [class.bg-muted/10]="solicitud.estado !== 'pendiente'"
               >
                 <!-- N° Solicitud -->
                 <td class="px-4 py-3.5 font-mono text-xs font-medium">
@@ -454,7 +449,7 @@
                   </div>
                   @if (vencida) {
                     <div
-                      class="mt-0.5 flex items-center gap-1 text-[10px] font-semibold text-amber-600 dark:text-amber-400"
+                      class="mt-0.5 flex items-center gap-1 text-[10px] font-semibold text-warning"
                     >
                       <ng-icon class="size-3" [name]="'lucideAlertTriangle'" />
                       Fechas vencidas
@@ -578,10 +573,10 @@
           <!-- ALERTA FLUJO ALTERNATIVO #1: Solicitud con fechas ya vencidas -->
           @if (vencida && solicitud.estado === "pendiente") {
             <div
-              class="flex items-start gap-2.5 rounded-lg border border-amber-500/30 bg-amber-500/15 p-3.5 text-xs text-amber-900 dark:text-amber-200"
+              class="flex items-start gap-2.5 rounded-lg border border-warning/30 bg-warning/15 p-3.5 text-xs text-warning"
             >
               <ng-icon
-                class="mt-0.5 size-4 shrink-0 text-amber-600 dark:text-amber-400"
+                class="mt-0.5 size-4 shrink-0 text-warning"
                 [name]="'lucideAlertTriangle'"
               />
               <div>
@@ -918,9 +913,10 @@
 
               <!-- Botón Aprobar -->
               <button
-                class="flex-1 gap-1.5 bg-emerald-600 text-xs font-medium text-white hover:bg-emerald-700 sm:flex-initial"
+                class="flex-1 gap-1.5 sm:flex-initial"
                 hlmBtn
                 type="button"
+                variant="success"
                 [disabled]="resolvingAction() !== null"
                 (click)="resolver('aprobada')"
               >

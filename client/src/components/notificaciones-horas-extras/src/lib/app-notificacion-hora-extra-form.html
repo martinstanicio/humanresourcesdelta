@@ -39,20 +39,17 @@
     </div>
   } @else if (confirmedNotificaciones(); as notifs) {
     <!-- PANTALLA DE ÉXITO Y CONFIRMACIÓN -->
-    <div
-      class="border-emerald-200 bg-emerald-50/40 dark:border-emerald-800 dark:bg-emerald-950/20"
-      hlmCard
-    >
+    <div class="border-success/30 bg-success/10" hlmCard>
       <div class="items-center pb-4 text-center" hlmCardHeader>
         <div
-          class="mb-2 inline-flex size-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/60 dark:text-emerald-400"
+          class="mb-2 inline-flex size-14 items-center justify-center rounded-full bg-success/15 text-success"
         >
           <ng-icon class="size-8" [name]="'lucideCheckCircle2'" />
         </div>
-        <h2 class="text-xl text-emerald-900 dark:text-emerald-100" hlmCardTitle>
+        <h2 class="text-xl text-success" hlmCardTitle>
           Notificación Registrada con Éxito
         </h2>
-        <p class="text-emerald-700 dark:text-emerald-300" hlmCardDescription>
+        <p class="text-success/80" hlmCardDescription>
           La declaración ha sido ingresada en estado 'Pendiente' y se envió la
           notificación automática al área de Recursos Humanos (RF-08).
         </p>
@@ -79,12 +76,7 @@
 
           <div class="flex items-center justify-between border-b pb-2">
             <span class="text-sm text-muted-foreground">Estado inicial:</span>
-            <span
-              class="border-amber-300 bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300"
-              hlmBadge
-            >
-              Pendiente de evaluación
-            </span>
+            <span hlmBadge variant="warning"> Pendiente de evaluación </span>
           </div>
 
           <div class="flex items-center justify-between border-b pb-2">
@@ -132,12 +124,9 @@
         </div>
 
         <div
-          class="flex items-center gap-2 rounded-md border border-blue-200 bg-blue-50 p-3 text-xs text-blue-800 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-200"
+          class="flex items-center gap-2 rounded-md border border-primary/30 bg-primary/10 p-3 text-xs text-primary"
         >
-          <ng-icon
-            class="size-4 shrink-0 text-blue-500"
-            [name]="'lucideInfo'"
-          />
+          <ng-icon class="size-4 shrink-0 text-primary" [name]="'lucideInfo'" />
           <span>
             Podrás consultar el estado de tu notificación o cancelarla mientras
             no haya sido evaluada desde el módulo 'Mis Horas Extra' (CU-06 /
@@ -273,10 +262,10 @@
             <!-- Flujo alternativo #1: Detección proactiva de superposición -->
             @if (superposicionConflicto(); as c) {
               <div
-                class="flex items-start gap-3 rounded-md border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-200"
+                class="flex items-start gap-3 rounded-md border border-warning/30 bg-warning/15 p-3 text-sm text-warning"
               >
                 <ng-icon
-                  class="mt-0.5 size-5 shrink-0 text-amber-600 dark:text-amber-400"
+                  class="mt-0.5 size-5 shrink-0 text-warning"
                   [name]="'lucideAlertTriangle'"
                 />
                 <div class="space-y-1">
@@ -438,21 +427,21 @@
                   Criterio aplicado
                 </div>
                 @if (d.esFeriado) {
-                  <p class="font-medium text-purple-700 dark:text-purple-300">
+                  <p class="font-medium text-primary">
                     Día Feriado Nacional: 100% de remuneración según convenio.
                   </p>
                 } @else if (d.esDomingo) {
-                  <p class="font-medium text-purple-700 dark:text-purple-300">
+                  <p class="font-medium text-primary">
                     Día Domingo: 100% de remuneración según convenio.
                   </p>
                 } @else if (d.esSabadoTarde) {
                   @if (d.horas50 > 0 && d.horas100 > 0) {
-                    <p class="font-medium text-amber-700 dark:text-amber-300">
+                    <p class="font-medium text-primary">
                       Sábado con corte a las 13:00 hs: tramo matutino al 50% y
                       tramo vespertino al 100%.
                     </p>
                   } @else {
-                    <p class="font-medium text-purple-700 dark:text-purple-300">
+                    <p class="font-medium text-primary">
                       Sábado posterior a las 13:00 hs: 100% de remuneración.
                     </p>
                   }
