@@ -8,7 +8,25 @@ import {
   signal,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { NgIcon } from "@ng-icons/core";
+import { NgIcon, provideIcons } from "@ng-icons/core";
+import {
+  lucideAlertCircle,
+  lucideAlertTriangle,
+  lucideCalendar,
+  lucideCalendarClock,
+  lucideCalendarOff,
+  lucideCheck,
+  lucideCheckCircle2,
+  lucideClock,
+  lucideEye,
+  lucideFileText,
+  lucideFilter,
+  lucideRefreshCw,
+  lucideSearch,
+  lucideUser,
+  lucideX,
+  lucideXCircle,
+} from "@ng-icons/lucide";
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
@@ -49,6 +67,26 @@ export type SolicitudStatusFilter = "all" | EstadoSolicitudLicencia;
     HlmTableImports,
     NgIcon,
     TitleCasePipe,
+  ],
+  providers: [
+    provideIcons({
+      lucideAlertCircle,
+      lucideAlertTriangle,
+      lucideCalendar,
+      lucideCalendarClock,
+      lucideCalendarOff,
+      lucideCheck,
+      lucideCheckCircle2,
+      lucideClock,
+      lucideEye,
+      lucideFileText,
+      lucideFilter,
+      lucideRefreshCw,
+      lucideSearch,
+      lucideUser,
+      lucideX,
+      lucideXCircle,
+    }),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./app-licencias-evaluacion-list.html",

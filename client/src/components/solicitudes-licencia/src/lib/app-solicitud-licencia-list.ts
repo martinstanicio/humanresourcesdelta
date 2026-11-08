@@ -9,7 +9,19 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
-import { NgIcon } from "@ng-icons/core";
+import { NgIcon, provideIcons } from "@ng-icons/core";
+import {
+  lucideAlertCircle,
+  lucideCalendarClock,
+  lucideCalendarOff,
+  lucideCheckCircle2,
+  lucideClock,
+  lucidePlus,
+  lucideRefreshCw,
+  lucideSearch,
+  lucideTrash2,
+  lucideXCircle,
+} from "@ng-icons/lucide";
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
@@ -45,6 +57,20 @@ export type SolicitudFilter = "all" | EstadoSolicitudLicencia;
     NgIcon,
     RouterLink,
     TitleCasePipe,
+  ],
+  providers: [
+    provideIcons({
+      lucideAlertCircle,
+      lucideCalendarClock,
+      lucideCalendarOff,
+      lucideCheckCircle2,
+      lucideClock,
+      lucidePlus,
+      lucideRefreshCw,
+      lucideSearch,
+      lucideTrash2,
+      lucideXCircle,
+    }),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./app-solicitud-licencia-list.html",

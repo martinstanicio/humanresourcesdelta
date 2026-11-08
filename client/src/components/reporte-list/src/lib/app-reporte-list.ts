@@ -7,7 +7,7 @@ import {
   signal,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { NgIcon } from "@ng-icons/core";
+import { NgIcon, provideIcons } from "@ng-icons/core";
 import {
   lucideAlertCircle,
   lucideCalendar,
@@ -63,6 +63,19 @@ export const MESES = [
     HlmTableImports,
     NgIcon,
   ],
+  providers: [
+    provideIcons({
+      lucideSearch,
+      lucideDownload,
+      lucideFileDown,
+      lucideFileText,
+      lucideCalendar,
+      lucideUsers,
+      lucideClock,
+      lucideAlertCircle,
+      lucideRefreshCw,
+    }),
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./app-reporte-list.html",
 })
@@ -72,15 +85,6 @@ export class AppReporteList implements OnInit {
   private readonly _convenioService = inject(ConvenioService);
 
   // Icons
-  protected readonly searchIcon = lucideSearch;
-  protected readonly downloadIcon = lucideDownload;
-  protected readonly fileDownIcon = lucideFileDown;
-  protected readonly fileTextIcon = lucideFileText;
-  protected readonly calendarIcon = lucideCalendar;
-  protected readonly usersIcon = lucideUsers;
-  protected readonly clockIcon = lucideClock;
-  protected readonly alertCircleIcon = lucideAlertCircle;
-  protected readonly refreshCwIcon = lucideRefreshCw;
 
   // Static options
   public readonly meses = MESES;

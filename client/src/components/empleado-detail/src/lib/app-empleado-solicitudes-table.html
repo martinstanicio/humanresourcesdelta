@@ -41,13 +41,13 @@
                       </ng-container>
                       @switch (header.column.getIsSorted()) {
                         @case ("desc") {
-                          <ng-icon [svg]="arrowDownIcon" />
+                          <ng-icon name="lucideArrowDown" />
                         }
                         @case ("asc") {
-                          <ng-icon [svg]="arrowUpIcon" />
+                          <ng-icon name="lucideArrowUp" />
                         }
                         @default {
-                          <ng-icon [svg]="arrowUpDownIcon" />
+                          <ng-icon name="lucideArrowUpDown" />
                         }
                       }
                     </button>

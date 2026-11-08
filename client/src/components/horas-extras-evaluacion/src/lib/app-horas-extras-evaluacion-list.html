@@ -26,8 +26,8 @@
       >
         <ng-icon
           class="size-3.5"
+          name="lucideRefreshCw"
           [class.animate-spin]="loading()"
-          [name]="'lucideRefreshCw'"
         />
         Actualizar listado
       </button>
@@ -42,7 +42,7 @@
       <div class="flex items-start gap-2.5">
         <ng-icon
           class="mt-0.5 size-5 shrink-0 text-success"
-          [name]="'lucideCheckCircle2'"
+          name="lucideCheckCircle2"
         />
         <span>{{ actionSuccess() }}</span>
       </div>
@@ -51,7 +51,7 @@
         type="button"
         (click)="actionSuccess.set(null)"
       >
-        <ng-icon class="size-4" [name]="'lucideX'" />
+        <ng-icon class="size-4" name="lucideX" />
       </button>
     </div>
   }
@@ -61,7 +61,7 @@
     <div
       class="flex items-center gap-3 rounded-lg border border-destructive/20 bg-destructive/10 p-4 text-sm text-destructive"
     >
-      <ng-icon class="size-5 shrink-0" [name]="'lucideAlertCircle'" />
+      <ng-icon class="size-5 shrink-0" name="lucideAlertCircle" />
       <span>{{ error() }}</span>
     </div>
   }
@@ -91,7 +91,7 @@
         <div
           class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
         >
-          <ng-icon class="size-4 text-warning" [name]="'lucideClock'" />
+          <ng-icon class="size-4 text-warning" name="lucideClock" />
           Pendientes
         </div>
         @if (pendientesCount() > 0) {
@@ -124,10 +124,7 @@
         <div
           class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
         >
-          <ng-icon
-            class="size-4 text-destructive"
-            [name]="'lucideShieldAlert'"
-          />
+          <ng-icon class="size-4 text-destructive" name="lucideShieldAlert" />
           Excede tope (&gt;30 hs)
         </div>
         @if (excedeTopeCount() > 0) {
@@ -166,7 +163,7 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-success" [name]="'lucideCheckCircle2'" />
+        <ng-icon class="size-4 text-success" name="lucideCheckCircle2" />
         Aprobadas
       </div>
       <div class="mt-2 text-2xl font-bold text-success">
@@ -197,7 +194,7 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-destructive" [name]="'lucideXCircle'" />
+        <ng-icon class="size-4 text-destructive" name="lucideXCircle" />
         Rechazadas
       </div>
       <div class="mt-2 text-2xl font-bold text-destructive">
@@ -227,7 +224,7 @@
           />
           <ng-icon
             class="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
-            [name]="'lucideSearch'"
+            name="lucideSearch"
           />
         </hlm-input-group>
       </div>
@@ -290,7 +287,7 @@
           variant="ghost"
           (click)="resetFilters()"
         >
-          <ng-icon class="size-3.5" [name]="'lucideX'" />
+          <ng-icon class="size-3.5" name="lucideX" />
           Limpiar
         </button>
       </div>
@@ -310,7 +307,7 @@
           <span
             class="inline-flex items-center gap-1 rounded-full border border-destructive/20 bg-destructive/10 px-2 py-0.5 text-[11px] font-medium text-destructive"
           >
-            <ng-icon class="size-3" [name]="'lucideShieldAlert'" />
+            <ng-icon class="size-3" name="lucideShieldAlert" />
             Filtro activo: Solo Excede Tope
           </span>
         }
@@ -322,7 +319,7 @@
         type="button"
         (click)="toggleSortDirection()"
       >
-        <ng-icon class="size-3.5" [name]="'lucideArrowUpDown'" />
+        <ng-icon class="size-3.5" name="lucideArrowUpDown" />
         <span
           >Orden: Fecha
           {{
@@ -349,7 +346,7 @@
         <div
           class="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-muted/50 text-muted-foreground"
         >
-          <ng-icon class="size-6" [name]="'lucideClock'" />
+          <ng-icon class="size-6" name="lucideClock" />
         </div>
         <h3 class="text-sm font-semibold text-foreground">
           No se encontraron horas extras
@@ -366,7 +363,7 @@
           variant="outline"
           (click)="resetFilters()"
         >
-          <ng-icon class="size-3.5" [name]="'lucideRefreshCw'" />
+          <ng-icon class="size-3.5" name="lucideRefreshCw" />
           Restablecer filtros
         </button>
       </div>
@@ -472,7 +469,7 @@
                     >
                       <ng-icon
                         class="size-3 text-muted-foreground"
-                        [name]="'lucideCalendar'"
+                        name="lucideCalendar"
                       />
                       {{ notif.fecha_inicio | date: "dd/MM/yyyy" }}
                     </div>
@@ -481,7 +478,7 @@
                     >
                       <ng-icon
                         class="size-3 text-muted-foreground"
-                        [name]="'lucideClock'"
+                        name="lucideClock"
                       />
                       {{ notif.fecha_inicio | date: "HH:mm" }} -
                       {{ notif.fecha_fin | date: "HH:mm" }}
@@ -502,17 +499,14 @@
                     <span
                       class="inline-flex animate-pulse items-center gap-1 rounded-full border border-destructive/30 bg-destructive/15 px-2.5 py-0.5 text-[11px] font-semibold text-destructive"
                     >
-                      <ng-icon class="size-3" [name]="'lucideAlertTriangle'" />
+                      <ng-icon class="size-3" name="lucideAlertTriangle" />
                       Excede tope
                     </span>
                   } @else {
                     <span
                       class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium text-muted-foreground"
                     >
-                      <ng-icon
-                        class="size-3 text-success"
-                        [name]="'lucideCheck'"
-                      />
+                      <ng-icon class="size-3 text-success" name="lucideCheck" />
                       Dentro de tope
                     </span>
                   }
@@ -542,7 +536,7 @@
                       <span
                         class="inline-flex items-center gap-1.5 rounded-full border border-success/30 bg-success/15 px-2.5 py-0.5 text-xs font-medium text-success"
                       >
-                        <ng-icon class="size-3" [name]="'lucideCheckCircle2'" />
+                        <ng-icon class="size-3" name="lucideCheckCircle2" />
                         Aprobada
                       </span>
                     }
@@ -550,7 +544,7 @@
                       <span
                         class="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 bg-destructive/15 px-2.5 py-0.5 text-xs font-medium text-destructive"
                       >
-                        <ng-icon class="size-3" [name]="'lucideXCircle'" />
+                        <ng-icon class="size-3" name="lucideXCircle" />
                         Rechazada
                       </span>
                     }
@@ -578,7 +572,7 @@
                       variant="outline"
                       (click)="openEvaluacionDrawer(notif)"
                     >
-                      <ng-icon class="size-3.5" [name]="'lucideEye'" />
+                      <ng-icon class="size-3.5" name="lucideEye" />
                       <span>Ver detalle</span>
                     </button>
                   }
@@ -647,7 +641,7 @@
             [disabled]="resolvingAction()"
             (click)="closeEvaluacionDrawer()"
           >
-            <ng-icon class="size-4" [name]="'lucideX'" />
+            <ng-icon class="size-4" name="lucideX" />
           </button>
         </div>
 
@@ -660,7 +654,7 @@
             >
               <ng-icon
                 class="mt-0.5 size-4 shrink-0 text-warning"
-                [name]="'lucideAlertTriangle'"
+                name="lucideAlertTriangle"
               />
               <div>
                 <p class="font-semibold">
@@ -683,7 +677,7 @@
             >
               <ng-icon
                 class="mt-0.5 size-4 shrink-0 text-destructive"
-                [name]="'lucideShieldAlert'"
+                name="lucideShieldAlert"
               />
               <div>
                 <p class="font-semibold">Excede tope mensual de 30 horas</p>
@@ -707,7 +701,7 @@
             >
               <ng-icon
                 class="mt-0.5 size-4 shrink-0 text-muted-foreground"
-                [name]="'lucideInfo'"
+                name="lucideInfo"
               />
               <div>
                 <p class="font-semibold">Notificación ya resuelta</p>
@@ -725,7 +719,7 @@
             <div
               class="flex items-center gap-2 text-xs font-bold tracking-wider text-foreground uppercase"
             >
-              <ng-icon class="size-3.5 text-primary" [name]="'lucideUser'" />
+              <ng-icon class="size-3.5 text-primary" name="lucideUser" />
               Datos del Empleado
             </div>
             <div class="grid grid-cols-2 gap-3 text-xs">
@@ -765,7 +759,7 @@
             <div
               class="flex items-center gap-2 text-xs font-bold tracking-wider text-foreground uppercase"
             >
-              <ng-icon class="size-3.5 text-primary" [name]="'lucideClock'" />
+              <ng-icon class="size-3.5 text-primary" name="lucideClock" />
               Detalle del Servicio Declarado
             </div>
 
@@ -777,7 +771,7 @@
                 >
                   <ng-icon
                     class="size-3 text-muted-foreground"
-                    [name]="'lucideCalendar'"
+                    name="lucideCalendar"
                   />
                   {{ notif.fecha_inicio | date: "EEEE dd/MM/yyyy" }}
                 </p>
@@ -851,10 +845,7 @@
               <div
                 class="flex items-center gap-1.5 text-xs font-bold text-foreground"
               >
-                <ng-icon
-                  class="size-3.5 text-primary"
-                  [name]="'lucideFileText'"
-                />
+                <ng-icon class="size-3.5 text-primary" name="lucideFileText" />
                 Observación / Motivo registrado al resolver:
               </div>
               <p
@@ -874,7 +865,7 @@
                 >
                   <ng-icon
                     class="size-3.5 text-primary"
-                    [name]="'lucideCheckCircle2'"
+                    name="lucideCheckCircle2"
                   />
                   Decisión de Recursos Humanos
                 </div>
@@ -898,7 +889,7 @@
                   [disabled]="resolvingAction()"
                   (click)="selectDecision('aprobada')"
                 >
-                  <ng-icon class="size-4 text-success" [name]="'lucideCheck'" />
+                  <ng-icon class="size-4 text-success" name="lucideCheck" />
                   Aprobar Horas
                 </button>
 
@@ -915,7 +906,7 @@
                   [disabled]="resolvingAction()"
                   (click)="selectDecision('rechazada')"
                 >
-                  <ng-icon class="size-4 text-destructive" [name]="'lucideX'" />
+                  <ng-icon class="size-4 text-destructive" name="lucideX" />
                   Rechazar Notificación
                 </button>
               </div>
@@ -959,7 +950,7 @@
                   >
                     <ng-icon
                       class="size-3.5 shrink-0"
-                      [name]="'lucideAlertCircle'"
+                      name="lucideAlertCircle"
                     />
                     {{ validationError() }}
                   </p>
@@ -985,7 +976,7 @@
                   @if (resolvingAction()) {
                     <ng-icon
                       class="size-3.5 animate-spin"
-                      [name]="'lucideRefreshCw'"
+                      name="lucideRefreshCw"
                     />
                     <span>Guardando resolución en el sistema...</span>
                   } @else {

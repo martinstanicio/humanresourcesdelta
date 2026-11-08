@@ -9,7 +9,18 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
-import { NgIcon } from "@ng-icons/core";
+import { NgIcon, provideIcons } from "@ng-icons/core";
+import {
+  lucideAlertCircle,
+  lucideBell,
+  lucideCalendar,
+  lucideCheckCircle2,
+  lucideClock,
+  lucideFilter,
+  lucidePlus,
+  lucideSearch,
+  lucideXCircle,
+} from "@ng-icons/lucide";
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
@@ -39,6 +50,19 @@ import { NotificacionHoraExtraService } from "@/services/notificacion-hora-extra
     HlmTableImports,
     NgIcon,
     RouterLink,
+  ],
+  providers: [
+    provideIcons({
+      lucideAlertCircle,
+      lucideBell,
+      lucideCalendar,
+      lucideCheckCircle2,
+      lucideClock,
+      lucideFilter,
+      lucidePlus,
+      lucideSearch,
+      lucideXCircle,
+    }),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./app-notificacion-hora-extra-list.html",

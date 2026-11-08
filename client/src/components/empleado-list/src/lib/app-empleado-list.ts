@@ -1,6 +1,6 @@
 import { Component, computed, inject, OnInit, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { NgIcon } from "@ng-icons/core";
+import { NgIcon, provideIcons } from "@ng-icons/core";
 import { lucideSearch } from "@ng-icons/lucide";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
@@ -29,6 +29,7 @@ export type RolFilter = "all" | RolEmpleado;
     HlmInputGroupImports,
     NgIcon,
   ],
+  providers: [provideIcons({ lucideSearch })],
   templateUrl: "./app-empleado-list.html",
 })
 export class AppEmpleadoList implements OnInit {
@@ -92,8 +93,6 @@ export class AppEmpleadoList implements OnInit {
 
     return list;
   });
-
-  protected readonly searchIcon = lucideSearch;
   protected readonly skeletonPlaceholders = [1, 2, 3, 4, 5, 6];
 
   ngOnInit(): void {

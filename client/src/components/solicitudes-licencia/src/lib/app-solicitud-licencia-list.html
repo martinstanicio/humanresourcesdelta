@@ -18,7 +18,7 @@
         hlmBtn
         routerLink="/solicitudes-licencia/nueva"
       >
-        <ng-icon class="size-4" [name]="'lucidePlus'" />
+        <ng-icon class="size-4" name="lucidePlus" />
         Nueva solicitud
       </a>
     </div>
@@ -29,10 +29,7 @@
     <div
       class="flex items-center gap-3 rounded-lg border border-success/30 bg-success/15 p-4 text-sm text-success"
     >
-      <ng-icon
-        class="size-5 shrink-0 text-success"
-        [name]="'lucideCheckCircle2'"
-      />
+      <ng-icon class="size-5 shrink-0 text-success" name="lucideCheckCircle2" />
       <span>{{ cancelSuccess() }}</span>
     </div>
   }
@@ -43,7 +40,7 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-warning" [name]="'lucideClock'" />
+        <ng-icon class="size-4 text-warning" name="lucideClock" />
         Pendientes
       </div>
       <div class="mt-2 text-2xl font-bold text-warning">
@@ -55,7 +52,7 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-success" [name]="'lucideCheckCircle2'" />
+        <ng-icon class="size-4 text-success" name="lucideCheckCircle2" />
         Aprobadas
       </div>
       <div class="mt-2 text-2xl font-bold text-success">
@@ -67,7 +64,7 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-destructive" [name]="'lucideXCircle'" />
+        <ng-icon class="size-4 text-destructive" name="lucideXCircle" />
         Rechazadas
       </div>
       <div class="mt-2 text-2xl font-bold text-destructive">
@@ -81,7 +78,7 @@
       >
         <ng-icon
           class="size-4 text-muted-foreground"
-          [name]="'lucideCalendarOff'"
+          name="lucideCalendarOff"
         />
         Canceladas
       </div>
@@ -99,7 +96,7 @@
       <div class="flex items-center rounded-md border bg-background px-3">
         <ng-icon
           class="mr-2 size-4 shrink-0 text-muted-foreground"
-          [name]="'lucideSearch'"
+          name="lucideSearch"
         />
         <input
           class="h-9 border-0 px-0 focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -193,7 +190,7 @@
       <div class="p-8 text-center">
         <ng-icon
           class="mx-auto mb-2 size-10 text-destructive"
-          [name]="'lucideAlertCircle'"
+          name="lucideAlertCircle"
         />
         <p class="text-sm font-medium text-destructive">{{ error() }}</p>
         <button
@@ -204,7 +201,7 @@
           variant="outline"
           (click)="loadData()"
         >
-          <ng-icon class="size-4" [name]="'lucideRefreshCw'" />
+          <ng-icon class="size-4" name="lucideRefreshCw" />
           Reintentar
         </button>
       </div>
@@ -213,7 +210,7 @@
         <div
           class="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-muted text-muted-foreground"
         >
-          <ng-icon class="size-6" [name]="'lucideCalendarClock'" />
+          <ng-icon class="size-6" name="lucideCalendarClock" />
         </div>
         <h3 class="text-base font-semibold">No se encontraron solicitudes</h3>
         <p class="mx-auto mt-1 max-w-sm text-sm text-muted-foreground">
@@ -230,7 +227,7 @@
             routerLink="/solicitudes-licencia/nueva"
             size="sm"
           >
-            <ng-icon class="size-4" [name]="'lucidePlus'" />
+            <ng-icon class="size-4" name="lucidePlus" />
             Solicitar licencia
           </a>
         }
@@ -321,7 +318,7 @@
                       variant="ghost"
                       (click)="openCancelModal(solicitud)"
                     >
-                      <ng-icon class="size-3.5" [name]="'lucideTrash2'" />
+                      <ng-icon class="size-3.5" name="lucideTrash2" />
                       Cancelar
                     </button>
                   } @else {
@@ -348,10 +345,7 @@
           <div
             class="flex size-10 shrink-0 items-center justify-center rounded-full bg-destructive/10"
           >
-            <ng-icon
-              class="size-6 text-destructive"
-              [name]="'lucideAlertCircle'"
-            />
+            <ng-icon class="size-6 text-destructive" name="lucideAlertCircle" />
           </div>
           <div>
             <h3 class="text-lg font-semibold text-foreground">
@@ -410,7 +404,7 @@
             (click)="executeCancel()"
           >
             @if (cancelingId() !== null) {
-              <ng-icon class="size-4 animate-spin" [name]="'lucideRefreshCw'" />
+              <ng-icon class="size-4 animate-spin" name="lucideRefreshCw" />
               Cancelando...
             } @else {
               Sí, cancelar solicitud

@@ -10,7 +10,24 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { Router, RouterLink } from "@angular/router";
-import { NgIcon } from "@ng-icons/core";
+import { NgIcon, provideIcons } from "@ng-icons/core";
+import {
+  lucideAlertCircle,
+  lucideAlertTriangle,
+  lucideArrowLeft,
+  lucideCalendar,
+  lucideCalendarClock,
+  lucideCheck,
+  lucideCheckCircle2,
+  lucideClock,
+  lucideFile,
+  lucideFileText,
+  lucideInfo,
+  lucidePlus,
+  lucideRefreshCw,
+  lucideTrash2,
+  lucideUpload,
+} from "@ng-icons/lucide";
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
@@ -51,6 +68,25 @@ export type AttachedFile = {
     HlmTextarea,
     NgIcon,
     RouterLink,
+  ],
+  providers: [
+    provideIcons({
+      lucideAlertCircle,
+      lucideAlertTriangle,
+      lucideArrowLeft,
+      lucideCalendar,
+      lucideCalendarClock,
+      lucideCheck,
+      lucideCheckCircle2,
+      lucideClock,
+      lucideFile,
+      lucideFileText,
+      lucideInfo,
+      lucidePlus,
+      lucideRefreshCw,
+      lucideTrash2,
+      lucideUpload,
+    }),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./app-solicitud-licencia-form.html",

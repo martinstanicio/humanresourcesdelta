@@ -5,7 +5,7 @@ import {
   input,
   signal,
 } from "@angular/core";
-import { NgIcon } from "@ng-icons/core";
+import { NgIcon, provideIcons } from "@ng-icons/core";
 import {
   lucideArrowDown,
   lucideArrowUp,
@@ -111,6 +111,9 @@ const COLUMNS = columnHelper.columns([
     HlmTableImports,
     NgIcon,
   ],
+  providers: [
+    provideIcons({ lucideArrowDown, lucideArrowUp, lucideArrowUpDown }),
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./app-empleado-notificaciones-table.html",
 })
@@ -156,10 +159,6 @@ export class AppEmpleadoNotificacionesTable {
   });
 
   protected readonly columns = COLUMNS;
-
-  protected readonly arrowDownIcon = lucideArrowDown;
-  protected readonly arrowUpIcon = lucideArrowUp;
-  protected readonly arrowUpDownIcon = lucideArrowUpDown;
 
   protected readonly table = injectTable(() => ({
     data: this.filteredNotificaciones(),

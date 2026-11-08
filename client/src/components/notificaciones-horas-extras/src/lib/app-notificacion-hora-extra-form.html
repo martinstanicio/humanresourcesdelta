@@ -13,7 +13,7 @@
           title="Volver a mis horas extras"
           variant="ghost"
         >
-          <ng-icon class="size-4" [name]="'lucideArrowLeft'" />
+          <ng-icon class="size-4" name="lucideArrowLeft" />
         </a>
         <h1 class="text-2xl font-bold tracking-tight">
           Notificar Horas Extras
@@ -44,7 +44,7 @@
         <div
           class="mb-2 inline-flex size-14 items-center justify-center rounded-full bg-success/15 text-success"
         >
-          <ng-icon class="size-8" [name]="'lucideCheckCircle2'" />
+          <ng-icon class="size-8" name="lucideCheckCircle2" />
         </div>
         <h2 class="text-xl text-success" hlmCardTitle>
           Notificación Registrada con Éxito
@@ -126,7 +126,7 @@
         <div
           class="flex items-center gap-2 rounded-md border border-primary/30 bg-primary/10 p-3 text-xs text-primary"
         >
-          <ng-icon class="size-4 shrink-0 text-primary" [name]="'lucideInfo'" />
+          <ng-icon class="size-4 shrink-0 text-primary" name="lucideInfo" />
           <span>
             Podrás consultar el estado de tu notificación o cancelarla mientras
             no haya sido evaluada desde el módulo 'Mis Horas Extra' (CU-06 /
@@ -153,7 +153,7 @@
           variant="outline"
           (click)="resetForm()"
         >
-          <ng-icon class="size-4" [name]="'lucidePlus'" />
+          <ng-icon class="size-4" name="lucidePlus" />
           Cargar otra notificación
         </button>
       </div>
@@ -240,7 +240,7 @@
               <div
                 class="flex items-center gap-2 rounded-md border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive"
               >
-                <ng-icon class="size-4 shrink-0" [name]="'lucideAlertCircle'" />
+                <ng-icon class="size-4 shrink-0" name="lucideAlertCircle" />
                 <span
                   >La hora de fin debe ser posterior a la hora de inicio.</span
                 >
@@ -251,7 +251,7 @@
               <div
                 class="flex items-center gap-2 rounded-md border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive"
               >
-                <ng-icon class="size-4 shrink-0" [name]="'lucideAlertCircle'" />
+                <ng-icon class="size-4 shrink-0" name="lucideAlertCircle" />
                 <span
                   >No es posible registrar horas extras con horario posterior al
                   momento actual.</span
@@ -266,7 +266,7 @@
               >
                 <ng-icon
                   class="mt-0.5 size-5 shrink-0 text-warning"
-                  [name]="'lucideAlertTriangle'"
+                  name="lucideAlertTriangle"
                 />
                 <div class="space-y-1">
                   <div class="font-semibold">
@@ -317,10 +317,7 @@
           <div
             class="flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive"
           >
-            <ng-icon
-              class="mt-0.5 size-5 shrink-0"
-              [name]="'lucideShieldAlert'"
-            />
+            <ng-icon class="mt-0.5 size-5 shrink-0" name="lucideShieldAlert" />
             <div class="space-y-1">
               <div class="font-semibold">
                 No fue posible registrar la notificación
@@ -342,7 +339,7 @@
             [disabled]="!isFormValid() || submitting()"
           >
             @if (submitting()) {
-              <ng-icon class="size-4 animate-spin" [name]="'lucideRefreshCw'" />
+              <ng-icon class="size-4 animate-spin" name="lucideRefreshCw" />
               <span>Enviando...</span>
             } @else {
               <span>Confirmar envío</span>
@@ -356,7 +353,7 @@
         <div class="sticky top-6" hlmCard>
           <div class="pb-3" hlmCardHeader>
             <h3 class="flex items-center gap-2 text-base" hlmCardTitle>
-              <ng-icon class="size-4 text-primary" [name]="'lucideClock'" />
+              <ng-icon class="size-4 text-primary" name="lucideClock" />
               Resumen Calculado
             </h3>
             <p class="text-xs" hlmCardDescription>
@@ -420,10 +417,7 @@
                 <div
                   class="flex items-center gap-1.5 font-semibold text-foreground"
                 >
-                  <ng-icon
-                    class="size-3.5 text-primary"
-                    [name]="'lucideInfo'"
-                  />
+                  <ng-icon class="size-3.5 text-primary" name="lucideInfo" />
                   Criterio aplicado
                 </div>
                 @if (d.esFeriado) {
@@ -456,7 +450,7 @@
               <div class="space-y-2 py-8 text-center text-muted-foreground">
                 <ng-icon
                   class="mx-auto size-8 opacity-40"
-                  [name]="'lucideCalendar'"
+                  name="lucideCalendar"
                 />
                 <p class="text-xs">
                   Completa la fecha y los horarios de inicio y fin para calcular

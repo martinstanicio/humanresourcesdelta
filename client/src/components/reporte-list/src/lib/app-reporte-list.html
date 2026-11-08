@@ -103,7 +103,7 @@
       class="mt-5 flex flex-wrap items-center justify-between gap-3 border-t pt-4"
     >
       <div class="flex items-center gap-2 text-xs text-muted-foreground">
-        <ng-icon [svg]="calendarIcon" />
+        <ng-icon name="lucideCalendar" />
         <span>
           Período a consultar:
           <strong>{{ selectedMesNombre() }} {{ selectedAnio() }}</strong>
@@ -120,7 +120,7 @@
           <ng-icon
             class="mr-2"
             [class.animate-spin]="loading()"
-            [svg]="loading() ? refreshCwIcon : searchIcon"
+            [name]="loading() ? 'lucideRefreshCw' : 'lucideSearch'"
           />
           {{ loading() ? "Generando reporte..." : "Ver reporte" }}
         </button>
@@ -141,7 +141,7 @@
           "
           (click)="descargarPDFSeleccionado()"
         >
-          <ng-icon class="mr-2" [svg]="downloadIcon" />
+          <ng-icon class="mr-2" name="lucideDownload" />
           Exportar PDF
         </button>
       </div>
@@ -152,7 +152,7 @@
   @if (error()) {
     <div class="p-6 text-center text-destructive" hlmCard>
       <div class="flex flex-col items-center justify-center gap-2">
-        <ng-icon class="text-2xl" [svg]="alertCircleIcon" />
+        <ng-icon class="text-2xl" name="lucideAlertCircle" />
         <p class="text-sm font-medium">{{ error() }}</p>
         <button
           class="mt-2"
@@ -196,7 +196,7 @@
       <div
         class="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground"
       >
-        <ng-icon class="text-2xl" [svg]="fileTextIcon" />
+        <ng-icon class="text-2xl" name="lucideFileText" />
       </div>
       <div class="max-w-md">
         <h3 class="text-base font-semibold">Listo para consultar reportes</h3>
@@ -218,7 +218,7 @@
       >
         <ng-icon
           class="text-3xl text-muted-foreground"
-          [svg]="alertCircleIcon"
+          name="lucideAlertCircle"
         />
         <h3 class="text-base font-semibold">Sin reportes registrados</h3>
         <p class="max-w-sm text-sm text-muted-foreground">
@@ -236,7 +236,7 @@
             <span class="text-xs font-medium text-muted-foreground"
               >Empleados Registrados</span
             >
-            <ng-icon class="text-muted-foreground" [svg]="usersIcon" />
+            <ng-icon class="text-muted-foreground" name="lucideUsers" />
           </div>
           <div class="mt-2 text-2xl font-bold">{{ kpiTotalEmpleados() }}</div>
           <p class="mt-1 text-xs text-muted-foreground">
@@ -249,7 +249,7 @@
             <span class="text-xs font-medium text-muted-foreground"
               >Horas Extras 50%</span
             >
-            <ng-icon class="text-muted-foreground" [svg]="clockIcon" />
+            <ng-icon class="text-muted-foreground" name="lucideClock" />
           </div>
           <div class="mt-2 text-2xl font-bold">{{ kpiTotalHoras50() }} hrs</div>
           <p class="mt-1 text-xs text-muted-foreground">remuneración al 50%</p>
@@ -260,7 +260,7 @@
             <span class="text-xs font-medium text-muted-foreground"
               >Horas Extras 100%</span
             >
-            <ng-icon class="text-muted-foreground" [svg]="clockIcon" />
+            <ng-icon class="text-muted-foreground" name="lucideClock" />
           </div>
           <div class="mt-2 text-2xl font-bold">
             {{ kpiTotalHoras100() }} hrs
@@ -273,7 +273,7 @@
             <span class="text-xs font-medium text-muted-foreground"
               >Días de Licencia</span
             >
-            <ng-icon class="text-muted-foreground" [svg]="calendarIcon" />
+            <ng-icon class="text-muted-foreground" name="lucideCalendar" />
           </div>
           <div class="mt-2 text-2xl font-bold">
             {{ kpiTotalLicencias() }} días
@@ -290,7 +290,7 @@
       >
         <div class="max-w-xs" hlmInputGroup>
           <div hlmInputGroupAddon>
-            <ng-icon [svg]="searchIcon" />
+            <ng-icon name="lucideSearch" />
           </div>
           <input
             hlmInputGroupInput
@@ -393,10 +393,10 @@
                         [class.animate-spin]="
                           exportingPdfLegajo() === item.legajo
                         "
-                        [svg]="
+                        [name]="
                           exportingPdfLegajo() === item.legajo
-                            ? refreshCwIcon
-                            : fileDownIcon
+                            ? 'lucideRefreshCw'
+                            : 'lucideFileDown'
                         "
                       />
                       PDF

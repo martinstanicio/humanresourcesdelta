@@ -8,7 +8,7 @@
         <div
           class="flex size-16 items-center justify-center rounded-full bg-success/15 text-success"
         >
-          <ng-icon class="size-10" [name]="'lucideCheckCircle2'" />
+          <ng-icon class="size-10" name="lucideCheckCircle2" />
         </div>
         <h2 class="text-2xl font-bold tracking-tight text-foreground">
           ¡Solicitud registrada con éxito!
@@ -92,7 +92,7 @@
             <div
               class="flex items-center gap-2 border-t pt-1 text-xs text-muted-foreground sm:col-span-2"
             >
-              <ng-icon class="size-4 text-primary" [name]="'lucideFile'" />
+              <ng-icon class="size-4 text-primary" name="lucideFile" />
               <span
                 >Documentación respaldatoria adjunta:
                 <strong>{{ adjunto.name }}</strong> ({{
@@ -113,7 +113,7 @@
           hlmBtn
           routerLink="/solicitudes-licencia"
         >
-          <ng-icon class="size-4" [name]="'lucideCalendarClock'" />
+          <ng-icon class="size-4" name="lucideCalendarClock" />
           Ver mis solicitudes (CU-05)
         </a>
         <button
@@ -123,7 +123,7 @@
           variant="outline"
           (click)="resetForm()"
         >
-          <ng-icon class="size-4" [name]="'lucidePlus'" />
+          <ng-icon class="size-4" name="lucidePlus" />
           Nueva solicitud
         </button>
       </div>
@@ -139,7 +139,7 @@
         title="Volver a Mis Solicitudes"
         variant="ghost"
       >
-        <ng-icon class="size-4" [name]="'lucideArrowLeft'" />
+        <ng-icon class="size-4" name="lucideArrowLeft" />
       </a>
       <div>
         <h1 class="text-2xl font-bold tracking-tight">
@@ -163,7 +163,7 @@
       <div class="rounded-xl border bg-card p-8 text-center shadow-sm">
         <ng-icon
           class="mx-auto mb-2 size-10 text-destructive"
-          [name]="'lucideAlertCircle'"
+          name="lucideAlertCircle"
         />
         <p class="text-sm font-medium text-destructive">{{ initialError() }}</p>
         <button
@@ -174,7 +174,7 @@
           variant="outline"
           (click)="loadInitialData()"
         >
-          <ng-icon class="size-4" [name]="'lucideRefreshCw'" />
+          <ng-icon class="size-4" name="lucideRefreshCw" />
           Reintentar
         </button>
       </div>
@@ -217,7 +217,7 @@
               <div
                 class="flex items-center gap-2 text-sm font-semibold text-foreground"
               >
-                <ng-icon class="size-4 text-primary" [name]="'lucideInfo'" />
+                <ng-icon class="size-4 text-primary" name="lucideInfo" />
                 <span>Condiciones del Convenio: {{ lic.tipo }}</span>
               </div>
 
@@ -231,7 +231,7 @@
                     <div class="mt-1 flex items-center gap-2">
                       <ng-icon
                         class="size-3 animate-spin text-muted-foreground"
-                        [name]="'lucideRefreshCw'"
+                        name="lucideRefreshCw"
                       />
                       <span class="text-muted-foreground"
                         >Consultando saldo...</span
@@ -319,7 +319,7 @@
                   >
                     <ng-icon
                       class="size-3.5 text-muted-foreground"
-                      [name]="'lucideCalendar'"
+                      name="lucideCalendar"
                     />
                     <span>
                       Días consecutivos: mínimo {{ r.diasMinimosConsecutivos }}
@@ -378,7 +378,7 @@
               <div class="flex items-center gap-2">
                 <ng-icon
                   class="size-4 text-primary"
-                  [name]="'lucideCalendarClock'"
+                  name="lucideCalendarClock"
                 />
                 <span>
                   Cantidad de días computados:
@@ -410,7 +410,7 @@
             >
               <ng-icon
                 class="mt-0.5 size-4 shrink-0 text-destructive"
-                [name]="'lucideAlertCircle'"
+                name="lucideAlertCircle"
               />
               <div>
                 <strong class="block font-semibold"
@@ -428,7 +428,7 @@
             >
               <ng-icon
                 class="mt-0.5 size-4 shrink-0 text-destructive"
-                [name]="'lucideAlertTriangle'"
+                name="lucideAlertTriangle"
               />
               <div>
                 <strong class="block font-semibold"
@@ -446,7 +446,7 @@
             >
               <ng-icon
                 class="mt-0.5 size-4 shrink-0 text-warning"
-                [name]="'lucideClock'"
+                name="lucideClock"
               />
               <div>
                 <strong class="block font-semibold"
@@ -464,7 +464,7 @@
             >
               <ng-icon
                 class="mt-0.5 size-4 shrink-0 text-warning"
-                [name]="'lucideAlertCircle'"
+                name="lucideAlertCircle"
               />
               <div>
                 <strong class="block font-semibold"
@@ -522,7 +522,7 @@
                   <div
                     class="flex size-8 shrink-0 items-center justify-center rounded bg-primary/10 text-primary"
                   >
-                    <ng-icon class="size-4" [name]="'lucideFileText'" />
+                    <ng-icon class="size-4" name="lucideFileText" />
                   </div>
                   <div class="truncate">
                     <span class="block truncate font-medium text-foreground">{{
@@ -542,7 +542,7 @@
                   variant="ghost"
                   (click)="removeFile(fileInput)"
                 >
-                  <ng-icon class="size-4" [name]="'lucideTrash2'" />
+                  <ng-icon class="size-4" name="lucideTrash2" />
                 </button>
               </div>
             } @else {
@@ -559,7 +559,7 @@
                 <div
                   class="flex size-9 items-center justify-center rounded-full bg-muted text-muted-foreground"
                 >
-                  <ng-icon class="size-4" [name]="'lucideUpload'" />
+                  <ng-icon class="size-4" name="lucideUpload" />
                 </div>
                 <p class="text-xs font-medium text-foreground">
                   Haz clic para adjuntar comprobante o arrastra el archivo aquí
@@ -593,7 +593,7 @@
               >
                 <ng-icon
                   class="size-4 shrink-0 text-warning"
-                  [name]="'lucideAlertCircle'"
+                  name="lucideAlertCircle"
                 />
                 <span>{{ errorDocumentacion() }}</span>
               </div>
@@ -605,7 +605,7 @@
             <div
               class="flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/15 p-3 text-xs text-destructive"
             >
-              <ng-icon class="size-4 shrink-0" [name]="'lucideAlertCircle'" />
+              <ng-icon class="size-4 shrink-0" name="lucideAlertCircle" />
               <span>{{ submitError() }}</span>
             </div>
           }
@@ -628,10 +628,10 @@
             [disabled]="!isFormValid() || submitting()"
           >
             @if (submitting()) {
-              <ng-icon class="size-4 animate-spin" [name]="'lucideRefreshCw'" />
+              <ng-icon class="size-4 animate-spin" name="lucideRefreshCw" />
               Registrando solicitud...
             } @else {
-              <ng-icon class="size-4" [name]="'lucideCheck'" />
+              <ng-icon class="size-4" name="lucideCheck" />
               Confirmar envío de solicitud
             }
           </button>
