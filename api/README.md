@@ -40,3 +40,11 @@ docker compose exec api uv run manage.py makemigrations
 Aunque el servicio de la API se ejecuta en el puerto `8000` dentro de la red privada de Docker, **el único puerto expuesto hacia el host es el puerto 80** a través del reverse proxy.
 
 Por lo tanto, la comunicación con la API debe realizarse a través de [http://localhost](http://localhost) y no a través de [http://localhost:8000](http://localhost:8000).
+
+## Despliegue Dockerless
+
+Para ejecutar la API de Django fuera de Docker, se debe ejecutar el siguiente comando desde la carpeta `api/`:
+
+```sh
+uv run manage.py runserver
+```

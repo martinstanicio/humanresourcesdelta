@@ -87,3 +87,17 @@ Desde la página de inicio de sesión el nuevo usuario deberá crear su contrase
 ## 🌐 Acceso a la aplicación
 
 Una vez iniciados los contenedores, todo el tráfico del sistema se canaliza y unifica a través de **Nginx** en [http://localhost](http://localhost), que actúa como reverse proxy exponiendo el puerto **80**, el puerto estándar por defecto para servidores web HTTP (por esta razón, no es necesario especificar el número de puerto).
+
+## 💻 Despliegue Dockerless
+
+Para ejecutar el proyecto de forma local sin utilizar Docker, se deben configurar las variables `DB_HOST`, `DB_NAME`, `DB_USER` y `DB_PASS` en el archivo `.env`  para que Django pueda conectarse a la base de datos deseada.
+
+> [!tip]
+> Si se desea utilizar una instancia local de PostgreSQL, probablemente se deba utilizar `DB_HOST=localhost`.
+
+A diferencia del entorno con contenedores, el desarrollo dockerless no utiliza Nginx como proxy, sino que utiliza un proxy gestionado por Angular, cuya configuración se encuentra en [`client/proxy.conf.json`](client/proxy.conf.json).
+
+Los pasos detallados para levantar cada servicio se encuentran en su respectiva documentación:
+
+1. [API](api/README.md#despliegue-dockerless).
+2. [Cliente](client/README.md#despliegue-dockerless).
