@@ -74,13 +74,14 @@
           <!-- Identificación / Código CCT -->
           <div class="flex flex-col gap-2">
             <label class="text-sm font-medium" for="conv-identificacion">
-              Identificación / N° CCT
+              Identificación / N° CCT <span class="text-destructive">*</span>
             </label>
             <input
               hlmInput
               id="conv-identificacion"
               name="identificacion"
               placeholder="Ej. CCT 130/75"
+              required
               type="text"
               [ngModel]="identificacion()"
               (ngModelChange)="identificacion.set($event)"
@@ -90,13 +91,14 @@
           <!-- Descripción -->
           <div class="flex flex-col gap-2 sm:col-span-2">
             <label class="text-sm font-medium" for="conv-descripcion">
-              Descripción
+              Descripción <span class="text-destructive">*</span>
             </label>
             <textarea
               hlmTextarea
               id="conv-descripcion"
               name="descripcion"
               placeholder="Breve descripción o alcance de las actividades comprendidas por este convenio..."
+              required
               rows="2"
               [ngModel]="descripcion()"
               (ngModelChange)="descripcion.set($event)"

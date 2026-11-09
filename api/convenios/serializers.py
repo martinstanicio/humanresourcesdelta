@@ -10,7 +10,14 @@ class ConvenioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Convenio
-        fields = ("id", "nombre", "activo", "empleados_activos")
+        fields = (
+            "id",
+            "nombre",
+            "identificacion",
+            "descripcion",
+            "activo",
+            "empleados_activos",
+        )
         read_only_fields = ("id", "empleados_activos")
 
     def get_empleados_activos(self, obj: Convenio) -> int:
@@ -28,6 +35,22 @@ class ConvenioSerializer(serializers.ModelSerializer):
         if not (trimmed := value.strip()):
             raise serializers.ValidationError(
                 "El nombre del convenio no puede estar vacío."
+            )
+
+        return trimmed
+
+    def validate_identificacion(self, value: str) -> str:
+        if not (trimmed := value.strip()):
+            raise serializers.ValidationError(
+                "La identificación del convenio no puede estar vacía."
+            )
+
+        return trimmed
+
+    def validate_descripcion(self, value: str) -> str:
+        if not (trimmed := value.strip()):
+            raise serializers.ValidationError(
+                "La descripción del convenio no puede estar vacía."
             )
 
         return trimmed

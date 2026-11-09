@@ -1,6 +1,8 @@
 export type Convenio = {
   id: number;
   nombre: string;
+  identificacion: string;
+  descripcion: string;
   activo: boolean;
   empleados_activos: number;
 };

@@ -90,14 +90,20 @@ class Command(TyperCommand):
             self.stdout.write("Creando convenios...")
             conv_comercio = Convenio.objects.create(
                 nombre="Comercio (CCT 130/75)",
+                identificacion="CCT 130/75",
+                descripcion="Convenio Colectivo de Trabajo de Empleados de Comercio.",
                 activo=True,
             )
             conv_uocra = Convenio.objects.create(
                 nombre="UOCRA (Construcción CCT 76/75)",
+                identificacion="CCT 76/75",
+                descripcion="Convenio Colectivo de Trabajo de la Industria de la Construcción.",
                 activo=True,
             )
             conv_sanidad = Convenio.objects.create(
                 nombre="Sanidad (CCT 122/75)",
+                identificacion="CCT 122/75",
+                descripcion="Convenio Colectivo de Trabajo para el Personal de Sanidad.",
                 activo=True,
             )
             convenios = [conv_comercio, conv_uocra, conv_sanidad]

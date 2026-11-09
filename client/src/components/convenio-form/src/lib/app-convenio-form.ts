@@ -166,6 +166,8 @@ export class AppConvenioForm implements OnInit {
     }).subscribe({
       next: ({ convenio, licencias, horasExtras }) => {
         this.nombre.set(convenio.nombre);
+        this.identificacion.set(convenio.identificacion || "");
+        this.descripcion.set(convenio.descripcion || "");
         this.empleadosActivosCount.set(convenio.empleados_activos ?? 0);
         this.nuevaFechaVigencia.set(new Date().toISOString().split("T")[0]);
 
@@ -284,6 +286,14 @@ export class AppConvenioForm implements OnInit {
       errors.push("El nombre del convenio no puede estar vacío.");
     }
 
+    if (!this.identificacion().trim()) {
+      errors.push("La identificación del convenio no puede estar vacía.");
+    }
+
+    if (!this.descripcion().trim()) {
+      errors.push("La descripción del convenio no puede estar vacía.");
+    }
+
     // Validar tipos de licencias
     if (this.licencias().length === 0) {
       errors.push("Debe definir al menos un tipo de licencia admitido.");
@@ -375,6 +385,8 @@ export class AppConvenioForm implements OnInit {
     this._convenioService
       .create({
         nombre: this.nombre().trim(),
+        identificacion: this.identificacion().trim(),
+        descripcion: this.descripcion().trim(),
         activo: true,
       })
       .subscribe({
@@ -479,7 +491,11 @@ export class AppConvenioForm implements OnInit {
 
     // 1. Actualizar datos generales del convenio
     ops.push(
-      this._convenioService.update(id, { nombre: this.nombre().trim() }),
+      this._convenioService.update(id, {
+        nombre: this.nombre().trim(),
+        identificacion: this.identificacion().trim(),
+        descripcion: this.descripcion().trim(),
+      }),
     );
 
     // 2. Versionar / actualizar licencias
