@@ -48,14 +48,14 @@
             1. Datos Generales del Convenio
           </h2>
           <p class="text-sm text-muted-foreground" hlmCardDescription>
-            Información básica de identificación y período de vigencia del
-            convenio colectivo de trabajo.
+            Información básica de identificación del convenio colectivo de
+            trabajo.
           </p>
         </div>
 
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2" hlmCardContent>
           <!-- Nombre -->
-          <div class="flex flex-col gap-2 sm:col-span-2">
+          <div class="flex flex-col gap-2">
             <label class="text-sm font-medium" for="conv-nombre">
               Nombre del convenio <span class="text-destructive">*</span>
             </label>
@@ -84,22 +84,6 @@
               type="text"
               [ngModel]="identificacion()"
               (ngModelChange)="identificacion.set($event)"
-            />
-          </div>
-
-          <!-- Fecha de vigencia -->
-          <div class="flex flex-col gap-2">
-            <label class="text-sm font-medium" for="conv-vigencia">
-              Fecha de vigencia <span class="text-destructive">*</span>
-            </label>
-            <input
-              hlmInput
-              id="conv-vigencia"
-              name="fechaVigencia"
-              required
-              type="date"
-              [ngModel]="fechaVigencia()"
-              (ngModelChange)="fechaVigencia.set($event)"
             />
           </div>
 

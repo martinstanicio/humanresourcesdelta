@@ -95,9 +95,6 @@ export class AppConvenioForm implements OnInit {
   // Datos Generales
   public readonly nombre = signal<string>("");
   public readonly identificacion = signal<string>("");
-  public readonly fechaVigencia = signal<string>(
-    new Date().toISOString().split("T")[0],
-  );
   public readonly descripcion = signal<string>("");
 
   // Tipos de Licencia admitidos
@@ -285,10 +282,6 @@ export class AppConvenioForm implements OnInit {
 
     if (!this.nombre().trim()) {
       errors.push("El nombre del convenio no puede estar vacío.");
-    }
-
-    if (!this.fechaVigencia()) {
-      errors.push("La fecha de vigencia es obligatoria.");
     }
 
     // Validar tipos de licencias
