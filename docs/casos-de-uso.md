@@ -202,7 +202,7 @@ Sólo las horas en estado 'Aprobada' se incorporan al reporte mensual ([CU-09](#
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Accede al módulo 'Gestión de horas extra'. | Verifica el rol RRHH y muestra el listado de notificaciones pendientes ordenadas por fecha ascendente, destacando las marcadas como 'Excede tope'. | Permite filtrar por área, empleado y período. |
+| Accede al módulo 'Gestión de horas extra'. | Verifica el rol RRHH y muestra el listado de notificaciones pendientes ordenadas por fecha ascendente. | Permite filtrar por área, empleado y período. |
 | Selecciona una notificación para revisar su detalle. | Muestra: empleado, área, fecha, rango horario declarado, horas calculadas, multiplicador aplicable, motivo, autorización adjunta y acumulado del empleado en el período. | |
 | Revisa la información y selecciona una acción: Aprobar o Rechazar. | Solicita el ingreso de una observación, obligatoria en caso de rechazo. | |
 | Confirma la decisión. | Actualiza el estado de la notificación, registra la decisión con usuario, fecha y hora, incorpora las horas al acumulado del período si fueron aprobadas y notifica automáticamente al empleado. | Registro en log de auditoría ([RNF-04](requerimientos.md#rnf-04)). |
@@ -446,7 +446,7 @@ Las bajas son lógicas: el registro no se elimina, de modo de preservar la traza
 
 Permite a Recursos Humanos administrar los convenios de trabajo vigentes en la organización y las regulaciones de licencias y horas extra asociadas a cada uno ([RF-09](requerimientos.md#rf-09)).
 
-Para cada convenio se parametrizan: los tipos de licencia admitidos con su cupo anual, su documentación obligatoria y su antelación mínima; y las reglas de horas extra, es decir los multiplicadores de remuneración por tipo de día y los topes diarios y mensuales admitidos.
+Para cada convenio se parametrizan: los tipos de licencia admitidos con su cupo anual, su documentación obligatoria y su antelación mínima; y las reglas de horas extra, es decir los multiplicadores de remuneración por tipo de día.
 
 Este caso de uso es el que da flexibilidad al sistema: las validaciones de CU-01 y CU-03 y el cálculo del reporte mensual se resuelven leyendo la parametrización definida aquí, sin necesidad de modificar el código. Las modificaciones se versionan para no alterar solicitudes ya resueltas.
 
@@ -464,7 +464,7 @@ Este caso de uso es el que da flexibilidad al sistema: las validaciones de CU-01
 | :--- | :--- | :--- |
 | Accede al módulo 'Convenios' y selecciona 'Nuevo convenio'. | Muestra el formulario con los datos generales del convenio: nombre, identificación, fecha de vigencia y descripción. | |
 | Define los tipos de licencia admitidos. | Permite cargar, para cada tipo: denominación, cupo anual de días, si descuenta saldo, documentación obligatoria y antelación mínima de solicitud. | |
-| Define las reglas de horas extra. | Permite cargar los multiplicadores por tipo de día (hábil, sábado después del mediodía, domingo y feriado) y los topes diario y mensual. | Los multiplicadores se expresan como porcentaje. |
+| Define las reglas de horas extra. | Permite cargar los multiplicadores por tipo de día (hábil, sábado después del mediodía, domingo y feriado). | Los multiplicadores se expresan como porcentaje. |
 | Presiona el botón 'Guardar'. | Valida la consistencia de las reglas cargadas, registra el convenio como vigente y lo habilita para ser asignado a empleados ([CU-10](#cu-10-abm-empleados)). | Registro en log de auditoría. |
 
 ### Flujo alternativo #1: Modificación de un convenio con empleados asociados
