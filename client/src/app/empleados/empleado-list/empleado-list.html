@@ -1,9 +1,18 @@
 <div class="flex flex-col gap-6">
-  <div>
-    <h1 class="text-2xl font-bold tracking-tight">Empleados</h1>
-    <p class="text-sm text-muted-foreground">
-      Listado y estado de empleados de la empresa.
-    </p>
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-bold tracking-tight">Empleados</h1>
+      <p class="text-sm text-muted-foreground">
+        Listado y gestión del legajo digital de los empleados.
+      </p>
+    </div>
+
+    @if (isRRHH()) {
+      <a class="gap-2" hlmBtn routerLink="/empleados/nuevo">
+        <ng-icon name="lucidePlus" />
+        Nuevo empleado
+      </a>
+    }
   </div>
 
   <app-empleado-list />

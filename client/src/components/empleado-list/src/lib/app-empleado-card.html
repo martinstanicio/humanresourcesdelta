@@ -22,7 +22,20 @@
     <p>{{ convenioNombre() || "Sin convenio" }}</p>
   </div>
 
-  <div class="justify-end" hlmCardFooter>
+  <div class="flex items-center justify-end gap-2" hlmCardFooter>
+    @if (isRRHH() && empleado().activo) {
+      <a
+        class="gap-1.5"
+        hlmBtn
+        size="sm"
+        variant="ghost"
+        [routerLink]="['/empleados', empleado().legajo, 'editar']"
+      >
+        <ng-icon name="lucideEdit" />
+        Editar
+      </a>
+    }
+
     <a
       hlmBtn
       size="sm"
