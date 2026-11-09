@@ -10,8 +10,13 @@ from rest_framework.views import APIView
 from horas_extras.models import EstadoNotificacionHorasExtras, NotificacionHorasExtras
 from licencias.models import EstadoSolicitudLicencia, SolicitudLicencia
 
-from .models import Empleado, RolEmpleado
-from .serializers import EmpleadoSerializer, LoginSerializer, OnboardingSerializer
+from .models import Area, Empleado, RolEmpleado
+from .serializers import (
+    AreaSerializer,
+    EmpleadoSerializer,
+    LoginSerializer,
+    OnboardingSerializer,
+)
 
 
 class LoginView(APIView):
@@ -96,9 +101,81 @@ class OnboardingView(APIView):
                 "nombre": empleado.nombre,
                 "rol": empleado.rol,
                 "convenio": empleado.convenio.pk if empleado.convenio else None,
+                "area": empleado.area.pk if empleado.area else None,
             },
             status=status.HTTP_200_OK,
         )
+
+
+class AreaListCreateView(APIView):
+    def get_queryset(self, request: Request) -> QuerySet[Area]:
+        queryset = Area.objects.all().order_by("id")
+        activo = request.query_params.get("activo")
+        if activo is not None:
+            if activo.lower() in ["si", "true", "1"]:
+                queryset = queryset.filter(activo=True)
+            elif activo.lower() in ["no", "false", "0"]:
+                queryset = queryset.filter(activo=False)
+        return queryset
+
+    def get(self, request: Request) -> Response:
+        queryset = self.get_queryset(request)
+        serializer = AreaSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request: Request) -> Response:
+        user = request.user
+        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = AreaSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class AreaDetailView(APIView):
+    def get(self, request: Request, pk: int) -> Response:
+        area = get_object_or_404(Area, pk=pk)
+        serializer = AreaSerializer(area)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def patch(self, request: Request, pk: int) -> Response:
+        user = request.user
+        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        area = get_object_or_404(Area, pk=pk)
+        serializer = AreaSerializer(area, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request: Request, pk: int) -> Response:
+        user = request.user
+        if not isinstance(user, Empleado) or user.rol != RolEmpleado.RECURSOS_HUMANOS:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        area = get_object_or_404(Area, pk=pk)
+        if Empleado.objects.filter(area=area).exists():
+            return Response(
+                {
+                    "detail": "No se puede eliminar un área que tiene empleados asociados."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        area.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class EmpleadoListCreateView(APIView):
@@ -108,6 +185,10 @@ class EmpleadoListCreateView(APIView):
         convenio = request.query_params.get("convenio")
         if convenio is not None:
             queryset = queryset.filter(convenio_id=convenio)
+
+        area = request.query_params.get("area")
+        if area is not None:
+            queryset = queryset.filter(area_id=area)
 
         activo = request.query_params.get("activo")
 

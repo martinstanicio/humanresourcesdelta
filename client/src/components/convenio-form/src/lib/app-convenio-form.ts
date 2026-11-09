@@ -31,7 +31,6 @@ import { forkJoin, Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 import {
-  Convenio,
   HorasExtrasFormConfig,
   LicenciaFormItem,
 } from "@/models/convenio.model";
@@ -161,8 +160,12 @@ export class AppConvenioForm implements OnInit {
 
     forkJoin({
       convenio: this._convenioService.getById(id),
-      licencias: this._licenciaService.getByConvenio(id).pipe(catchError(() => of([]))),
-      horasExtras: this._horaExtraService.getByConvenio(id).pipe(catchError(() => of([]))),
+      licencias: this._licenciaService
+        .getByConvenio(id)
+        .pipe(catchError(() => of([]))),
+      horasExtras: this._horaExtraService
+        .getByConvenio(id)
+        .pipe(catchError(() => of([]))),
     }).subscribe({
       next: ({ convenio, licencias, horasExtras }) => {
         this.nombre.set(convenio.nombre);
@@ -176,7 +179,8 @@ export class AppConvenioForm implements OnInit {
           this.licencias.set(
             activeLicencias.map((l) => {
               const reglas = (l.reglas as Record<string, unknown>) || {};
-              const estrategia = (reglas["estrategia"] as Record<string, unknown>) || {};
+              const estrategia =
+                (reglas["estrategia"] as Record<string, unknown>) || {};
               return {
                 codigo: l.codigo,
                 tipo: l.tipo,
@@ -185,7 +189,9 @@ export class AppConvenioForm implements OnInit {
                 documentacion_obligatoria: Boolean(
                   reglas["requiere_documentacion"] ?? false,
                 ),
-                antelacion_minima: Number(reglas["dias_antelacion_minima"] ?? 0),
+                antelacion_minima: Number(
+                  reglas["dias_antelacion_minima"] ?? 0,
+                ),
                 descripcion: l.descripcion,
                 activo: l.activo,
               };
@@ -201,7 +207,11 @@ export class AppConvenioForm implements OnInit {
           for (const he of activeHE) {
             const nombre = he.tipo.toLowerCase();
             const pct = Math.round((he.multiplicador - 1) * 100);
-            if (nombre.includes("hábil") || nombre.includes("habil") || nombre.includes("50")) {
+            if (
+              nombre.includes("hábil") ||
+              nombre.includes("habil") ||
+              nombre.includes("50")
+            ) {
               cfg.habilPorcentaje = Math.max(0, pct);
             } else if (nombre.includes("sábado") || nombre.includes("sabado")) {
               cfg.sabadoPorcentaje = Math.max(0, pct);
@@ -218,7 +228,8 @@ export class AppConvenioForm implements OnInit {
       },
       error: (err) => {
         this.submitError.set(
-          err?.error?.detail || "No se pudo cargar la información del convenio.",
+          err?.error?.detail ||
+            "No se pudo cargar la información del convenio.",
         );
         this.loading.set(false);
       },
@@ -288,13 +299,19 @@ export class AppConvenioForm implements OnInit {
     this.licencias().forEach((lic, idx) => {
       const nombreLic = lic.tipo.trim() || `Tipo de Licencia #${idx + 1}`;
       if (!lic.tipo.trim()) {
-        errors.push(`El Tipo de Licencia #${idx + 1} debe tener una denominación.`);
+        errors.push(
+          `El Tipo de Licencia #${idx + 1} debe tener una denominación.`,
+        );
       }
       if (isNaN(lic.cupo_anual) || lic.cupo_anual <= 0) {
-        errors.push(`El cupo anual de días para '${nombreLic}' debe ser mayor a 0.`);
+        errors.push(
+          `El cupo anual de días para '${nombreLic}' debe ser mayor a 0.`,
+        );
       }
       if (isNaN(lic.antelacion_minima) || lic.antelacion_minima < 0) {
-        errors.push(`La antelación mínima para '${nombreLic}' no puede ser negativa.`);
+        errors.push(
+          `La antelación mínima para '${nombreLic}' no puede ser negativa.`,
+        );
       }
     });
 
@@ -468,7 +485,9 @@ export class AppConvenioForm implements OnInit {
     const ops: Observable<unknown>[] = [];
 
     // 1. Actualizar datos generales del convenio
-    ops.push(this._convenioService.update(id, { nombre: this.nombre().trim() }));
+    ops.push(
+      this._convenioService.update(id, { nombre: this.nombre().trim() }),
+    );
 
     // 2. Versionar / actualizar licencias
     const currentLicencias = this.licencias();
@@ -555,8 +574,7 @@ export class AppConvenioForm implements OnInit {
     for (const dCfg of dayConfigs) {
       const existing = this._horasExtrasOriginales.find(
         (h) =>
-          h.activo &&
-          dCfg.match.some((m) => h.tipo.toLowerCase().includes(m)),
+          h.activo && dCfg.match.some((m) => h.tipo.toLowerCase().includes(m)),
       );
 
       if (existing) {

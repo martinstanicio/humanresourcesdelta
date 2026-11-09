@@ -122,6 +122,11 @@
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       @for (empleado of filteredEmpleados(); track empleado.legajo) {
         <app-empleado-card
+          [areaNombre]="
+            empleado.area !== null
+              ? (areasMap().get(empleado.area) ?? 'Área #' + empleado.area)
+              : null
+          "
           [convenioNombre]="
             empleado.convenio !== null
               ? (conveniosMap().get(empleado.convenio) ??

@@ -7,7 +7,7 @@ from django.utils import timezone
 from django_typer.management import TyperCommand
 
 from convenios.models import Convenio
-from empleados.models import Empleado, RolEmpleado
+from empleados.models import Area, Empleado, RolEmpleado
 from horas_extras.models import (
     EstadoNotificacionHorasExtras,
     HoraExtra,
@@ -31,6 +31,7 @@ class Command(TyperCommand):
         rol: RolEmpleado,
         fecha_ingreso: date,
         convenio: Convenio | None = None,
+        area: Area | None = None,
     ) -> Empleado:
         user_data: dict[str, object] = {
             "legajo": legajo,
@@ -43,6 +44,9 @@ class Command(TyperCommand):
 
         if convenio is not None:
             user_data["convenio"] = convenio
+
+        if area is not None:
+            user_data["area"] = area
 
         return Empleado.objects.create_user(**user_data)
 
@@ -66,6 +70,22 @@ class Command(TyperCommand):
                 HoraExtra.objects.all().delete()
                 Licencia.objects.all().delete()
                 Convenio.objects.all().delete()
+                Area.objects.all().delete()
+
+            self.stdout.write("Creando areas...")
+            area_administracion = Area.objects.create(
+                nombre="Administración",
+                activo=True,
+            )
+            area_operacion = Area.objects.create(
+                nombre="Operación",
+                activo=True,
+            )
+            area_calidad = Area.objects.create(
+                nombre="Calidad",
+                activo=True,
+            )
+            areas = [area_administracion, area_operacion, area_calidad]
 
             self.stdout.write("Creando convenios...")
             conv_comercio = Convenio.objects.create(
@@ -288,6 +308,7 @@ class Command(TyperCommand):
                 rol=RolEmpleado.RECURSOS_HUMANOS,
                 fecha_ingreso=date(2022, 1, 10),
                 convenio=conv_comercio,
+                area=area_administracion,
             )
             emp2 = self._crear_empleado(
                 legajo=2,
@@ -295,6 +316,7 @@ class Command(TyperCommand):
                 rol=RolEmpleado.EMPLEADO,
                 fecha_ingreso=date(2023, 3, 15),
                 convenio=conv_comercio,
+                area=area_administracion,
             )
             emp3 = self._crear_empleado(
                 legajo=3,
@@ -302,6 +324,7 @@ class Command(TyperCommand):
                 rol=RolEmpleado.EMPLEADO,
                 fecha_ingreso=date(2023, 6, 1),
                 convenio=conv_comercio,
+                area=area_operacion,
             )
             emp4 = self._crear_empleado(
                 legajo=4,
@@ -309,6 +332,7 @@ class Command(TyperCommand):
                 rol=RolEmpleado.EMPLEADO,
                 fecha_ingreso=date(2024, 2, 1),
                 convenio=conv_uocra,
+                area=area_operacion,
             )
             emp5 = self._crear_empleado(
                 legajo=5,
@@ -316,6 +340,7 @@ class Command(TyperCommand):
                 rol=RolEmpleado.EMPLEADO,
                 fecha_ingreso=date(2024, 5, 10),
                 convenio=conv_sanidad,
+                area=area_calidad,
             )
             emp6 = self._crear_empleado(
                 legajo=6,
@@ -323,6 +348,7 @@ class Command(TyperCommand):
                 rol=RolEmpleado.EMPLEADO,
                 fecha_ingreso=date(2024, 9, 15),
                 convenio=conv_uocra,
+                area=area_operacion,
             )
             emp7 = self._crear_empleado(
                 legajo=7,
@@ -330,6 +356,7 @@ class Command(TyperCommand):
                 rol=RolEmpleado.EMPLEADO,
                 fecha_ingreso=date(2025, 1, 8),
                 convenio=conv_sanidad,
+                area=area_calidad,
             )
             empleados = [emp1, emp2, emp3, emp4, emp5, emp6, emp7]
 
@@ -534,6 +561,7 @@ class Command(TyperCommand):
         self.stdout.write(
             self.style.SUCCESS(
                 "Seed completado exitosamente\n"
+                f"- Áreas creadas: {len(areas)}\n"
                 f"- Convenios creados: {len(convenios)}\n"
                 f"- Licencias creadas: {len(licencias)}\n"
                 f"- Horas extras creadas: {len(horas_extras)}\n"

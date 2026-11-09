@@ -45,6 +45,9 @@
           <span class="text-foreground/50"> · </span>
           Antigüedad: {{ antiguedad() }}
         </p>
+        <p class="text-sm text-muted-foreground">
+          Área: {{ area()?.nombre || "Sin área asignada" }}
+        </p>
       </div>
 
       @if (convenio(); as c) {

@@ -1,0 +1,26 @@
+<div class="flex flex-col gap-6">
+  <div
+    class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div>
+      <h1 class="text-2xl font-bold tracking-tight">Áreas</h1>
+      <p class="text-sm text-muted-foreground">
+        Listado y administración de áreas de la empresa.
+      </p>
+    </div>
+
+    @if (isRRHH()) {
+      <button
+        class="gap-2"
+        hlmBtn
+        type="button"
+        (click)="areaListComp.openCreateModal()"
+      >
+        <ng-icon name="lucidePlus" />
+        Nueva área
+      </button>
+    }
+  </div>
+
+  <app-area-list #areaListComp />
+</div>

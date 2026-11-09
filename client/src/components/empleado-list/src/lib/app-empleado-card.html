@@ -19,7 +19,10 @@
 
   <div class="grid gap-1 text-sm text-muted-foreground" hlmCardContent>
     <p>{{ antiguedad() }}</p>
-    <p>{{ convenioNombre() || "Sin convenio" }}</p>
+    <p>
+      {{ convenioNombre() || "Sin convenio" }} |
+      {{ areaNombre() || "Sin area" }}
+    </p>
   </div>
 
   <div class="flex items-center justify-end gap-2" hlmCardFooter>

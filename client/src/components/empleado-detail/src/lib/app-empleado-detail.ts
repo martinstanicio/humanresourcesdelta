@@ -14,12 +14,14 @@ import { catchError, forkJoin, of } from "rxjs";
 
 import { AppConvenioCard } from "@/components/convenio-list";
 import { calcularAntiguedad } from "@/lib/antiguedad";
+import { Area } from "@/models/area.model";
 import { Convenio } from "@/models/convenio.model";
 import { Empleado } from "@/models/empleado.model";
 import { HoraExtra } from "@/models/hora-extra.model";
 import { Licencia } from "@/models/licencia.model";
 import { NotificacionHoraExtra } from "@/models/notificacion-hora-extra.model";
 import { SolicitudLicencia } from "@/models/solicitud-licencia.model";
+import { AreaService } from "@/services/area.service";
 import { ConvenioService } from "@/services/convenio.service";
 import { EmpleadoService } from "@/services/empleado.service";
 import { HoraExtraService } from "@/services/hora-extra.service";
@@ -45,6 +47,7 @@ import { AppEmpleadoSolicitudesTable } from "./app-empleado-solicitudes-table";
 export class AppEmpleadoDetail implements OnInit {
   private readonly _empleadoService = inject(EmpleadoService);
   private readonly _convenioService = inject(ConvenioService);
+  private readonly _areaService = inject(AreaService);
   private readonly _licenciaService = inject(LicenciaService);
   private readonly _horaExtraService = inject(HoraExtraService);
   private readonly _solicitudLicenciaService = inject(SolicitudLicenciaService);
@@ -57,6 +60,7 @@ export class AppEmpleadoDetail implements OnInit {
 
   public readonly empleado = signal<Empleado | null>(null);
   public readonly convenio = signal<Convenio | null>(null);
+  public readonly area = signal<Area | null>(null);
   public readonly licencias = signal<Licencia[]>([]);
   public readonly horasExtras = signal<HoraExtra[]>([]);
   public readonly solicitudes = signal<SolicitudLicencia[]>([]);
@@ -106,6 +110,15 @@ export class AppEmpleadoDetail implements OnInit {
             )
           : of(null);
 
+        const area$ = empleado.area
+          ? this._areaService.getById(empleado.area).pipe(
+              catchError((err) => {
+                console.error("Error al cargar area:", err);
+                return of(null);
+              }),
+            )
+          : of(null);
+
         const licencias$ = empleado.convenio
           ? this._licenciaService.getByConvenio(empleado.convenio).pipe(
               catchError((err) => {
@@ -126,6 +139,7 @@ export class AppEmpleadoDetail implements OnInit {
 
         forkJoin({
           convenio: convenio$,
+          area: area$,
           licencias: licencias$,
           horasExtras: horasExtras$,
           solicitudes: this._solicitudLicenciaService
@@ -147,6 +161,7 @@ export class AppEmpleadoDetail implements OnInit {
         }).subscribe({
           next: (res) => {
             this.convenio.set(res.convenio);
+            this.area.set(res.area);
             this.licencias.set(res.licencias);
             this.horasExtras.set(res.horasExtras);
             this.solicitudes.set(res.solicitudes);

@@ -5,8 +5,62 @@ from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework import serializers
 
 from convenios.models import Convenio
+from empleados.models import Area
 
 from .models import Empleado
+
+
+class AreaSerializer(serializers.ModelSerializer):
+    empleados_count = serializers.SerializerMethodField()
+    empleados_activos_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Area
+        fields = (
+            "id",
+            "nombre",
+            "activo",
+            "empleados_count",
+            "empleados_activos_count",
+        )
+        read_only_fields = ("id", "empleados_count", "empleados_activos_count")
+
+    def get_empleados_count(self, obj: Area) -> int:
+        count = getattr(obj, "empleados_count", None)
+        if count is not None:
+            return int(count)
+        empleados = getattr(obj, "empleados", None)
+        if empleados is not None:
+            return int(empleados.count())
+        return Empleado.objects.filter(area=obj).count()
+
+    def get_empleados_activos_count(self, obj: Area) -> int:
+        count = getattr(obj, "empleados_activos_count", None)
+        if count is not None:
+            return int(count)
+        empleados = getattr(obj, "empleados", None)
+        if empleados is not None:
+            return int(empleados.filter(activo=True).count())
+        return Empleado.objects.filter(area=obj, activo=True).count()
+
+    def validate_nombre(self, value: str) -> str:
+        if not (trimmed := value.strip()):
+            raise serializers.ValidationError(
+                "El nombre del área no puede estar vacío."
+            )
+        return trimmed
+
+    def validate(self, attrs: dict[str, Any]) -> dict[str, Any]:
+        activo = attrs.get("activo")
+        if (
+            activo is False
+            and self.instance is not None
+            and Empleado.objects.filter(area=self.instance, activo=True).exists()
+        ):
+            raise serializers.ValidationError({
+                "activo": "No se puede marcar como inactiva un área con empleados activos asignados."
+            })
+        return attrs
 
 
 class EmpleadoSerializer(serializers.ModelSerializer):
@@ -19,6 +73,7 @@ class EmpleadoSerializer(serializers.ModelSerializer):
             "rol",
             "activo",
             "convenio",
+            "area",
         )
 
     def validate_nombre(self, value: str) -> str:
@@ -33,6 +88,14 @@ class EmpleadoSerializer(serializers.ModelSerializer):
         if not value.activo:
             raise serializers.ValidationError(
                 "No se puede asociar un empleado a un convenio inactivo."
+            )
+
+        return value
+
+    def validate_area(self, value: Area) -> Area:
+        if not value.activo:
+            raise serializers.ValidationError(
+                "No se puede asociar un empleado a un area inactivo."
             )
 
         return value

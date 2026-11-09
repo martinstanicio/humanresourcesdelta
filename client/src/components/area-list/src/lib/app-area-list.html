@@ -1,0 +1,101 @@
+<div class="flex flex-col gap-6">
+  <!-- Barra de Filtros y Búsqueda -->
+  <div
+    class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
+  >
+    <div class="w-full max-w-xs">
+      <input
+        class="w-full"
+        hlmInput
+        placeholder="Buscar áreas..."
+        type="search"
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)"
+      />
+    </div>
+
+    <div class="flex items-center gap-2">
+      <button
+        hlmBtn
+        size="sm"
+        type="button"
+        [variant]="statusFilter() === 'all' ? 'default' : 'outline'"
+        (click)="statusFilter.set('all')"
+      >
+        Todas ({{ totalCount() }})
+      </button>
+
+      <button
+        hlmBtn
+        size="sm"
+        type="button"
+        [variant]="statusFilter() === 'activos' ? 'default' : 'outline'"
+        (click)="statusFilter.set('activos')"
+      >
+        Activas ({{ activosCount() }})
+      </button>
+
+      <button
+        hlmBtn
+        size="sm"
+        type="button"
+        [variant]="statusFilter() === 'inactivos' ? 'default' : 'outline'"
+        (click)="statusFilter.set('inactivos')"
+      >
+        Inactivas ({{ inactivosCount() }})
+      </button>
+    </div>
+  </div>
+
+  <!-- Estado de Carga / Error -->
+  @if (error()) {
+    <div class="p-8 text-center text-destructive" hlmCard>
+      <p class="text-sm">{{ error() }}</p>
+      <button
+        class="mt-4"
+        hlmBtn
+        size="sm"
+        type="button"
+        variant="outline"
+        (click)="loadAreas()"
+      >
+        Reintentar
+      </button>
+    </div>
+  } @else if (loading()) {
+    <div class="flex flex-col gap-3">
+      <div class="h-10 w-full" hlmSkeleton></div>
+      <div class="h-14 w-full" hlmSkeleton></div>
+      <div class="h-14 w-full" hlmSkeleton></div>
+      <div class="h-14 w-full" hlmSkeleton></div>
+    </div>
+  } @else {
+    <app-area-table
+      [areas]="filteredAreas()"
+      (delete)="confirmDelete($event)"
+      (edit)="openEditModal($event)"
+    />
+  }
+</div>
+
+<!-- MODAL: CREAR / MODIFICAR ÁREA -->
+@if (showModal()) {
+  <app-area-form-modal
+    [area]="editingArea()"
+    [errorMessage]="formError()"
+    [saving]="saving()"
+    (cancelled)="closeModal()"
+    (saved)="saveArea($event)"
+  />
+}
+
+<!-- MODAL: CONFIRMAR ELIMINACIÓN DE ÁREA -->
+@if (areaToDelete(); as area) {
+  <app-area-delete-modal
+    [area]="area"
+    [deleting]="deleting()"
+    [errorMessage]="deleteError()"
+    (cancelled)="cancelDelete()"
+    (confirmed)="executeDelete()"
+  />
+}

@@ -64,6 +64,14 @@ class Empleado(AbstractBaseUser, PermissionsMixin):
         null=True,
         blank=True,
     )
+    area = models.ForeignKey(
+        "empleados.Area",
+        db_column="id_area",
+        on_delete=models.PROTECT,
+        related_name="empleados",
+        null=True,
+        blank=True,
+    )
     legajo = models.PositiveIntegerField(primary_key=True)
     nombre = models.CharField(max_length=255)
     fecha_ingreso = models.DateField()
@@ -93,3 +101,15 @@ class Empleado(AbstractBaseUser, PermissionsMixin):
     @is_active.setter
     def is_active(self, value: bool) -> None:
         self.activo = value
+
+
+class Area(models.Model):
+    nombre = models.CharField(max_length=255)
+    activo = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "area"
+        verbose_name_plural = "areas"
+
+    def __str__(self) -> str:
+        return str(self.nombre)

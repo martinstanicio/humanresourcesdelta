@@ -25,16 +25,18 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
+import { HlmComboboxImports } from "@spartan-ng/helm/combobox";
 import { HlmInput } from "@spartan-ng/helm/input";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 
+import { Area } from "@/models/area.model";
 import { Convenio } from "@/models/convenio.model";
 import {
   CreateEmpleadoDto,
-  Empleado,
   RolEmpleado,
   UpdateEmpleadoDto,
 } from "@/models/empleado.model";
+import { AreaService } from "@/services/area.service";
 import { ConvenioService } from "@/services/convenio.service";
 import { EmpleadoService } from "@/services/empleado.service";
 
@@ -45,6 +47,7 @@ import { EmpleadoService } from "@/services/empleado.service";
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
+    HlmComboboxImports,
     HlmInput,
     HlmSkeleton,
     NgIcon,
@@ -71,6 +74,7 @@ export class AppEmpleadoForm implements OnInit {
   private readonly _router = inject(Router);
   private readonly _empleadoService = inject(EmpleadoService);
   private readonly _convenioService = inject(ConvenioService);
+  private readonly _areaService = inject(AreaService);
 
   public readonly legajoId = input<string | number | undefined>(undefined);
 
@@ -92,11 +96,16 @@ export class AppEmpleadoForm implements OnInit {
   public readonly fechaIngreso = signal<string>("");
   public readonly rol = signal<RolEmpleado>("empleado");
   public readonly convenio = signal<number | null>(null);
+  public readonly area = signal<number | null>(null);
   public readonly activo = signal<boolean>(true);
 
   // Convenios list
   public readonly convenios = signal<Convenio[]>([]);
   public readonly loadingConvenios = signal<boolean>(false);
+
+  // Areas list
+  public readonly areas = signal<Area[]>([]);
+  public readonly loadingAreas = signal<boolean>(false);
 
   // Duplicate legajo modal state (Flujo alternativo #3)
   public readonly duplicateModal = signal<{
@@ -108,6 +117,7 @@ export class AppEmpleadoForm implements OnInit {
 
   ngOnInit(): void {
     this.loadConvenios();
+    this.loadAreas();
 
     const id = this.legajoId();
     if (id) {
@@ -117,6 +127,19 @@ export class AppEmpleadoForm implements OnInit {
       const today = new Date().toISOString().split("T")[0];
       this.fechaIngreso.set(today);
     }
+  }
+
+  loadAreas(): void {
+    this.loadingAreas.set(true);
+    this._areaService.getAll().subscribe({
+      next: (list) => {
+        this.areas.set(list);
+        this.loadingAreas.set(false);
+      },
+      error: () => {
+        this.loadingAreas.set(false);
+      },
+    });
   }
 
   loadConvenios(): void {
@@ -138,8 +161,46 @@ export class AppEmpleadoForm implements OnInit {
     const all = this.convenios();
     const currentConvenioId = this.convenio();
     // Include all active convenios plus the currently assigned one (if editing and it was deactivated)
-    return all.filter((c) => c.activo || (currentConvenioId !== null && c.id === currentConvenioId));
+    return all.filter(
+      (c) =>
+        c.activo || (currentConvenioId !== null && c.id === currentConvenioId),
+    );
   });
+
+  // Active areas for selection
+  public readonly activeAreas = computed(() => {
+    const all = this.areas();
+    const currentAreaId = this.area();
+    return all.filter(
+      (a) => a.activo || (currentAreaId !== null && a.id === currentAreaId),
+    );
+  });
+
+  // Selected area object for combobox
+  public readonly selectedArea = computed(() => {
+    const areaId = this.area();
+    if (areaId === null) return null;
+    return this.areas().find((a) => a.id === areaId) ?? null;
+  });
+
+  public readonly areaItemToString = (
+    area: Area | null | undefined,
+  ): string => {
+    if (!area) return "";
+    return area.nombre;
+  };
+
+  public readonly isAreaEqualToValue = (
+    item: Area,
+    value: Area | null | undefined,
+  ): boolean => {
+    if (!item || !value) return false;
+    return item.id === value.id;
+  };
+
+  onAreaChange(selected: Area | null | undefined): void {
+    this.area.set(selected ? selected.id : null);
+  }
 
   loadEmpleado(legajo: number): void {
     this.loading.set(true);
@@ -152,11 +213,14 @@ export class AppEmpleadoForm implements OnInit {
         this.fechaIngreso.set(emp.fecha_ingreso);
         this.rol.set(emp.rol);
         this.convenio.set(emp.convenio);
+        this.area.set(emp.area);
         this.activo.set(emp.activo);
         this.loading.set(false);
       },
       error: (err) => {
-        const detail = err?.error?.detail || "No se pudo cargar la información del empleado.";
+        const detail =
+          err?.error?.detail ||
+          "No se pudo cargar la información del empleado.";
         this.error.set(detail);
         this.loading.set(false);
       },
@@ -169,7 +233,8 @@ export class AppEmpleadoForm implements OnInit {
     if (!this.isEditMode()) {
       const leg = this.legajo();
       if (!leg || leg <= 0 || !Number.isInteger(Number(leg))) {
-        errors["legajo"] = "El número de legajo es obligatorio y debe ser un número entero positivo.";
+        errors["legajo"] =
+          "El número de legajo es obligatorio y debe ser un número entero positivo.";
       }
     }
 
@@ -201,6 +266,7 @@ export class AppEmpleadoForm implements OnInit {
         fecha_ingreso: this.fechaIngreso(),
         rol: this.rol(),
         convenio: this.convenio() ? Number(this.convenio()) : null,
+        area: this.area() ? Number(this.area()) : null,
       };
 
       this._empleadoService.update(leg, dto).subscribe({
@@ -223,6 +289,7 @@ export class AppEmpleadoForm implements OnInit {
         fecha_ingreso: this.fechaIngreso(),
         rol: this.rol(),
         convenio: this.convenio() ? Number(this.convenio()) : null,
+        area: this.area() ? Number(this.area()) : null,
       };
 
       this._empleadoService.create(dto).subscribe({
@@ -241,12 +308,13 @@ export class AppEmpleadoForm implements OnInit {
     }
   }
 
-  private handleCreateError(legajo: number, err: any): void {
-    const errorBody = err?.error;
+  private handleCreateError(legajo: number, err: unknown): void {
+    const errorBody = (err as { error?: Record<string, unknown> })?.error;
+    const legajoError = errorBody?.["legajo"];
     const isDuplicate =
-      errorBody?.legajo &&
-      (JSON.stringify(errorBody.legajo).toLowerCase().includes("already exists") ||
-        JSON.stringify(errorBody.legajo).toLowerCase().includes("ya existe"));
+      legajoError &&
+      (JSON.stringify(legajoError).toLowerCase().includes("already exists") ||
+        JSON.stringify(legajoError).toLowerCase().includes("ya existe"));
 
     if (isDuplicate) {
       // Flujo alternativo #3: CUIL/Legajo ya registrado
@@ -274,8 +342,8 @@ export class AppEmpleadoForm implements OnInit {
     }
   }
 
-  private handleBackendErrors(err: any): void {
-    const errorBody = err?.error;
+  private handleBackendErrors(err: unknown): void {
+    const errorBody = (err as { error?: Record<string, unknown> })?.error;
     if (typeof errorBody === "object" && errorBody !== null) {
       const errors: Record<string, string> = {};
       for (const [key, val] of Object.entries(errorBody)) {
@@ -286,8 +354,8 @@ export class AppEmpleadoForm implements OnInit {
         }
       }
       this.fieldErrors.set(errors);
-      if (errorBody.detail) {
-        this.error.set(errorBody.detail);
+      if (typeof errorBody["detail"] === "string") {
+        this.error.set(errorBody["detail"]);
       } else {
         this.error.set("Por favor revise los campos con error.");
       }
@@ -310,7 +378,8 @@ export class AppEmpleadoForm implements OnInit {
       error: (err) => {
         this.reactivating.set(false);
         this.error.set(
-          err?.error?.detail || "No se pudo reactivar el legajo. Intente nuevamente."
+          err?.error?.detail ||
+            "No se pudo reactivar el legajo. Intente nuevamente.",
         );
       },
     });

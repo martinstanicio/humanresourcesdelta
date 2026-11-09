@@ -1,0 +1,66 @@
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs"
+>
+  <div
+    class="w-full max-w-md animate-in rounded-xl border bg-background p-6 shadow-xl fade-in-50 zoom-in-95"
+  >
+    <div class="flex items-start gap-3">
+      <div class="rounded-full bg-destructive/10 p-2 text-destructive">
+        <ng-icon class="text-xl" name="lucideAlertCircle" />
+      </div>
+      <div class="flex-1 space-y-2">
+        <h3 class="text-lg font-semibold">¿Eliminar área?</h3>
+        <p class="text-sm text-muted-foreground">
+          Está a punto de eliminar definitivamente el área
+          <strong>{{ area().nombre }}</strong> de la base de datos.
+        </p>
+        @if (hasAssignedEmployees()) {
+          <div
+            class="rounded-md border border-destructive/30 bg-destructive/5 p-3 text-xs text-destructive"
+          >
+            <strong>Atención:</strong> Esta área tiene
+            {{ area().empleados_count }} empleado(s) asociado(s). No es posible
+            eliminarla mientras mantenga empleados vinculados.
+          </div>
+        }
+        @if (errorMessage()) {
+          <div
+            class="rounded-md border border-destructive/50 bg-destructive/10 p-3 text-xs text-destructive"
+          >
+            {{ errorMessage() }}
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="mt-6 flex items-center justify-end gap-2">
+      <button
+        hlmBtn
+        size="sm"
+        type="button"
+        variant="outline"
+        [disabled]="deleting()"
+        (click)="cancelled.emit()"
+      >
+        Cancelar
+      </button>
+      <button
+        class="gap-1.5"
+        hlmBtn
+        size="sm"
+        type="button"
+        variant="destructive"
+        [disabled]="deleting() || hasAssignedEmployees()"
+        (click)="confirmed.emit()"
+      >
+        @if (deleting()) {
+          <ng-icon class="animate-spin" name="lucideRefreshCw" />
+          <span>Eliminando...</span>
+        } @else {
+          <ng-icon name="lucideTrash2" />
+          <span>Eliminar definitivamente</span>
+        }
+      </button>
+    </div>
+  </div>
+</div>

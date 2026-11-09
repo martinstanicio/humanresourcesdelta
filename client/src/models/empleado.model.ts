@@ -7,6 +7,7 @@ export type Empleado = {
   rol: RolEmpleado;
   activo: boolean;
   convenio: number | null;
+  area: number | null;
 };
 
 export type CreateEmpleadoDto = {
@@ -15,6 +16,7 @@ export type CreateEmpleadoDto = {
   fecha_ingreso: string;
   rol: RolEmpleado;
   convenio: number | null;
+  area: number | null;
   activo?: boolean;
 };
 
@@ -23,5 +25,6 @@ export type UpdateEmpleadoDto = {
   fecha_ingreso?: string;
   rol?: RolEmpleado;
   convenio?: number | null;
+  area?: number | null;
   activo?: boolean;
 };

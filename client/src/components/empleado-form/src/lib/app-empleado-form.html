@@ -13,7 +13,7 @@
       <div
         class="flex items-center gap-3 rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive"
       >
-        <ng-icon class="text-lg shrink-0" name="lucideAlertCircle" />
+        <ng-icon class="shrink-0 text-lg" name="lucideAlertCircle" />
         <p>{{ error() }}</p>
       </div>
     }
@@ -22,7 +22,7 @@
       <div
         class="flex items-center gap-3 rounded-lg border border-emerald-500/50 bg-emerald-500/10 p-4 text-sm text-emerald-600 dark:text-emerald-400"
       >
-        <ng-icon class="text-lg shrink-0" name="lucideCheckCircle2" />
+        <ng-icon class="shrink-0 text-lg" name="lucideCheckCircle2" />
         <p>{{ successMessage() }}</p>
       </div>
     }
@@ -31,7 +31,11 @@
     <div hlmCard>
       <div hlmCardHeader>
         <h3 hlmCardTitle>
-          {{ isEditMode() ? "Datos del Legajo #" + legajo() : "Información General del Empleado" }}
+          {{
+            isEditMode()
+              ? "Datos del Legajo #" + legajo()
+              : "Información General del Empleado"
+          }}
         </h3>
         <p class="text-sm text-muted-foreground" hlmCardDescription>
           {{
@@ -47,9 +51,9 @@
           <!-- Campo: Legajo -->
           <div class="flex flex-col gap-2">
             <label
-              class="text-sm font-medium leading-none"
-              [class.text-destructive]="fieldErrors()['legajo']"
+              class="text-sm leading-none font-medium"
               for="legajo"
+              [class.text-destructive]="fieldErrors()['legajo']"
             >
               Número de Legajo <span class="text-destructive">*</span>
             </label>
@@ -57,28 +61,30 @@
               class="w-full"
               hlmInput
               id="legajo"
-              placeholder="Ej: 1042"
-              type="number"
               min="1"
+              name="legajo"
+              placeholder="Ej: 1042"
               step="1"
+              type="number"
               [disabled]="isEditMode() || saving()"
               [ngModel]="legajo()"
               (ngModelChange)="legajo.set($event)"
-              name="legajo"
             />
             @if (fieldErrors()["legajo"]; as err) {
               <p class="text-xs text-destructive">{{ err }}</p>
             } @else if (isEditMode()) {
-              <p class="text-xs text-muted-foreground">El legajo es el identificador único y no es modificable.</p>
+              <p class="text-xs text-muted-foreground">
+                El legajo es el identificador único y no es modificable.
+              </p>
             }
           </div>
 
           <!-- Campo: Nombre y Apellido -->
           <div class="flex flex-col gap-2">
             <label
-              class="text-sm font-medium leading-none"
-              [class.text-destructive]="fieldErrors()['nombre']"
+              class="text-sm leading-none font-medium"
               for="nombre"
+              [class.text-destructive]="fieldErrors()['nombre']"
             >
               Nombre y Apellido <span class="text-destructive">*</span>
             </label>
@@ -86,12 +92,12 @@
               class="w-full"
               hlmInput
               id="nombre"
+              name="nombre"
               placeholder="Ej: Juan Pérez"
               type="text"
               [disabled]="saving()"
               [ngModel]="nombre()"
               (ngModelChange)="nombre.set($event)"
-              name="nombre"
             />
             @if (fieldErrors()["nombre"]; as err) {
               <p class="text-xs text-destructive">{{ err }}</p>
@@ -103,9 +109,11 @@
           <!-- Campo: Fecha de Ingreso -->
           <div class="flex flex-col gap-2">
             <label
-              class="text-sm font-medium leading-none"
-              [class.text-destructive]="fieldErrors()['fechaIngreso'] || fieldErrors()['fecha_ingreso']"
+              class="text-sm leading-none font-medium"
               for="fechaIngreso"
+              [class.text-destructive]="
+                fieldErrors()['fechaIngreso'] || fieldErrors()['fecha_ingreso']
+              "
             >
               Fecha de Ingreso <span class="text-destructive">*</span>
             </label>
@@ -113,13 +121,16 @@
               class="w-full"
               hlmInput
               id="fechaIngreso"
+              name="fechaIngreso"
               type="date"
               [disabled]="saving()"
               [ngModel]="fechaIngreso()"
               (ngModelChange)="fechaIngreso.set($event)"
-              name="fechaIngreso"
             />
-            @if (fieldErrors()["fechaIngreso"] || fieldErrors()["fecha_ingreso"]; as err) {
+            @if (
+              fieldErrors()["fechaIngreso"] || fieldErrors()["fecha_ingreso"];
+              as err
+            ) {
               <p class="text-xs text-destructive">{{ err }}</p>
             }
           </div>
@@ -127,19 +138,19 @@
           <!-- Campo: Rol del Sistema -->
           <div class="flex flex-col gap-2">
             <label
-              class="text-sm font-medium leading-none"
-              [class.text-destructive]="fieldErrors()['rol']"
+              class="text-sm leading-none font-medium"
               for="rol"
+              [class.text-destructive]="fieldErrors()['rol']"
             >
               Rol del Sistema <span class="text-destructive">*</span>
             </label>
             <select
               class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
               id="rol"
+              name="rol"
               [disabled]="saving()"
               [value]="rol()"
               (change)="onRolSelect($event)"
-              name="rol"
             >
               <option value="empleado">Empleado (Operaciones estándar)</option>
               <option value="rrhh">Recursos Humanos (Gestión integral)</option>
@@ -148,7 +159,8 @@
               <p class="text-xs text-destructive">{{ err }}</p>
             } @else {
               <p class="text-xs text-muted-foreground">
-                Define los privilegios de acceso y visibilidad de módulos en el sistema.
+                Define los privilegios de acceso y visibilidad de módulos en el
+                sistema.
               </p>
             }
           </div>
@@ -157,24 +169,25 @@
         <!-- Campo: Convenio de Trabajo -->
         <div class="flex flex-col gap-2">
           <label
-            class="text-sm font-medium leading-none"
-            [class.text-destructive]="fieldErrors()['convenio']"
+            class="text-sm leading-none font-medium"
             for="convenio"
+            [class.text-destructive]="fieldErrors()['convenio']"
           >
             Convenio Colectivo de Trabajo (CU-11)
           </label>
           <select
             class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
             id="convenio"
+            name="convenio"
             [disabled]="saving() || loadingConvenios()"
             [value]="convenio() ?? ''"
             (change)="onConvenioSelect($event)"
-            name="convenio"
           >
             <option value="">-- Sin convenio asignado --</option>
             @for (c of activeConvenios(); track c.id) {
               <option [value]="c.id">
-                {{ c.nombre }} (ID #{{ c.id }}) {{ !c.activo ? "- [Inactivo]" : "" }}
+                {{ c.nombre }} (ID #{{ c.id }})
+                {{ !c.activo ? "- [Inactivo]" : "" }}
               </option>
             }
           </select>
@@ -182,7 +195,49 @@
             <p class="text-xs text-destructive">{{ err }}</p>
           } @else {
             <p class="text-xs text-muted-foreground">
-              Determina las reglas de licencias y multiplicadores de horas extras aplicables. Solo se admiten convenios activos.
+              Determina las reglas de licencias y multiplicadores de horas
+              extras aplicables. Solo se admiten convenios activos.
+            </p>
+          }
+        </div>
+
+        <!-- Campo: Área -->
+        <div class="flex flex-col gap-2">
+          <label
+            class="text-sm leading-none font-medium"
+            for="area-combobox-input"
+            [class.text-destructive]="fieldErrors()['area']"
+          >
+            Área de Pertenencia
+          </label>
+          <hlm-combobox
+            [disabled]="saving() || loadingAreas()"
+            [isItemEqualToValue]="isAreaEqualToValue"
+            [itemToString]="areaItemToString"
+            [value]="selectedArea()"
+            (valueChange)="onAreaChange($event)"
+          >
+            <hlm-combobox-input
+              inputId="area-combobox-input"
+              placeholder="Seleccionar área..."
+              [showClear]="true"
+            />
+            <hlm-combobox-content *hlmComboboxPortal>
+              <hlm-combobox-empty>No se encontraron áreas</hlm-combobox-empty>
+              <div hlmComboboxList>
+                @for (a of activeAreas(); track a.id) {
+                  <hlm-combobox-item [value]="a">
+                    {{ a.nombre }} {{ !a.activo ? "- [Inactiva]" : "" }}
+                  </hlm-combobox-item>
+                }
+              </div>
+            </hlm-combobox-content>
+          </hlm-combobox>
+          @if (fieldErrors()["area"]; as err) {
+            <p class="text-xs text-destructive">{{ err }}</p>
+          } @else {
+            <p class="text-xs text-muted-foreground">
+              Área funcional a la que pertenece el empleado.
             </p>
           }
         </div>
@@ -190,7 +245,9 @@
         @if (isEditMode()) {
           <!-- Estado en modo edición -->
           <div class="flex items-center gap-3 pt-2">
-            <span class="text-sm text-muted-foreground">Estado actual del legajo:</span>
+            <span class="text-sm text-muted-foreground"
+              >Estado actual del legajo:</span
+            >
             <span hlmBadge [variant]="activo() ? 'default' : 'destructive'">
               {{ activo() ? "Activo" : "Inactivo" }}
             </span>
@@ -199,29 +256,31 @@
       </div>
 
       <!-- Footer con botones de acción -->
-      <div class="flex items-center justify-end gap-3 border-t p-6" hlmCardFooter>
+      <div
+        class="flex items-center justify-end gap-3 border-t p-6"
+        hlmCardFooter
+      >
         <a
           hlmBtn
           type="button"
           variant="outline"
           [disabled]="saving()"
-          [routerLink]="isEditMode() ? ['/empleados', legajoId()] : ['/empleados']"
+          [routerLink]="
+            isEditMode() ? ['/empleados', legajoId()] : ['/empleados']
+          "
         >
           Cancelar
         </a>
 
-        <button
-          class="gap-2"
-          hlmBtn
-          type="submit"
-          [disabled]="saving()"
-        >
+        <button class="gap-2" hlmBtn type="submit" [disabled]="saving()">
           @if (saving()) {
             <ng-icon class="animate-spin" name="lucideRefreshCw" />
             <span>Guardando...</span>
           } @else {
             <ng-icon name="lucideCheck" />
-            <span>{{ isEditMode() ? "Guardar cambios" : "Registrar empleado" }}</span>
+            <span>{{
+              isEditMode() ? "Guardar cambios" : "Registrar empleado"
+            }}</span>
           }
         </button>
       </div>
@@ -231,33 +290,48 @@
 
 <!-- MODAL: FLUJO ALTERNATIVO #3 (LEGAJO YA REGISTRADO) -->
 @if (duplicateModal(); as modal) {
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
-    <div class="w-full max-w-lg rounded-xl border bg-background p-6 shadow-xl animate-in fade-in-50 zoom-in-95">
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs"
+  >
+    <div
+      class="w-full max-w-lg animate-in rounded-xl border bg-background p-6 shadow-xl fade-in-50 zoom-in-95"
+    >
       <div class="flex items-start gap-4">
-        <div class="rounded-full bg-amber-500/10 p-2.5 text-amber-600 dark:text-amber-400">
+        <div
+          class="rounded-full bg-amber-500/10 p-2.5 text-amber-600 dark:text-amber-400"
+        >
           <ng-icon class="text-xl" name="lucideAlertTriangle" />
         </div>
         <div class="flex-1 space-y-2">
           <h3 class="text-lg font-semibold">Legajo ya registrado</h3>
           <p class="text-sm text-muted-foreground">
-            El legajo <strong>#{{ modal.legajo }}</strong> ya se encuentra registrado en el sistema
+            El legajo <strong>#{{ modal.legajo }}</strong> ya se encuentra
+            registrado en el sistema
             @if (modal.nombre) {
-              a nombre de <strong>{{ modal.nombre }}</strong>.
+              a nombre de <strong>{{ modal.nombre }}</strong
+              >.
             } @else {
               en los registros de la empresa.
             }
           </p>
 
           @if (modal.existsInactive) {
-            <div class="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-700 dark:text-amber-300">
-              <p class="font-medium">El legajo se encuentra actualmente en estado <strong>Inactivo</strong>.</p>
+            <div
+              class="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-700 dark:text-amber-300"
+            >
+              <p class="font-medium">
+                El legajo se encuentra actualmente en estado
+                <strong>Inactivo</strong>.
+              </p>
               <p class="mt-1">
-                Puede reactivar este legajo para habilitar nuevamente el acceso del empleado y actualizar sus datos según sea necesario.
+                Puede reactivar este legajo para habilitar nuevamente el acceso
+                del empleado y actualizar sus datos según sea necesario.
               </p>
             </div>
           } @else {
             <p class="text-xs text-muted-foreground">
-              No es posible crear dos empleados con el mismo número de legajo. Puede acceder al legajo existente para editar su información.
+              No es posible crear dos empleados con el mismo número de legajo.
+              Puede acceder al legajo existente para editar su información.
             </p>
           }
         </div>

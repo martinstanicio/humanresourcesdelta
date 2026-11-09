@@ -1,0 +1,75 @@
+<div class="overflow-hidden rounded-md border">
+  <div hlmTableContainer>
+    <table hlmTable>
+      <thead hlmTableHeader>
+        <tr hlmTableRow>
+          <th hlmTableHead>Nombre del Área</th>
+          <th hlmTableHead>Empleados</th>
+          <th class="w-28 text-center" hlmTableHead>Estado</th>
+          <th class="w-24 text-end" hlmTableHead>Acciones</th>
+        </tr>
+      </thead>
+      <tbody hlmTableBody>
+        @for (area of areas(); track area.id) {
+          <tr hlmTableRow>
+            <td class="font-medium" hlmTableCell>
+              {{ area.nombre }}
+            </td>
+            <td class="text-sm text-muted-foreground" hlmTableCell>
+              {{ area.empleados_count ?? 0 }}
+              {{ (area.empleados_count ?? 0) === 1 ? "empleado" : "empleados" }}
+              @if (area.empleados_activos_count !== undefined) {
+                <span class="text-xs text-muted-foreground">
+                  ({{ area.empleados_activos_count }} activo{{
+                    (area.empleados_activos_count ?? 0) === 1 ? "" : "s"
+                  }})
+                </span>
+              }
+            </td>
+            <td class="text-center" hlmTableCell>
+              <span hlmBadge [variant]="area.activo ? 'default' : 'secondary'">
+                {{ area.activo ? "Activa" : "Inactiva" }}
+              </span>
+            </td>
+            <td class="text-end" hlmTableCell>
+              <div class="inline-flex items-center justify-end gap-1">
+                <button
+                  hlmBtn
+                  size="icon-sm"
+                  title="Modificar área"
+                  type="button"
+                  variant="ghost"
+                  (click)="edit.emit(area)"
+                >
+                  <ng-icon name="lucideEdit" />
+                </button>
+
+                <button
+                  class="text-destructive hover:bg-destructive/10"
+                  hlmBtn
+                  size="icon-sm"
+                  title="Eliminar área"
+                  type="button"
+                  variant="ghost"
+                  (click)="delete.emit(area)"
+                >
+                  <ng-icon name="lucideTrash2" />
+                </button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr hlmTableRow>
+            <td
+              class="h-24 text-center text-muted-foreground"
+              colspan="5"
+              hlmTableCell
+            >
+              No se encontraron áreas registradas.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

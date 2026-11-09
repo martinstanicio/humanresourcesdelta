@@ -55,7 +55,9 @@ export class EmpleadoDetail {
   private readonly _authService = inject(AuthService);
   private readonly _empleadoService = inject(EmpleadoService);
   private readonly _solicitudLicenciaService = inject(SolicitudLicenciaService);
-  private readonly _notificacionHoraExtraService = inject(NotificacionHoraExtraService);
+  private readonly _notificacionHoraExtraService = inject(
+    NotificacionHoraExtraService,
+  );
 
   public readonly detailComponent = viewChild(AppEmpleadoDetail);
 
@@ -73,7 +75,10 @@ export class EmpleadoDetail {
   public readonly deleting = signal<boolean>(false);
   public readonly reactivating = signal<boolean>(false);
   public readonly deleteError = signal<string | null>(null);
-  public readonly pendingCount = signal<{ licencias: number; horasExtras: number }>({
+  public readonly pendingCount = signal<{
+    licencias: number;
+    horasExtras: number;
+  }>({
     licencias: 0,
     horasExtras: 0,
   });

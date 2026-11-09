@@ -1,0 +1,99 @@
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs"
+>
+  <div
+    class="w-full max-w-md animate-in rounded-xl border bg-background p-6 shadow-xl fade-in-50 zoom-in-95"
+  >
+    <div class="flex items-center justify-between pb-4">
+      <h3 class="text-lg font-semibold">
+        {{ area() ? "Modificar Área" : "Nueva Área" }}
+      </h3>
+      <button
+        class="text-muted-foreground hover:text-foreground"
+        type="button"
+        [disabled]="saving()"
+        (click)="cancelled.emit()"
+      >
+        <ng-icon class="text-lg" name="lucideX" />
+      </button>
+    </div>
+
+    @if (errorMessage()) {
+      <div
+        class="mb-4 flex items-center gap-2 rounded-lg border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive"
+      >
+        <ng-icon class="shrink-0" name="lucideAlertCircle" />
+        <p>{{ errorMessage() }}</p>
+      </div>
+    }
+
+    <form class="flex flex-col gap-4" (ngSubmit)="onSubmit()">
+      <div class="flex flex-col gap-2">
+        <label class="text-sm leading-none font-medium" for="areaNombre">
+          Nombre del Área <span class="text-destructive">*</span>
+        </label>
+        <input
+          class="w-full"
+          hlmInput
+          id="areaNombre"
+          name="nombre"
+          placeholder="Ej: Operación, Administración, etc."
+          type="text"
+          [disabled]="saving()"
+          [ngModel]="nombre()"
+          (ngModelChange)="nombre.set($event)"
+        />
+      </div>
+
+      <div class="flex items-center justify-between rounded-lg border p-3">
+        <div class="space-y-0.5">
+          <span class="text-sm font-medium">Área Activa</span>
+          @if (hasActiveEmployees()) {
+            <p class="text-xs text-amber-600 dark:text-amber-400">
+              El área cuenta con
+              {{ area()?.empleados_activos_count }} empleado(s) activo(s). No
+              puede marcarse como inactiva.
+            </p>
+          } @else {
+            <p class="text-xs text-muted-foreground">
+              Las áreas inactivas no pueden ser asignadas a nuevos empleados.
+            </p>
+          }
+        </div>
+        <hlm-switch
+          [checked]="activo()"
+          [disabled]="saving() || hasActiveEmployees()"
+          (checkedChange)="activo.set($event)"
+        />
+      </div>
+
+      <div class="mt-4 flex items-center justify-end gap-2">
+        <button
+          hlmBtn
+          size="sm"
+          type="button"
+          variant="outline"
+          [disabled]="saving()"
+          (click)="cancelled.emit()"
+        >
+          Cancelar
+        </button>
+        <button
+          class="gap-1.5"
+          hlmBtn
+          size="sm"
+          type="submit"
+          [disabled]="saving()"
+        >
+          @if (saving()) {
+            <ng-icon class="animate-spin" name="lucideRefreshCw" />
+            <span>Guardando...</span>
+          } @else {
+            <ng-icon name="lucideCheck" />
+            <span>{{ area() ? "Guardar cambios" : "Crear área" }}</span>
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

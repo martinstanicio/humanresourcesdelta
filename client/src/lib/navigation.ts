@@ -6,6 +6,7 @@ import {
   lucideClock,
   lucideFileText,
   lucideLayoutDashboard,
+  lucideNetwork,
   lucideUsers,
 } from "@ng-icons/lucide";
 
@@ -37,6 +38,12 @@ export const navigation: NavigationItem[] = [
     href: "/empleados",
     icon: lucideUsers,
     title: "Empleados",
+    roles: ["rrhh"],
+  },
+  {
+    href: "/areas",
+    icon: lucideNetwork,
+    title: "Áreas",
     roles: ["rrhh"],
   },
   {

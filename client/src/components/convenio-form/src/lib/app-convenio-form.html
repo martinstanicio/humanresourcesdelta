@@ -60,14 +60,14 @@
               Nombre del convenio <span class="text-destructive">*</span>
             </label>
             <input
-              id="conv-nombre"
               hlmInput
+              id="conv-nombre"
+              name="nombre"
               placeholder="Ej. Comercio (CCT 130/75)"
+              required
               type="text"
               [ngModel]="nombre()"
               (ngModelChange)="nombre.set($event)"
-              name="nombre"
-              required
             />
           </div>
 
@@ -77,13 +77,13 @@
               Identificación / N° CCT
             </label>
             <input
-              id="conv-identificacion"
               hlmInput
+              id="conv-identificacion"
+              name="identificacion"
               placeholder="Ej. CCT 130/75"
               type="text"
               [ngModel]="identificacion()"
               (ngModelChange)="identificacion.set($event)"
-              name="identificacion"
             />
           </div>
 
@@ -93,13 +93,13 @@
               Fecha de vigencia <span class="text-destructive">*</span>
             </label>
             <input
-              id="conv-vigencia"
               hlmInput
+              id="conv-vigencia"
+              name="fechaVigencia"
+              required
               type="date"
               [ngModel]="fechaVigencia()"
               (ngModelChange)="fechaVigencia.set($event)"
-              name="fechaVigencia"
-              required
             />
           </div>
 
@@ -109,13 +109,13 @@
               Descripción
             </label>
             <textarea
-              id="conv-descripcion"
               hlmTextarea
+              id="conv-descripcion"
+              name="descripcion"
               placeholder="Breve descripción o alcance de las actividades comprendidas por este convenio..."
               rows="2"
               [ngModel]="descripcion()"
               (ngModelChange)="descripcion.set($event)"
-              name="descripcion"
             ></textarea>
           </div>
         </div>
@@ -166,9 +166,9 @@
                     class="text-destructive hover:bg-destructive/10"
                     hlmBtn
                     size="icon"
+                    title="Eliminar este tipo de licencia"
                     type="button"
                     variant="ghost"
-                    title="Eliminar este tipo de licencia"
                     (click)="eliminarLicencia($index)"
                   >
                     <ng-icon name="lucideTrash2" />
@@ -186,14 +186,14 @@
                     Denominación <span class="text-destructive">*</span>
                   </label>
                   <input
-                    [id]="'lic-tipo-' + $index"
                     hlmInput
                     placeholder="Ej. Vacaciones Ordinarias"
+                    required
                     type="text"
+                    [id]="'lic-tipo-' + $index"
+                    [name]="'lic_tipo_' + $index"
                     [ngModel]="lic.tipo"
                     (ngModelChange)="updateLicencia($index, 'tipo', $event)"
-                    [name]="'lic_tipo_' + $index"
-                    required
                   />
                 </div>
 
@@ -206,16 +206,16 @@
                     Cupo anual de días <span class="text-destructive">*</span>
                   </label>
                   <input
-                    [id]="'lic-cupo-' + $index"
                     hlmInput
                     min="1"
+                    required
                     type="number"
+                    [id]="'lic-cupo-' + $index"
+                    [name]="'lic_cupo_' + $index"
                     [ngModel]="lic.cupo_anual"
                     (ngModelChange)="
                       updateLicencia($index, 'cupo_anual', +$event)
                     "
-                    [name]="'lic_cupo_' + $index"
-                    required
                   />
                 </div>
 
@@ -229,16 +229,16 @@
                     <span class="text-destructive">*</span>
                   </label>
                   <input
-                    [id]="'lic-antelacion-' + $index"
                     hlmInput
                     min="0"
+                    required
                     type="number"
+                    [id]="'lic-antelacion-' + $index"
+                    [name]="'lic_antelacion_' + $index"
                     [ngModel]="lic.antelacion_minima"
                     (ngModelChange)="
                       updateLicencia($index, 'antelacion_minima', +$event)
                     "
-                    [name]="'lic_antelacion_' + $index"
-                    required
                   />
                 </div>
 
@@ -248,8 +248,8 @@
                 >
                   <label class="flex cursor-pointer items-center gap-2 text-sm">
                     <input
+                      class="size-4 rounded border-gray-300 text-primary focus:ring-primary"
                       type="checkbox"
-                      class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                       [checked]="lic.descuenta_saldo"
                       (change)="
                         updateLicencia(
@@ -264,8 +264,8 @@
 
                   <label class="flex cursor-pointer items-center gap-2 text-sm">
                     <input
+                      class="size-4 rounded border-gray-300 text-primary focus:ring-primary"
                       type="checkbox"
-                      class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                       [checked]="lic.documentacion_obligatoria"
                       (change)="
                         updateLicencia(
@@ -312,14 +312,14 @@
                 </label>
                 <div class="relative">
                   <input
-                    id="he-habil"
                     hlmInput
+                    id="he-habil"
                     min="0"
+                    name="he_habil"
+                    required
                     type="number"
                     [ngModel]="horasExtrasConfig().habilPorcentaje"
                     (ngModelChange)="updateHEConfig('habilPorcentaje', +$event)"
-                    name="he_habil"
-                    required
                   />
                   <span
                     class="pointer-events-none absolute top-2.5 right-3 text-xs text-muted-foreground"
@@ -338,16 +338,16 @@
                 </label>
                 <div class="relative">
                   <input
-                    id="he-sabado"
                     hlmInput
+                    id="he-sabado"
                     min="0"
+                    name="he_sabado"
+                    required
                     type="number"
                     [ngModel]="horasExtrasConfig().sabadoPorcentaje"
                     (ngModelChange)="
                       updateHEConfig('sabadoPorcentaje', +$event)
                     "
-                    name="he_sabado"
-                    required
                   />
                   <span
                     class="pointer-events-none absolute top-2.5 right-3 text-xs text-muted-foreground"
@@ -366,16 +366,16 @@
                 </label>
                 <div class="relative">
                   <input
-                    id="he-domingo"
                     hlmInput
+                    id="he-domingo"
                     min="0"
+                    name="he_domingo"
+                    required
                     type="number"
                     [ngModel]="horasExtrasConfig().domingoPorcentaje"
                     (ngModelChange)="
                       updateHEConfig('domingoPorcentaje', +$event)
                     "
-                    name="he_domingo"
-                    required
                   />
                   <span
                     class="pointer-events-none absolute top-2.5 right-3 text-xs text-muted-foreground"
@@ -394,16 +394,16 @@
                 </label>
                 <div class="relative">
                   <input
-                    id="he-feriado"
                     hlmInput
+                    id="he-feriado"
                     min="0"
+                    name="he_feriado"
+                    required
                     type="number"
                     [ngModel]="horasExtrasConfig().feriadoPorcentaje"
                     (ngModelChange)="
                       updateHEConfig('feriadoPorcentaje', +$event)
                     "
-                    name="he_feriado"
-                    required
                   />
                   <span
                     class="pointer-events-none absolute top-2.5 right-3 text-xs text-muted-foreground"
@@ -432,14 +432,14 @@
                 </label>
                 <div class="relative">
                   <input
-                    id="he-tope-diario"
                     hlmInput
+                    id="he-tope-diario"
                     min="1"
+                    name="he_tope_diario"
+                    required
                     type="number"
                     [ngModel]="horasExtrasConfig().topeDiario"
                     (ngModelChange)="updateHEConfig('topeDiario', +$event)"
-                    name="he_tope_diario"
-                    required
                   />
                   <span
                     class="pointer-events-none absolute top-2.5 right-3 text-xs text-muted-foreground"
@@ -458,14 +458,14 @@
                 </label>
                 <div class="relative">
                   <input
-                    id="he-tope-mensual"
                     hlmInput
+                    id="he-tope-mensual"
                     min="1"
+                    name="he_tope_mensual"
+                    required
                     type="number"
                     [ngModel]="horasExtrasConfig().topeMensual"
                     (ngModelChange)="updateHEConfig('topeMensual', +$event)"
-                    name="he_tope_mensual"
-                    required
                   />
                   <span
                     class="pointer-events-none absolute top-2.5 right-3 text-xs text-muted-foreground"
@@ -547,13 +547,13 @@
                 <span class="text-destructive">*</span>
               </label>
               <input
-                id="nueva-vigencia"
                 hlmInput
+                id="nueva-vigencia"
+                name="nueva_vigencia"
+                required
                 type="date"
                 [ngModel]="nuevaFechaVigencia()"
                 (ngModelChange)="nuevaFechaVigencia.set($event)"
-                name="nueva_vigencia"
-                required
               />
             </div>
           </div>

@@ -80,6 +80,11 @@ export const routes: Routes = [
           ),
       },
       {
+        path: "areas",
+        loadComponent: () =>
+          import("./areas/area-list/area-list").then((m) => m.AreaList),
+      },
+      {
         path: "licencias",
         loadComponent: () =>
           import("./licencias/licencias").then((m) => m.LicenciasPage),

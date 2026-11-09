@@ -65,7 +65,7 @@
     <div
       class="flex items-center gap-3 rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive"
     >
-      <ng-icon class="text-lg shrink-0" name="lucideAlertCircle" />
+      <ng-icon class="shrink-0 text-lg" name="lucideAlertCircle" />
       <p>{{ deleteError() }}</p>
     </div>
   }
@@ -77,8 +77,12 @@
 
   <!-- MODAL: FLUJO ALTERNATIVO #2 (BAJA BLOQUEADA POR SOLICITUDES PENDIENTES) -->
   @if (showBlockedModal()) {
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
-      <div class="w-full max-w-xl rounded-xl border bg-background p-6 shadow-xl animate-in fade-in-50 zoom-in-95">
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs"
+    >
+      <div
+        class="w-full max-w-xl animate-in rounded-xl border bg-background p-6 shadow-xl fade-in-50 zoom-in-95"
+      >
         <div class="flex items-start gap-4">
           <div class="rounded-full bg-destructive/10 p-2.5 text-destructive">
             <ng-icon class="text-xl" name="lucideAlertCircle" />
@@ -86,20 +90,35 @@
           <div class="flex-1 space-y-2">
             <h3 class="text-lg font-semibold">Baja de empleado no permitida</h3>
             <p class="text-sm text-muted-foreground">
-              No es posible dar de baja al empleado <strong>{{ empleado()?.nombre }} (Legajo #{{ legajo() }})</strong> porque posee registros pendientes de resolución que impiden su cierre:
+              No es posible dar de baja al empleado
+              <strong>{{ empleado()?.nombre }} (Legajo #{{ legajo() }})</strong>
+              porque posee registros pendientes de resolución que impiden su
+              cierre:
             </p>
 
-            <div class="space-y-1.5 rounded-lg border border-destructive/20 bg-destructive/5 p-3 text-xs text-destructive">
+            <div
+              class="space-y-1.5 rounded-lg border border-destructive/20 bg-destructive/5 p-3 text-xs text-destructive"
+            >
               @if (pendingCount().licencias > 0) {
-                <p>• <strong>{{ pendingCount().licencias }}</strong> solicitud(es) de licencia en estado Pendiente.</p>
+                <p>
+                  •
+                  <strong>{{ pendingCount().licencias }}</strong> solicitud(es)
+                  de licencia en estado Pendiente.
+                </p>
               }
               @if (pendingCount().horasExtras > 0) {
-                <p>• <strong>{{ pendingCount().horasExtras }}</strong> notificación(es) de horas extras en estado Pendiente.</p>
+                <p>
+                  •
+                  <strong>{{ pendingCount().horasExtras }}</strong>
+                  notificación(es) de horas extras en estado Pendiente.
+                </p>
               }
             </div>
 
-            <p class="text-xs text-muted-foreground pt-1">
-              Para dar de baja al trabajador, el área de Recursos Humanos o el empleado deben resolver (aprobar, rechazar o cancelar) las solicitudes pendientes primero.
+            <p class="pt-1 text-xs text-muted-foreground">
+              Para dar de baja al trabajador, el área de Recursos Humanos o el
+              empleado deben resolver (aprobar, rechazar o cancelar) las
+              solicitudes pendientes primero.
             </p>
           </div>
         </div>
@@ -120,22 +139,34 @@
 
   <!-- MODAL: CONFIRMACIÓN DE BAJA LÓGICA -->
   @if (showConfirmDeleteModal()) {
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
-      <div class="w-full max-w-lg rounded-xl border bg-background p-6 shadow-xl animate-in fade-in-50 zoom-in-95">
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs"
+    >
+      <div
+        class="w-full max-w-lg animate-in rounded-xl border bg-background p-6 shadow-xl fade-in-50 zoom-in-95"
+      >
         <div class="flex items-start gap-4">
-          <div class="rounded-full bg-amber-500/10 p-2.5 text-amber-600 dark:text-amber-400">
+          <div
+            class="rounded-full bg-amber-500/10 p-2.5 text-amber-600 dark:text-amber-400"
+          >
             <ng-icon class="text-xl" name="lucideAlertTriangle" />
           </div>
           <div class="flex-1 space-y-2">
-            <h3 class="text-lg font-semibold">Confirmar baja lógica de empleado</h3>
+            <h3 class="text-lg font-semibold">
+              Confirmar baja lógica de empleado
+            </h3>
             <p class="text-sm text-muted-foreground">
               ¿Está seguro de que desea marcar como <strong>Inactivo</strong> a
-              <strong>{{ empleado()?.nombre }} (Legajo #{{ legajo() }})</strong>?
+              <strong>{{ empleado()?.nombre }} (Legajo #{{ legajo() }})</strong
+              >?
             </p>
-            <div class="rounded-md border bg-muted/40 p-3 text-xs text-muted-foreground">
-              <strong>Trazabilidad y seguridad:</strong> Los registros y el legajo digital no serán eliminados.
-              El empleado perderá el acceso para iniciar sesión en el sistema, pero todo su historial de licencias,
-              horas extras y reportes se conservará íntegramente.
+            <div
+              class="rounded-md border bg-muted/40 p-3 text-xs text-muted-foreground"
+            >
+              <strong>Trazabilidad y seguridad:</strong> Los registros y el
+              legajo digital no serán eliminados. El empleado perderá el acceso
+              para iniciar sesión en el sistema, pero todo su historial de
+              licencias, horas extras y reportes se conservará íntegramente.
             </div>
           </div>
         </div>

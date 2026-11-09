@@ -21,6 +21,7 @@ export class AppEmpleadoCard {
 
   public readonly empleado = input.required<Empleado>();
   public readonly convenioNombre = input<string | null>(null);
+  public readonly areaNombre = input<string | null>(null);
 
   public readonly isRRHH = computed(
     () => this._authService.currentUser()?.rol === "rrhh",

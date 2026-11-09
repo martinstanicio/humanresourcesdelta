@@ -53,8 +53,12 @@
 
   <!-- MODAL: FLUJO ALTERNATIVO #2 (BAJA BLOQUEADA POR EMPLEADOS ACTIVOS) -->
   @if (showBlockedModal()) {
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
-      <div class="w-full max-w-xl rounded-xl border bg-background p-6 shadow-xl animate-in fade-in-50 zoom-in-95">
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs"
+    >
+      <div
+        class="w-full max-w-xl animate-in rounded-xl border bg-background p-6 shadow-xl fade-in-50 zoom-in-95"
+      >
         <div class="flex items-start gap-4">
           <div class="rounded-full bg-destructive/10 p-2.5 text-destructive">
             <ng-icon class="text-xl" name="lucideAlertCircle" />
@@ -64,16 +68,21 @@
               Baja de convenio no permitida
             </h3>
             <p class="mt-1 text-sm text-foreground">
-              Se detectaron <strong>{{ empleadosAfectados().length }}</strong> empleados activos asociados a este convenio.
+              Se detectaron
+              <strong>{{ empleadosAfectados().length }}</strong> empleados
+              activos asociados a este convenio.
             </p>
             <p class="mt-1 text-xs text-muted-foreground">
-              Para poder dar de baja este convenio, todos los empleados deben ser reasignados a otro convenio previamente (CU-10).
+              Para poder dar de baja este convenio, todos los empleados deben
+              ser reasignados a otro convenio previamente (CU-10).
             </p>
 
             <!-- Listado de legajos afectados -->
             <div class="mt-4 max-h-56 overflow-y-auto rounded-md border">
               <table class="w-full text-left text-sm">
-                <thead class="sticky top-0 bg-muted/80 text-xs uppercase tracking-wider backdrop-blur-xs">
+                <thead
+                  class="sticky top-0 bg-muted/80 text-xs tracking-wider uppercase backdrop-blur-xs"
+                >
                   <tr>
                     <th class="p-2.5">Legajo</th>
                     <th class="p-2.5">Nombre</th>
@@ -85,7 +94,9 @@
                     <tr class="hover:bg-muted/40">
                       <td class="p-2.5 font-medium">{{ emp.legajo }}</td>
                       <td class="p-2.5">{{ emp.nombre }}</td>
-                      <td class="p-2.5 text-muted-foreground">{{ emp.fecha_ingreso }}</td>
+                      <td class="p-2.5 text-muted-foreground">
+                        {{ emp.fecha_ingreso }}
+                      </td>
                     </tr>
                   }
                 </tbody>
@@ -110,8 +121,12 @@
 
   <!-- MODAL: CONFIRMACIÓN DE BAJA LÓGICA (SIN EMPLEADOS ASOCIADOS) -->
   @if (showConfirmDeleteModal()) {
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
-      <div class="w-full max-w-md rounded-xl border bg-background p-6 shadow-xl animate-in fade-in-50 zoom-in-95">
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs"
+    >
+      <div
+        class="w-full max-w-md animate-in rounded-xl border bg-background p-6 shadow-xl fade-in-50 zoom-in-95"
+      >
         <div class="flex items-start gap-4">
           <div class="rounded-full bg-destructive/10 p-2.5 text-destructive">
             <ng-icon class="text-xl" name="lucideAlertTriangle" />
@@ -121,7 +136,9 @@
               ¿Dar de baja convenio?
             </h3>
             <p class="mt-1 text-sm text-muted-foreground">
-              El convenio pasará a estado <strong>Inactivo</strong> y ya no podrá ser asignado a nuevos empleados. Esta acción no elimina su historial.
+              El convenio pasará a estado <strong>Inactivo</strong> y ya no
+              podrá ser asignado a nuevos empleados. Esta acción no elimina su
+              historial.
             </p>
 
             @if (deleteError()) {

@@ -7,8 +7,10 @@ import { HlmCardImports } from "@spartan-ng/helm/card";
 import { HlmInputGroupImports } from "@spartan-ng/helm/input-group";
 import { catchError, forkJoin, of } from "rxjs";
 
+import { Area } from "@/models/area.model";
 import { Convenio } from "@/models/convenio.model";
 import { Empleado, RolEmpleado } from "@/models/empleado.model";
+import { AreaService } from "@/services/area.service";
 import { ConvenioService } from "@/services/convenio.service";
 import { EmpleadoService } from "@/services/empleado.service";
 
@@ -35,9 +37,11 @@ export type RolFilter = "all" | RolEmpleado;
 export class AppEmpleadoList implements OnInit {
   private readonly _empleadoService = inject(EmpleadoService);
   private readonly _convenioService = inject(ConvenioService);
+  private readonly _areaService = inject(AreaService);
 
   public readonly empleados = signal<Empleado[]>([]);
   public readonly convenios = signal<Convenio[]>([]);
+  public readonly areas = signal<Area[]>([]);
   public readonly loading = signal(true);
   public readonly error = signal<string | null>(null);
 
@@ -66,6 +70,12 @@ export class AppEmpleadoList implements OnInit {
   public readonly conveniosMap = computed(() => {
     const map = new Map<number, string>();
     for (const c of this.convenios()) map.set(c.id, c.nombre);
+    return map;
+  });
+
+  public readonly areasMap = computed(() => {
+    const map = new Map<number, string>();
+    for (const a of this.areas()) map.set(a.id, a.nombre);
     return map;
   });
 
@@ -108,10 +118,14 @@ export class AppEmpleadoList implements OnInit {
       convenios: this._convenioService
         .getAll()
         .pipe(catchError(() => of([] as Convenio[]))),
+      areas: this._areaService
+        .getAll()
+        .pipe(catchError(() => of([] as Area[]))),
     }).subscribe({
-      next: ({ empleados, convenios }) => {
+      next: ({ empleados, convenios, areas }) => {
         this.empleados.set(empleados);
         this.convenios.set(convenios);
+        this.areas.set(areas);
         this.loading.set(false);
       },
       error: () => {
