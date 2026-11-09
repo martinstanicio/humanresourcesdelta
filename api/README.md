@@ -46,5 +46,5 @@ Por lo tanto, la comunicación con la API debe realizarse a través de [http://l
 Para ejecutar la API de Django fuera de Docker, se debe ejecutar el siguiente comando desde la carpeta `api/`:
 
 ```sh
-uv run manage.py runserver
+uv run --env-file ../.env manage.py runserver
 ```
