@@ -24,4 +24,16 @@ export class HoraExtraService {
   getVersion(id: number): Observable<HoraExtra> {
     return this._http.get<HoraExtra>(`${this._endpoint}versiones/${id}/`);
   }
+
+  create(dto: Partial<HoraExtra>): Observable<HoraExtra> {
+    return this._http.post<HoraExtra>(this._endpoint, dto);
+  }
+
+  update(codigo: string, dto: Partial<HoraExtra>): Observable<HoraExtra> {
+    return this._http.patch<HoraExtra>(`${this._endpoint}${codigo}/`, dto);
+  }
+
+  delete(codigo: string): Observable<void> {
+    return this._http.delete<void>(`${this._endpoint}${codigo}/`);
+  }
 }

@@ -37,4 +37,16 @@ export class LicenciaService {
         : `${this._endpoint}${codigo}/saldo/`;
     return this._http.get<LicenciaSaldo>(url);
   }
+
+  create(dto: Partial<Licencia>): Observable<Licencia> {
+    return this._http.post<Licencia>(this._endpoint, dto);
+  }
+
+  update(codigo: string, dto: Partial<Licencia>): Observable<Licencia> {
+    return this._http.patch<Licencia>(`${this._endpoint}${codigo}/`, dto);
+  }
+
+  delete(codigo: string): Observable<void> {
+    return this._http.delete<void>(`${this._endpoint}${codigo}/`);
+  }
 }
