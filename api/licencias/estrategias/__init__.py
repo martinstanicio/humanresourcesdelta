@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 from licencias.schemas import ResultadoSaldo, ResultadoValidacion
 
-from .cupo_fijo import CupoFijoEstrategia
+from .cupo_anual_calendario import CupoAnualCalendarioEstrategia
 
 if TYPE_CHECKING:
     from empleados.models import Empleado
@@ -31,7 +31,7 @@ class EstrategiaProtocol(Protocol):
 
 
 ESTRATEGIAS: dict[str, type[EstrategiaProtocol]] = {
-    "cupo_fijo": CupoFijoEstrategia,
+    "cupo_anual_calendario": CupoAnualCalendarioEstrategia,
 }
 
 
