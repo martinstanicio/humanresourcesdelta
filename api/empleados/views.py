@@ -179,7 +179,10 @@ class EmpleadoDetailView(APIView):
 
         empleado = get_object_or_404(Empleado, pk=pk)
 
-        if not empleado.activo:
+        activo_in_request = request.data.get("activo")
+        is_reactivation = activo_in_request in [True, "true", "True", 1]
+
+        if not empleado.activo and not is_reactivation:
             return Response(
                 {"detail": "No se puede modificar un empleado inactivo."},
                 status=status.HTTP_400_BAD_REQUEST,
