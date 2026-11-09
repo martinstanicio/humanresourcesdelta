@@ -1,0 +1,332 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  OnInit,
+  signal,
+} from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { Router, RouterLink } from "@angular/router";
+import { NgIcon, provideIcons } from "@ng-icons/core";
+import {
+  lucideAlertCircle,
+  lucideAlertTriangle,
+  lucideArrowLeft,
+  lucideCheck,
+  lucideCheckCircle2,
+  lucideClock,
+  lucideInfo,
+  lucideRefreshCw,
+  lucideUserCheck,
+  lucideUserX,
+} from "@ng-icons/lucide";
+import { HlmBadgeImports } from "@spartan-ng/helm/badge";
+import { HlmButton } from "@spartan-ng/helm/button";
+import { HlmCardImports } from "@spartan-ng/helm/card";
+import { HlmInput } from "@spartan-ng/helm/input";
+import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
+
+import { Convenio } from "@/models/convenio.model";
+import {
+  CreateEmpleadoDto,
+  Empleado,
+  RolEmpleado,
+  UpdateEmpleadoDto,
+} from "@/models/empleado.model";
+import { ConvenioService } from "@/services/convenio.service";
+import { EmpleadoService } from "@/services/empleado.service";
+
+@Component({
+  selector: "app-empleado-form",
+  imports: [
+    FormsModule,
+    HlmBadgeImports,
+    HlmButton,
+    HlmCardImports,
+    HlmInput,
+    HlmSkeleton,
+    NgIcon,
+    RouterLink,
+  ],
+  providers: [
+    provideIcons({
+      lucideAlertCircle,
+      lucideAlertTriangle,
+      lucideArrowLeft,
+      lucideCheck,
+      lucideCheckCircle2,
+      lucideClock,
+      lucideInfo,
+      lucideRefreshCw,
+      lucideUserCheck,
+      lucideUserX,
+    }),
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: "./app-empleado-form.html",
+})
+export class AppEmpleadoForm implements OnInit {
+  private readonly _router = inject(Router);
+  private readonly _empleadoService = inject(EmpleadoService);
+  private readonly _convenioService = inject(ConvenioService);
+
+  public readonly legajoId = input<string | number | undefined>(undefined);
+
+  public readonly isEditMode = computed(() => {
+    const val = this.legajoId();
+    return val !== undefined && val !== null && val !== "";
+  });
+
+  public readonly loading = signal<boolean>(false);
+  public readonly saving = signal<boolean>(false);
+  public readonly reactivating = signal<boolean>(false);
+  public readonly error = signal<string | null>(null);
+  public readonly successMessage = signal<string | null>(null);
+  public readonly fieldErrors = signal<Record<string, string>>({});
+
+  // Form state
+  public readonly legajo = signal<number | null>(null);
+  public readonly nombre = signal<string>("");
+  public readonly fechaIngreso = signal<string>("");
+  public readonly rol = signal<RolEmpleado>("empleado");
+  public readonly convenio = signal<number | null>(null);
+  public readonly activo = signal<boolean>(true);
+
+  // Convenios list
+  public readonly convenios = signal<Convenio[]>([]);
+  public readonly loadingConvenios = signal<boolean>(false);
+
+  // Duplicate legajo modal state (Flujo alternativo #3)
+  public readonly duplicateModal = signal<{
+    isOpen: boolean;
+    legajo: number;
+    existsInactive: boolean;
+    nombre?: string;
+  } | null>(null);
+
+  ngOnInit(): void {
+    this.loadConvenios();
+
+    const id = this.legajoId();
+    if (id) {
+      this.loadEmpleado(Number(id));
+    } else {
+      // Default fecha_ingreso to today
+      const today = new Date().toISOString().split("T")[0];
+      this.fechaIngreso.set(today);
+    }
+  }
+
+  loadConvenios(): void {
+    this.loadingConvenios.set(true);
+    this._convenioService.getAll().subscribe({
+      next: (list) => {
+        // En altas y modificaciones solo se deben poder asociar convenios activos
+        this.convenios.set(list);
+        this.loadingConvenios.set(false);
+      },
+      error: () => {
+        this.loadingConvenios.set(false);
+      },
+    });
+  }
+
+  // Active convenios for selection
+  public readonly activeConvenios = computed(() => {
+    const all = this.convenios();
+    const currentConvenioId = this.convenio();
+    // Include all active convenios plus the currently assigned one (if editing and it was deactivated)
+    return all.filter((c) => c.activo || (currentConvenioId !== null && c.id === currentConvenioId));
+  });
+
+  loadEmpleado(legajo: number): void {
+    this.loading.set(true);
+    this.error.set(null);
+
+    this._empleadoService.getById(legajo).subscribe({
+      next: (emp) => {
+        this.legajo.set(emp.legajo);
+        this.nombre.set(emp.nombre);
+        this.fechaIngreso.set(emp.fecha_ingreso);
+        this.rol.set(emp.rol);
+        this.convenio.set(emp.convenio);
+        this.activo.set(emp.activo);
+        this.loading.set(false);
+      },
+      error: (err) => {
+        const detail = err?.error?.detail || "No se pudo cargar la información del empleado.";
+        this.error.set(detail);
+        this.loading.set(false);
+      },
+    });
+  }
+
+  validate(): boolean {
+    const errors: Record<string, string> = {};
+
+    if (!this.isEditMode()) {
+      const leg = this.legajo();
+      if (!leg || leg <= 0 || !Number.isInteger(Number(leg))) {
+        errors["legajo"] = "El número de legajo es obligatorio y debe ser un número entero positivo.";
+      }
+    }
+
+    if (!this.nombre().trim()) {
+      errors["nombre"] = "El nombre y apellido es obligatorio.";
+    }
+
+    if (!this.fechaIngreso()) {
+      errors["fechaIngreso"] = "La fecha de ingreso es obligatoria.";
+    }
+
+    this.fieldErrors.set(errors);
+    return Object.keys(errors).length === 0;
+  }
+
+  onSubmit(): void {
+    if (!this.validate()) {
+      return;
+    }
+
+    this.saving.set(true);
+    this.error.set(null);
+    this.successMessage.set(null);
+
+    if (this.isEditMode()) {
+      const leg = Number(this.legajoId());
+      const dto: UpdateEmpleadoDto = {
+        nombre: this.nombre().trim(),
+        fecha_ingreso: this.fechaIngreso(),
+        rol: this.rol(),
+        convenio: this.convenio() ? Number(this.convenio()) : null,
+      };
+
+      this._empleadoService.update(leg, dto).subscribe({
+        next: (updated) => {
+          this.saving.set(false);
+          this.successMessage.set("Empleado actualizado exitosamente.");
+          setTimeout(() => {
+            this._router.navigate(["/empleados", updated.legajo]);
+          }, 800);
+        },
+        error: (err) => {
+          this.saving.set(false);
+          this.handleBackendErrors(err);
+        },
+      });
+    } else {
+      const dto: CreateEmpleadoDto = {
+        legajo: Number(this.legajo()),
+        nombre: this.nombre().trim(),
+        fecha_ingreso: this.fechaIngreso(),
+        rol: this.rol(),
+        convenio: this.convenio() ? Number(this.convenio()) : null,
+      };
+
+      this._empleadoService.create(dto).subscribe({
+        next: (created) => {
+          this.saving.set(false);
+          this.successMessage.set("Empleado registrado exitosamente.");
+          setTimeout(() => {
+            this._router.navigate(["/empleados", created.legajo]);
+          }, 800);
+        },
+        error: (err) => {
+          this.saving.set(false);
+          this.handleCreateError(dto.legajo, err);
+        },
+      });
+    }
+  }
+
+  private handleCreateError(legajo: number, err: any): void {
+    const errorBody = err?.error;
+    const isDuplicate =
+      errorBody?.legajo &&
+      (JSON.stringify(errorBody.legajo).toLowerCase().includes("already exists") ||
+        JSON.stringify(errorBody.legajo).toLowerCase().includes("ya existe"));
+
+    if (isDuplicate) {
+      // Flujo alternativo #3: CUIL/Legajo ya registrado
+      // Verificamos el estado del legajo existente
+      this._empleadoService.getById(legajo).subscribe({
+        next: (existing) => {
+          this.duplicateModal.set({
+            isOpen: true,
+            legajo: existing.legajo,
+            existsInactive: !existing.activo,
+            nombre: existing.nombre,
+          });
+        },
+        error: () => {
+          // Si por permisos no se puede consultar el detalle, mostramos modal básico
+          this.duplicateModal.set({
+            isOpen: true,
+            legajo: legajo,
+            existsInactive: false,
+          });
+        },
+      });
+    } else {
+      this.handleBackendErrors(err);
+    }
+  }
+
+  private handleBackendErrors(err: any): void {
+    const errorBody = err?.error;
+    if (typeof errorBody === "object" && errorBody !== null) {
+      const errors: Record<string, string> = {};
+      for (const [key, val] of Object.entries(errorBody)) {
+        if (Array.isArray(val)) {
+          errors[key] = val.join(" ");
+        } else if (typeof val === "string") {
+          errors[key] = val;
+        }
+      }
+      this.fieldErrors.set(errors);
+      if (errorBody.detail) {
+        this.error.set(errorBody.detail);
+      } else {
+        this.error.set("Por favor revise los campos con error.");
+      }
+    } else {
+      this.error.set("Ocurrió un error inesperado al procesar la solicitud.");
+    }
+  }
+
+  reactivarLegajo(): void {
+    const modalData = this.duplicateModal();
+    if (!modalData) return;
+
+    this.reactivating.set(true);
+    this._empleadoService.reactivate(modalData.legajo).subscribe({
+      next: () => {
+        this.reactivating.set(false);
+        this.closeDuplicateModal();
+        this._router.navigate(["/empleados", modalData.legajo]);
+      },
+      error: (err) => {
+        this.reactivating.set(false);
+        this.error.set(
+          err?.error?.detail || "No se pudo reactivar el legajo. Intente nuevamente."
+        );
+      },
+    });
+  }
+
+  closeDuplicateModal(): void {
+    this.duplicateModal.set(null);
+  }
+
+  onConvenioSelect(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+    this.convenio.set(value ? Number(value) : null);
+  }
+
+  onRolSelect(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value as RolEmpleado;
+    this.rol.set(value);
+  }
+}

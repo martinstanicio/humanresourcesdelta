@@ -59,6 +59,20 @@ export const routes: Routes = [
           ),
       },
       {
+        path: "empleados/nuevo",
+        loadComponent: () =>
+          import("./empleados/empleado-form/empleado-form").then(
+            (m) => m.EmpleadoFormPage,
+          ),
+      },
+      {
+        path: "empleados/:legajo/editar",
+        loadComponent: () =>
+          import("./empleados/empleado-form/empleado-form").then(
+            (m) => m.EmpleadoFormPage,
+          ),
+      },
+      {
         path: "empleados/:legajo",
         loadComponent: () =>
           import("./empleados/empleado-detail/empleado-detail").then(

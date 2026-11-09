@@ -1,0 +1,29 @@
+<div class="flex flex-col gap-6">
+  <div class="flex items-center gap-4">
+    <a
+      class="gap-2"
+      hlmBtn
+      size="sm"
+      variant="ghost"
+      [routerLink]="legajo() ? ['/empleados', legajo()] : ['/empleados']"
+    >
+      <ng-icon name="lucideArrowLeft" />
+      {{ legajo() ? "Volver al legajo" : "Volver a empleados" }}
+    </a>
+  </div>
+
+  <div>
+    <h1 class="text-2xl font-bold tracking-tight">
+      {{ legajo() ? "Editar empleado" : "Nuevo empleado" }}
+    </h1>
+    <p class="text-sm text-muted-foreground">
+      {{
+        legajo()
+          ? "Actualice los datos personales, laborales o convenio asignado al empleado."
+          : "Complete los datos requeridos para dar de alta el legajo digital del trabajador."
+      }}
+    </p>
+  </div>
+
+  <app-empleado-form [legajoId]="legajo()" />
+</div>
