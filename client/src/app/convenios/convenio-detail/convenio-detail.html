@@ -1,9 +1,40 @@
 <div class="flex flex-col gap-6">
-  <div class="flex items-center gap-4">
+  <!-- Cabecera y botón volver -->
+  <div class="flex items-center justify-between">
     <a class="gap-2" hlmBtn routerLink="/convenios" size="sm" variant="ghost">
       <ng-icon name="lucideArrowLeft" />
       Volver a convenios
     </a>
+
+    <!-- Acciones RRHH: Editar y Dar de baja -->
+    @if (isRRHH() && convenio(); as c) {
+      <div class="flex items-center gap-2">
+        <a
+          class="gap-1.5"
+          hlmBtn
+          size="sm"
+          variant="outline"
+          [routerLink]="['/convenios', c.id, 'editar']"
+        >
+          <ng-icon name="lucideEdit" />
+          Editar convenio
+        </a>
+
+        @if (c.activo) {
+          <button
+            class="gap-1.5 text-destructive hover:bg-destructive/10"
+            hlmBtn
+            size="sm"
+            type="button"
+            variant="outline"
+            (click)="solicitarBaja()"
+          >
+            <ng-icon name="lucideTrash2" />
+            Dar de baja
+          </button>
+        }
+      </div>
+    }
   </div>
 
   @if (convenio(); as c) {
@@ -19,4 +50,114 @@
     [convenioId]="id()"
     (convenioLoaded)="onConvenioLoaded($event)"
   />
+
+  <!-- MODAL: FLUJO ALTERNATIVO #2 (BAJA BLOQUEADA POR EMPLEADOS ACTIVOS) -->
+  @if (showBlockedModal()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
+      <div class="w-full max-w-xl rounded-xl border bg-background p-6 shadow-xl animate-in fade-in-50 zoom-in-95">
+        <div class="flex items-start gap-4">
+          <div class="rounded-full bg-destructive/10 p-2.5 text-destructive">
+            <ng-icon class="text-xl" name="lucideAlertCircle" />
+          </div>
+          <div class="flex-1">
+            <h3 class="text-lg font-semibold tracking-tight text-destructive">
+              Baja de convenio no permitida
+            </h3>
+            <p class="mt-1 text-sm text-foreground">
+              Se detectaron <strong>{{ empleadosAfectados().length }}</strong> empleados activos asociados a este convenio.
+            </p>
+            <p class="mt-1 text-xs text-muted-foreground">
+              Para poder dar de baja este convenio, todos los empleados deben ser reasignados a otro convenio previamente (CU-10).
+            </p>
+
+            <!-- Listado de legajos afectados -->
+            <div class="mt-4 max-h-56 overflow-y-auto rounded-md border">
+              <table class="w-full text-left text-sm">
+                <thead class="sticky top-0 bg-muted/80 text-xs uppercase tracking-wider backdrop-blur-xs">
+                  <tr>
+                    <th class="p-2.5">Legajo</th>
+                    <th class="p-2.5">Nombre</th>
+                    <th class="p-2.5">Fecha ingreso</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  @for (emp of empleadosAfectados(); track emp.legajo) {
+                    <tr class="hover:bg-muted/40">
+                      <td class="p-2.5 font-medium">{{ emp.legajo }}</td>
+                      <td class="p-2.5">{{ emp.nombre }}</td>
+                      <td class="p-2.5 text-muted-foreground">{{ emp.fecha_ingreso }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 flex items-center justify-end">
+          <button
+            hlmBtn
+            type="button"
+            variant="default"
+            (click)="showBlockedModal.set(false)"
+          >
+            Entendido
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- MODAL: CONFIRMACIÓN DE BAJA LÓGICA (SIN EMPLEADOS ASOCIADOS) -->
+  @if (showConfirmDeleteModal()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
+      <div class="w-full max-w-md rounded-xl border bg-background p-6 shadow-xl animate-in fade-in-50 zoom-in-95">
+        <div class="flex items-start gap-4">
+          <div class="rounded-full bg-destructive/10 p-2.5 text-destructive">
+            <ng-icon class="text-xl" name="lucideAlertTriangle" />
+          </div>
+          <div class="flex-1">
+            <h3 class="text-lg font-semibold tracking-tight">
+              ¿Dar de baja convenio?
+            </h3>
+            <p class="mt-1 text-sm text-muted-foreground">
+              El convenio pasará a estado <strong>Inactivo</strong> y ya no podrá ser asignado a nuevos empleados. Esta acción no elimina su historial.
+            </p>
+
+            @if (deleteError()) {
+              <p class="mt-3 text-xs text-destructive">
+                {{ deleteError() }}
+              </p>
+            }
+          </div>
+        </div>
+
+        <div class="mt-6 flex items-center justify-end gap-3">
+          <button
+            hlmBtn
+            type="button"
+            variant="outline"
+            [disabled]="deleting()"
+            (click)="showConfirmDeleteModal.set(false)"
+          >
+            Cancelar
+          </button>
+          <button
+            class="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            hlmBtn
+            type="button"
+            [disabled]="deleting()"
+            (click)="confirmarBaja()"
+          >
+            @if (deleting()) {
+              <ng-icon class="mr-2 animate-spin" name="lucideRefreshCw" />
+              Procesando...
+            } @else {
+              Confirmar baja
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 </div>

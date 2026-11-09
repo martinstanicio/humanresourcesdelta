@@ -18,7 +18,17 @@
       }}
     </p>
   </div>
-  <div class="justify-end" hlmCardFooter>
+  <div class="justify-end gap-2" hlmCardFooter>
+    @if (isRRHH()) {
+      <a
+        hlmBtn
+        size="sm"
+        variant="ghost"
+        [routerLink]="['/convenios', convenio().id, 'editar']"
+      >
+        Editar
+      </a>
+    }
     <a
       hlmBtn
       size="sm"
