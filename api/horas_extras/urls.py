@@ -5,6 +5,7 @@ from .views import (
     HoraExtraHistorialListView,
     HoraExtraListCreateView,
     HoraExtraVersionDetailView,
+    NotificacionHorasExtrasCalcularView,
     NotificacionHorasExtrasDetailView,
     NotificacionHorasExtrasListCreateView,
 )
@@ -34,6 +35,11 @@ urlpatterns = [
         "notificaciones-horas-extras/",
         NotificacionHorasExtrasListCreateView.as_view(),
         name="notificacion-horas-extras-list",
+    ),
+    path(
+        "notificaciones-horas-extras/calcular/",
+        NotificacionHorasExtrasCalcularView.as_view(),
+        name="notificacion-horas-extras-calcular",
     ),
     path(
         "notificaciones-horas-extras/<int:pk>/",
