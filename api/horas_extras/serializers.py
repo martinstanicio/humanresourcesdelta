@@ -53,6 +53,8 @@ class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
     fecha_inicio = serializers.DateTimeField()
     fecha_fin = serializers.DateTimeField()
 
+    empleado_nombre = serializers.ReadOnlyField(source='empleado.nombre')
+    
     class Meta:
         model = NotificacionHorasExtras
         fields = "__all__"
