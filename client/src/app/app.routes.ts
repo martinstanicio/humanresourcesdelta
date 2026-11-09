@@ -31,6 +31,20 @@ export const routes: Routes = [
           ),
       },
       {
+        path: "convenios/nuevo",
+        loadComponent: () =>
+          import("./convenios/convenio-form/convenio-form").then(
+            (m) => m.ConvenioFormPage,
+          ),
+      },
+      {
+        path: "convenios/:id/editar",
+        loadComponent: () =>
+          import("./convenios/convenio-form/convenio-form").then(
+            (m) => m.ConvenioFormPage,
+          ),
+      },
+      {
         path: "convenios/:id",
         loadComponent: () =>
           import("./convenios/convenio-detail/convenio-detail").then(

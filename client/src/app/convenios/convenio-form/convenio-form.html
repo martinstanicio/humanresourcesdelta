@@ -1,0 +1,29 @@
+<div class="flex flex-col gap-6">
+  <div class="flex items-center gap-4">
+    <a
+      class="gap-2"
+      hlmBtn
+      size="sm"
+      variant="ghost"
+      [routerLink]="id() ? ['/convenios', id()] : ['/convenios']"
+    >
+      <ng-icon name="lucideArrowLeft" />
+      {{ id() ? "Volver al convenio" : "Volver a convenios" }}
+    </a>
+  </div>
+
+  <div>
+    <h1 class="text-2xl font-bold tracking-tight">
+      {{ id() ? "Editar convenio de trabajo" : "Nuevo convenio de trabajo" }}
+    </h1>
+    <p class="text-sm text-muted-foreground">
+      {{
+        id()
+          ? "Actualice los datos generales, licencias y multiplicadores de horas extras asociadas al convenio."
+          : "Complete los datos generales y configure los tipos de licencia y reglas de horas extras vigentes."
+      }}
+    </p>
+  </div>
+
+  <app-convenio-form [convenioId]="id()" />
+</div>

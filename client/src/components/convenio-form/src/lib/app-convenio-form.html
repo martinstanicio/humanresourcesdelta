@@ -1,0 +1,493 @@
+<div class="flex flex-col gap-6">
+  @if (loading()) {
+    <div class="flex flex-col gap-6">
+      <div class="h-40 rounded-md border" hlmSkeleton></div>
+      <div class="h-60 rounded-md border" hlmSkeleton></div>
+      <div class="h-48 rounded-md border" hlmSkeleton></div>
+    </div>
+  } @else {
+    <!-- Errores de validación de reglas (Flujo alternativo #3) o errores del servidor -->
+    @if (validationErrors().length > 0) {
+      <div
+        class="rounded-md border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive"
+        role="alert"
+      >
+        <div class="flex items-center gap-2 font-semibold">
+          <ng-icon name="lucideAlertCircle" />
+          <span>Existen inconsistencias en las reglas que deben corregirse:</span>
+        </div>
+        <ul class="mt-2 list-inside list-disc space-y-1">
+          @for (err of validationErrors(); track err) {
+            <li>{{ err }}</li>
+          }
+        </ul>
+      </div>
+    }
+
+    @if (submitError()) {
+      <div
+        class="rounded-md border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive"
+        role="alert"
+      >
+        <div class="flex items-center gap-2 font-semibold">
+          <ng-icon name="lucideAlertCircle" />
+          <span>Error al guardar el convenio:</span>
+        </div>
+        <p class="mt-1">{{ submitError() }}</p>
+      </div>
+    }
+
+    <!-- FORMULARIO PRINCIPAL -->
+    <form class="flex flex-col gap-6" (ngSubmit)="onSubmit()">
+      <!-- SECCIÓN 1: DATOS GENERALES -->
+      <div hlmCard>
+        <div hlmCardHeader>
+          <h2 class="text-lg font-semibold tracking-tight" hlmCardTitle>
+            1. Datos Generales del Convenio
+          </h2>
+          <p class="text-sm text-muted-foreground" hlmCardDescription>
+            Información básica de identificación y período de vigencia del convenio colectivo de trabajo.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2" hlmCardContent>
+          <!-- Nombre -->
+          <div class="flex flex-col gap-2 sm:col-span-2">
+            <label class="text-sm font-medium" for="conv-nombre">
+              Nombre del convenio <span class="text-destructive">*</span>
+            </label>
+            <input
+              id="conv-nombre"
+              hlmInput
+              placeholder="Ej. Comercio (CCT 130/75)"
+              type="text"
+              [ngModel]="nombre()"
+              (ngModelChange)="nombre.set($event)"
+              name="nombre"
+              required
+            />
+          </div>
+
+          <!-- Identificación / Código CCT -->
+          <div class="flex flex-col gap-2">
+            <label class="text-sm font-medium" for="conv-identificacion">
+              Identificación / N° CCT
+            </label>
+            <input
+              id="conv-identificacion"
+              hlmInput
+              placeholder="Ej. CCT 130/75"
+              type="text"
+              [ngModel]="identificacion()"
+              (ngModelChange)="identificacion.set($event)"
+              name="identificacion"
+            />
+          </div>
+
+          <!-- Fecha de vigencia -->
+          <div class="flex flex-col gap-2">
+            <label class="text-sm font-medium" for="conv-vigencia">
+              Fecha de vigencia <span class="text-destructive">*</span>
+            </label>
+            <input
+              id="conv-vigencia"
+              hlmInput
+              type="date"
+              [ngModel]="fechaVigencia()"
+              (ngModelChange)="fechaVigencia.set($event)"
+              name="fechaVigencia"
+              required
+            />
+          </div>
+
+          <!-- Descripción -->
+          <div class="flex flex-col gap-2 sm:col-span-2">
+            <label class="text-sm font-medium" for="conv-descripcion">
+              Descripción
+            </label>
+            <textarea
+              id="conv-descripcion"
+              hlmTextarea
+              placeholder="Breve descripción o alcance de las actividades comprendidas por este convenio..."
+              rows="2"
+              [ngModel]="descripcion()"
+              (ngModelChange)="descripcion.set($event)"
+              name="descripcion"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 2: TIPOS DE LICENCIA ADMITIDOS -->
+      <div hlmCard>
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between" hlmCardHeader>
+          <div>
+            <h2 class="text-lg font-semibold tracking-tight" hlmCardTitle>
+              2. Tipos de Licencia Admitidos
+            </h2>
+            <p class="text-sm text-muted-foreground" hlmCardDescription>
+              Parametrización de cupos anuales, antelación mínima requerida y requisitos documentales.
+            </p>
+          </div>
+
+          <button
+            hlmBtn
+            size="sm"
+            type="button"
+            variant="outline"
+            (click)="agregarLicencia()"
+          >
+            <ng-icon class="mr-1.5" name="lucidePlus" />
+            Agregar tipo de licencia
+          </button>
+        </div>
+
+        <div class="flex flex-col gap-4" hlmCardContent>
+          @for (lic of licencias(); track $index) {
+            <div class="relative rounded-lg border bg-card p-4 transition-colors">
+              <div class="mb-3 flex items-center justify-between">
+                <span class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Tipo de Licencia #{{ $index + 1 }}
+                </span>
+
+                @if (licencias().length > 1) {
+                  <button
+                    class="text-destructive hover:bg-destructive/10"
+                    hlmBtn
+                    size="icon"
+                    type="button"
+                    variant="ghost"
+                    title="Eliminar este tipo de licencia"
+                    (click)="eliminarLicencia($index)"
+                  >
+                    <ng-icon name="lucideTrash2" />
+                  </button>
+                }
+              </div>
+
+              <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <!-- Denominación -->
+                <div class="flex flex-col gap-1.5 sm:col-span-2 lg:col-span-1">
+                  <label class="text-xs font-medium" [for]="'lic-tipo-' + $index">
+                    Denominación <span class="text-destructive">*</span>
+                  </label>
+                  <input
+                    [id]="'lic-tipo-' + $index"
+                    hlmInput
+                    placeholder="Ej. Vacaciones Ordinarias"
+                    type="text"
+                    [ngModel]="lic.tipo"
+                    (ngModelChange)="updateLicencia($index, 'tipo', $event)"
+                    [name]="'lic_tipo_' + $index"
+                    required
+                  />
+                </div>
+
+                <!-- Cupo anual de días -->
+                <div class="flex flex-col gap-1.5">
+                  <label class="text-xs font-medium" [for]="'lic-cupo-' + $index">
+                    Cupo anual de días <span class="text-destructive">*</span>
+                  </label>
+                  <input
+                    [id]="'lic-cupo-' + $index"
+                    hlmInput
+                    min="1"
+                    type="number"
+                    [ngModel]="lic.cupo_anual"
+                    (ngModelChange)="updateLicencia($index, 'cupo_anual', +$event)"
+                    [name]="'lic_cupo_' + $index"
+                    required
+                  />
+                </div>
+
+                <!-- Antelación mínima -->
+                <div class="flex flex-col gap-1.5">
+                  <label class="text-xs font-medium" [for]="'lic-antelacion-' + $index">
+                    Antelación mínima (días) <span class="text-destructive">*</span>
+                  </label>
+                  <input
+                    [id]="'lic-antelacion-' + $index"
+                    hlmInput
+                    min="0"
+                    type="number"
+                    [ngModel]="lic.antelacion_minima"
+                    (ngModelChange)="updateLicencia($index, 'antelacion_minima', +$event)"
+                    [name]="'lic_antelacion_' + $index"
+                    required
+                  />
+                </div>
+
+                <!-- Switches / Toggles -->
+                <div class="flex flex-wrap items-center gap-6 sm:col-span-2 lg:col-span-3 pt-1">
+                  <label class="flex items-center gap-2 cursor-pointer text-sm">
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                      [checked]="lic.descuenta_saldo"
+                      (change)="updateLicencia($index, 'descuenta_saldo', $any($event.target).checked)"
+                    />
+                    <span>Descuenta saldo anual</span>
+                  </label>
+
+                  <label class="flex items-center gap-2 cursor-pointer text-sm">
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                      [checked]="lic.documentacion_obligatoria"
+                      (change)="updateLicencia($index, 'documentacion_obligatoria', $any($event.target).checked)"
+                    />
+                    <span>Documentación obligatoria requerida</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- SECCIÓN 3: REGLAS DE HORAS EXTRAS Y TOPES -->
+      <div hlmCard>
+        <div hlmCardHeader>
+          <h2 class="text-lg font-semibold tracking-tight" hlmCardTitle>
+            3. Reglas de Horas Extras y Topes
+          </h2>
+          <p class="text-sm text-muted-foreground" hlmCardDescription>
+            Multiplicadores de remuneración por tipo de día (expresados en porcentaje de recargo) y límites permitidos.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-6" hlmCardContent>
+          <!-- Multiplicadores por tipo de día -->
+          <div>
+            <h3 class="mb-3 text-sm font-semibold tracking-tight text-foreground">
+              Multiplicadores por Tipo de Día (% de recargo)
+            </h3>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <!-- Día hábil -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-medium" for="he-habil">
+                  Día hábil (%)
+                </label>
+                <div class="relative">
+                  <input
+                    id="he-habil"
+                    hlmInput
+                    min="0"
+                    type="number"
+                    [ngModel]="horasExtrasConfig().habilPorcentaje"
+                    (ngModelChange)="updateHEConfig('habilPorcentaje', +$event)"
+                    name="he_habil"
+                    required
+                  />
+                  <span class="pointer-events-none absolute right-3 top-2.5 text-xs text-muted-foreground">%</span>
+                </div>
+                <span class="text-[11px] text-muted-foreground">Ej. 50% (x1.5)</span>
+              </div>
+
+              <!-- Sábado post mediodía -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-medium" for="he-sabado">
+                  Sábado después del mediodía (%)
+                </label>
+                <div class="relative">
+                  <input
+                    id="he-sabado"
+                    hlmInput
+                    min="0"
+                    type="number"
+                    [ngModel]="horasExtrasConfig().sabadoPorcentaje"
+                    (ngModelChange)="updateHEConfig('sabadoPorcentaje', +$event)"
+                    name="he_sabado"
+                    required
+                  />
+                  <span class="pointer-events-none absolute right-3 top-2.5 text-xs text-muted-foreground">%</span>
+                </div>
+                <span class="text-[11px] text-muted-foreground">Ej. 100% (x2.0)</span>
+              </div>
+
+              <!-- Domingo -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-medium" for="he-domingo">
+                  Domingo (%)
+                </label>
+                <div class="relative">
+                  <input
+                    id="he-domingo"
+                    hlmInput
+                    min="0"
+                    type="number"
+                    [ngModel]="horasExtrasConfig().domingoPorcentaje"
+                    (ngModelChange)="updateHEConfig('domingoPorcentaje', +$event)"
+                    name="he_domingo"
+                    required
+                  />
+                  <span class="pointer-events-none absolute right-3 top-2.5 text-xs text-muted-foreground">%</span>
+                </div>
+                <span class="text-[11px] text-muted-foreground">Ej. 100% (x2.0)</span>
+              </div>
+
+              <!-- Feriado -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-medium" for="he-feriado">
+                  Feriado (%)
+                </label>
+                <div class="relative">
+                  <input
+                    id="he-feriado"
+                    hlmInput
+                    min="0"
+                    type="number"
+                    [ngModel]="horasExtrasConfig().feriadoPorcentaje"
+                    (ngModelChange)="updateHEConfig('feriadoPorcentaje', +$event)"
+                    name="he_feriado"
+                    required
+                  />
+                  <span class="pointer-events-none absolute right-3 top-2.5 text-xs text-muted-foreground">%</span>
+                </div>
+                <span class="text-[11px] text-muted-foreground">Ej. 100% (x2.0)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Topes admitidos -->
+          <div class="border-t pt-4">
+            <h3 class="mb-3 text-sm font-semibold tracking-tight text-foreground">
+              Topes Admitidos (Horas)
+            </h3>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 max-w-xl">
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-medium" for="he-tope-diario">
+                  Tope diario de horas extra <span class="text-destructive">*</span>
+                </label>
+                <div class="relative">
+                  <input
+                    id="he-tope-diario"
+                    hlmInput
+                    min="1"
+                    type="number"
+                    [ngModel]="horasExtrasConfig().topeDiario"
+                    (ngModelChange)="updateHEConfig('topeDiario', +$event)"
+                    name="he_tope_diario"
+                    required
+                  />
+                  <span class="pointer-events-none absolute right-3 top-2.5 text-xs text-muted-foreground">hs</span>
+                </div>
+                <span class="text-[11px] text-muted-foreground">Máximo de horas permitidas por día</span>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-medium" for="he-tope-mensual">
+                  Tope mensual de horas extra <span class="text-destructive">*</span>
+                </label>
+                <div class="relative">
+                  <input
+                    id="he-tope-mensual"
+                    hlmInput
+                    min="1"
+                    type="number"
+                    [ngModel]="horasExtrasConfig().topeMensual"
+                    (ngModelChange)="updateHEConfig('topeMensual', +$event)"
+                    name="he_tope_mensual"
+                    required
+                  />
+                  <span class="pointer-events-none absolute right-3 top-2.5 text-xs text-muted-foreground">hs</span>
+                </div>
+                <span class="text-[11px] text-muted-foreground">Debe ser superior o igual al tope diario</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTONES DE ACCIÓN INFERIOR -->
+      <div class="flex items-center justify-end gap-3 pt-2">
+        <a
+          hlmBtn
+          type="button"
+          variant="outline"
+          [routerLink]="isEditMode() ? ['/convenios', convenioId()] : ['/convenios']"
+        >
+          Cancelar
+        </a>
+
+        <button
+          hlmBtn
+          type="submit"
+          [disabled]="submitting()"
+        >
+          @if (submitting()) {
+            <ng-icon class="mr-2 animate-spin" name="lucideRefreshCw" />
+            Guardando...
+          } @else {
+            {{ isEditMode() ? "Guardar cambios" : "Guardar convenio" }}
+          }
+        </button>
+      </div>
+    </form>
+  }
+
+  <!-- MODAL: FLUJO ALTERNATIVO #1 (MODIFICACIÓN CON EMPLEADOS ASOCIADOS) -->
+  @if (showVersionModal()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
+      <div class="w-full max-w-lg rounded-xl border bg-background p-6 shadow-xl animate-in fade-in-50 zoom-in-95">
+        <div class="flex items-start gap-4">
+          <div class="rounded-full bg-amber-500/10 p-2.5 text-amber-500">
+            <ng-icon class="text-xl" name="lucideAlertTriangle" />
+          </div>
+          <div class="flex-1">
+            <h3 class="text-lg font-semibold tracking-tight">
+              Modificación de Convenio con Empleados
+            </h3>
+            <p class="mt-1 text-sm text-muted-foreground">
+              Este convenio tiene <strong class="text-foreground">{{ empleadosActivosCount() }}</strong>
+              {{ empleadosActivosCount() === 1 ? "empleado asociado" : "empleados asociados" }}.
+            </p>
+            <p class="mt-2 text-xs text-muted-foreground">
+              Al confirmar, se generará una <strong>nueva versión</strong> de las reglas del convenio. Éstas aplicarán únicamente a las solicitudes y notificaciones con fecha posterior a la fecha de vigencia. Los registros ya resueltos conservarán la versión anterior y no serán recalculados.
+            </p>
+
+            <div class="mt-4 flex flex-col gap-1.5">
+              <label class="text-xs font-semibold" for="nueva-vigencia">
+                Fecha a partir de la cual rigen los cambios <span class="text-destructive">*</span>
+              </label>
+              <input
+                id="nueva-vigencia"
+                hlmInput
+                type="date"
+                [ngModel]="nuevaFechaVigencia()"
+                (ngModelChange)="nuevaFechaVigencia.set($event)"
+                name="nueva_vigencia"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 flex items-center justify-end gap-3">
+          <button
+            hlmBtn
+            type="button"
+            variant="outline"
+            [disabled]="submitting()"
+            (click)="showVersionModal.set(false)"
+          >
+            Cancelar
+          </button>
+          <button
+            hlmBtn
+            type="button"
+            [disabled]="submitting() || !nuevaFechaVigencia()"
+            (click)="confirmarGuardadoVersion()"
+          >
+            @if (submitting()) {
+              <ng-icon class="mr-2 animate-spin" name="lucideRefreshCw" />
+              Guardando versión...
+            } @else {
+              Confirmar nueva versión
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
