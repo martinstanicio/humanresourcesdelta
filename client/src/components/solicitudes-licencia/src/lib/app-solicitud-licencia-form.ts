@@ -148,7 +148,7 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
       ),
       tipoEstrategia: estrategia
         ? String(estrategia["tipo"] ?? "")
-        : "cupo_fijo",
+        : "cupo_anual_calendario",
       diasCupo: estrategia ? Number(estrategia["dias"] ?? 0) : null,
     };
   });

@@ -136,7 +136,7 @@
         </div>
 
         <div class="flex flex-col gap-4" hlmCardContent>
-          @for (lic of licencias(); track $index) {
+          @for (lic of licencias(); track lic.codigo ?? $index) {
             <div
               class="relative rounded-lg border bg-card p-4 transition-colors"
             >
@@ -183,28 +183,6 @@
                   />
                 </div>
 
-                <!-- Cupo anual de días -->
-                <div class="flex flex-col gap-1.5">
-                  <label
-                    class="text-xs font-medium"
-                    [for]="'lic-cupo-' + $index"
-                  >
-                    Cupo anual de días <span class="text-destructive">*</span>
-                  </label>
-                  <input
-                    hlmInput
-                    min="1"
-                    required
-                    type="number"
-                    [id]="'lic-cupo-' + $index"
-                    [name]="'lic_cupo_' + $index"
-                    [ngModel]="lic.cupo_anual"
-                    (ngModelChange)="
-                      updateLicencia($index, 'cupo_anual', +$event)
-                    "
-                  />
-                </div>
-
                 <!-- Antelación mínima -->
                 <div class="flex flex-col gap-1.5">
                   <label
@@ -227,7 +205,97 @@
                     "
                   />
                 </div>
+
+                <!-- Estrategia (Select de Spartan) -->
+                <div class="flex flex-col gap-1.5">
+                  <label
+                    class="text-xs font-medium"
+                    [for]="'lic-estrategia-' + $index"
+                  >
+                    Estrategia <span class="text-destructive">*</span>
+                  </label>
+                  <hlm-select
+                    [id]="'lic-estrategia-' + $index"
+                    [itemToString]="estrategiaToString"
+                    [value]="lic.estrategiaTipo"
+                    (valueChange)="cambiarEstrategia($index, $event)"
+                  >
+                    <hlm-select-trigger class="w-full">
+                      <hlm-select-value placeholder="Seleccionar estrategia" />
+                    </hlm-select-trigger>
+                    <hlm-select-content *hlmSelectPortal>
+                      <hlm-select-group>
+                        @for (est of estrategiasDisponibles(); track est.id) {
+                          <hlm-select-item [value]="est.id">{{
+                            est.nombre
+                          }}</hlm-select-item>
+                        }
+                      </hlm-select-group>
+                    </hlm-select-content>
+                  </hlm-select>
+                </div>
               </div>
+
+              <!-- Campos dinámicos propuestos por la estrategia -->
+              @if (getEstrategiaFields(lic.estrategiaTipo).length > 0) {
+                <div
+                  class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+                >
+                  @for (
+                    field of getEstrategiaFields(lic.estrategiaTipo);
+                    track field.name
+                  ) {
+                    <div class="flex flex-col gap-1.5">
+                      <label
+                        class="text-xs font-medium"
+                        [for]="'lic-' + field.name + '-' + $index"
+                      >
+                        {{ field.label }}
+                        @if (field.required) {
+                          <span class="text-destructive">*</span>
+                        }
+                      </label>
+
+                      @if (field.type === "number") {
+                        <input
+                          hlmInput
+                          type="number"
+                          [id]="'lic-' + field.name + '-' + $index"
+                          [max]="field.max ?? null"
+                          [min]="field.min ?? null"
+                          [name]="'lic_' + field.name + '_' + $index"
+                          [ngModel]="lic.estrategiaValues[field.name]"
+                          [placeholder]="field.placeholder ?? ''"
+                          [required]="field.required ?? false"
+                          [step]="field.step ?? null"
+                          (ngModelChange)="
+                            updateEstrategiaValue($index, field.name, +$event)
+                          "
+                        />
+                      } @else if (field.type === "text") {
+                        <input
+                          hlmInput
+                          type="text"
+                          [id]="'lic-' + field.name + '-' + $index"
+                          [name]="'lic_' + field.name + '_' + $index"
+                          [ngModel]="lic.estrategiaValues[field.name]"
+                          [placeholder]="field.placeholder ?? ''"
+                          [required]="field.required ?? false"
+                          (ngModelChange)="
+                            updateEstrategiaValue($index, field.name, $event)
+                          "
+                        />
+                      }
+
+                      @if (field.description) {
+                        <p class="text-xs text-muted-foreground">
+                          {{ field.description }}
+                        </p>
+                      }
+                    </div>
+                  }
+                </div>
+              }
             </div>
           }
         </div>

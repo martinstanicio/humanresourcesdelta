@@ -33,6 +33,16 @@ export class LicenciaEstrategiaService {
     return Array.from(this._registry.values());
   }
 
+  public getDefault(): LicenciaEstrategiaPlugin {
+    const all = this.getAll();
+
+    if (all.length === 0) {
+      throw new Error("No hay estrategias de licencia registradas.");
+    }
+
+    return all[0];
+  }
+
   public getById(id: string): LicenciaEstrategiaPlugin | undefined {
     return this._registry.get(id);
   }

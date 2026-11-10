@@ -25,6 +25,7 @@ import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
 import { HlmInput } from "@spartan-ng/helm/input";
+import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTextarea } from "@spartan-ng/helm/textarea";
 import { forkJoin, Observable, of } from "rxjs";
@@ -36,8 +37,13 @@ import {
 } from "@/models/convenio.model";
 import { HoraExtra } from "@/models/hora-extra.model";
 import { Licencia } from "@/models/licencia.model";
+import {
+  LicenciaEstrategiaFieldDescriptor,
+  LicenciaEstrategiaPlugin,
+} from "@/models/licencia-estrategia.model";
 import { ConvenioService } from "@/services/convenio.service";
 import { HoraExtraService } from "@/services/hora-extra.service";
+import { LicenciaEstrategiaService } from "@/services/licencia-estrategia.service";
 import { LicenciaService } from "@/services/licencias.service";
 
 @Component({
@@ -48,6 +54,7 @@ import { LicenciaService } from "@/services/licencias.service";
     HlmButton,
     HlmCardImports,
     HlmInput,
+    HlmSelectImports,
     HlmSkeleton,
     HlmTextarea,
     NgIcon,
@@ -74,6 +81,9 @@ export class AppConvenioForm implements OnInit {
   private readonly _convenioService = inject(ConvenioService);
   private readonly _licenciaService = inject(LicenciaService);
   private readonly _horaExtraService = inject(HoraExtraService);
+  private readonly _licenciaEstrategiaService = inject(
+    LicenciaEstrategiaService,
+  );
 
   public readonly convenioId = input<string | number | undefined>(undefined);
 
@@ -81,6 +91,16 @@ export class AppConvenioForm implements OnInit {
     const id = this.convenioId();
     return id !== undefined && id !== null && String(id).trim() !== "";
   });
+
+  public readonly estrategiasDisponibles = computed(() =>
+    this._licenciaEstrategiaService.getAll(),
+  );
+
+  public readonly estrategiaToString = (tipo: unknown): string => {
+    if (!tipo) return "";
+    const plugin = this.getEstrategiaPlugin(String(tipo));
+    return plugin?.nombre ?? String(tipo);
+  };
 
   public readonly loading = signal<boolean>(false);
   public readonly submitting = signal<boolean>(false);
@@ -101,7 +121,8 @@ export class AppConvenioForm implements OnInit {
   public readonly licencias = signal<LicenciaFormItem[]>([
     {
       tipo: "Vacaciones Ordinarias",
-      cupo_anual: 14,
+      estrategiaTipo: "cupo_anual_calendario",
+      estrategiaValues: { dias: 14 },
       descuenta_saldo: true,
       documentacion_obligatoria: false,
       antelacion_minima: 15,
@@ -110,7 +131,8 @@ export class AppConvenioForm implements OnInit {
     },
     {
       tipo: "Examen o Estudio",
-      cupo_anual: 10,
+      estrategiaTipo: "cupo_anual_calendario",
+      estrategiaValues: { dias: 10 },
       descuenta_saldo: true,
       documentacion_obligatoria: true,
       antelacion_minima: 2,
@@ -119,7 +141,8 @@ export class AppConvenioForm implements OnInit {
     },
     {
       tipo: "Día por Cumpleaños",
-      cupo_anual: 1,
+      estrategiaTipo: "cupo_anual_calendario",
+      estrategiaValues: { dias: 1 },
       descuenta_saldo: true,
       documentacion_obligatoria: false,
       antelacion_minima: 1,
@@ -175,13 +198,23 @@ export class AppConvenioForm implements OnInit {
         if (activeLicencias.length > 0) {
           this.licencias.set(
             activeLicencias.map((l) => {
-              const reglas = (l.reglas as Record<string, unknown>) || {};
-              const estrategia =
+              const rawReglas = l.reglas;
+              const reglas =
+                typeof rawReglas === "string"
+                  ? (JSON.parse(rawReglas) as Record<string, unknown>)
+                  : (rawReglas as Record<string, unknown>) || {};
+              const estrategiaData =
                 (reglas["estrategia"] as Record<string, unknown>) || {};
+              const estrategiaTipo =
+                (estrategiaData["tipo"] as string) ||
+                this._licenciaEstrategiaService.getDefault().id;
+              const plugin = this.getEstrategiaPlugin(estrategiaTipo);
+
               return {
                 codigo: l.codigo,
                 tipo: l.tipo,
-                cupo_anual: Number(estrategia["dias"] ?? 14),
+                estrategiaTipo: plugin.id,
+                estrategiaValues: plugin.fromReglas(reglas),
                 descuenta_saldo: Boolean(reglas["descuenta_saldo"] ?? true),
                 documentacion_obligatoria: Boolean(
                   reglas["requiere_documentacion"] ?? false,
@@ -189,7 +222,7 @@ export class AppConvenioForm implements OnInit {
                 antelacion_minima: Number(
                   reglas["dias_antelacion_minima"] ?? 0,
                 ),
-                descripcion: l.descripcion,
+                descripcion: l.descripcion ?? "",
                 activo: l.activo,
               };
             }),
@@ -233,12 +266,61 @@ export class AppConvenioForm implements OnInit {
     });
   }
 
+  public getEstrategiaPlugin(tipo: string): LicenciaEstrategiaPlugin {
+    return (
+      this._licenciaEstrategiaService.getById(tipo) ??
+      this._licenciaEstrategiaService.getDefault()
+    );
+  }
+
+  public getEstrategiaFields(
+    tipo: string,
+  ): LicenciaEstrategiaFieldDescriptor[] {
+    return this.getEstrategiaPlugin(tipo).fields;
+  }
+
+  public cambiarEstrategia(index: number, nuevoTipo: unknown): void {
+    const tipo = Array.isArray(nuevoTipo)
+      ? String(nuevoTipo[0])
+      : String(nuevoTipo);
+    const plugin = this.getEstrategiaPlugin(tipo);
+    this.licencias.update((list) => {
+      const copy = [...list];
+      copy[index] = {
+        ...copy[index],
+        estrategiaTipo: plugin.id,
+        estrategiaValues: plugin.fromReglas(null),
+      };
+      return copy;
+    });
+  }
+
+  public updateEstrategiaValue(
+    index: number,
+    fieldName: string,
+    value: unknown,
+  ): void {
+    this.licencias.update((list) => {
+      const copy = [...list];
+      copy[index] = {
+        ...copy[index],
+        estrategiaValues: {
+          ...copy[index].estrategiaValues,
+          [fieldName]: value,
+        },
+      };
+      return copy;
+    });
+  }
+
   public agregarLicencia(): void {
+    const defaultEstrategia = this._licenciaEstrategiaService.getDefault();
     this.licencias.update((list) => [
       ...list,
       {
         tipo: "",
-        cupo_anual: 1,
+        estrategiaTipo: defaultEstrategia.id,
+        estrategiaValues: defaultEstrategia.fromReglas(null),
         descuenta_saldo: true,
         documentacion_obligatoria: false,
         antelacion_minima: 1,
@@ -304,15 +386,18 @@ export class AppConvenioForm implements OnInit {
           `El Tipo de Licencia #${idx + 1} debe tener una denominación.`,
         );
       }
-      if (isNaN(lic.cupo_anual) || lic.cupo_anual <= 0) {
-        errors.push(
-          `El cupo anual de días para '${nombreLic}' debe ser mayor a 0.`,
-        );
-      }
       if (isNaN(lic.antelacion_minima) || lic.antelacion_minima < 0) {
         errors.push(
           `La antelación mínima para '${nombreLic}' no puede ser negativa.`,
         );
+      }
+
+      const plugin = this.getEstrategiaPlugin(lic.estrategiaTipo);
+      if (plugin.validate) {
+        const estrategiaErrors = plugin.validate(lic.estrategiaValues);
+        for (const err of estrategiaErrors) {
+          errors.push(`En '${nombreLic}': ${err}`);
+        }
       }
     });
 
@@ -397,6 +482,11 @@ export class AppConvenioForm implements OnInit {
 
     // Licencias
     for (const lic of this.licencias()) {
+      const plugin = this.getEstrategiaPlugin(lic.estrategiaTipo);
+      const estrategiaPayload = plugin.toEstrategiaPayload(
+        lic.estrategiaValues,
+      );
+
       licOps.push(
         this._licenciaService.create({
           convenio: convenioId,
@@ -405,17 +495,14 @@ export class AppConvenioForm implements OnInit {
           activo: true,
           reglas: {
             dias_minimos_consecutivos: 1,
-            dias_maximos_consecutivos: lic.cupo_anual,
+            dias_maximos_consecutivos:
+              typeof lic.estrategiaValues["dias"] === "number"
+                ? lic.estrategiaValues["dias"]
+                : null,
             dias_antelacion_minima: lic.antelacion_minima,
-            contabiliza_dias_no_habiles: false,
             descuenta_saldo: lic.descuenta_saldo,
             requiere_documentacion: lic.documentacion_obligatoria,
-            estrategia: {
-              tipo: "cupo_fijo",
-              dias: lic.cupo_anual,
-              tipo_periodo: "anual",
-              tipo_anio: { tipo: "calendario" },
-            },
+            estrategia: estrategiaPayload,
           },
         }),
       );
@@ -499,19 +586,21 @@ export class AppConvenioForm implements OnInit {
 
     // Actualizar o crear licencias actuales
     for (const lic of currentLicencias) {
+      const plugin = this.getEstrategiaPlugin(lic.estrategiaTipo);
+      const estrategiaPayload = plugin.toEstrategiaPayload(
+        lic.estrategiaValues,
+      );
+
       const payloadReglas = {
         dias_minimos_consecutivos: 1,
-        dias_maximos_consecutivos: lic.cupo_anual,
+        dias_maximos_consecutivos:
+          typeof lic.estrategiaValues["dias"] === "number"
+            ? lic.estrategiaValues["dias"]
+            : null,
         dias_antelacion_minima: lic.antelacion_minima,
-        contabiliza_dias_no_habiles: false,
         descuenta_saldo: lic.descuenta_saldo,
         requiere_documentacion: lic.documentacion_obligatoria,
-        estrategia: {
-          tipo: "cupo_fijo",
-          dias: lic.cupo_anual,
-          tipo_periodo: "anual",
-          tipo_anio: { tipo: "calendario" },
-        },
+        estrategia: estrategiaPayload,
       };
 
       if (lic.codigo) {

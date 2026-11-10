@@ -121,6 +121,8 @@ class Command(TyperCommand):
                     "dias_minimos_consecutivos": 7,
                     "dias_maximos_consecutivos": 21,
                     "dias_antelacion_minima": 15,
+                    "descuenta_saldo": True,
+                    "requiere_documentacion": False,
                     "estrategia": {
                         "tipo": "cupo_anual_calendario",
                         "dias": 14,
@@ -138,6 +140,8 @@ class Command(TyperCommand):
                     "dias_minimos_consecutivos": 1,
                     "dias_maximos_consecutivos": 2,
                     "dias_antelacion_minima": 2,
+                    "descuenta_saldo": True,
+                    "requiere_documentacion": True,
                     "estrategia": {
                         "tipo": "cupo_anual_calendario",
                         "dias": 10,
@@ -153,6 +157,8 @@ class Command(TyperCommand):
                     "dias_minimos_consecutivos": 1,
                     "dias_maximos_consecutivos": 1,
                     "dias_antelacion_minima": 1,
+                    "descuenta_saldo": True,
+                    "requiere_documentacion": False,
                     "estrategia": {
                         "tipo": "cupo_anual_calendario",
                         "dias": 1,
@@ -169,6 +175,8 @@ class Command(TyperCommand):
                     "dias_minimos_consecutivos": 7,
                     "dias_maximos_consecutivos": 14,
                     "dias_antelacion_minima": 10,
+                    "descuenta_saldo": True,
+                    "requiere_documentacion": False,
                     "estrategia": {
                         "tipo": "cupo_anual_calendario",
                         "dias": 14,
@@ -184,6 +192,8 @@ class Command(TyperCommand):
                     "dias_minimos_consecutivos": 1,
                     "dias_maximos_consecutivos": 3,
                     "dias_antelacion_minima": 1,
+                    "descuenta_saldo": True,
+                    "requiere_documentacion": False,
                     "estrategia": {
                         "tipo": "cupo_anual_calendario",
                         "dias": 5,
@@ -200,6 +210,8 @@ class Command(TyperCommand):
                     "dias_minimos_consecutivos": 7,
                     "dias_maximos_consecutivos": 21,
                     "dias_antelacion_minima": 15,
+                    "descuenta_saldo": True,
+                    "requiere_documentacion": False,
                     "estrategia": {
                         "tipo": "cupo_anual_calendario",
                         "dias": 14,
@@ -215,6 +227,8 @@ class Command(TyperCommand):
                     "dias_minimos_consecutivos": 1,
                     "dias_maximos_consecutivos": 5,
                     "dias_antelacion_minima": 5,
+                    "descuenta_saldo": True,
+                    "requiere_documentacion": True,
                     "estrategia": {
                         "tipo": "cupo_anual_calendario",
                         "dias": 7,

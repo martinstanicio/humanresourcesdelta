@@ -2,11 +2,13 @@ from datetime import date, timedelta
 from typing import Literal
 
 from django.utils import timezone
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field
 
 from empleados.models import Empleado
 from licencias.models import EstadoSolicitudLicencia, Licencia, SolicitudLicencia
 from licencias.schemas import ResultadoSaldo, ResultadoValidacion
+
+from .base import EstrategiaBase, ReglasLicenciaBase
 
 
 class EstrategiaCupoAnualCalendario(BaseModel):
@@ -14,25 +16,11 @@ class EstrategiaCupoAnualCalendario(BaseModel):
     dias: int = Field(ge=0, le=366)
 
 
-class ReglasCupoAnualCalendario(BaseModel):
-    dias_minimos_consecutivos: int = Field(default=1, gt=0)
-    dias_maximos_consecutivos: int | None = Field(default=None, gt=0)
-    dias_antelacion_minima: int = Field(default=0, ge=0)
+class ReglasCupoAnualCalendario(ReglasLicenciaBase):
     estrategia: EstrategiaCupoAnualCalendario
 
-    @model_validator(mode="after")
-    def validar_consecutivos(self) -> ReglasCupoAnualCalendario:
-        if (
-            self.dias_maximos_consecutivos is not None
-            and self.dias_maximos_consecutivos < self.dias_minimos_consecutivos
-        ):
-            raise ValueError(
-                "dias_maximos_consecutivos debe ser mayor o igual a dias_minimos_consecutivos."
-            )
-        return self
 
-
-class CupoAnualCalendarioEstrategia:
+class CupoAnualCalendarioEstrategia(EstrategiaBase):
     reglas_schema = ReglasCupoAnualCalendario
 
     def contar_dias(

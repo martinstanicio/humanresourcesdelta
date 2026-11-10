@@ -39,7 +39,7 @@ class CupoAnualCalendarioEstrategia implements LicenciaEstrategiaPlugin<CupoAnua
   ): CupoAnualCalendarioState {
     const estrategia =
       (reglas?.["estrategia"] as Record<string, unknown> | undefined) || {};
-    const rawDias = estrategia["dias"];
+    const rawDias = estrategia["dias"] ?? reglas?.["dias_maximos_consecutivos"];
     const dias = typeof rawDias === "number" ? rawDias : Number(rawDias);
 
     return {
