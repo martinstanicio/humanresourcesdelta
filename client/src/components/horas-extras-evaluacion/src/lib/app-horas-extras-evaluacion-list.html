@@ -471,7 +471,7 @@
                         class="size-3 text-muted-foreground"
                         name="lucideCalendar"
                       />
-                      {{ notif.fecha_inicio | date: "dd/MM/yyyy" }}
+                      {{ notif.fecha || (notif.fecha_inicio | date: "dd/MM/yyyy") }}
                     </div>
                     <div
                       class="flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground"
@@ -480,8 +480,12 @@
                         class="size-3 text-muted-foreground"
                         name="lucideClock"
                       />
-                      {{ notif.fecha_inicio | date: "HH:mm" }} -
-                      {{ notif.fecha_fin | date: "HH:mm" }}
+                      @if (notif.hora_inicio && notif.hora_fin) {
+                        {{ notif.hora_inicio }} - {{ notif.hora_fin }}
+                      } @else {
+                        {{ notif.fecha_inicio | date: "HH:mm" }} -
+                        {{ notif.fecha_fin | date: "HH:mm" }}
+                      }
                     </div>
                   </div>
                 </td>
@@ -591,7 +595,7 @@
     @let he = getHoraExtra(notif.hora_extra);
     @let conv = getConvenio(emp?.convenio);
     @let horas = getHorasCalculadas(notif);
-    @let acumulado = getAcumuladoPeriodo(notif.empleado, notif.fecha_inicio);
+    @let acumulado = getAcumuladoPeriodo(notif.empleado, getFechaNotificacion(notif));
     @let excede = isExcedeTope(notif);
     @let cerrado = isPeriodoCerrado(notif);
 
@@ -773,7 +777,7 @@
                     class="size-3 text-muted-foreground"
                     name="lucideCalendar"
                   />
-                  {{ notif.fecha_inicio | date: "EEEE dd/MM/yyyy" }}
+                  {{ (notif.fecha || notif.fecha_inicio) | date: "EEEE dd/MM/yyyy" }}
                 </p>
               </div>
               <div>
@@ -781,8 +785,12 @@
                   >Rango horario declarado:</span
                 >
                 <p class="mt-0.5 font-mono font-semibold text-foreground">
-                  {{ notif.fecha_inicio | date: "HH:mm" }} a
-                  {{ notif.fecha_fin | date: "HH:mm" }} hs
+                  @if (notif.hora_inicio && notif.hora_fin) {
+                    {{ notif.hora_inicio }} a {{ notif.hora_fin }} hs
+                  } @else {
+                    {{ notif.fecha_inicio | date: "HH:mm" }} a
+                    {{ notif.fecha_fin | date: "HH:mm" }} hs
+                  }
                 </p>
               </div>
               <div>

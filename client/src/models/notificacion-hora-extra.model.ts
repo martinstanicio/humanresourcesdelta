@@ -5,8 +5,12 @@ export type NotificacionHoraExtra = {
   id: number;
   empleado: number;
   hora_extra: number;
-  fecha_inicio: string;
-  fecha_fin: string;
+  fecha: string;
+  hora_inicio: string;
+  hora_fin: string;
+  horas?: number;
+  fecha_inicio?: string;
+  fecha_fin?: string;
   motivo_resolucion: string;
   estado: EstadoNotificacionHorasExtras;
 };

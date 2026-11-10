@@ -284,15 +284,15 @@
         </div>
       </div>
 
-      <!-- SECCIÓN 3: REGLAS DE HORAS EXTRAS Y TOPES -->
+      <!-- SECCIÓN 3: REGLAS DE HORAS EXTRAS -->
       <div hlmCard>
         <div hlmCardHeader>
           <h2 class="text-lg font-semibold tracking-tight" hlmCardTitle>
-            3. Reglas de Horas Extras y Topes
+            3. Reglas de Horas Extras
           </h2>
           <p class="text-sm text-muted-foreground" hlmCardDescription>
             Multiplicadores de remuneración por tipo de día (expresados en
-            porcentaje de recargo) y límites permitidos.
+            porcentaje de recargo).
           </p>
         </div>
 
@@ -412,68 +412,6 @@
                 </div>
                 <span class="text-[11px] text-muted-foreground"
                   >Ej. 100% (x2.0)</span
-                >
-              </div>
-            </div>
-          </div>
-
-          <!-- Topes admitidos -->
-          <div class="border-t pt-4">
-            <h3
-              class="mb-3 text-sm font-semibold tracking-tight text-foreground"
-            >
-              Topes Admitidos (Horas)
-            </h3>
-            <div class="grid max-w-xl grid-cols-1 gap-4 sm:grid-cols-2">
-              <div class="flex flex-col gap-1.5">
-                <label class="text-xs font-medium" for="he-tope-diario">
-                  Tope diario de horas extra
-                  <span class="text-destructive">*</span>
-                </label>
-                <div class="relative">
-                  <input
-                    hlmInput
-                    id="he-tope-diario"
-                    min="1"
-                    name="he_tope_diario"
-                    required
-                    type="number"
-                    [ngModel]="horasExtrasConfig().topeDiario"
-                    (ngModelChange)="updateHEConfig('topeDiario', +$event)"
-                  />
-                  <span
-                    class="pointer-events-none absolute top-2.5 right-3 text-xs text-muted-foreground"
-                    >hs</span
-                  >
-                </div>
-                <span class="text-[11px] text-muted-foreground"
-                  >Máximo de horas permitidas por día</span
-                >
-              </div>
-
-              <div class="flex flex-col gap-1.5">
-                <label class="text-xs font-medium" for="he-tope-mensual">
-                  Tope mensual de horas extra
-                  <span class="text-destructive">*</span>
-                </label>
-                <div class="relative">
-                  <input
-                    hlmInput
-                    id="he-tope-mensual"
-                    min="1"
-                    name="he_tope_mensual"
-                    required
-                    type="number"
-                    [ngModel]="horasExtrasConfig().topeMensual"
-                    (ngModelChange)="updateHEConfig('topeMensual', +$event)"
-                  />
-                  <span
-                    class="pointer-events-none absolute top-2.5 right-3 text-xs text-muted-foreground"
-                    >hs</span
-                  >
-                </div>
-                <span class="text-[11px] text-muted-foreground"
-                  >Debe ser superior o igual al tope diario</span
                 >
               </div>
             </div>

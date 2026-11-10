@@ -271,9 +271,9 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
       // Ordenamiento por fecha de inicio (ascendente por defecto según CU-04)
       const direction = this.sortDirection();
       result.sort((a, b) => {
-        const dateA = new Date(a.fecha_inicio).getTime();
-        const dateB = new Date(b.fecha_inicio).getTime();
-        return direction === "asc" ? dateA - dateB : dateB - dateA;
+        const timeA = a.fecha_inicio ? new Date(a.fecha_inicio).getTime() : new Date(`${a.fecha}T${a.hora_inicio || '00:00'}`).getTime();
+        const timeB = b.fecha_inicio ? new Date(b.fecha_inicio).getTime() : new Date(`${b.fecha}T${b.hora_inicio || '00:00'}`).getTime();
+        return direction === "asc" ? timeA - timeB : timeB - timeA;
       });
 
       return result;
@@ -375,6 +375,13 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
 
   // Métodos de cálculo de horas y topes
   public getHorasCalculadas(notif: NotificacionHoraExtra): number {
+    if (typeof notif.horas === "number") return notif.horas;
+    if (notif.hora_inicio && notif.hora_fin) {
+      const [h1, m1] = notif.hora_inicio.split(":").map(Number);
+      const [h2, m2] = notif.hora_fin.split(":").map(Number);
+      const minutos = (h2 * 60 + m2) - (h1 * 60 + m1);
+      return Math.max(0, Math.round((minutos / 60) * 100) / 100);
+    }
     if (!notif.fecha_inicio || !notif.fecha_fin) return 0;
     const start = new Date(notif.fecha_inicio).getTime();
     const end = new Date(notif.fecha_fin).getTime();
@@ -383,7 +390,11 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
     return Math.round(diffHours * 100) / 100;
   }
 
-  public getAcumuladoPeriodo(legajo: number, fechaStr: string): number {
+  public getFechaNotificacion(notif: NotificacionHoraExtra): string {
+    return notif.fecha || (notif.fecha_inicio ? notif.fecha_inicio.split("T")[0] : "");
+  }
+
+  public getAcumuladoPeriodo(legajo: number, fechaStr?: string | null): number {
     if (!fechaStr) return 0;
     const targetDate = new Date(fechaStr);
     const targetAnio = targetDate.getFullYear();
@@ -391,8 +402,9 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
 
     let acumulado = 0;
     for (const n of this.notificaciones()) {
-      if (n.empleado === legajo && n.estado === "aprobada" && n.fecha_inicio) {
-        const d = new Date(n.fecha_inicio);
+      const f = this.getFechaNotificacion(n);
+      if (n.empleado === legajo && n.estado === "aprobada" && f) {
+        const d = new Date(f);
         if (d.getFullYear() === targetAnio && d.getMonth() === targetMes) {
           acumulado += this.getHorasCalculadas(n);
         }
@@ -404,9 +416,10 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
 
   public isExcedeTope(notif: NotificacionHoraExtra): boolean {
     const horasNotif = this.getHorasCalculadas(notif);
+    const fechaRef = this.getFechaNotificacion(notif);
     const acumuladoMes = this.getAcumuladoPeriodo(
       notif.empleado,
-      notif.fecha_inicio,
+      fechaRef,
     );
     // Si ya está aprobada, su tiempo ya está en acumuladoMes; si es pendiente, sumamos
     const totalProyectado =
@@ -415,8 +428,9 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
   }
 
   public isPeriodoCerrado(notif: NotificacionHoraExtra): boolean {
-    if (!notif.fecha_inicio) return false;
-    const d = new Date(notif.fecha_inicio);
+    const fechaRef = this.getFechaNotificacion(notif);
+    if (!fechaRef) return false;
+    const d = new Date(fechaRef);
     const key = `${notif.empleado}-${d.getFullYear()}-${d.getMonth() + 1}`;
     return this.reportesCerrados().has(key);
   }

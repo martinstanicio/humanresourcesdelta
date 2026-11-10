@@ -135,14 +135,12 @@ export class AppConvenioForm implements OnInit {
   private _licenciasOriginales: Licencia[] = [];
   private _horasExtrasOriginales: HoraExtra[] = [];
 
-  // Reglas de Horas Extras y Topes
+  // Reglas de Horas Extras
   public readonly horasExtrasConfig = signal<HorasExtrasFormConfig>({
     habilPorcentaje: 50,
     sabadoPorcentaje: 100,
     domingoPorcentaje: 100,
     feriadoPorcentaje: 100,
-    topeDiario: 3,
-    topeMensual: 30,
   });
 
   ngOnInit(): void {
@@ -315,20 +313,8 @@ export class AppConvenioForm implements OnInit {
       }
     });
 
-    // Validar horas extras y topes
+    // Validar horas extras
     const he = this.horasExtrasConfig();
-    if (isNaN(he.topeDiario) || he.topeDiario <= 0) {
-      errors.push("El tope diario de horas extras debe ser mayor a 0 hs.");
-    }
-    if (isNaN(he.topeMensual) || he.topeMensual <= 0) {
-      errors.push("El tope mensual de horas extras debe ser mayor a 0 hs.");
-    }
-    if (he.topeMensual < he.topeDiario) {
-      errors.push(
-        `El tope mensual de horas extras (${he.topeMensual} hs) no puede ser inferior al tope diario (${he.topeDiario} hs).`,
-      );
-    }
-
     if (
       he.habilPorcentaje < 0 ||
       he.sabadoPorcentaje < 0 ||
@@ -436,22 +422,22 @@ export class AppConvenioForm implements OnInit {
       {
         tipo: `Hora Extra Hábil ${heCfg.habilPorcentaje}%`,
         multiplicador: 1 + heCfg.habilPorcentaje / 100,
-        descripcion: `Horas en días hábiles (Tope diario: ${heCfg.topeDiario}hs, Tope mensual: ${heCfg.topeMensual}hs)`,
+        descripcion: `Horas en días hábiles`,
       },
       {
         tipo: `Hora Extra Sábado después del mediodía ${heCfg.sabadoPorcentaje}%`,
         multiplicador: 1 + heCfg.sabadoPorcentaje / 100,
-        descripcion: `Horas sábados post mediodía (Tope diario: ${heCfg.topeDiario}hs, Tope mensual: ${heCfg.topeMensual}hs)`,
+        descripcion: `Horas sábados post mediodía`,
       },
       {
         tipo: `Hora Extra Domingo ${heCfg.domingoPorcentaje}%`,
         multiplicador: 1 + heCfg.domingoPorcentaje / 100,
-        descripcion: `Horas domingos (Tope diario: ${heCfg.topeDiario}hs, Tope mensual: ${heCfg.topeMensual}hs)`,
+        descripcion: `Horas domingos`,
       },
       {
         tipo: `Hora Extra Feriado ${heCfg.feriadoPorcentaje}%`,
         multiplicador: 1 + heCfg.feriadoPorcentaje / 100,
-        descripcion: `Horas feriados (Tope diario: ${heCfg.topeDiario}hs, Tope mensual: ${heCfg.topeMensual}hs)`,
+        descripcion: `Horas feriados`,
       },
     ];
 
@@ -549,25 +535,25 @@ export class AppConvenioForm implements OnInit {
         match: ["hábil", "habil", "50"],
         tipo: `Hora Extra Hábil ${heCfg.habilPorcentaje}%`,
         mult: 1 + heCfg.habilPorcentaje / 100,
-        desc: `Horas en días hábiles (Tope diario: ${heCfg.topeDiario}hs, Tope mensual: ${heCfg.topeMensual}hs)`,
+        desc: `Horas en días hábiles`,
       },
       {
         match: ["sábado", "sabado"],
         tipo: `Hora Extra Sábado después del mediodía ${heCfg.sabadoPorcentaje}%`,
         mult: 1 + heCfg.sabadoPorcentaje / 100,
-        desc: `Horas sábados post mediodía (Tope diario: ${heCfg.topeDiario}hs, Tope mensual: ${heCfg.topeMensual}hs)`,
+        desc: `Horas sábados post mediodía`,
       },
       {
         match: ["domingo"],
         tipo: `Hora Extra Domingo ${heCfg.domingoPorcentaje}%`,
         mult: 1 + heCfg.domingoPorcentaje / 100,
-        desc: `Horas domingos (Tope diario: ${heCfg.topeDiario}hs, Tope mensual: ${heCfg.topeMensual}hs)`,
+        desc: `Horas domingos`,
       },
       {
         match: ["feriado", "100"],
         tipo: `Hora Extra Feriado ${heCfg.feriadoPorcentaje}%`,
         mult: 1 + heCfg.feriadoPorcentaje / 100,
-        desc: `Horas feriados (Tope diario: ${heCfg.topeDiario}hs, Tope mensual: ${heCfg.topeMensual}hs)`,
+        desc: `Horas feriados`,
       },
     ];
 

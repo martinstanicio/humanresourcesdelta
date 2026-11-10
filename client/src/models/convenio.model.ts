@@ -25,6 +25,4 @@ export type HorasExtrasFormConfig = {
   sabadoPorcentaje: number;
   domingoPorcentaje: number;
   feriadoPorcentaje: number;
-  topeDiario: number;
-  topeMensual: number;
 };
