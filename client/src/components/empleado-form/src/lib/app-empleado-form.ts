@@ -130,7 +130,7 @@ export class AppEmpleadoForm implements OnInit {
       this._empleadoService.getAll().subscribe({
         next: (empleados) => {
           if (empleados && empleados.length > 0) {
-            const maxLegajo = Math.max(...empleados.map(e => e.legajo));
+            const maxLegajo = Math.max(...empleados.map((e) => e.legajo));
             this.legajo.set(maxLegajo + 1);
           } else {
             this.legajo.set(1);
@@ -138,8 +138,8 @@ export class AppEmpleadoForm implements OnInit {
         },
         error: () => {
           this.legajo.set(1);
-        }
-      })
+        },
+      });
     }
   }
 
@@ -273,7 +273,7 @@ export class AppEmpleadoForm implements OnInit {
     if (!this.convenio()) {
       errors["convenio"] = "Seleccionar un Convenio es Obligatorio.";
     }
-  
+
     this.fieldErrors.set(errors);
     return Object.keys(errors).length === 0;
   }

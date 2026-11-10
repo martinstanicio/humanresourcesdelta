@@ -35,7 +35,6 @@ import { formatDateISO } from "@/lib/feriados";
 import {
   buildLocalDateTime,
   calcularDesgloseHorasExtras,
-  formatToLocalISOString,
   TramoCalculado,
 } from "@/lib/horas-extras-calc";
 import { HoraExtra } from "@/models/hora-extra.model";
@@ -141,11 +140,17 @@ export class AppNotificacionHoraExtraForm implements OnInit, OnDestroy {
       for (const notif of existentes) {
         if (notif.estado === "rechazada") continue;
 
-        const notifFecha = notif.fecha || (notif.fecha_inicio ? notif.fecha_inicio.split("T")[0] : "");
+        const notifFecha =
+          notif.fecha ||
+          (notif.fecha_inicio ? notif.fecha_inicio.split("T")[0] : "");
         if (notifFecha !== f) continue;
 
-        const notifHoraIni = notif.hora_inicio || (notif.fecha_inicio ? notif.fecha_inicio.substring(11, 16) : "");
-        const notifHoraFin = notif.hora_fin || (notif.fecha_fin ? notif.fecha_fin.substring(11, 16) : "");
+        const notifHoraIni =
+          notif.hora_inicio ||
+          (notif.fecha_inicio ? notif.fecha_inicio.substring(11, 16) : "");
+        const notifHoraFin =
+          notif.hora_fin ||
+          (notif.fecha_fin ? notif.fecha_fin.substring(11, 16) : "");
         if (!notifHoraIni || !notifHoraFin) continue;
 
         const notifInicio = buildLocalDateTime(f, notifHoraIni);
@@ -283,11 +288,16 @@ export class AppNotificacionHoraExtraForm implements OnInit, OnDestroy {
         if (errData && typeof errData === "object") {
           if (errData.detail) {
             generalDetail = errData.detail;
-          } else if (errData.non_field_errors && Array.isArray(errData.non_field_errors)) {
+          } else if (
+            errData.non_field_errors &&
+            Array.isArray(errData.non_field_errors)
+          ) {
             generalDetail = errData.non_field_errors.join(" ");
           } else if (Array.isArray(errData)) {
             // Error en array de tramos
-            const firstItemErr = errData.find((item) => item && typeof item === "object");
+            const firstItemErr = errData.find(
+              (item) => item && typeof item === "object",
+            );
             if (firstItemErr) {
               for (const [key, val] of Object.entries(firstItemErr)) {
                 const msg = Array.isArray(val) ? val.join(" ") : String(val);

@@ -264,23 +264,26 @@ export class AppReporteList implements OnInit {
     const mes = this.selectedMes();
     const emp = this.selectedEmpleado();
     const legajo = emp !== "all" ? Number(emp) : undefined;
-    const isParcial = manualParcial !== undefined ? manualParcial : this.isCurrentMonth();
+    const isParcial =
+      manualParcial !== undefined ? manualParcial : this.isCurrentMonth();
 
-    this._reporteService.getReporteMensual(anio, mes, legajo, isParcial).subscribe({
-      next: (res) => {
-        this.reportes.set(res.reportes || []);
-        this.esParcial.set(res.es_parcial || false);
-        this.loading.set(false);
-      },
-      error: (err) => {
-        console.error("Error al obtener reporte mensual:", err);
-        this.error.set(
-          err?.error?.detail ||
-            "Ocurrió un error al cargar los reportes para el período seleccionado.",
-        );
-        this.loading.set(false);
-      },
-    });
+    this._reporteService
+      .getReporteMensual(anio, mes, legajo, isParcial)
+      .subscribe({
+        next: (res) => {
+          this.reportes.set(res.reportes || []);
+          this.esParcial.set(res.es_parcial || false);
+          this.loading.set(false);
+        },
+        error: (err) => {
+          console.error("Error al obtener reporte mensual:", err);
+          this.error.set(
+            err?.error?.detail ||
+              "Ocurrió un error al cargar los reportes para el período seleccionado.",
+          );
+          this.loading.set(false);
+        },
+      });
   }
 
   public descargarPDF(legajo: number): void {
@@ -288,25 +291,29 @@ export class AppReporteList implements OnInit {
     const mes = this.selectedMes();
     this.exportingPdfLegajo.set(legajo);
 
-    this._reporteService.descargarReportePDF(anio, mes, legajo, this.esParcial()).subscribe({
-      next: (blob) => {
-        this.exportingPdfLegajo.set(null);
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        const padMes = mes.toString().padStart(2, "0");
-        const prefix = this.esParcial() ? "reporte_parcial" : "reporte_mensual";
-        a.download = `${prefix}_legajo_${legajo}_${padMes}_${anio}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-      },
-      error: (err) => {
-        this.exportingPdfLegajo.set(null);
-        console.error("Error al descargar reporte en PDF:", err);
-      },
-    });
+    this._reporteService
+      .descargarReportePDF(anio, mes, legajo, this.esParcial())
+      .subscribe({
+        next: (blob) => {
+          this.exportingPdfLegajo.set(null);
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          const padMes = mes.toString().padStart(2, "0");
+          const prefix = this.esParcial()
+            ? "reporte_parcial"
+            : "reporte_mensual";
+          a.download = `${prefix}_legajo_${legajo}_${padMes}_${anio}.pdf`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        },
+        error: (err) => {
+          this.exportingPdfLegajo.set(null);
+          console.error("Error al descargar reporte en PDF:", err);
+        },
+      });
   }
 
   public descargarPDFSeleccionado(): void {
@@ -334,7 +341,9 @@ export class AppReporteList implements OnInit {
       }));
     }
     return Object.entries(licencias)
-      .filter(([key]) => key !== "total" && key !== "desglose" && key !== "eventos")
+      .filter(
+        ([key]) => key !== "total" && key !== "desglose" && key !== "eventos",
+      )
       .map(([tipo, dias]) => ({ tipo, dias: Number(dias) }));
   }
 

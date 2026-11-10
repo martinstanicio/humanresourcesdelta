@@ -4,7 +4,11 @@
     <div class="flex items-center gap-3">
       <h2 class="text-2xl font-bold tracking-tight">Reportes Mensuales</h2>
       @if (hasSearched() && esParcial()) {
-        <span hlmBadge variant="destructive" class="text-xs font-semibold uppercase tracking-wider">
+        <span
+          class="text-xs font-semibold tracking-wider uppercase"
+          hlmBadge
+          variant="destructive"
+        >
           REPORTE PARCIAL
         </span>
       }
@@ -125,9 +129,9 @@
       <div class="flex flex-wrap items-center gap-2">
         @if (isCurrentMonth()) {
           <button
+            class="bg-amber-600 text-white hover:bg-amber-700"
             hlmBtn
             type="button"
-            class="bg-amber-600 hover:bg-amber-700 text-white"
             [disabled]="loading()"
             (click)="loadReporte(true)"
           >
@@ -136,7 +140,9 @@
               [class.animate-spin]="loading()"
               [name]="loading() ? 'lucideRefreshCw' : 'lucideSearch'"
             />
-            {{ loading() ? "Calculando parcial..." : "Generar reporte parcial" }}
+            {{
+              loading() ? "Calculando parcial..." : "Generar reporte parcial"
+            }}
           </button>
         } @else {
           <button
@@ -231,8 +237,12 @@
         <h3 class="text-base font-semibold">Listo para consultar reportes</h3>
         <p class="mt-1 text-sm text-muted-foreground">
           Configura los filtros de mes, año y empleado arriba y presiona
-          <strong>"{{ isCurrentMonth() ? 'Generar reporte parcial' : 'Ver reporte' }}"</strong> para cargar los datos consolidados en
-          pantalla.
+          <strong
+            >"{{
+              isCurrentMonth() ? "Generar reporte parcial" : "Ver reporte"
+            }}"</strong
+          >
+          para cargar los datos consolidados en pantalla.
         </p>
       </div>
     </div>
@@ -260,20 +270,35 @@
     } @else {
       <!-- Banner de Alerta cuando es REPORTE PARCIAL -->
       @if (esParcial()) {
-        <div class="flex items-center justify-between gap-3 rounded-lg border border-amber-300 bg-amber-50 p-4 text-amber-900 shadow-sm dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
+        <div
+          class="flex items-center justify-between gap-3 rounded-lg border border-amber-300 bg-amber-50 p-4 text-amber-900 shadow-sm dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200"
+        >
           <div class="flex items-center gap-3">
-            <ng-icon class="text-2xl shrink-0 text-amber-600 dark:text-amber-400" name="lucideInfo" />
+            <ng-icon
+              class="shrink-0 text-2xl text-amber-600 dark:text-amber-400"
+              name="lucideInfo"
+            />
             <div>
               <div class="flex items-center gap-2">
-                <span class="text-sm font-bold tracking-wider uppercase">REPORTE PARCIAL</span>
-                <span class="text-xs font-medium text-amber-700 dark:text-amber-300">• Período en curso</span>
+                <span class="text-sm font-bold tracking-wider uppercase"
+                  >REPORTE PARCIAL</span
+                >
+                <span
+                  class="text-xs font-medium text-amber-700 dark:text-amber-300"
+                  >• Período en curso</span
+                >
               </div>
-              <p class="text-xs text-amber-800 dark:text-amber-300/90 mt-0.5">
-                Los datos mostrados corresponden a liquidaciones y eventos registrados hasta la fecha para el mes en curso. Este reporte se genera en tiempo real en memoria y no se guarda de forma definitiva en la base de datos.
+              <p class="mt-0.5 text-xs text-amber-800 dark:text-amber-300/90">
+                Los datos mostrados corresponden a liquidaciones y eventos
+                registrados hasta la fecha para el mes en curso. Este reporte se
+                genera en tiempo real en memoria y no se guarda de forma
+                definitiva en la base de datos.
               </p>
             </div>
           </div>
-          <span hlmBadge class="bg-amber-600 text-white font-semibold shrink-0">EN CURSO</span>
+          <span class="shrink-0 bg-amber-600 font-semibold text-white" hlmBadge
+            >EN CURSO</span
+          >
         </div>
       }
 
@@ -375,15 +400,33 @@
             <tbody hlmTableBody>
               @for (item of filteredReportes(); track item.legajo) {
                 <!-- Fila Principal del Empleado -->
-                <tr hlmTableRow class="cursor-pointer hover:bg-muted/50" (click)="toggleRow(item.legajo)">
+                <tr
+                  class="cursor-pointer hover:bg-muted/50"
+                  hlmTableRow
+                  (click)="toggleRow(item.legajo)"
+                >
                   <!-- Chevron para Expandir / Colapsar -->
-                  <td class="w-10 text-center" hlmTableCell (click)="$event.stopPropagation(); toggleRow(item.legajo)">
+                  <td
+                    class="w-10 text-center"
+                    hlmTableCell
+                    (click)="$event.stopPropagation(); toggleRow(item.legajo)"
+                  >
                     <button
+                      class="flex size-7 items-center justify-center rounded-md text-muted-foreground hover:bg-muted"
                       type="button"
-                      class="flex size-7 items-center justify-center rounded-md hover:bg-muted text-muted-foreground"
-                      [title]="isRowExpanded(item.legajo) ? 'Ocultar eventos' : 'Ver detalle de eventos'"
+                      [title]="
+                        isRowExpanded(item.legajo)
+                          ? 'Ocultar eventos'
+                          : 'Ver detalle de eventos'
+                      "
                     >
-                      <ng-icon [name]="isRowExpanded(item.legajo) ? 'lucideChevronDown' : 'lucideChevronRight'" />
+                      <ng-icon
+                        [name]="
+                          isRowExpanded(item.legajo)
+                            ? 'lucideChevronDown'
+                            : 'lucideChevronRight'
+                        "
+                      />
                     </button>
                   </td>
 
@@ -440,7 +483,11 @@
                   </td>
 
                   <!-- Acciones: Descarga Individual de PDF -->
-                  <td class="text-right" hlmTableCell (click)="$event.stopPropagation()">
+                  <td
+                    class="text-right"
+                    hlmTableCell
+                    (click)="$event.stopPropagation()"
+                  >
                     <button
                       hlmBtn
                       size="sm"
@@ -467,26 +514,38 @@
 
                 <!-- Fila de Detalle Expandible (Eventos de Horas Extras y Licencias) -->
                 @if (isRowExpanded(item.legajo)) {
-                  <tr class="bg-muted/30 border-b">
-                    <td colspan="9" class="p-4">
-                      <div class="flex flex-col gap-4 pl-4 border-l-2 border-primary/40">
+                  <tr class="border-b bg-muted/30">
+                    <td class="p-4" colspan="9">
+                      <div
+                        class="flex flex-col gap-4 border-l-2 border-primary/40 pl-4"
+                      >
                         <!-- Subsección: Eventos de Horas Extras -->
                         <div>
-                          <div class="flex items-center gap-2 mb-2">
+                          <div class="mb-2 flex items-center gap-2">
                             <ng-icon class="text-primary" name="lucideClock" />
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-foreground">
+                            <h4
+                              class="text-xs font-bold tracking-wider text-foreground uppercase"
+                            >
                               Eventos de Horas Extras Computados en el Período
                             </h4>
                           </div>
 
-                          @if (!item.horas_extras.eventos || item.horas_extras.eventos.length === 0) {
+                          @if (
+                            !item.horas_extras.eventos ||
+                            item.horas_extras.eventos.length === 0
+                          ) {
                             <p class="text-xs text-muted-foreground italic">
-                              Sin eventos individuales de horas extras aprobados para este período.
+                              Sin eventos individuales de horas extras aprobados
+                              para este período.
                             </p>
                           } @else {
-                            <div class="overflow-x-auto rounded border bg-background text-xs">
+                            <div
+                              class="overflow-x-auto rounded border bg-background text-xs"
+                            >
                               <table class="w-full text-left">
-                                <thead class="border-b bg-muted/50 font-semibold text-muted-foreground">
+                                <thead
+                                  class="border-b bg-muted/50 font-semibold text-muted-foreground"
+                                >
                                   <tr>
                                     <th class="p-2">Fecha Efectiva</th>
                                     <th class="p-2">Tipo</th>
@@ -497,19 +556,38 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  @for (ev of item.horas_extras.eventos; track ev.id) {
-                                    <tr class="border-b last:border-0 hover:bg-muted/20">
-                                      <td class="p-2 font-mono font-medium">{{ formatDate(ev.fecha) }}</td>
+                                  @for (
+                                    ev of item.horas_extras.eventos;
+                                    track ev.id
+                                  ) {
+                                    <tr
+                                      class="border-b last:border-0 hover:bg-muted/20"
+                                    >
+                                      <td class="p-2 font-mono font-medium">
+                                        {{ formatDate(ev.fecha) }}
+                                      </td>
                                       <td class="p-2">{{ ev.tipo }}</td>
-                                      <td class="p-2 font-mono text-muted-foreground">
-                                        {{ formatTime(ev.hora_inicio) }} - {{ formatTime(ev.hora_fin) }}
+                                      <td
+                                        class="p-2 font-mono text-muted-foreground"
+                                      >
+                                        {{ formatTime(ev.hora_inicio) }} -
+                                        {{ formatTime(ev.hora_fin) }}
                                       </td>
-                                      <td class="p-2 text-right font-semibold">{{ ev.horas }} hs</td>
+                                      <td class="p-2 text-right font-semibold">
+                                        {{ ev.horas }} hs
+                                      </td>
                                       <td class="p-2 text-muted-foreground">
-                                        {{ ev.fecha_aprobacion ? formatDate(ev.fecha_aprobacion) : '-' }}
+                                        {{
+                                          ev.fecha_aprobacion
+                                            ? formatDate(ev.fecha_aprobacion)
+                                            : "-"
+                                        }}
                                       </td>
-                                      <td class="p-2 max-w-xs truncate text-muted-foreground" [title]="ev.motivo || ''">
-                                        {{ ev.motivo || '-' }}
+                                      <td
+                                        class="max-w-xs truncate p-2 text-muted-foreground"
+                                        [title]="ev.motivo || ''"
+                                      >
+                                        {{ ev.motivo || "-" }}
                                       </td>
                                     </tr>
                                   }
@@ -521,21 +599,34 @@
 
                         <!-- Subsección: Eventos de Licencias -->
                         <div>
-                          <div class="flex items-center gap-2 mb-2">
-                            <ng-icon class="text-primary" name="lucideCalendar" />
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-foreground">
+                          <div class="mb-2 flex items-center gap-2">
+                            <ng-icon
+                              class="text-primary"
+                              name="lucideCalendar"
+                            />
+                            <h4
+                              class="text-xs font-bold tracking-wider text-foreground uppercase"
+                            >
                               Eventos de Licencias Aprobadas en el Período
                             </h4>
                           </div>
 
-                          @if (!item.licencias.eventos || item.licencias.eventos.length === 0) {
+                          @if (
+                            !item.licencias.eventos ||
+                            item.licencias.eventos.length === 0
+                          ) {
                             <p class="text-xs text-muted-foreground italic">
-                              Sin eventos individuales de licencias aprobadas en este período.
+                              Sin eventos individuales de licencias aprobadas en
+                              este período.
                             </p>
                           } @else {
-                            <div class="overflow-x-auto rounded border bg-background text-xs">
+                            <div
+                              class="overflow-x-auto rounded border bg-background text-xs"
+                            >
                               <table class="w-full text-left">
-                                <thead class="border-b bg-muted/50 font-semibold text-muted-foreground">
+                                <thead
+                                  class="border-b bg-muted/50 font-semibold text-muted-foreground"
+                                >
                                   <tr>
                                     <th class="p-2">Tipo de Licencia</th>
                                     <th class="p-2">Inicio Efectivo</th>
@@ -545,14 +636,30 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  @for (lev of item.licencias.eventos; track lev.id) {
-                                    <tr class="border-b last:border-0 hover:bg-muted/20">
-                                      <td class="p-2 font-medium">{{ lev.tipo }}</td>
-                                      <td class="p-2 font-mono">{{ formatDate(lev.inicio_efectivo) }}</td>
-                                      <td class="p-2 font-mono">{{ formatDate(lev.fin_efectivo) }}</td>
-                                      <td class="p-2 text-right font-semibold">{{ lev.dias_en_periodo }} d</td>
-                                      <td class="p-2 max-w-xs truncate text-muted-foreground" [title]="lev.motivo || ''">
-                                        {{ lev.motivo || '-' }}
+                                  @for (
+                                    lev of item.licencias.eventos;
+                                    track lev.id
+                                  ) {
+                                    <tr
+                                      class="border-b last:border-0 hover:bg-muted/20"
+                                    >
+                                      <td class="p-2 font-medium">
+                                        {{ lev.tipo }}
+                                      </td>
+                                      <td class="p-2 font-mono">
+                                        {{ formatDate(lev.inicio_efectivo) }}
+                                      </td>
+                                      <td class="p-2 font-mono">
+                                        {{ formatDate(lev.fin_efectivo) }}
+                                      </td>
+                                      <td class="p-2 text-right font-semibold">
+                                        {{ lev.dias_en_periodo }} d
+                                      </td>
+                                      <td
+                                        class="max-w-xs truncate p-2 text-muted-foreground"
+                                        [title]="lev.motivo || ''"
+                                      >
+                                        {{ lev.motivo || "-" }}
                                       </td>
                                     </tr>
                                   }

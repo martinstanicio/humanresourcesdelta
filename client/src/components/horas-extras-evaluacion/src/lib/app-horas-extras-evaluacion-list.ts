@@ -271,8 +271,12 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
       // Ordenamiento por fecha de inicio (ascendente por defecto según CU-04)
       const direction = this.sortDirection();
       result.sort((a, b) => {
-        const timeA = a.fecha_inicio ? new Date(a.fecha_inicio).getTime() : new Date(`${a.fecha}T${a.hora_inicio || '00:00'}`).getTime();
-        const timeB = b.fecha_inicio ? new Date(b.fecha_inicio).getTime() : new Date(`${b.fecha}T${b.hora_inicio || '00:00'}`).getTime();
+        const timeA = a.fecha_inicio
+          ? new Date(a.fecha_inicio).getTime()
+          : new Date(`${a.fecha}T${a.hora_inicio || "00:00"}`).getTime();
+        const timeB = b.fecha_inicio
+          ? new Date(b.fecha_inicio).getTime()
+          : new Date(`${b.fecha}T${b.hora_inicio || "00:00"}`).getTime();
         return direction === "asc" ? timeA - timeB : timeB - timeA;
       });
 
@@ -379,7 +383,7 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
     if (notif.hora_inicio && notif.hora_fin) {
       const [h1, m1] = notif.hora_inicio.split(":").map(Number);
       const [h2, m2] = notif.hora_fin.split(":").map(Number);
-      const minutos = (h2 * 60 + m2) - (h1 * 60 + m1);
+      const minutos = h2 * 60 + m2 - (h1 * 60 + m1);
       return Math.max(0, Math.round((minutos / 60) * 100) / 100);
     }
     if (!notif.fecha_inicio || !notif.fecha_fin) return 0;
@@ -391,7 +395,10 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
   }
 
   public getFechaNotificacion(notif: NotificacionHoraExtra): string {
-    return notif.fecha || (notif.fecha_inicio ? notif.fecha_inicio.split("T")[0] : "");
+    return (
+      notif.fecha ||
+      (notif.fecha_inicio ? notif.fecha_inicio.split("T")[0] : "")
+    );
   }
 
   public getAcumuladoPeriodo(legajo: number, fechaStr?: string | null): number {
@@ -417,10 +424,7 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
   public isExcedeTope(notif: NotificacionHoraExtra): boolean {
     const horasNotif = this.getHorasCalculadas(notif);
     const fechaRef = this.getFechaNotificacion(notif);
-    const acumuladoMes = this.getAcumuladoPeriodo(
-      notif.empleado,
-      fechaRef,
-    );
+    const acumuladoMes = this.getAcumuladoPeriodo(notif.empleado, fechaRef);
     // Si ya está aprobada, su tiempo ya está en acumuladoMes; si es pendiente, sumamos
     const totalProyectado =
       notif.estado === "aprobada" ? acumuladoMes : acumuladoMes + horasNotif;

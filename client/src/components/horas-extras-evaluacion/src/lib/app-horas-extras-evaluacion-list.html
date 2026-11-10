@@ -471,7 +471,9 @@
                         class="size-3 text-muted-foreground"
                         name="lucideCalendar"
                       />
-                      {{ notif.fecha || (notif.fecha_inicio | date: "dd/MM/yyyy") }}
+                      {{
+                        notif.fecha || (notif.fecha_inicio | date: "dd/MM/yyyy")
+                      }}
                     </div>
                     <div
                       class="flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground"
@@ -595,7 +597,8 @@
     @let he = getHoraExtra(notif.hora_extra);
     @let conv = getConvenio(emp?.convenio);
     @let horas = getHorasCalculadas(notif);
-    @let acumulado = getAcumuladoPeriodo(notif.empleado, getFechaNotificacion(notif));
+    @let acumulado =
+      getAcumuladoPeriodo(notif.empleado, getFechaNotificacion(notif));
     @let excede = isExcedeTope(notif);
     @let cerrado = isPeriodoCerrado(notif);
 
@@ -777,7 +780,9 @@
                     class="size-3 text-muted-foreground"
                     name="lucideCalendar"
                   />
-                  {{ (notif.fecha || notif.fecha_inicio) | date: "EEEE dd/MM/yyyy" }}
+                  {{
+                    notif.fecha || notif.fecha_inicio | date: "EEEE dd/MM/yyyy"
+                  }}
                 </p>
               </div>
               <div>

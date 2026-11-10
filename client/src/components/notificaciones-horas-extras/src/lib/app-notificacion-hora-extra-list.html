@@ -242,7 +242,7 @@
                   #{{ notif.id }}
                 </td>
                 <td class="font-medium whitespace-nowrap" hlmTableCell>
-                  {{ (notif.fecha || notif.fecha_inicio) | date: "dd/MM/yyyy" }}
+                  {{ notif.fecha || notif.fecha_inicio | date: "dd/MM/yyyy" }}
                 </td>
                 <td
                   class="font-mono text-xs whitespace-nowrap text-muted-foreground"
