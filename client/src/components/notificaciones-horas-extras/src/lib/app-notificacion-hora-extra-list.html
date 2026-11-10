@@ -242,14 +242,18 @@
                   #{{ notif.id }}
                 </td>
                 <td class="font-medium whitespace-nowrap" hlmTableCell>
-                  {{ notif.fecha_inicio | date: "dd/MM/yyyy" }}
+                  {{ (notif.fecha || notif.fecha_inicio) | date: "dd/MM/yyyy" }}
                 </td>
                 <td
                   class="font-mono text-xs whitespace-nowrap text-muted-foreground"
                   hlmTableCell
                 >
-                  {{ notif.fecha_inicio | date: "shortTime" }} -
-                  {{ notif.fecha_fin | date: "shortTime" }}
+                  @if (notif.hora_inicio && notif.hora_fin) {
+                    {{ notif.hora_inicio }} - {{ notif.hora_fin }} hs
+                  } @else {
+                    {{ notif.fecha_inicio | date: "shortTime" }} -
+                    {{ notif.fecha_fin | date: "shortTime" }}
+                  }
                 </td>
                 <td class="font-mono font-semibold" hlmTableCell>
                   {{ calcularHorasDeNotificacion(notif) | number: "1.1-2" }} hs

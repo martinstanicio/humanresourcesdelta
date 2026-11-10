@@ -38,7 +38,7 @@ export type NotificacionHoraExtraRow = NotificacionHoraExtra & {
   cantidad_horas: number;
 };
 
-function formatDateTime(val: string): string {
+function formatDateTime(val: string | undefined): string {
   if (!val) return "-";
   const d = new Date(val);
   if (isNaN(d.getTime())) return val;
@@ -51,7 +51,7 @@ function formatDateTime(val: string): string {
   return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
-function calcularHoras(inicio: string, fin: string): number {
+function calcularHoras(inicio: string | undefined, fin: string | undefined): number {
   if (!inicio || !fin) return 0;
   const d1 = new Date(inicio).getTime();
   const d2 = new Date(fin).getTime();

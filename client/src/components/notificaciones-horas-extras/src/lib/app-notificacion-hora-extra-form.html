@@ -191,10 +191,16 @@
                 [ngModel]="fecha()"
                 (ngModelChange)="fecha.set($event)"
               />
-              <p class="text-xs text-muted-foreground">
-                No se pueden registrar horas extras para fechas posteriores a la
-                actual.
-              </p>
+              @if (fieldErrors()['fecha_inicio'] || fieldErrors()['fecha']) {
+                <p class="text-xs font-medium text-destructive">
+                  {{ fieldErrors()['fecha_inicio'] || fieldErrors()['fecha'] }}
+                </p>
+              } @else {
+                <p class="text-xs text-muted-foreground">
+                  No se pueden registrar horas extras para fechas posteriores a la
+                  actual.
+                </p>
+              }
             </div>
 
             <!-- Horarios: Inicio y Fin -->
@@ -216,6 +222,11 @@
                   [ngModel]="horaInicio()"
                   (ngModelChange)="horaInicio.set($event)"
                 />
+                @if (fieldErrors()['hora_inicio']) {
+                  <p class="text-xs font-medium text-destructive">
+                    {{ fieldErrors()['hora_inicio'] }}
+                  </p>
+                }
               </div>
 
               <div class="space-y-2">
@@ -232,6 +243,11 @@
                   [ngModel]="horaFin()"
                   (ngModelChange)="horaFin.set($event)"
                 />
+                @if (fieldErrors()['fecha_fin'] || fieldErrors()['hora_fin']) {
+                  <p class="text-xs font-medium text-destructive">
+                    {{ fieldErrors()['fecha_fin'] || fieldErrors()['hora_fin'] }}
+                  </p>
+                }
               </div>
             </div>
 
@@ -276,8 +292,8 @@
                     El rango horario declarado se superpone con la notificación
                     existente
                     <strong>#{{ c.id }}</strong> (registrada de
-                    {{ c.fecha_inicio | date: "shortTime" }} a
-                    {{ c.fecha_fin | date: "shortTime" }} en estado '{{
+                    {{ c.hora_inicio || (c.fecha_inicio | date: "shortTime") }} a
+                    {{ c.hora_fin || (c.fecha_fin | date: "shortTime") }} hs en estado '{{
                       c.estado
                     }}').
                   </p>
@@ -304,10 +320,16 @@
                 [ngModel]="motivo()"
                 (ngModelChange)="motivo.set($event)"
               ></textarea>
-              <p class="text-xs text-muted-foreground">
-                Mínimo 5 caracteres. Este motivo será revisado por Recursos
-                Humanos al momento de la evaluación.
-              </p>
+              @if (fieldErrors()['motivo_resolucion']) {
+                <p class="text-xs font-medium text-destructive">
+                  {{ fieldErrors()['motivo_resolucion'] }}
+                </p>
+              } @else {
+                <p class="text-xs text-muted-foreground">
+                  Mínimo 5 caracteres. Este motivo será revisado por Recursos
+                  Humanos al momento de la evaluación.
+                </p>
+              }
             </div>
           </div>
         </div>

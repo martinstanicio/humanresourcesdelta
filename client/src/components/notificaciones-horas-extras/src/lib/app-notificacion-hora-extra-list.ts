@@ -119,18 +119,20 @@ export class AppNotificacionHoraExtraList implements OnInit {
         const motivoMatch = (n.motivo_resolucion || "")
           .toLowerCase()
           .includes(search);
-        const fechaMatch = (n.fecha_inicio || "").includes(search);
+        const fechaStr = n.fecha || n.fecha_inicio || "";
+        const fechaMatch = fechaStr.includes(search);
         const he = this.horasExtrasMap().get(n.hora_extra);
         const heMatch = he ? he.tipo.toLowerCase().includes(search) : false;
         return idMatch || motivoMatch || fechaMatch || heMatch;
       });
     }
 
-    // Ordenar descendente por fecha_inicio
-    return [...list].sort(
-      (a, b) =>
-        new Date(b.fecha_inicio).getTime() - new Date(a.fecha_inicio).getTime(),
-    );
+    // Ordenar descendente por fecha y hora
+    return [...list].sort((a, b) => {
+      const timeA = a.fecha_inicio ? new Date(a.fecha_inicio).getTime() : new Date(`${a.fecha}T${a.hora_inicio || '00:00'}`).getTime();
+      const timeB = b.fecha_inicio ? new Date(b.fecha_inicio).getTime() : new Date(`${b.fecha}T${b.hora_inicio || '00:00'}`).getTime();
+      return timeB - timeA;
+    });
   });
 
   ngOnInit(): void {
@@ -173,6 +175,13 @@ export class AppNotificacionHoraExtraList implements OnInit {
   }
 
   public calcularHorasDeNotificacion(notif: NotificacionHoraExtra): number {
+    if (typeof notif.horas === "number") return notif.horas;
+    if (notif.hora_inicio && notif.hora_fin) {
+      const [h1, m1] = notif.hora_inicio.split(":").map(Number);
+      const [h2, m2] = notif.hora_fin.split(":").map(Number);
+      const minutos = (h2 * 60 + m2) - (h1 * 60 + m1);
+      return Math.max(0, Math.round((minutos / 60) * 100) / 100);
+    }
     if (!notif.fecha_inicio || !notif.fecha_fin) return 0;
     const ini = new Date(notif.fecha_inicio).getTime();
     const fin = new Date(notif.fecha_fin).getTime();

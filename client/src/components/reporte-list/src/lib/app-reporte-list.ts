@@ -11,10 +11,13 @@ import { NgIcon, provideIcons } from "@ng-icons/core";
 import {
   lucideAlertCircle,
   lucideCalendar,
+  lucideChevronDown,
+  lucideChevronRight,
   lucideClock,
   lucideDownload,
   lucideFileDown,
   lucideFileText,
+  lucideInfo,
   lucideRefreshCw,
   lucideSearch,
   lucideUsers,
@@ -74,6 +77,9 @@ export const MESES = [
       lucideClock,
       lucideAlertCircle,
       lucideRefreshCw,
+      lucideChevronDown,
+      lucideChevronRight,
+      lucideInfo,
     }),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -83,8 +89,6 @@ export class AppReporteList implements OnInit {
   private readonly _reporteService = inject(ReporteService);
   private readonly _empleadoService = inject(EmpleadoService);
   private readonly _convenioService = inject(ConvenioService);
-
-  // Icons
 
   // Static options
   public readonly meses = MESES;
@@ -108,6 +112,8 @@ export class AppReporteList implements OnInit {
   public readonly hasSearched = signal<boolean>(false);
   public readonly exportingPdfLegajo = signal<number | null>(null);
   public readonly error = signal<string | null>(null);
+  public readonly esParcial = signal<boolean>(false);
+  public readonly expandedRows = signal<Set<number>>(new Set());
 
   constructor() {
     const now = new Date();
@@ -158,6 +164,14 @@ export class AppReporteList implements OnInit {
       map.set(e.legajo, e);
     }
     return map;
+  });
+
+  public readonly isCurrentMonth = computed(() => {
+    const now = new Date();
+    return (
+      this.selectedAnio() === now.getFullYear() &&
+      this.selectedMes() === now.getMonth() + 1
+    );
   });
 
   public readonly availableEmpleados = computed(() => {
@@ -225,8 +239,23 @@ export class AppReporteList implements OnInit {
     return m ? m.label : "";
   });
 
+  // Expand / collapse row logic
+  public toggleRow(legajo: number): void {
+    const current = new Set(this.expandedRows());
+    if (current.has(legajo)) {
+      current.delete(legajo);
+    } else {
+      current.add(legajo);
+    }
+    this.expandedRows.set(current);
+  }
+
+  public isRowExpanded(legajo: number): boolean {
+    return this.expandedRows().has(legajo);
+  }
+
   // Actions
-  public loadReporte(): void {
+  public loadReporte(manualParcial?: boolean): void {
     this.loading.set(true);
     this.error.set(null);
     this.hasSearched.set(true);
@@ -235,10 +264,12 @@ export class AppReporteList implements OnInit {
     const mes = this.selectedMes();
     const emp = this.selectedEmpleado();
     const legajo = emp !== "all" ? Number(emp) : undefined;
+    const isParcial = manualParcial !== undefined ? manualParcial : this.isCurrentMonth();
 
-    this._reporteService.getReporteMensual(anio, mes, legajo).subscribe({
+    this._reporteService.getReporteMensual(anio, mes, legajo, isParcial).subscribe({
       next: (res) => {
         this.reportes.set(res.reportes || []);
+        this.esParcial.set(res.es_parcial || false);
         this.loading.set(false);
       },
       error: (err) => {
@@ -257,14 +288,15 @@ export class AppReporteList implements OnInit {
     const mes = this.selectedMes();
     this.exportingPdfLegajo.set(legajo);
 
-    this._reporteService.descargarReportePDF(anio, mes, legajo).subscribe({
+    this._reporteService.descargarReportePDF(anio, mes, legajo, this.esParcial()).subscribe({
       next: (blob) => {
         this.exportingPdfLegajo.set(null);
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
         const padMes = mes.toString().padStart(2, "0");
-        a.download = `reporte_mensual_legajo_${legajo}_${padMes}_${anio}.pdf`;
+        const prefix = this.esParcial() ? "reporte_parcial" : "reporte_mensual";
+        a.download = `${prefix}_legajo_${legajo}_${padMes}_${anio}.pdf`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -295,8 +327,28 @@ export class AppReporteList implements OnInit {
     licencias: LicenciasReporte | undefined,
   ): { tipo: string; dias: number }[] {
     if (!licencias) return [];
+    if (licencias.desglose) {
+      return Object.entries(licencias.desglose).map(([tipo, dias]) => ({
+        tipo,
+        dias: Number(dias),
+      }));
+    }
     return Object.entries(licencias)
-      .filter(([key]) => key !== "total")
+      .filter(([key]) => key !== "total" && key !== "desglose" && key !== "eventos")
       .map(([tipo, dias]) => ({ tipo, dias: Number(dias) }));
+  }
+
+  public formatDate(iso: string | null | undefined): string {
+    if (!iso) return "-";
+    const parts = iso.split("T")[0].split("-");
+    if (parts.length === 3) {
+      return `${parts[2]}/${parts[1]}/${parts[0]}`;
+    }
+    return iso;
+  }
+
+  public formatTime(t: string | null | undefined): string {
+    if (!t) return "-";
+    return t.substring(0, 5);
   }
 }

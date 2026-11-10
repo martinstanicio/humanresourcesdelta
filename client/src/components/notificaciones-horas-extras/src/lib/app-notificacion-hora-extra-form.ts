@@ -97,6 +97,7 @@ export class AppNotificacionHoraExtraForm implements OnInit, OnDestroy {
   public readonly loadingInitial = signal<boolean>(true);
   public readonly submitting = signal<boolean>(false);
   public readonly submitError = signal<string | null>(null);
+  public readonly fieldErrors = signal<Record<string, string>>({});
 
   // Registro exitoso para confirmación
   public readonly confirmedNotificaciones = signal<
@@ -140,8 +141,15 @@ export class AppNotificacionHoraExtraForm implements OnInit, OnDestroy {
       for (const notif of existentes) {
         if (notif.estado === "rechazada") continue;
 
-        const notifInicio = new Date(notif.fecha_inicio);
-        const notifFin = new Date(notif.fecha_fin);
+        const notifFecha = notif.fecha || (notif.fecha_inicio ? notif.fecha_inicio.split("T")[0] : "");
+        if (notifFecha !== f) continue;
+
+        const notifHoraIni = notif.hora_inicio || (notif.fecha_inicio ? notif.fecha_inicio.substring(11, 16) : "");
+        const notifHoraFin = notif.hora_fin || (notif.fecha_fin ? notif.fecha_fin.substring(11, 16) : "");
+        if (!notifHoraIni || !notifHoraFin) continue;
+
+        const notifInicio = buildLocalDateTime(f, notifHoraIni);
+        const notifFin = buildLocalDateTime(f, notifHoraFin);
 
         // Conflicto de intervalos: newInicio < notifFin && newFin > notifInicio
         if (
@@ -247,42 +255,67 @@ export class AppNotificacionHoraExtraForm implements OnInit, OnDestroy {
   public onSubmit(): void {
     if (!this.isFormValid()) return;
 
-    const desgloseVal = this.desglose();
-    if (!desgloseVal) return;
-
     this.submitting.set(true);
     this.submitError.set(null);
+    this.fieldErrors.set({});
 
-    const tramos = desgloseVal.tramos;
-    const peticiones = tramos.map((tramo) => {
-      const horaExtraObj = this.resolverHoraExtraParaTramo(tramo);
-      if (!horaExtraObj) {
-        throw new Error(
-          `No se encontró un tipo de hora extra configurado para el tramo al ${tramo.tipoMultiplicador}%.`,
-        );
-      }
+    const payload = {
+      fecha: this.fecha(),
+      hora_inicio: this.horaInicio(),
+      hora_fin: this.horaFin(),
+      motivo_resolucion: this.motivo().trim(),
+    };
 
-      return this._notificacionService.create({
-        hora_extra: horaExtraObj.id,
-        fecha_inicio: formatToLocalISOString(tramo.inicio),
-        fecha_fin: formatToLocalISOString(tramo.fin),
-        motivo_resolucion: this.motivo().trim(),
-      });
-    });
-
-    forkJoin(peticiones).subscribe({
-      next: (creadas) => {
+    this._notificacionService.create(payload).subscribe({
+      next: (res) => {
         this.submitting.set(false);
+        const creadas = Array.isArray(res) ? res : [res];
         this.confirmedNotificaciones.set(creadas);
       },
       error: (err) => {
         this.submitting.set(false);
         console.error("Error al registrar notificación de horas extras:", err);
-        const detail =
-          err?.error?.detail ||
-          (err?.error?.non_field_errors && err.error.non_field_errors[0]) ||
-          "Ocurrió un error al enviar la notificación. Por favor revise los datos e intente nuevamente.";
-        this.submitError.set(detail);
+
+        const newFieldErrors: Record<string, string> = {};
+        let generalDetail = "";
+
+        const errData = err?.error;
+        if (errData && typeof errData === "object") {
+          if (errData.detail) {
+            generalDetail = errData.detail;
+          } else if (errData.non_field_errors && Array.isArray(errData.non_field_errors)) {
+            generalDetail = errData.non_field_errors.join(" ");
+          } else if (Array.isArray(errData)) {
+            // Error en array de tramos
+            const firstItemErr = errData.find((item) => item && typeof item === "object");
+            if (firstItemErr) {
+              for (const [key, val] of Object.entries(firstItemErr)) {
+                const msg = Array.isArray(val) ? val.join(" ") : String(val);
+                newFieldErrors[key] = msg;
+                if (!generalDetail) generalDetail = msg;
+              }
+            }
+          } else {
+            // Mapear campos individuales si existen
+            for (const [key, val] of Object.entries(errData)) {
+              const msg = Array.isArray(val) ? val.join(" ") : String(val);
+              newFieldErrors[key] = msg;
+            }
+          }
+        }
+
+        if (!generalDetail) {
+          const keys = Object.keys(newFieldErrors);
+          if (keys.length > 0) {
+            generalDetail = newFieldErrors[keys[0]];
+          } else {
+            generalDetail =
+              "Ocurrió un error al enviar la notificación. Por favor revise los datos e intente nuevamente.";
+          }
+        }
+
+        this.fieldErrors.set(newFieldErrors);
+        this.submitError.set(generalDetail);
       },
     });
   }
@@ -294,6 +327,7 @@ export class AppNotificacionHoraExtraForm implements OnInit, OnDestroy {
     this.horaFin.set("");
     this.motivo.set("");
     this.submitError.set(null);
+    this.fieldErrors.set({});
     this.cargarDatosIniciales();
   }
 

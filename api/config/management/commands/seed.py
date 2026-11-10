@@ -1,5 +1,7 @@
-from datetime import date, timedelta
+import calendar
+from datetime import date, datetime, time, timedelta
 from typing import Annotated
+from zoneinfo import ZoneInfo
 
 import typer
 from django.db import transaction
@@ -346,202 +348,221 @@ class Command(TyperCommand):
             empleados = [emp1, emp2, emp3, emp4, emp5, emp6, emp7]
 
             self.stdout.write("Creando solicitudes de licencia...")
+            hoy = timezone.localdate()
+            tz_ba = ZoneInfo("America/Argentina/Buenos_Aires")
+
+            if hoy.month == 1:
+                prev_mes = 12
+                prev_anio = hoy.year - 1
+            else:
+                prev_mes = hoy.month - 1
+                prev_anio = hoy.year
+
+            _, prev_ultimo_dia = calendar.monthrange(prev_anio, prev_mes)
+            prev_inicio = date(prev_anio, prev_mes, 1)
+            prev_fin = date(prev_anio, prev_mes, prev_ultimo_dia)
+
             solicitudes = [
+                # Licencias en el mes anterior (consolidadas/aprobadas)
                 SolicitudLicencia.objects.create(
                     empleado=emp2,
                     licencia=lic_comercio_vacaciones,
-                    fecha_inicio=date(2026, 2, 2),
-                    fecha_fin=date(2026, 2, 13),
-                    motivo_solicitud="Vacaciones anuales correspondientes a verano.",
-                    motivo_resolucion="Aprobado por el departamento de RRHH.",
+                    fecha_inicio=date(prev_anio, prev_mes, min(5, prev_ultimo_dia)),
+                    fecha_fin=date(prev_anio, prev_mes, min(9, prev_ultimo_dia)),
+                    motivo_solicitud="Vacaciones correspondientes al período ordinario.",
+                    motivo_resolucion="Aprobado por Recursos Humanos.",
                     estado=EstadoSolicitudLicencia.APROBADA,
-                ),
-                SolicitudLicencia.objects.create(
-                    empleado=emp2,
-                    licencia=lic_comercio_examen,
-                    fecha_inicio=date(2026, 6, 15),
-                    fecha_fin=date(2026, 6, 16),
-                    motivo_solicitud="Examen final de carrera universitaria.",
-                    motivo_resolucion="Aprobado contra constancia de examen.",
-                    estado=EstadoSolicitudLicencia.APROBADA,
-                ),
-                SolicitudLicencia.objects.create(
-                    empleado=emp2,
-                    licencia=lic_comercio_cumpleanos,
-                    fecha_inicio=date(2026, 11, 20),
-                    fecha_fin=date(2026, 11, 20),
-                    motivo_solicitud="Día no laborable por cumpleaños.",
-                    motivo_resolucion="",
-                    estado=EstadoSolicitudLicencia.PENDIENTE,
-                ),
-                SolicitudLicencia.objects.create(
-                    empleado=emp3,
-                    licencia=lic_comercio_examen,
-                    fecha_inicio=date(2026, 5, 20),
-                    fecha_fin=date(2026, 5, 21),
-                    motivo_solicitud="Examen de Derecho Comercial.",
-                    motivo_resolucion=(
-                        "Rechazado por superposición con inventario general sin previo aviso."
-                    ),
-                    estado=EstadoSolicitudLicencia.RECHAZADA,
-                ),
-                SolicitudLicencia.objects.create(
-                    empleado=emp3,
-                    licencia=lic_comercio_vacaciones,
-                    fecha_inicio=date(2026, 12, 14),
-                    fecha_fin=date(2026, 12, 24),
-                    motivo_solicitud="Vacaciones de fin de año.",
-                    motivo_resolucion="",
-                    estado=EstadoSolicitudLicencia.PENDIENTE,
                 ),
                 SolicitudLicencia.objects.create(
                     empleado=emp4,
                     licencia=lic_uocra_tramites,
-                    fecha_inicio=date(2026, 4, 10),
-                    fecha_fin=date(2026, 4, 11),
+                    fecha_inicio=date(prev_anio, prev_mes, min(14, prev_ultimo_dia)),
+                    fecha_fin=date(prev_anio, prev_mes, min(15, prev_ultimo_dia)),
                     motivo_solicitud="Trámites notariales y de escrituración de vivienda.",
                     motivo_resolucion="Aprobada por la jefatura de obra.",
                     estado=EstadoSolicitudLicencia.APROBADA,
                 ),
                 SolicitudLicencia.objects.create(
-                    empleado=emp4,
-                    licencia=lic_uocra_vacaciones,
-                    fecha_inicio=date(2026, 10, 12),
-                    fecha_fin=date(2026, 10, 23),
-                    motivo_solicitud="Receso anual por parada técnica de obra.",
-                    motivo_resolucion="Aprobada.",
-                    estado=EstadoSolicitudLicencia.APROBADA,
-                ),
-                SolicitudLicencia.objects.create(
                     empleado=emp5,
                     licencia=lic_sanidad_capacitacion,
-                    fecha_inicio=date(2026, 8, 17),
-                    fecha_fin=date(2026, 8, 19),
-                    motivo_solicitud="Congreso Internacional de Terapia Intensiva.",
-                    motivo_resolucion="Aprobada con cobertura de turno asignada.",
+                    fecha_inicio=date(prev_anio, prev_mes, min(18, prev_ultimo_dia)),
+                    fecha_fin=date(prev_anio, prev_mes, min(20, prev_ultimo_dia)),
+                    motivo_solicitud="Congreso Internacional de Cuidados Intensivos.",
+                    motivo_resolucion="Aprobada con cobertura de guardia asignada.",
+                    estado=EstadoSolicitudLicencia.APROBADA,
+                ),
+                # Licencias en el mes actual en curso
+                SolicitudLicencia.objects.create(
+                    empleado=emp2,
+                    licencia=lic_comercio_examen,
+                    fecha_inicio=date(hoy.year, hoy.month, min(2, hoy.day)),
+                    fecha_fin=date(hoy.year, hoy.month, min(3, hoy.day)),
+                    motivo_solicitud="Rendición de examen final de carrera de grado.",
+                    motivo_resolucion="Aprobado contra presentación de constancia.",
                     estado=EstadoSolicitudLicencia.APROBADA,
                 ),
                 SolicitudLicencia.objects.create(
-                    empleado=emp5,
-                    licencia=lic_sanidad_vacaciones,
-                    fecha_inicio=date(2026, 11, 23),
-                    fecha_fin=date(2026, 12, 4),
-                    motivo_solicitud="Descanso vacacional anual ordinario.",
-                    motivo_resolucion="",
-                    estado=EstadoSolicitudLicencia.PENDIENTE,
+                    empleado=emp3,
+                    licencia=lic_comercio_cumpleanos,
+                    fecha_inicio=date(hoy.year, hoy.month, min(4, hoy.day)),
+                    fecha_fin=date(hoy.year, hoy.month, min(4, hoy.day)),
+                    motivo_solicitud="Día no laborable por cumpleaños según CCT.",
+                    motivo_resolucion="Aprobada.",
+                    estado=EstadoSolicitudLicencia.APROBADA,
                 ),
                 SolicitudLicencia.objects.create(
                     empleado=emp6,
                     licencia=lic_uocra_tramites,
-                    fecha_inicio=date(2026, 9, 7),
-                    fecha_fin=date(2026, 9, 8),
+                    fecha_inicio=date(hoy.year, hoy.month, min(6, hoy.day)),
+                    fecha_fin=date(hoy.year, hoy.month, min(7, hoy.day)),
                     motivo_solicitud="Mudanza particular a nueva vivienda.",
-                    motivo_resolucion="Aprobada.",
-                    estado=EstadoSolicitudLicencia.APROBADA,
+                    motivo_resolucion="",
+                    estado=EstadoSolicitudLicencia.PENDIENTE,
                 ),
                 SolicitudLicencia.objects.create(
                     empleado=emp7,
                     licencia=lic_sanidad_capacitacion,
-                    fecha_inicio=date(2026, 10, 20),
-                    fecha_fin=date(2026, 10, 21),
-                    motivo_solicitud="Jornadas de actualización en bioseguridad.",
-                    motivo_resolucion="",
-                    estado=EstadoSolicitudLicencia.PENDIENTE,
+                    fecha_inicio=date(hoy.year, hoy.month, min(8, hoy.day)),
+                    fecha_fin=date(hoy.year, hoy.month, min(9, hoy.day)),
+                    motivo_solicitud="Jornada de actualización en bioseguridad hospitalaria.",
+                    motivo_resolucion="Aprobada por coordinación médica.",
+                    estado=EstadoSolicitudLicencia.APROBADA,
                 ),
             ]
 
             self.stdout.write("Creando notificaciones de horas extras...")
-            ahora = timezone.now()
+            # Fecha a fin del mes anterior para simular horas aprobadas al mes siguiente
+            fecha_he_prev_fin = date(prev_anio, prev_mes, min(28, prev_ultimo_dia))
+            fecha_aprob_este_mes = datetime(hoy.year, hoy.month, 2, 10, 30, tzinfo=tz_ba)
+
             notificaciones = [
+                # --- Horas Extras del mes anterior (aprobadas en el mes anterior) ---
                 NotificacionHorasExtras.objects.create(
                     empleado=emp2,
                     hora_extra=he_comercio_50,
-                    fecha_inicio=ahora - timedelta(days=12, hours=4),
-                    fecha_fin=ahora - timedelta(days=12, hours=1),
+                    fecha=date(prev_anio, prev_mes, min(10, prev_ultimo_dia)),
+                    hora_inicio=time(17, 0),
+                    hora_fin=time(20, 0),
                     motivo_resolucion="Cierre mensual de balances y arqueo general.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
-                ),
-                NotificacionHorasExtras.objects.create(
-                    empleado=emp2,
-                    hora_extra=he_comercio_100,
-                    fecha_inicio=ahora - timedelta(days=7, hours=6),
-                    fecha_fin=ahora - timedelta(days=7, hours=2),
-                    motivo_resolucion="Auditoría e inventario rotativo durante fin de semana.",
-                    estado=EstadoNotificacionHorasExtras.APROBADA,
-                ),
-                NotificacionHorasExtras.objects.create(
-                    empleado=emp2,
-                    hora_extra=he_comercio_50,
-                    fecha_inicio=ahora - timedelta(days=1, hours=3),
-                    fecha_fin=ahora - timedelta(days=1, hours=1),
-                    motivo_resolucion="Atención extraordinaria al público por liquidación.",
-                    estado=EstadoNotificacionHorasExtras.PENDIENTE,
+                    fecha_aprobacion=datetime(prev_anio, prev_mes, min(12, prev_ultimo_dia), 18, 0, tzinfo=tz_ba),
                 ),
                 NotificacionHorasExtras.objects.create(
                     empleado=emp3,
                     hora_extra=he_comercio_50,
-                    fecha_inicio=ahora - timedelta(days=15, hours=4),
-                    fecha_fin=ahora - timedelta(days=15, hours=1),
+                    fecha=date(prev_anio, prev_mes, min(15, prev_ultimo_dia)),
+                    hora_inicio=time(17, 0),
+                    hora_fin=time(20, 0),
                     motivo_resolucion="Conciliación bancaria y carga de facturación diferida.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
-                ),
-                NotificacionHorasExtras.objects.create(
-                    empleado=emp3,
-                    hora_extra=he_comercio_100,
-                    fecha_inicio=ahora - timedelta(days=8, hours=5),
-                    fecha_fin=ahora - timedelta(days=8, hours=2),
-                    motivo_resolucion="Migración de servidores y soporte a sistemas.",
-                    estado=EstadoNotificacionHorasExtras.RECHAZADA,
-                ),
-                NotificacionHorasExtras.objects.create(
-                    empleado=emp4,
-                    hora_extra=he_uocra_50,
-                    fecha_inicio=ahora - timedelta(days=9, hours=4),
-                    fecha_fin=ahora - timedelta(days=9, hours=1),
-                    motivo_resolucion="Llenado continuo de losa en obra antes de lluvias.",
-                    estado=EstadoNotificacionHorasExtras.APROBADA,
-                ),
-                NotificacionHorasExtras.objects.create(
-                    empleado=emp4,
-                    hora_extra=he_uocra_100,
-                    fecha_inicio=ahora - timedelta(days=3, hours=5),
-                    fecha_fin=ahora - timedelta(days=3, hours=1),
-                    motivo_resolucion="Reparación urgente de sistema de bombeo y montacargas.",
-                    estado=EstadoNotificacionHorasExtras.PENDIENTE,
+                    fecha_aprobacion=datetime(prev_anio, prev_mes, min(16, prev_ultimo_dia), 11, 0, tzinfo=tz_ba),
                 ),
                 NotificacionHorasExtras.objects.create(
                     empleado=emp5,
                     hora_extra=he_sanidad_50,
-                    fecha_inicio=ahora - timedelta(days=14, hours=5),
-                    fecha_fin=ahora - timedelta(days=14, hours=1),
+                    fecha=date(prev_anio, prev_mes, min(16, prev_ultimo_dia)),
+                    hora_inicio=time(16, 0),
+                    hora_fin=time(20, 0),
                     motivo_resolucion="Cobertura de guardia asistencial por ausencias imprevistas.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
+                    fecha_aprobacion=datetime(prev_anio, prev_mes, min(17, prev_ultimo_dia), 10, 0, tzinfo=tz_ba),
+                ),
+
+                # --- HORAS EXTRAS REALIZADAS EN MES ANTERIOR PERO APROBADAS EN ESTE MES ---
+                # (Deben liquidarse en el reporte de este mes actual)
+                NotificacionHorasExtras.objects.create(
+                    empleado=emp2,
+                    hora_extra=he_comercio_100,
+                    fecha=fecha_he_prev_fin,
+                    hora_inicio=time(13, 0),
+                    hora_fin=time(17, 0),  # 4 horas
+                    motivo_resolucion="Inventario extraordinario de fin de mes.",
+                    estado=EstadoNotificacionHorasExtras.APROBADA,
+                    fecha_aprobacion=fecha_aprob_este_mes,
+                ),
+                NotificacionHorasExtras.objects.create(
+                    empleado=emp4,
+                    hora_extra=he_uocra_50,
+                    fecha=fecha_he_prev_fin,
+                    hora_inicio=time(17, 0),
+                    hora_fin=time(20, 0),  # 3 horas
+                    motivo_resolucion="Hormigonado de urgencia antes de tormenta.",
+                    estado=EstadoNotificacionHorasExtras.APROBADA,
+                    fecha_aprobacion=fecha_aprob_este_mes,
+                ),
+
+                # --- Horas Extras del mes actual (realizadas y aprobadas en este mes) ---
+                NotificacionHorasExtras.objects.create(
+                    empleado=emp2,
+                    hora_extra=he_comercio_50,
+                    fecha=date(hoy.year, hoy.month, min(3, hoy.day)),
+                    hora_inicio=time(17, 0),
+                    hora_fin=time(19, 30),  # 2.5 horas
+                    motivo_resolucion="Atención de reclamos por alta demanda.",
+                    estado=EstadoNotificacionHorasExtras.APROBADA,
+                    fecha_aprobacion=datetime(hoy.year, hoy.month, min(4, hoy.day), 12, 0, tzinfo=tz_ba),
                 ),
                 NotificacionHorasExtras.objects.create(
                     empleado=emp5,
                     hora_extra=he_sanidad_100,
-                    fecha_inicio=ahora - timedelta(days=6, hours=6),
-                    fecha_fin=ahora - timedelta(days=6, hours=1),
+                    fecha=date(hoy.year, hoy.month, min(5, hoy.day)),
+                    hora_inicio=time(14, 0),
+                    hora_fin=time(19, 0),  # 5 horas
                     motivo_resolucion="Refuerzo en guardia médica pediátrica por urgencias.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
-                ),
-                NotificacionHorasExtras.objects.create(
-                    empleado=emp6,
-                    hora_extra=he_uocra_50,
-                    fecha_inicio=ahora - timedelta(days=4, hours=3),
-                    fecha_fin=ahora - timedelta(days=4, hours=1),
-                    motivo_resolucion="Descarga de materiales pesados fuera de jornada habitual.",
-                    estado=EstadoNotificacionHorasExtras.PENDIENTE,
+                    fecha_aprobacion=datetime(hoy.year, hoy.month, min(6, hoy.day), 15, 0, tzinfo=tz_ba),
                 ),
                 NotificacionHorasExtras.objects.create(
                     empleado=emp7,
                     hora_extra=he_sanidad_50,
-                    fecha_inicio=ahora - timedelta(days=5, hours=4),
-                    fecha_fin=ahora - timedelta(days=5, hours=1),
+                    fecha=date(hoy.year, hoy.month, min(4, hoy.day)),
+                    hora_inicio=time(17, 0),
+                    hora_fin=time(20, 0),  # 3 horas
                     motivo_resolucion="Esterilización de equipamiento quirúrgico urgente.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
+                    fecha_aprobacion=datetime(hoy.year, hoy.month, min(5, hoy.day), 9, 30, tzinfo=tz_ba),
+                ),
+
+                # --- Horas Extras del mes actual Pendientes y Rechazadas ---
+                NotificacionHorasExtras.objects.create(
+                    empleado=emp3,
+                    hora_extra=he_comercio_100,
+                    fecha=date(hoy.year, hoy.month, min(6, hoy.day)),
+                    hora_inicio=time(13, 0),
+                    hora_fin=time(16, 0),
+                    motivo_resolucion="Migración de servidores no autorizada previamente.",
+                    estado=EstadoNotificacionHorasExtras.RECHAZADA,
+                ),
+                NotificacionHorasExtras.objects.create(
+                    empleado=emp4,
+                    hora_extra=he_uocra_100,
+                    fecha=date(hoy.year, hoy.month, min(7, hoy.day)),
+                    hora_inicio=time(13, 0),
+                    hora_fin=time(17, 0),
+                    motivo_resolucion="Reparación urgente de montacargas.",
+                    estado=EstadoNotificacionHorasExtras.PENDIENTE,
+                ),
+                NotificacionHorasExtras.objects.create(
+                    empleado=emp6,
+                    hora_extra=he_uocra_50,
+                    fecha=date(hoy.year, hoy.month, min(8, hoy.day)),
+                    hora_inicio=time(18, 0),
+                    hora_fin=time(20, 0),
+                    motivo_resolucion="Descarga de materiales pesados.",
+                    estado=EstadoNotificacionHorasExtras.PENDIENTE,
                 ),
             ]
+
+            # Generar Reportes completos y cerrados exclusivamente para el mes anterior ya finalizado
+            self.stdout.write("Generando reportes consolidados del mes anterior...")
+            reportes_anteriores = []
+            for emp in empleados:
+                rep = Reporte.objects.create(
+                    empleado=emp,
+                    fecha_inicio=prev_inicio,
+                    fecha_fin=prev_fin,
+                )
+                reportes_anteriores.append(rep)
 
         self.stdout.write(
             self.style.SUCCESS(
@@ -552,7 +573,9 @@ class Command(TyperCommand):
                 f"- Horas extras creadas: {len(horas_extras)}\n"
                 f"- Empleados creados: {len(empleados)}\n"
                 f"- Solicitudes de licencia creadas: {len(solicitudes)}\n"
-                f"- Notificaciones de horas extras creadas: {len(notificaciones)}"
+                f"- Notificaciones de horas extras creadas: {len(notificaciones)}\n"
+                f"- Reportes consolidados cerrados ({prev_mes:02d}/{prev_anio}): {len(reportes_anteriores)}\n"
+                f"- Período actual en curso ({hoy.month:02d}/{hoy.year}): Sin reportes guardados en BD (generación parcial disponible en vivo)"
             )
         )
 
