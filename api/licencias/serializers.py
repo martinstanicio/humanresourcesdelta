@@ -69,6 +69,8 @@ class LicenciaSerializer(serializers.ModelSerializer):
 
 
 class SolicitudLicenciaSerializer(serializers.ModelSerializer):
+    empleado_nombre = serializers.ReadOnlyField(source='empleado.nombre')
+
     class Meta:
         model = SolicitudLicencia
         fields = "__all__"

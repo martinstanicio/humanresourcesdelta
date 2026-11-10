@@ -68,6 +68,8 @@ class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
         required=False,
     )
 
+    empleado_nombre = serializers.ReadOnlyField(source='empleado.nombre')
+    
     class Meta:
         model = NotificacionHorasExtras
         fields = (

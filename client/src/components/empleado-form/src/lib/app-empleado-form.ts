@@ -126,6 +126,20 @@ export class AppEmpleadoForm implements OnInit {
       // Default fecha_ingreso to today
       const today = new Date().toISOString().split("T")[0];
       this.fechaIngreso.set(today);
+
+      this._empleadoService.getAll().subscribe({
+        next: (empleados) => {
+          if (empleados && empleados.length > 0) {
+            const maxLegajo = Math.max(...empleados.map(e => e.legajo));
+            this.legajo.set(maxLegajo + 1);
+          } else {
+            this.legajo.set(1);
+          }
+        },
+        error: () => {
+          this.legajo.set(1);
+        }
+      })
     }
   }
 
@@ -182,6 +196,12 @@ export class AppEmpleadoForm implements OnInit {
     if (areaId === null) return null;
     return this.areas().find((a) => a.id === areaId) ?? null;
   });
+  // Selected convenio object para el combobox de Spartan
+  public readonly selectedConvenio = computed(() => {
+    const convenioId = this.convenio();
+    if (convenioId === null) return null;
+    return this.convenios().find((c) => c.id === convenioId) ?? null;
+  });
 
   public readonly areaItemToString = (
     area: Area | null | undefined,
@@ -212,8 +232,8 @@ export class AppEmpleadoForm implements OnInit {
         this.nombre.set(emp.nombre);
         this.fechaIngreso.set(emp.fecha_ingreso);
         this.rol.set(emp.rol);
-        this.convenio.set(emp.convenio);
-        this.area.set(emp.area);
+        this.convenio.set(emp.convenio ? Number(emp.convenio) : null);
+        this.area.set(emp.area ? Number(emp.area) : null);
         this.activo.set(emp.activo);
         this.loading.set(false);
       },
@@ -246,6 +266,14 @@ export class AppEmpleadoForm implements OnInit {
       errors["fechaIngreso"] = "La fecha de ingreso es obligatoria.";
     }
 
+    if (!this.area()) {
+      errors["area"] = "Seleccionar un Area es Obligatorio.";
+    }
+
+    if (!this.convenio()) {
+      errors["convenio"] = "Seleccionar un Convenio es Obligatorio.";
+    }
+  
     this.fieldErrors.set(errors);
     return Object.keys(errors).length === 0;
   }
