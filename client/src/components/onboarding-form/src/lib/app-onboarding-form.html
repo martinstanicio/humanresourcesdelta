@@ -43,18 +43,7 @@
                 [class.text-green-600]="(password?.length ?? 0) >= 8"
                 [class.text-muted-foreground]="(password?.length ?? 0) < 8"
               >
-                • Mínimo 8 caracteres
-              </li>
-
-              <li
-                [class.text-green-600]="
-                  !!password?.match('[a-zA-Z]') && !!password?.match('[0-9]')
-                "
-                [class.text-muted-foreground]="
-                  !(!!password?.match('[a-zA-Z]') && !!password?.match('[0-9]'))
-                "
-              >
-                • Debe contener letras y números
+                Mínimo 8 caracteres
               </li>
             </ul>
           </div>
