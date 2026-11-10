@@ -41,7 +41,8 @@ class ReporteMensualView(APIView):
         # Modo Parcial: Generación manual en memoria (no persiste en base de datos)
         if parcial:
             empleados = (
-                Empleado.objects.filter(activo=True)
+                Empleado.objects
+                .filter(activo=True)
                 .select_related("convenio")
                 .order_by("legajo")
             )
@@ -163,7 +164,8 @@ class ReporteMensualPDFView(APIView):
 
         if parcial:
             empleado = (
-                Empleado.objects.filter(legajo=legajo, activo=True)
+                Empleado.objects
+                .filter(legajo=legajo, activo=True)
                 .select_related("convenio")
                 .first()
             )

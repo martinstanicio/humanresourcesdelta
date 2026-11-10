@@ -1,5 +1,5 @@
 import calendar
-from datetime import date, datetime, time, timedelta
+from datetime import date, datetime, time
 from typing import Annotated
 from zoneinfo import ZoneInfo
 
@@ -433,7 +433,9 @@ class Command(TyperCommand):
             self.stdout.write("Creando notificaciones de horas extras...")
             # Fecha a fin del mes anterior para simular horas aprobadas al mes siguiente
             fecha_he_prev_fin = date(prev_anio, prev_mes, min(28, prev_ultimo_dia))
-            fecha_aprob_este_mes = datetime(hoy.year, hoy.month, 2, 10, 30, tzinfo=tz_ba)
+            fecha_aprob_este_mes = datetime(
+                hoy.year, hoy.month, 2, 10, 30, tzinfo=tz_ba
+            )
 
             notificaciones = [
                 # --- Horas Extras del mes anterior (aprobadas en el mes anterior) ---
@@ -445,7 +447,14 @@ class Command(TyperCommand):
                     hora_fin=time(20, 0),
                     motivo_resolucion="Cierre mensual de balances y arqueo general.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
-                    fecha_aprobacion=datetime(prev_anio, prev_mes, min(12, prev_ultimo_dia), 18, 0, tzinfo=tz_ba),
+                    fecha_aprobacion=datetime(
+                        prev_anio,
+                        prev_mes,
+                        min(12, prev_ultimo_dia),
+                        18,
+                        0,
+                        tzinfo=tz_ba,
+                    ),
                 ),
                 NotificacionHorasExtras.objects.create(
                     empleado=emp3,
@@ -455,7 +464,14 @@ class Command(TyperCommand):
                     hora_fin=time(20, 0),
                     motivo_resolucion="Conciliación bancaria y carga de facturación diferida.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
-                    fecha_aprobacion=datetime(prev_anio, prev_mes, min(16, prev_ultimo_dia), 11, 0, tzinfo=tz_ba),
+                    fecha_aprobacion=datetime(
+                        prev_anio,
+                        prev_mes,
+                        min(16, prev_ultimo_dia),
+                        11,
+                        0,
+                        tzinfo=tz_ba,
+                    ),
                 ),
                 NotificacionHorasExtras.objects.create(
                     empleado=emp5,
@@ -465,9 +481,15 @@ class Command(TyperCommand):
                     hora_fin=time(20, 0),
                     motivo_resolucion="Cobertura de guardia asistencial por ausencias imprevistas.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
-                    fecha_aprobacion=datetime(prev_anio, prev_mes, min(17, prev_ultimo_dia), 10, 0, tzinfo=tz_ba),
+                    fecha_aprobacion=datetime(
+                        prev_anio,
+                        prev_mes,
+                        min(17, prev_ultimo_dia),
+                        10,
+                        0,
+                        tzinfo=tz_ba,
+                    ),
                 ),
-
                 # --- HORAS EXTRAS REALIZADAS EN MES ANTERIOR PERO APROBADAS EN ESTE MES ---
                 # (Deben liquidarse en el reporte de este mes actual)
                 NotificacionHorasExtras.objects.create(
@@ -490,7 +512,6 @@ class Command(TyperCommand):
                     estado=EstadoNotificacionHorasExtras.APROBADA,
                     fecha_aprobacion=fecha_aprob_este_mes,
                 ),
-
                 # --- Horas Extras del mes actual (realizadas y aprobadas en este mes) ---
                 NotificacionHorasExtras.objects.create(
                     empleado=emp2,
@@ -500,7 +521,9 @@ class Command(TyperCommand):
                     hora_fin=time(19, 30),  # 2.5 horas
                     motivo_resolucion="Atención de reclamos por alta demanda.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
-                    fecha_aprobacion=datetime(hoy.year, hoy.month, min(4, hoy.day), 12, 0, tzinfo=tz_ba),
+                    fecha_aprobacion=datetime(
+                        hoy.year, hoy.month, min(4, hoy.day), 12, 0, tzinfo=tz_ba
+                    ),
                 ),
                 NotificacionHorasExtras.objects.create(
                     empleado=emp5,
@@ -510,7 +533,9 @@ class Command(TyperCommand):
                     hora_fin=time(19, 0),  # 5 horas
                     motivo_resolucion="Refuerzo en guardia médica pediátrica por urgencias.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
-                    fecha_aprobacion=datetime(hoy.year, hoy.month, min(6, hoy.day), 15, 0, tzinfo=tz_ba),
+                    fecha_aprobacion=datetime(
+                        hoy.year, hoy.month, min(6, hoy.day), 15, 0, tzinfo=tz_ba
+                    ),
                 ),
                 NotificacionHorasExtras.objects.create(
                     empleado=emp7,
@@ -520,9 +545,10 @@ class Command(TyperCommand):
                     hora_fin=time(20, 0),  # 3 horas
                     motivo_resolucion="Esterilización de equipamiento quirúrgico urgente.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
-                    fecha_aprobacion=datetime(hoy.year, hoy.month, min(5, hoy.day), 9, 30, tzinfo=tz_ba),
+                    fecha_aprobacion=datetime(
+                        hoy.year, hoy.month, min(5, hoy.day), 9, 30, tzinfo=tz_ba
+                    ),
                 ),
-
                 # --- Horas Extras del mes actual Pendientes y Rechazadas ---
                 NotificacionHorasExtras.objects.create(
                     empleado=emp3,

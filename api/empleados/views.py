@@ -260,7 +260,9 @@ class EmpleadoDetailView(APIView):
 
         empleado = get_object_or_404(Empleado, pk=pk)
 
-        activo_in_request = request.data.get("activo")
+        activo_in_request = (
+            request.data.get("activo") if isinstance(request.data, dict) else None
+        )
         is_reactivation = activo_in_request in [True, "true", "True", 1]
 
         if not empleado.activo and not is_reactivation:

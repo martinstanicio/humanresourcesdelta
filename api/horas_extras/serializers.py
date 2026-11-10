@@ -1,6 +1,8 @@
+from collections.abc import Mapping
 from datetime import date, datetime, time
 from typing import Any
 
+from django.http import QueryDict
 from django.utils import timezone
 from rest_framework import serializers
 
@@ -68,8 +70,8 @@ class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
         required=False,
     )
 
-    empleado_nombre = serializers.ReadOnlyField(source='empleado.nombre')
-    
+    empleado_nombre = serializers.ReadOnlyField(source="empleado.nombre")
+
     class Meta:
         model = NotificacionHorasExtras
         fields = (
@@ -96,32 +98,34 @@ class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
             "fecha_aprobacion",
         )
 
-    def to_internal_value(self, data: Any) -> dict[str, Any]:
-        if hasattr(data, "dict") or isinstance(data, dict):
-            data_copy = data.dict() if hasattr(data, "dict") else dict(data)
-            if "motivo" in data_copy and "motivo_resolucion" not in data_copy:
-                data_copy["motivo_resolucion"] = data_copy.pop("motivo")
+    def to_internal_value(self, data: Mapping[str, Any]) -> dict[str, Any]:
+        if isinstance(data, QueryDict):
+            data_copy = data.dict()
+        else:
+            data_copy = dict(data)
 
-            if "fecha_inicio" in data_copy and "fecha" not in data_copy:
-                fi = data_copy["fecha_inicio"]
-                if isinstance(fi, str):
-                    try:
-                        dt = datetime.fromisoformat(fi.replace("Z", "+00:00"))
-                        data_copy["fecha"] = dt.date().isoformat()
-                        data_copy["hora_inicio"] = dt.time().strftime("%H:%M:%S")
-                    except ValueError:
-                        pass
-            if "fecha_fin" in data_copy and "hora_fin" not in data_copy:
-                ff = data_copy["fecha_fin"]
-                if isinstance(ff, str):
-                    try:
-                        dt = datetime.fromisoformat(ff.replace("Z", "+00:00"))
-                        data_copy["hora_fin"] = dt.time().strftime("%H:%M:%S")
-                    except ValueError:
-                        pass
-            data = data_copy
+        if "motivo" in data_copy and "motivo_resolucion" not in data_copy:
+            data_copy["motivo_resolucion"] = data_copy.pop("motivo")
 
-        return super().to_internal_value(data)
+        if "fecha_inicio" in data_copy and "fecha" not in data_copy:
+            fi = data_copy["fecha_inicio"]
+            if isinstance(fi, str):
+                try:
+                    dt = datetime.fromisoformat(fi)
+                    data_copy["fecha"] = dt.date().isoformat()
+                    data_copy["hora_inicio"] = dt.time().strftime("%H:%M:%S")
+                except ValueError:
+                    pass
+        if "fecha_fin" in data_copy and "hora_fin" not in data_copy:
+            ff = data_copy["fecha_fin"]
+            if isinstance(ff, str):
+                try:
+                    dt = datetime.fromisoformat(ff)
+                    data_copy["hora_fin"] = dt.time().strftime("%H:%M:%S")
+                except ValueError:
+                    pass
+
+        return super().to_internal_value(data_copy)
 
     def to_representation(self, instance: NotificacionHorasExtras) -> dict[str, Any]:
         if isinstance(instance.fecha, datetime):
@@ -149,9 +153,7 @@ class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
                 "No se pueden registrar horas extras para un empleado inactivo."
             )
 
-        fecha: date | None = attrs.get(
-            "fecha", getattr(self.instance, "fecha", None)
-        )
+        fecha: date | None = attrs.get("fecha", getattr(self.instance, "fecha", None))
         hora_inicio: time | None = attrs.get(
             "hora_inicio", getattr(self.instance, "hora_inicio", None)
         )
@@ -168,9 +170,7 @@ class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
             # Validar que no sea en el futuro
             dt_fin = datetime.combine(fecha, hora_fin)
             if timezone.is_naive(dt_fin) and timezone.is_aware(timezone.now()):
-                dt_fin = timezone.make_aware(
-                    dt_fin, timezone.get_current_timezone()
-                )
+                dt_fin = timezone.make_aware(dt_fin, timezone.get_current_timezone())
 
             if dt_fin > timezone.now():
                 raise serializers.ValidationError({
@@ -218,11 +218,21 @@ class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError({
                     "hora_extra": "El tipo de hora extra no corresponde al convenio del empleado."
                 })
-        elif empleado is not None and empleado.convenio is not None and fecha is not None and hora_inicio is not None and hora_fin is not None:
+        elif (
+            empleado is not None
+            and empleado.convenio is not None
+            and fecha is not None
+            and hora_inicio is not None
+            and hora_fin is not None
+        ):
             # Resolver automáticamente según la condición y trazabilidad histórica
             try:
                 desglose = calcular_desglose(fecha, hora_inicio, hora_fin)
-                condicion = desglose["tramos"][0]["condicion"] if desglose["tramos"] else "habil"
+                condicion = (
+                    desglose["tramos"][0]["condicion"]
+                    if desglose["tramos"]
+                    else "habil"
+                )
                 he_resuelta = resolver_hora_extra_para_condicion(
                     empleado.convenio, condicion, fecha
                 )

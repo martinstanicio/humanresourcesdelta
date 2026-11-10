@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('horas_extras', '0005_rediseño_horas_extras'),
+        ("horas_extras", "0005_rediseño_horas_extras"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='notificacionhorasextras',
-            name='fecha_aprobacion',
-            field=models.DateTimeField(blank=True, db_index=True, null=True, verbose_name='fecha de aprobación'),
+            model_name="notificacionhorasextras",
+            name="fecha_aprobacion",
+            field=models.DateTimeField(
+                blank=True, db_index=True, null=True, verbose_name="fecha de aprobación"
+            ),
         ),
     ]

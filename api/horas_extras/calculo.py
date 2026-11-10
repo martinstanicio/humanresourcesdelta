@@ -1,10 +1,11 @@
 from datetime import date, datetime, time
-from typing import Any, TypedDict
+from typing import TypedDict
 
 from django.db.models import Q
 
 from convenios.models import Convenio
-from .feriados import es_dia_habil, es_feriado
+
+from .feriados import es_feriado
 from .models import HoraExtra
 
 
@@ -194,7 +195,8 @@ def resolver_hora_extra_para_condicion(
 
     # 1. Buscar la versión que estuvo vigente a esa fecha (fecha_modificacion__date <= fecha)
     version = (
-        candidatos.filter(fecha_modificacion__date__lte=fecha)
+        candidatos
+        .filter(fecha_modificacion__date__lte=fecha)
         .order_by("-fecha_modificacion")
         .first()
     )

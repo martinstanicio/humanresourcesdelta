@@ -3,6 +3,7 @@ from uuid import UUID
 
 from django.db import transaction
 from django.db.models import QuerySet
+from django.http import QueryDict
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import status
@@ -10,7 +11,6 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from convenios.models import Convenio
 from empleados.models import Empleado, RolEmpleado
 from reportes.models import Reporte
 
@@ -53,7 +53,8 @@ class HoraExtraListCreateView(APIView):
                     "codigo", flat=True
                 )
                 return (
-                    queryset.exclude(codigo__in=active_codigos)
+                    queryset
+                    .exclude(codigo__in=active_codigos)
                     .order_by("codigo", "-fecha_modificacion")
                     .distinct("codigo")
                 )
@@ -82,7 +83,8 @@ class HoraExtraListCreateView(APIView):
 class HoraExtraDetailView(APIView):
     def get(self, request: Request, codigo: UUID) -> Response:
         hora_extra = (
-            HoraExtra.objects.filter(codigo=codigo)
+            HoraExtra.objects
+            .filter(codigo=codigo)
             .order_by("-fecha_modificacion")
             .first()
         )
@@ -115,7 +117,8 @@ class HoraExtraDetailView(APIView):
             )
 
         hora_extra = (
-            HoraExtra.objects.filter(codigo=codigo)
+            HoraExtra.objects
+            .filter(codigo=codigo)
             .order_by("-fecha_modificacion")
             .first()
         )
@@ -125,11 +128,12 @@ class HoraExtraDetailView(APIView):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        req_data = (
-            request.data.dict()
-            if hasattr(request.data, "dict")
-            else dict(request.data)
-        )
+        if isinstance(request.data, QueryDict):
+            req_data = request.data.dict()
+        elif isinstance(request.data, dict):
+            req_data = dict(request.data)
+        else:
+            req_data = {}
 
         sent_fields = set(req_data.keys())
         if sent_fields == {"activo"}:
@@ -172,7 +176,8 @@ class HoraExtraDetailView(APIView):
             )
 
         hora_extra = (
-            HoraExtra.objects.filter(codigo=codigo)
+            HoraExtra.objects
+            .filter(codigo=codigo)
             .order_by("-fecha_modificacion")
             .first()
         )
@@ -260,7 +265,9 @@ class NotificacionHorasExtrasCalcularView(APIView):
 
 class NotificacionHorasExtrasListCreateView(APIView):
     def get_queryset(self, request: Request) -> QuerySet[NotificacionHorasExtras]:
-        queryset = NotificacionHorasExtras.objects.all().order_by("-fecha", "-hora_inicio")
+        queryset = NotificacionHorasExtras.objects.all().order_by(
+            "-fecha", "-hora_inicio"
+        )
         user = request.user
 
         if isinstance(user, Empleado) and user.rol == RolEmpleado.EMPLEADO:
@@ -311,9 +318,10 @@ class NotificacionHorasExtrasListCreateView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        payload_dict = (
-            data.dict() if hasattr(data, "dict") else dict(data)
-        )
+        if isinstance(data, QueryDict):
+            payload_dict = data.dict()
+        else:
+            payload_dict = dict(data)
         if "motivo" in payload_dict and "motivo_resolucion" not in payload_dict:
             payload_dict["motivo_resolucion"] = payload_dict.pop("motivo")
 
@@ -325,7 +333,7 @@ class NotificacionHorasExtrasListCreateView(APIView):
             fi = payload_dict["fecha_inicio"]
             if isinstance(fi, str):
                 try:
-                    dt = datetime.fromisoformat(fi.replace("Z", "+00:00"))
+                    dt = datetime.fromisoformat(fi)
                     fecha_val = dt.date()
                     h_ini_val = dt.time()
                 except ValueError:
@@ -340,14 +348,14 @@ class NotificacionHorasExtrasListCreateView(APIView):
                 h_ini_val = (
                     time.fromisoformat(raw_hi) if isinstance(raw_hi, str) else raw_hi
                 )
-            except (ValueError, TypeError):
+            except ValueError, TypeError:
                 pass
 
         if "fecha_fin" in payload_dict:
             ff = payload_dict["fecha_fin"]
             if isinstance(ff, str):
                 try:
-                    dt = datetime.fromisoformat(ff.replace("Z", "+00:00"))
+                    dt = datetime.fromisoformat(ff)
                     h_fin_val = dt.time()
                 except ValueError:
                     pass
@@ -357,7 +365,7 @@ class NotificacionHorasExtrasListCreateView(APIView):
                 h_fin_val = (
                     time.fromisoformat(raw_hf) if isinstance(raw_hf, str) else raw_hf
                 )
-            except (ValueError, TypeError):
+            except ValueError, TypeError:
                 pass
 
         if fecha_val is not None and h_ini_val is not None and h_fin_val is not None:
@@ -439,7 +447,7 @@ class NotificacionHorasExtrasListCreateView(APIView):
                             "hora_inicio": tramo["hora_inicio"],
                             "hora_fin": tramo["hora_fin"],
                             "motivo_resolucion": motivo,
-                            "hora_extra": he.id if he else None,
+                            "hora_extra": he.pk if he else None,
                         })
 
                     serializer = NotificacionHorasExtrasSerializer(
@@ -459,7 +467,7 @@ class NotificacionHorasExtrasListCreateView(APIView):
                         user.convenio, desglose["tramos"][0]["condicion"], fecha_val
                     )
                     if he:
-                        payload_dict["hora_extra"] = he.id
+                        payload_dict["hora_extra"] = he.pk
 
         serializer = NotificacionHorasExtrasSerializer(
             data=payload_dict,
