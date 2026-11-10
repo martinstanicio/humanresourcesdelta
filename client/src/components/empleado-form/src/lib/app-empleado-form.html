@@ -20,7 +20,7 @@
 
     @if (successMessage()) {
       <div
-        class="flex items-center gap-3 rounded-lg border border-emerald-500/50 bg-emerald-500/10 p-4 text-sm text-emerald-600 dark:text-emerald-400"
+        class="flex items-center gap-3 rounded-lg border border-success/30 bg-success/15 p-4 text-sm text-success"
       >
         <ng-icon class="shrink-0 text-lg" name="lucideCheckCircle2" />
         <p>{{ successMessage() }}</p>
@@ -298,7 +298,7 @@
     >
       <div class="flex items-start gap-4">
         <div
-          class="rounded-full bg-amber-500/10 p-2.5 text-amber-600 dark:text-amber-400"
+          class="rounded-full bg-warning/10 p-2.5 text-warning"
         >
           <ng-icon class="text-xl" name="lucideAlertTriangle" />
         </div>
@@ -317,7 +317,7 @@
 
           @if (modal.existsInactive) {
             <div
-              class="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-700 dark:text-amber-300"
+              class="rounded-lg border border-warning/30 bg-warning/15 p-3 text-xs text-warning"
             >
               <p class="font-medium">
                 El legajo se encuentra actualmente en estado

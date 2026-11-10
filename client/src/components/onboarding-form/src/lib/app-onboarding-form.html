@@ -40,8 +40,8 @@
           <div class="my-2 text-sm">
             <ul class="space-y-1">
               <li
-                [class.text-green-600]="(password?.length ?? 0) >= 8"
                 [class.text-muted-foreground]="(password?.length ?? 0) < 8"
+                [class.text-success]="(password?.length ?? 0) >= 8"
               >
                 Mínimo 8 caracteres
               </li>
