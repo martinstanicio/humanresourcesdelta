@@ -29,6 +29,10 @@ class ReporteFiltroSerializer(serializers.Serializer):
             "min_value": "El legajo debe ser un número positivo.",
         },
     )
+    parcial = serializers.BooleanField(
+        required=False,
+        default=False,
+    )
 
 
 class ReporteSerializer(serializers.ModelSerializer):
