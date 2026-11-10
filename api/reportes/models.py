@@ -37,8 +37,8 @@ class Reporte(models.Model):
 
     def calcular_horas_extras(self) -> dict[str, Any]:
         notificaciones = self.empleado.notificaciones_horas_extras.filter(
-            fecha_inicio__date__gte=self.fecha_inicio,
-            fecha_fin__date__lte=self.fecha_fin,
+            fecha__gte=self.fecha_inicio,
+            fecha__lte=self.fecha_fin,
             estado=EstadoNotificacionHorasExtras.APROBADA,
         ).select_related("hora_extra")
 
