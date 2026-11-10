@@ -15,6 +15,7 @@ export class ReporteService {
     anio: number,
     mes: number,
     legajo?: number,
+    parcial?: boolean,
   ): Observable<ReporteMensualResponse> {
     let params = new HttpParams()
       .set("anio", anio.toString())
@@ -24,6 +25,10 @@ export class ReporteService {
       params = params.set("legajo", legajo.toString());
     }
 
+    if (parcial) {
+      params = params.set("parcial", "true");
+    }
+
     return this._http.get<ReporteMensualResponse>(this._endpoint, { params });
   }
 
@@ -31,11 +36,16 @@ export class ReporteService {
     anio: number,
     mes: number,
     legajo: number,
+    parcial?: boolean,
   ): Observable<Blob> {
-    const params = new HttpParams()
+    let params = new HttpParams()
       .set("anio", anio.toString())
       .set("mes", mes.toString())
       .set("legajo", legajo.toString());
+
+    if (parcial) {
+      params = params.set("parcial", "true");
+    }
 
     return this._http.get(`${this._endpoint}pdf/`, {
       params,
