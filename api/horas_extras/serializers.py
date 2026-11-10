@@ -82,6 +82,7 @@ class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
             "fecha_fin",
             "motivo_resolucion",
             "estado",
+            "fecha_aprobacion",
         )
         read_only_fields = (
             "id",
@@ -90,6 +91,7 @@ class NotificacionHorasExtrasSerializer(serializers.ModelSerializer):
             "horas",
             "fecha_inicio",
             "fecha_fin",
+            "fecha_aprobacion",
         )
 
     def to_internal_value(self, data: Any) -> dict[str, Any]:
@@ -270,3 +272,13 @@ class ResolverNotificacionHorasExtrasSerializer(serializers.ModelSerializer):
             })
 
         return attrs
+
+    def update(
+        self, instance: NotificacionHorasExtras, validated_data: dict[str, Any]
+    ) -> NotificacionHorasExtras:
+        if (
+            validated_data.get("estado") == EstadoNotificacionHorasExtras.APROBADA
+            and not instance.fecha_aprobacion
+        ):
+            instance.fecha_aprobacion = timezone.now()
+        return super().update(instance, validated_data)

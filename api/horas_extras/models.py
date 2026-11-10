@@ -70,6 +70,12 @@ class NotificacionHorasExtras(models.Model):
         choices=EstadoNotificacionHorasExtras,
         default=EstadoNotificacionHorasExtras.PENDIENTE,
     )
+    fecha_aprobacion = models.DateTimeField(
+        null=True,
+        blank=True,
+        db_index=True,
+        verbose_name="fecha de aprobación",
+    )
 
     class Meta:
         verbose_name = "notificación de horas extras"
