@@ -271,7 +271,7 @@ export class AppEmpleadoForm implements OnInit {
     }
 
     if (!this.convenio()) {
-      errors["convenio"] = "Seleccionar un Area es Obligatorio.";
+      errors["convenio"] = "Seleccionar un Convenio es Obligatorio.";
     }
   
     this.fieldErrors.set(errors);

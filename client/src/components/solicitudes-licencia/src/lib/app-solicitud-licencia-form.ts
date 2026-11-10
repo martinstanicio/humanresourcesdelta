@@ -48,13 +48,6 @@ import { BreadcrumbService } from "@/services/breadcrumb.service";
 import { LicenciaSaldo, LicenciaService } from "@/services/licencias.service";
 import { SolicitudLicenciaService } from "@/services/solicitud-licencia.service";
 
-export type AttachedFile = {
-  file: File;
-  name: string;
-  sizeFormatted: string;
-  type: string;
-};
-
 @Component({
   selector: "app-solicitud-licencia-form",
   imports: [
@@ -112,10 +105,6 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
   public readonly fechaInicio = signal<string>("");
   public readonly fechaFin = signal<string>("");
   public readonly motivo = signal<string>("");
-
-  // Documentación adjunta
-  public readonly attachedFile = signal<AttachedFile | null>(null);
-  public readonly fileError = signal<string | null>(null);
 
   // Información contextual del saldo
   public readonly loadingSaldo = signal(false);
@@ -263,18 +252,6 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
     return null;
   });
 
-  // Validación: Flujo alternativo #3 (Documentación obligatoria faltante)
-  public readonly errorDocumentacion = computed<string | null>(() => {
-    const rules = this.selectedLicenciaRules();
-    if (!rules?.requiereDocumentacion) return null;
-
-    if (!this.attachedFile()) {
-      return "La documentación respaldatoria digital es obligatoria para este tipo de licencia.";
-    }
-
-    return null;
-  });
-
   // Formulario general válido
   public readonly isFormValid = computed<boolean>(() => {
     if (!this.selectedLicenciaId()) return false;
@@ -285,8 +262,6 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
     if (this.errorConsecutivos()) return false;
     if (this.errorSaldo()) return false;
     if (this.errorSuperposicion()) return false;
-    if (this.errorDocumentacion()) return false;
-    if (this.fileError()) return false;
 
     return true;
   });
@@ -353,63 +328,6 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
     });
   }
 
-  public onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.fileError.set(null);
-
-    if (!input.files || input.files.length === 0) {
-      return;
-    }
-
-    const file = input.files[0];
-    const allowedTypes = [
-      "application/pdf",
-      "image/jpeg",
-      "image/png",
-      "image/jpg",
-    ];
-    const ext = file.name.split(".").pop()?.toLowerCase();
-
-    const isAllowedExt = ["pdf", "jpg", "jpeg", "png"].includes(ext || "");
-    const isAllowedMime = allowedTypes.includes(file.type) || isAllowedExt;
-
-    if (!isAllowedMime) {
-      this.fileError.set(
-        "Formato no admitido. Formatos válidos: PDF, JPG, PNG.",
-      );
-      input.value = "";
-      return;
-    }
-
-    // Tamaño máximo: 5 MB
-    const maxSize = 5 * 1024 * 1024;
-    if (file.size > maxSize) {
-      this.fileError.set(
-        "El archivo supera el tamaño máximo permitido de 5 MB.",
-      );
-      input.value = "";
-      return;
-    }
-
-    const sizeFormatted =
-      file.size < 1024 * 1024
-        ? `${Math.round(file.size / 1024)} KB`
-        : `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
-
-    this.attachedFile.set({
-      file,
-      name: file.name,
-      sizeFormatted,
-      type: file.type || ext || "archivo",
-    });
-  }
-
-  public removeFile(fileInput: HTMLInputElement): void {
-    this.attachedFile.set(null);
-    this.fileError.set(null);
-    fileInput.value = "";
-  }
-
   public onSubmit(): void {
     if (!this.isFormValid()) return;
 
@@ -449,8 +367,6 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
     this.fechaInicio.set("");
     this.fechaFin.set("");
     this.motivo.set("");
-    this.attachedFile.set(null);
-    this.fileError.set(null);
     this.saldoInfo.set(null);
     this.submitError.set(null);
     this.loadInitialData();
