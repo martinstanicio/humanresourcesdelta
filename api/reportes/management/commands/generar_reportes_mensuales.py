@@ -84,7 +84,7 @@ class Command(TyperCommand):
             else:
                 self.stdout.write("  - Horas Extras: 0 hs")
 
-            tipos_lic = {k: v for k, v in lic.items() if k != "total"}
+            tipos_lic = lic.get("desglose", {})
             if tipos_lic:
                 lic_str = ", ".join(
                     f"{tipo}: {dias} dias" for tipo, dias in tipos_lic.items()
