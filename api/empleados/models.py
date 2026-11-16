@@ -25,6 +25,8 @@ class EmpleadoManager(BaseUserManager["Empleado"]):
 
         extra_fields.setdefault("rol", RolEmpleado.EMPLEADO)
         extra_fields.setdefault("activo", True)
+        extra_fields.setdefault("is_staff", False)
+        extra_fields.setdefault("is_superuser", False)
 
         user = self.model(legajo=legajo, **extra_fields)
 
@@ -81,6 +83,7 @@ class Empleado(AbstractBaseUser, PermissionsMixin):
         default=RolEmpleado.EMPLEADO,
     )
     activo = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
 
     objects = EmpleadoManager()
 

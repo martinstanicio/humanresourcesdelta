@@ -35,6 +35,7 @@ class Command(TyperCommand):
         convenio: Convenio | None = None,
         area: Area | None = None,
     ) -> Empleado:
+        is_admin = rol == RolEmpleado.RECURSOS_HUMANOS
         user_data: dict[str, object] = {
             "legajo": legajo,
             "password": None,
@@ -42,6 +43,8 @@ class Command(TyperCommand):
             "rol": rol,
             "fecha_ingreso": fecha_ingreso,
             "activo": True,
+            "is_staff": is_admin,
+            "is_superuser": is_admin,
         }
 
         if convenio is not None:
