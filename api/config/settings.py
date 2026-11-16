@@ -152,4 +152,6 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 Q_CLUSTER = {
     "name": "humanresourcesdelta",
     "orm": "default",
+    "retry": 360,
+    "timeout": 300,
 }
