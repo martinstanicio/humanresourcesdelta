@@ -181,23 +181,19 @@
         </hlm-select>
 
         <!-- Filtro Fecha Específica -->
-        <input
-          class="h-9 rounded-md border border-input bg-background px-2 py-1 text-xs text-foreground shadow-xs focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden"
-          placeholder="Fecha exacta"
-          type="date"
-          [ngModel]="fechaEspecificaFilter()"
-          (ngModelChange)="fechaEspecificaFilter.set($event)"
-        />
+        <hlm-date-picker
+          [autoCloseOnSelect]="true"
+          [date]="fechaEspecificaDate() ?? undefined"
+          (dateChange)="onFechaEspecificaChange($event)"
+        >
+          <hlm-date-picker-trigger class="w-40">
+            <span>Fecha exacta</span>
+          </hlm-date-picker-trigger>
+        </hlm-date-picker>
 
         <!-- Botón Reset filtros -->
-        <button
-          hlmBtn
-          size="sm"
-          type="button"
-          variant="outline"
-          (click)="resetFilters()"
-        >
-          <ng-icon class="size-3.5" name="lucideX" />
+        <button hlmBtn type="button" variant="outline" (click)="resetFilters()">
+          <ng-icon name="lucideX" />
           Limpiar
         </button>
       </div>
@@ -764,26 +760,19 @@
               </div>
 
               <!-- Campo de Observación / Motivo -->
-              <div class="space-y-1.5">
-                <label
-                  class="flex items-center justify-between text-xs font-semibold text-foreground"
-                  for="motivo_resolucion"
-                >
-                  <span>
-                    @if (decisionAction() === "rechazada") {
-                      Observación de rechazo
-                      <span class="text-destructive">* (Obligatoria)</span>
-                    } @else {
-                      Observación / Justificación (Opcional)
-                    }
-                  </span>
-                  <span class="text-xs font-normal text-muted-foreground">
-                    Se informará al empleado
-                  </span>
+              <div hlmField [forceInvalid]="!!validationError()">
+                <label for="motivo_resolucion" hlmFieldLabel>
+                  @if (decisionAction() === "rechazada") {
+                    Observación de rechazo
+                    <span class="text-destructive">* (Obligatoria)</span>
+                  } @else {
+                    Observación / Justificación (Opcional)
+                  }
                 </label>
 
                 <textarea
-                  class="w-full resize-none rounded-md border bg-background p-3 text-xs text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden"
+                  class="w-full resize-none"
+                  hlmTextarea
                   id="motivo_resolucion"
                   placeholder="{{
                     decisionAction() === 'rechazada'
@@ -791,21 +780,16 @@
                       : 'Ingrese una observación o comentario opcional...'
                   }}"
                   rows="3"
-                  [class.border-destructive]="validationError()"
                   [ngModel]="motivoResolucion()"
                   (ngModelChange)="motivoResolucion.set($event)"
                 ></textarea>
 
+                <p hlmFieldDescription>Se informará al empleado</p>
+
                 @if (validationError()) {
-                  <p
-                    class="mt-1 flex items-center gap-1.5 text-xs font-medium text-destructive"
-                  >
-                    <ng-icon
-                      class="size-3.5 shrink-0"
-                      name="lucideAlertCircle"
-                    />
+                  <hlm-field-error forceShow>
                     {{ validationError() }}
-                  </p>
+                  </hlm-field-error>
                 }
               </div>
 

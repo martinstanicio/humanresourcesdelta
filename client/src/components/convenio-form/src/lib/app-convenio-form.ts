@@ -25,6 +25,7 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
+import { HlmFieldImports } from "@spartan-ng/helm/field";
 import { HlmInput } from "@spartan-ng/helm/input";
 import { HlmInputGroupImports } from "@spartan-ng/helm/input-group";
 import { HlmSelectImports } from "@spartan-ng/helm/select";
@@ -55,6 +56,7 @@ import { LicenciaService } from "@/services/licencias.service";
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
+    HlmFieldImports,
     HlmInput,
     HlmInputGroupImports,
     HlmSelectImports,
@@ -114,7 +116,6 @@ export class AppConvenioForm implements OnInit {
   // Modal para Flujo Alternativo #1
   public readonly showVersionModal = signal<boolean>(false);
   public readonly empleadosActivosCount = signal<number>(0);
-  public readonly nuevaFechaVigencia = signal<string>("");
 
   // Datos Generales
   public readonly nombre = signal<string>("");
@@ -194,7 +195,6 @@ export class AppConvenioForm implements OnInit {
         this.identificacion.set(convenio.identificacion || "");
         this.descripcion.set(convenio.descripcion || "");
         this.empleadosActivosCount.set(convenio.empleados_activos ?? 0);
-        this.nuevaFechaVigencia.set(new Date().toISOString().split("T")[0]);
 
         // Cargar licencias activas
         this._licenciasOriginales = licencias;
@@ -428,7 +428,6 @@ export class AppConvenioForm implements OnInit {
 
     // Flujo alternativo #1: Modificación de un convenio con empleados asociados
     if (this.isEditMode() && this.empleadosActivosCount() > 0) {
-      this.nuevaFechaVigencia.set(new Date().toISOString().split("T")[0]);
       this.showVersionModal.set(true);
       return;
     }
@@ -437,9 +436,6 @@ export class AppConvenioForm implements OnInit {
   }
 
   public confirmarGuardadoVersion(): void {
-    if (!this.nuevaFechaVigencia()) {
-      return;
-    }
     this.showVersionModal.set(false);
     this.ejecutarGuardado();
   }

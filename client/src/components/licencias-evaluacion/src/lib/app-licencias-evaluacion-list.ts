@@ -30,12 +30,14 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
+import { HlmFieldImports } from "@spartan-ng/helm/field";
 import { HlmInputGroupImports } from "@spartan-ng/helm/input-group";
 import { HlmLabelImports } from "@spartan-ng/helm/label";
 import { HlmRadioGroupImports } from "@spartan-ng/helm/radio-group";
 import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTableImports } from "@spartan-ng/helm/table";
+import { HlmTextarea } from "@spartan-ng/helm/textarea";
 import { forkJoin } from "rxjs";
 
 import { calcularDiasHabiles } from "@/lib/feriados";
@@ -63,12 +65,14 @@ export type SolicitudStatusFilter = "all" | EstadoSolicitudLicencia;
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
+    HlmFieldImports,
     HlmInputGroupImports,
     HlmLabelImports,
     HlmRadioGroupImports,
     HlmSelectImports,
     HlmSkeleton,
     HlmTableImports,
+    HlmTextarea,
     NgIcon,
     TitleCasePipe,
   ],

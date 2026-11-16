@@ -155,27 +155,34 @@
 
           <div class="space-y-4" hlmCardContent>
             <!-- Fecha -->
-            <div class="space-y-2">
-              <label class="text-sm leading-none font-medium" for="fecha">
+            <div
+              hlmField
+              [forceInvalid]="
+                !!fieldErrors()['fecha_inicio'] || !!fieldErrors()['fecha']
+              "
+            >
+              <label for="fecha" hlmFieldLabel>
                 Fecha trabajada <span class="text-destructive">*</span>
               </label>
-              <input
-                class="w-full"
-                hlmInput
-                id="fecha"
-                name="fecha"
-                required
-                type="date"
-                [max]="getHoyString()"
-                [ngModel]="fecha()"
-                (ngModelChange)="fecha.set($event)"
-              />
+              <hlm-date-picker
+                [autoCloseOnSelect]="true"
+                [date]="fechaDate()"
+                [maxDate]="maxDateHoy"
+                (dateChange)="onFechaChange($event)"
+              >
+                <hlm-date-picker-trigger
+                  buttonId="fecha"
+                  class="w-full justify-between"
+                >
+                  <span>Seleccionar fecha trabajada</span>
+                </hlm-date-picker-trigger>
+              </hlm-date-picker>
               @if (fieldErrors()["fecha_inicio"] || fieldErrors()["fecha"]) {
-                <p class="text-xs font-medium text-destructive">
+                <hlm-field-error forceShow>
                   {{ fieldErrors()["fecha_inicio"] || fieldErrors()["fecha"] }}
-                </p>
+                </hlm-field-error>
               } @else {
-                <p class="text-xs text-muted-foreground">
+                <p hlmFieldDescription>
                   No se pueden registrar horas extras para fechas posteriores a
                   la actual.
                 </p>
@@ -184,11 +191,8 @@
 
             <!-- Horarios: Inicio y Fin -->
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div class="space-y-2">
-                <label
-                  class="text-sm leading-none font-medium"
-                  for="horaInicio"
-                >
+              <div hlmField [forceInvalid]="!!fieldErrors()['hora_inicio']">
+                <label for="horaInicio" hlmFieldLabel>
                   Hora de inicio <span class="text-destructive">*</span>
                 </label>
                 <input
@@ -202,14 +206,19 @@
                   (ngModelChange)="horaInicio.set($event)"
                 />
                 @if (fieldErrors()["hora_inicio"]) {
-                  <p class="text-xs font-medium text-destructive">
+                  <hlm-field-error forceShow>
                     {{ fieldErrors()["hora_inicio"] }}
-                  </p>
+                  </hlm-field-error>
                 }
               </div>
 
-              <div class="space-y-2">
-                <label class="text-sm leading-none font-medium" for="horaFin">
+              <div
+                hlmField
+                [forceInvalid]="
+                  !!fieldErrors()['fecha_fin'] || !!fieldErrors()['hora_fin']
+                "
+              >
+                <label for="horaFin" hlmFieldLabel>
                   Hora de fin <span class="text-destructive">*</span>
                 </label>
                 <input
@@ -223,11 +232,11 @@
                   (ngModelChange)="horaFin.set($event)"
                 />
                 @if (fieldErrors()["fecha_fin"] || fieldErrors()["hora_fin"]) {
-                  <p class="text-xs font-medium text-destructive">
+                  <hlm-field-error forceShow>
                     {{
                       fieldErrors()["fecha_fin"] || fieldErrors()["hora_fin"]
                     }}
-                  </p>
+                  </hlm-field-error>
                 }
               </div>
             </div>
@@ -285,8 +294,8 @@
             }
 
             <!-- Motivo de la extensión -->
-            <div class="space-y-2 pt-2">
-              <label class="text-sm leading-none font-medium" for="motivo">
+            <div hlmField [forceInvalid]="!!fieldErrors()['motivo_resolucion']">
+              <label for="motivo" hlmFieldLabel>
                 Motivo de la extensión <span class="text-destructive">*</span>
               </label>
               <textarea
@@ -301,11 +310,11 @@
                 (ngModelChange)="motivo.set($event)"
               ></textarea>
               @if (fieldErrors()["motivo_resolucion"]) {
-                <p class="text-xs font-medium text-destructive">
+                <hlm-field-error forceShow>
                   {{ fieldErrors()["motivo_resolucion"] }}
-                </p>
+                </hlm-field-error>
               } @else {
-                <p class="text-xs text-muted-foreground">
+                <p hlmFieldDescription>
                   Mínimo 5 caracteres. Este motivo será revisado por Recursos
                   Humanos al momento de la evaluación.
                 </p>

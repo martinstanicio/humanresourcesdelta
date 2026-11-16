@@ -26,6 +26,8 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
+import { HlmDatePickerImports } from "@spartan-ng/helm/date-picker";
+import { HlmFieldImports } from "@spartan-ng/helm/field";
 import { HlmInput } from "@spartan-ng/helm/input";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTextarea } from "@spartan-ng/helm/textarea";
@@ -54,6 +56,8 @@ import { NotificacionHoraExtraService } from "@/services/notificacion-hora-extra
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
+    HlmDatePickerImports,
+    HlmFieldImports,
     HlmInput,
     HlmSkeleton,
     HlmTextarea,
@@ -88,6 +92,25 @@ export class AppNotificacionHoraExtraForm implements OnInit, OnDestroy {
 
   // Estados del formulario
   public readonly fecha = signal<string>(formatDateISO(new Date()));
+  public readonly maxDateHoy = new Date();
+
+  public readonly fechaDate = computed<Date | undefined>(() => {
+    const val = this.fecha();
+    if (!val) return undefined;
+    const [y, m, d] = val.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  });
+
+  public onFechaChange(date: Date | null): void {
+    if (date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      this.fecha.set(`${y}-${m}-${d}`);
+    } else {
+      this.fecha.set("");
+    }
+  }
   public readonly horaInicio = signal<string>("");
   public readonly horaFin = signal<string>("");
   public readonly motivo = signal<string>("");

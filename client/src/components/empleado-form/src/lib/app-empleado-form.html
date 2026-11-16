@@ -49,12 +49,8 @@
       <div class="grid gap-6 p-6 pt-0" hlmCardContent>
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <!-- Campo: Legajo -->
-          <div class="flex flex-col gap-2">
-            <label
-              class="text-sm leading-none font-medium"
-              for="legajo"
-              [class.text-destructive]="fieldErrors()['legajo']"
-            >
+          <div hlmField [forceInvalid]="!!fieldErrors()['legajo']">
+            <label for="legajo" hlmFieldLabel>
               Número de Legajo <span class="text-destructive">*</span>
             </label>
             <input
@@ -71,21 +67,17 @@
               (ngModelChange)="legajo.set($event)"
             />
             @if (fieldErrors()["legajo"]; as err) {
-              <p class="text-xs text-destructive">{{ err }}</p>
+              <hlm-field-error forceShow>{{ err }}</hlm-field-error>
             } @else if (isEditMode()) {
-              <p class="text-xs text-muted-foreground">
+              <p hlmFieldDescription>
                 El legajo es el identificador único y no es modificable.
               </p>
             }
           </div>
 
           <!-- Campo: Nombre y Apellido -->
-          <div class="flex flex-col gap-2">
-            <label
-              class="text-sm leading-none font-medium"
-              for="nombre"
-              [class.text-destructive]="fieldErrors()['nombre']"
-            >
+          <div hlmField [forceInvalid]="!!fieldErrors()['nombre']">
+            <label for="nombre" hlmFieldLabel>
               Nombre y Apellido <span class="text-destructive">*</span>
             </label>
             <input
@@ -100,48 +92,48 @@
               (ngModelChange)="nombre.set($event)"
             />
             @if (fieldErrors()["nombre"]; as err) {
-              <p class="text-xs text-destructive">{{ err }}</p>
+              <hlm-field-error forceShow>{{ err }}</hlm-field-error>
             }
           </div>
         </div>
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <!-- Campo: Fecha de Ingreso -->
-          <div class="flex flex-col gap-2">
-            <label
-              class="text-sm leading-none font-medium"
-              for="fechaIngreso"
-              [class.text-destructive]="
-                fieldErrors()['fechaIngreso'] || fieldErrors()['fecha_ingreso']
-              "
-            >
+          <div
+            hlmField
+            [forceInvalid]="
+              !!fieldErrors()['fechaIngreso'] ||
+              !!fieldErrors()['fecha_ingreso']
+            "
+          >
+            <label for="fechaIngreso" hlmFieldLabel>
               Fecha de Ingreso <span class="text-destructive">*</span>
             </label>
-            <input
-              class="w-full"
-              hlmInput
-              id="fechaIngreso"
-              name="fechaIngreso"
-              type="date"
+            <hlm-date-picker
+              captionLayout="dropdown"
+              [autoCloseOnSelect]="true"
+              [date]="fechaIngresoDate()"
               [disabled]="saving()"
-              [ngModel]="fechaIngreso()"
-              (ngModelChange)="fechaIngreso.set($event)"
-            />
+              (dateChange)="onFechaIngresoChange($event)"
+            >
+              <hlm-date-picker-trigger
+                buttonId="fechaIngreso"
+                class="w-full justify-between"
+              >
+                <span>Seleccionar fecha de ingreso</span>
+              </hlm-date-picker-trigger>
+            </hlm-date-picker>
             @if (
               fieldErrors()["fechaIngreso"] || fieldErrors()["fecha_ingreso"];
               as err
             ) {
-              <p class="text-xs text-destructive">{{ err }}</p>
+              <hlm-field-error forceShow>{{ err }}</hlm-field-error>
             }
           </div>
 
           <!-- Campo: Rol del Sistema -->
-          <div class="flex flex-col gap-2">
-            <label
-              class="text-sm leading-none font-medium"
-              for="rol"
-              [class.text-destructive]="fieldErrors()['rol']"
-            >
+          <div hlmField [forceInvalid]="!!fieldErrors()['rol']">
+            <label for="rol" hlmFieldLabel>
               Rol del Sistema <span class="text-destructive">*</span>
             </label>
             <hlm-select
@@ -152,7 +144,7 @@
               [value]="rol()"
               (valueChange)="onRolSelect($event)"
             >
-              <hlm-select-trigger class="w-full">
+              <hlm-select-trigger buttonId="rol" class="w-full">
                 <hlm-select-value />
               </hlm-select-trigger>
               <hlm-select-content *hlmSelectPortal>
@@ -167,9 +159,9 @@
               </hlm-select-content>
             </hlm-select>
             @if (fieldErrors()["rol"]; as err) {
-              <p class="text-xs text-destructive">{{ err }}</p>
+              <hlm-field-error forceShow>{{ err }}</hlm-field-error>
             } @else {
-              <p class="text-xs text-muted-foreground">
+              <p hlmFieldDescription>
                 Define los privilegios de acceso y visibilidad de módulos en el
                 sistema.
               </p>
@@ -178,12 +170,8 @@
         </div>
 
         <!-- Campo: Convenio de Trabajo -->
-        <div class="flex flex-col gap-2">
-          <label
-            class="text-sm leading-none font-medium"
-            for="convenio"
-            [class.text-destructive]="fieldErrors()['convenio']"
-          >
+        <div hlmField [forceInvalid]="!!fieldErrors()['convenio']">
+          <label for="convenio" hlmFieldLabel>
             Convenio Colectivo de Trabajo (CU-11)
           </label>
           <hlm-select
@@ -194,7 +182,7 @@
             [value]="convenio() ? convenio()!.toString() : ''"
             (valueChange)="onConvenioSelect($event)"
           >
-            <hlm-select-trigger class="w-full">
+            <hlm-select-trigger buttonId="convenio" class="w-full">
               <hlm-select-value placeholder="-- Sin convenio asignado --" />
             </hlm-select-trigger>
             <hlm-select-content *hlmSelectPortal>
@@ -212,9 +200,9 @@
             </hlm-select-content>
           </hlm-select>
           @if (fieldErrors()["convenio"]; as err) {
-            <p class="text-xs text-destructive">{{ err }}</p>
+            <hlm-field-error forceShow>{{ err }}</hlm-field-error>
           } @else {
-            <p class="text-xs text-muted-foreground">
+            <p hlmFieldDescription>
               Determina las reglas de licencias y multiplicadores de horas
               extras aplicables. Solo se admiten convenios activos.
             </p>
@@ -222,14 +210,8 @@
         </div>
 
         <!-- Campo: Área -->
-        <div class="flex flex-col gap-2">
-          <label
-            class="text-sm leading-none font-medium"
-            for="area"
-            [class.text-destructive]="fieldErrors()['area']"
-          >
-            Área de Pertenencia
-          </label>
+        <div hlmField [forceInvalid]="!!fieldErrors()['area']">
+          <label for="area" hlmFieldLabel> Área de Pertenencia </label>
           <hlm-select
             id="area"
             name="area"
@@ -238,7 +220,7 @@
             [value]="area() ? area()!.toString() : ''"
             (valueChange)="onAreaSelect($event)"
           >
-            <hlm-select-trigger class="w-full">
+            <hlm-select-trigger buttonId="area" class="w-full">
               <hlm-select-value placeholder="-- Sin área asignada --" />
             </hlm-select-trigger>
             <hlm-select-content *hlmSelectPortal>
@@ -255,9 +237,9 @@
             </hlm-select-content>
           </hlm-select>
           @if (fieldErrors()["area"]; as err) {
-            <p class="text-xs text-destructive">{{ err }}</p>
+            <hlm-field-error forceShow>{{ err }}</hlm-field-error>
           } @else {
-            <p class="text-xs text-muted-foreground">
+            <p hlmFieldDescription>
               Área funcional a la que pertenece el empleado.
             </p>
           }

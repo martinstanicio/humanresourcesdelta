@@ -29,12 +29,15 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
+import { HlmDatePickerImports } from "@spartan-ng/helm/date-picker";
+import { HlmFieldImports } from "@spartan-ng/helm/field";
 import { HlmInputGroupImports } from "@spartan-ng/helm/input-group";
 import { HlmLabelImports } from "@spartan-ng/helm/label";
 import { HlmRadioGroupImports } from "@spartan-ng/helm/radio-group";
 import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTableImports } from "@spartan-ng/helm/table";
+import { HlmTextarea } from "@spartan-ng/helm/textarea";
 import { forkJoin } from "rxjs";
 
 import { Convenio } from "@/models/convenio.model";
@@ -63,12 +66,15 @@ export type NotificacionStatusFilter = "all" | EstadoNotificacionHorasExtras;
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
+    HlmDatePickerImports,
+    HlmFieldImports,
     HlmInputGroupImports,
     HlmLabelImports,
     HlmRadioGroupImports,
     HlmSelectImports,
     HlmSkeleton,
     HlmTableImports,
+    HlmTextarea,
     NgIcon,
     TitleCasePipe,
   ],
@@ -134,6 +140,19 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
     return found ? found.label : String(val);
   };
   public readonly fechaEspecificaFilter = signal<string>("");
+  public readonly fechaEspecificaDate = signal<Date | null>(null);
+
+  public onFechaEspecificaChange(date: Date | null): void {
+    this.fechaEspecificaDate.set(date);
+    if (date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      this.fechaEspecificaFilter.set(`${y}-${m}-${d}`);
+    } else {
+      this.fechaEspecificaFilter.set("");
+    }
+  }
 
   public onStatusRadioChange(val: string | null | undefined): void {
     if (val) this.statusFilter.set(val as NotificacionStatusFilter);
@@ -460,6 +479,7 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
     this.empleadoFilter.set("all");
     this.periodoFilter.set("all");
     this.fechaEspecificaFilter.set("");
+    this.fechaEspecificaDate.set(null);
   }
 
   // Acciones de Drawer

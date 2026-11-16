@@ -31,7 +31,8 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
-import { HlmInput } from "@spartan-ng/helm/input";
+import { HlmDatePickerImports } from "@spartan-ng/helm/date-picker";
+import { HlmFieldImports } from "@spartan-ng/helm/field";
 import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTextarea } from "@spartan-ng/helm/textarea";
@@ -57,7 +58,8 @@ import { SolicitudLicenciaService } from "@/services/solicitud-licencia.service"
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
-    HlmInput,
+    HlmDatePickerImports,
+    HlmFieldImports,
     HlmSelectImports,
     HlmSkeleton,
     HlmTextarea,
@@ -107,6 +109,52 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
   public readonly fechaInicio = signal<string>("");
   public readonly fechaFin = signal<string>("");
   public readonly motivo = signal<string>("");
+
+  public readonly minDateHoy = new Date(new Date().setHours(0, 0, 0, 0));
+
+  public readonly fechaInicioDate = computed<Date | undefined>(() => {
+    const val = this.fechaInicio();
+    if (!val) return undefined;
+    const [y, m, d] = val.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  });
+
+  public readonly fechaFinDate = computed<Date | undefined>(() => {
+    const val = this.fechaFin();
+    if (!val) return undefined;
+    const [y, m, d] = val.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  });
+
+  public readonly minDateFin = computed<Date>(() => {
+    return this.fechaInicioDate() ?? this.minDateHoy;
+  });
+
+  public onFechaInicioChange(date: Date | null): void {
+    if (date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      const formatted = `${y}-${m}-${d}`;
+      this.fechaInicio.set(formatted);
+      if (this.fechaFin() && this.fechaFin() < formatted) {
+        this.fechaFin.set(formatted);
+      }
+    } else {
+      this.fechaInicio.set("");
+    }
+  }
+
+  public onFechaFinChange(date: Date | null): void {
+    if (date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      this.fechaFin.set(`${y}-${m}-${d}`);
+    } else {
+      this.fechaFin.set("");
+    }
+  }
 
   // Información contextual del saldo
   public readonly loadingSaldo = signal(false);

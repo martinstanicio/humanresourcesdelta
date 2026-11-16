@@ -25,6 +25,7 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
+import { HlmFieldImports } from "@spartan-ng/helm/field";
 import { HlmInputGroupImports } from "@spartan-ng/helm/input-group";
 import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
@@ -60,6 +61,7 @@ export const MESES = [
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
+    HlmFieldImports,
     HlmInputGroupImports,
     HlmSelectImports,
     HlmSkeleton,

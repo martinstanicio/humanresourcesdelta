@@ -168,11 +168,8 @@
       <form class="space-y-6" (ngSubmit)="onSubmit()">
         <div class="space-y-6 rounded-xl border bg-card p-6 shadow-sm">
           <!-- 1. SELECCIÓN DEL TIPO DE LICENCIA -->
-          <div class="space-y-2">
-            <label
-              class="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              for="licencia"
-            >
+          <div hlmField>
+            <label for="licencia" hlmFieldLabel>
               Tipo de licencia <span class="text-destructive">*</span>
             </label>
             <hlm-select
@@ -183,7 +180,7 @@
               "
               (valueChange)="onLicenciaChange($event)"
             >
-              <hlm-select-trigger class="w-full">
+              <hlm-select-trigger buttonId="licencia" class="w-full">
                 <hlm-select-value
                   placeholder="-- Selecciona el tipo de licencia admitido por tu convenio --"
                 />
@@ -199,7 +196,7 @@
               </hlm-select-content>
             </hlm-select>
             @if (selectedLicencia()?.descripcion) {
-              <p class="text-xs text-muted-foreground">
+              <p hlmFieldDescription>
                 {{ selectedLicencia()?.descripcion }}
               </p>
             }
@@ -327,38 +324,42 @@
 
           <!-- 2. RANGO DE FECHAS (INICIO Y FIN) -->
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div class="space-y-2">
-              <label class="text-sm leading-none font-medium" for="fechaInicio">
+            <div hlmField>
+              <label for="fechaInicio" hlmFieldLabel>
                 Fecha de inicio <span class="text-destructive">*</span>
               </label>
-              <input
-                class="w-full"
-                hlmInput
-                id="fechaInicio"
-                name="fechaInicio"
-                required
-                type="date"
-                [min]="getHoyString()"
-                [ngModel]="fechaInicio()"
-                (ngModelChange)="fechaInicio.set($event)"
-              />
+              <hlm-date-picker
+                [autoCloseOnSelect]="true"
+                [date]="fechaInicioDate()"
+                [minDate]="minDateHoy"
+                (dateChange)="onFechaInicioChange($event)"
+              >
+                <hlm-date-picker-trigger
+                  buttonId="fechaInicio"
+                  class="w-full justify-between"
+                >
+                  <span>Seleccionar fecha de inicio</span>
+                </hlm-date-picker-trigger>
+              </hlm-date-picker>
             </div>
 
-            <div class="space-y-2">
-              <label class="text-sm leading-none font-medium" for="fechaFin">
+            <div hlmField>
+              <label for="fechaFin" hlmFieldLabel>
                 Fecha de fin <span class="text-destructive">*</span>
               </label>
-              <input
-                class="w-full"
-                hlmInput
-                id="fechaFin"
-                name="fechaFin"
-                required
-                type="date"
-                [min]="fechaInicio() || getHoyString()"
-                [ngModel]="fechaFin()"
-                (ngModelChange)="fechaFin.set($event)"
-              />
+              <hlm-date-picker
+                [autoCloseOnSelect]="true"
+                [date]="fechaFinDate()"
+                [minDate]="minDateFin()"
+                (dateChange)="onFechaFinChange($event)"
+              >
+                <hlm-date-picker-trigger
+                  buttonId="fechaFin"
+                  class="w-full justify-between"
+                >
+                  <span>Seleccionar fecha de fin</span>
+                </hlm-date-picker-trigger>
+              </hlm-date-picker>
             </div>
           </div>
 
@@ -468,8 +469,8 @@
           }
 
           <!-- 3. MOTIVO DE LA SOLICITUD -->
-          <div class="space-y-2">
-            <label class="text-sm leading-none font-medium" for="motivo">
+          <div hlmField>
+            <label for="motivo" hlmFieldLabel>
               Motivo o justificación de la solicitud
             </label>
             <textarea
@@ -482,6 +483,10 @@
               [ngModel]="motivo()"
               (ngModelChange)="motivo.set($event)"
             ></textarea>
+            <p hlmFieldDescription>
+              Opcional. Información adicional para la evaluación de Recursos
+              Humanos.
+            </p>
           </div>
           <!-- Error general de la API -->
           @if (submitError()) {

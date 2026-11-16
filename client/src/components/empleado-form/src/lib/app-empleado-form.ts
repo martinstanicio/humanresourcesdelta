@@ -25,6 +25,8 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
+import { HlmDatePickerImports } from "@spartan-ng/helm/date-picker";
+import { HlmFieldImports } from "@spartan-ng/helm/field";
 import { HlmInput } from "@spartan-ng/helm/input";
 import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
@@ -47,6 +49,8 @@ import { EmpleadoService } from "@/services/empleado.service";
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
+    HlmDatePickerImports,
+    HlmFieldImports,
     HlmInput,
     HlmSelectImports,
     HlmSkeleton,
@@ -94,6 +98,23 @@ export class AppEmpleadoForm implements OnInit {
   public readonly legajo = signal<number | null>(null);
   public readonly nombre = signal<string>("");
   public readonly fechaIngreso = signal<string>("");
+  public readonly fechaIngresoDate = computed<Date | undefined>(() => {
+    const val = this.fechaIngreso();
+    if (!val) return undefined;
+    const [y, m, d] = val.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  });
+
+  public onFechaIngresoChange(date: Date | null): void {
+    if (date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      this.fechaIngreso.set(`${y}-${m}-${d}`);
+    } else {
+      this.fechaIngreso.set("");
+    }
+  }
   public readonly rol = signal<RolEmpleado>("empleado");
   public readonly convenio = signal<number | null>(null);
   public readonly area = signal<number | null>(null);
