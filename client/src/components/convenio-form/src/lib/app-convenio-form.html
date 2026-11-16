@@ -327,9 +327,9 @@
                 <label class="text-xs font-medium" for="he-habil">
                   Día hábil (%)
                 </label>
-                <div class="relative">
+                <div hlmInputGroup>
                   <input
-                    hlmInput
+                    hlmInputGroupInput
                     id="he-habil"
                     min="0"
                     name="he_habil"
@@ -338,10 +338,9 @@
                     [ngModel]="horasExtrasConfig().habilPorcentaje"
                     (ngModelChange)="updateHEConfig('habilPorcentaje', +$event)"
                   />
-                  <span
-                    class="pointer-events-none absolute top-2.5 right-3 text-xs text-muted-foreground"
-                    >%</span
-                  >
+                  <div align="inline-end" hlmInputGroupAddon>
+                    <ng-icon name="lucidePercent" />
+                  </div>
                 </div>
                 <span class="text-[11px] text-muted-foreground"
                   >Ej. 50% (x1.5)</span
@@ -353,9 +352,9 @@
                 <label class="text-xs font-medium" for="he-sabado">
                   Sábado después del mediodía (%)
                 </label>
-                <div class="relative">
+                <div hlmInputGroup>
                   <input
-                    hlmInput
+                    hlmInputGroupInput
                     id="he-sabado"
                     min="0"
                     name="he_sabado"
@@ -366,10 +365,9 @@
                       updateHEConfig('sabadoPorcentaje', +$event)
                     "
                   />
-                  <span
-                    class="pointer-events-none absolute top-2.5 right-3 text-xs text-muted-foreground"
-                    >%</span
-                  >
+                  <div align="inline-end" hlmInputGroupAddon>
+                    <ng-icon name="lucidePercent" />
+                  </div>
                 </div>
                 <span class="text-[11px] text-muted-foreground"
                   >Ej. 100% (x2.0)</span
@@ -381,9 +379,9 @@
                 <label class="text-xs font-medium" for="he-domingo">
                   Domingo (%)
                 </label>
-                <div class="relative">
+                <div hlmInputGroup>
                   <input
-                    hlmInput
+                    hlmInputGroupInput
                     id="he-domingo"
                     min="0"
                     name="he_domingo"
@@ -394,10 +392,9 @@
                       updateHEConfig('domingoPorcentaje', +$event)
                     "
                   />
-                  <span
-                    class="pointer-events-none absolute top-2.5 right-3 text-xs text-muted-foreground"
-                    >%</span
-                  >
+                  <div align="inline-end" hlmInputGroupAddon>
+                    <ng-icon name="lucidePercent" />
+                  </div>
                 </div>
                 <span class="text-[11px] text-muted-foreground"
                   >Ej. 100% (x2.0)</span
@@ -409,9 +406,9 @@
                 <label class="text-xs font-medium" for="he-feriado">
                   Feriado (%)
                 </label>
-                <div class="relative">
+                <div hlmInputGroup>
                   <input
-                    hlmInput
+                    hlmInputGroupInput
                     id="he-feriado"
                     min="0"
                     name="he_feriado"
@@ -422,10 +419,9 @@
                       updateHEConfig('feriadoPorcentaje', +$event)
                     "
                   />
-                  <span
-                    class="pointer-events-none absolute top-2.5 right-3 text-xs text-muted-foreground"
-                    >%</span
-                  >
+                  <div align="inline-end" hlmInputGroupAddon>
+                    <ng-icon name="lucidePercent" />
+                  </div>
                 </div>
                 <span class="text-[11px] text-muted-foreground"
                   >Ej. 100% (x2.0)</span

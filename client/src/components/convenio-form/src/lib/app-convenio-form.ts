@@ -17,6 +17,7 @@ import {
   lucideCheck,
   lucideCheckCircle2,
   lucideClock,
+  lucidePercent,
   lucidePlus,
   lucideRefreshCw,
   lucideTrash2,
@@ -25,6 +26,7 @@ import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
 import { HlmInput } from "@spartan-ng/helm/input";
+import { HlmInputGroupImports } from "@spartan-ng/helm/input-group";
 import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTextarea } from "@spartan-ng/helm/textarea";
@@ -54,6 +56,7 @@ import { LicenciaService } from "@/services/licencias.service";
     HlmButton,
     HlmCardImports,
     HlmInput,
+    HlmInputGroupImports,
     HlmSelectImports,
     HlmSkeleton,
     HlmTextarea,
@@ -68,6 +71,7 @@ import { LicenciaService } from "@/services/licencias.service";
       lucideCheck,
       lucideCheckCircle2,
       lucideClock,
+      lucidePercent,
       lucidePlus,
       lucideRefreshCw,
       lucideTrash2,

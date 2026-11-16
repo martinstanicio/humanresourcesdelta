@@ -212,21 +212,17 @@
       class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between"
     >
       <!-- Búsqueda textual libre -->
-      <div class="relative flex-1">
-        <hlm-input-group class="w-full">
-          <input
-            class="w-full pl-9"
-            hlmInput
-            placeholder="Buscar por empleado, legajo o motivo..."
-            type="text"
-            [ngModel]="searchQuery()"
-            (ngModelChange)="searchQuery.set($event)"
-          />
-          <ng-icon
-            class="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
-            name="lucideSearch"
-          />
-        </hlm-input-group>
+      <div class="flex-1" hlmInputGroup>
+        <div hlmInputGroupAddon>
+          <ng-icon name="lucideSearch" />
+        </div>
+        <input
+          hlmInputGroupInput
+          placeholder="Buscar por empleado, legajo o motivo..."
+          type="search"
+          [ngModel]="searchQuery()"
+          (ngModelChange)="searchQuery.set($event)"
+        />
       </div>
 
       <!-- Filtros desplegables -->

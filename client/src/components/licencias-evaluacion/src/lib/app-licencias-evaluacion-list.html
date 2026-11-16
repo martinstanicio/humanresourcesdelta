@@ -259,28 +259,17 @@
         for="search"
         >Buscar empleado o motivo</label
       >
-      <div class="flex h-9 items-center rounded-md border bg-background px-2.5">
-        <ng-icon
-          class="mr-1.5 size-3.5 shrink-0 text-muted-foreground"
-          name="lucideSearch"
-        />
+      <div hlmInputGroup>
+        <div hlmInputGroupAddon>
+          <ng-icon name="lucideSearch" />
+        </div>
         <input
-          class="h-8 w-full border-0 px-0 text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
-          hlmInput
+          hlmInputGroupInput
           id="search"
           placeholder="Nombre, legajo, motivo..."
-          type="text"
+          type="search"
           [(ngModel)]="searchQuery"
         />
-        @if (searchQuery()) {
-          <button
-            class="text-muted-foreground hover:text-foreground"
-            type="button"
-            (click)="searchQuery.set('')"
-          >
-            <ng-icon class="size-3" name="lucideX" />
-          </button>
-        }
       </div>
     </div>
 

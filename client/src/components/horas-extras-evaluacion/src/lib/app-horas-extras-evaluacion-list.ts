@@ -30,7 +30,6 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
-import { HlmInput } from "@spartan-ng/helm/input";
 import { HlmInputGroupImports } from "@spartan-ng/helm/input-group";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTableImports } from "@spartan-ng/helm/table";
@@ -63,7 +62,6 @@ export const TOPE_MENSUAL_HORAS = 30;
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
-    HlmInput,
     HlmInputGroupImports,
     HlmSkeleton,
     HlmTableImports,
