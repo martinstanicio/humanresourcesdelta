@@ -31,6 +31,8 @@ import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
 import { HlmInputGroupImports } from "@spartan-ng/helm/input-group";
+import { HlmLabelImports } from "@spartan-ng/helm/label";
+import { HlmRadioGroupImports } from "@spartan-ng/helm/radio-group";
 import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTableImports } from "@spartan-ng/helm/table";
@@ -62,6 +64,8 @@ export type SolicitudStatusFilter = "all" | EstadoSolicitudLicencia;
     HlmButton,
     HlmCardImports,
     HlmInputGroupImports,
+    HlmLabelImports,
+    HlmRadioGroupImports,
     HlmSelectImports,
     HlmSkeleton,
     HlmTableImports,
@@ -146,6 +150,10 @@ export class AppLicenciasEvaluacionList implements OnInit {
         return "Cualquier período";
     }
   };
+
+  public onStatusRadioChange(val: string | null | undefined): void {
+    if (val) this.statusFilter.set(val as SolicitudStatusFilter);
+  }
 
   // Drawer de evaluación
   public readonly selectedSolicitud = signal<SolicitudLicencia | null>(null);

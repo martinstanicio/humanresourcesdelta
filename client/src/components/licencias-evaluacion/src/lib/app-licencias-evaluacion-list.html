@@ -66,187 +66,65 @@
     </div>
   }
 
-  <!-- Tarjetas de métricas -->
-  <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
-    <!-- Pendientes -->
-    <div
-      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-warning/50"
-      role="button"
-      tabindex="0"
-      [class.ring-2]="statusFilter() === 'pendiente'"
-      [class.ring-warning]="statusFilter() === 'pendiente'"
-      (click)="statusFilter.set('pendiente')"
-      (keydown.enter)="statusFilter.set('pendiente')"
-      (keydown.space)="$event.preventDefault(); statusFilter.set('pendiente')"
+  <hlm-radio-group
+    class="grid grid-cols-2 gap-3 md:grid-cols-5"
+    [value]="statusFilter()"
+    (valueChange)="onStatusRadioChange($event)"
+  >
+    <label
+      class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-warning/50 hover:bg-warning/5 has-data-[checked=true]:border-2 has-data-[checked=true]:border-warning has-data-[checked=true]:bg-warning/10 [&>span]:mt-2"
+      for="status-pendiente"
+      hlmLabel
     >
-      <div class="flex items-center justify-between">
-        <div
-          class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
-        >
-          <ng-icon class="size-4 text-warning" name="lucideClock" />
-          Pendientes
-        </div>
-        @if (pendientesCount() > 0) {
-          <span class="size-2 animate-pulse rounded-full bg-warning"></span>
-        }
-      </div>
-      <div class="mt-2 text-2xl font-bold text-warning">
-        {{ pendientesCount() }}
-      </div>
-      <p class="mt-0.5 text-[11px] text-muted-foreground">
-        Requieren resolución de RRHH
-      </p>
-    </div>
-
-    <!-- Aprobadas -->
-    <div
-      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-success/50"
-      role="button"
-      tabindex="0"
-      [class.ring-2]="statusFilter() === 'aprobada'"
-      [class.ring-success]="statusFilter() === 'aprobada'"
-      (click)="statusFilter.set('aprobada')"
-      (keydown.enter)="statusFilter.set('aprobada')"
-      (keydown.space)="$event.preventDefault(); statusFilter.set('aprobada')"
+      <hlm-radio inputId="status-pendiente" value="pendiente">
+        <ng-icon class="text-lg text-warning" name="lucideClock" />
+      </hlm-radio>
+      <span>Pendientes ({{ pendientesCount() }})</span>
+    </label>
+    <label
+      class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-success/50 hover:bg-success/5 has-data-[checked=true]:border-2 has-data-[checked=true]:border-success has-data-[checked=true]:bg-success/10 [&>span]:mt-2"
+      for="status-aprobada"
+      hlmLabel
     >
-      <div
-        class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
-      >
-        <ng-icon class="size-4 text-success" name="lucideCheckCircle2" />
-        Aprobadas
-      </div>
-      <div class="mt-2 text-2xl font-bold text-success">
-        {{ aprobadasCount() }}
-      </div>
-      <p class="mt-0.5 text-[11px] text-muted-foreground">
-        Cupo descontado y registradas
-      </p>
-    </div>
-
-    <!-- Rechazadas -->
-    <div
-      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-destructive/50"
-      role="button"
-      tabindex="0"
-      [class.ring-2]="statusFilter() === 'rechazada'"
-      [class.ring-destructive]="statusFilter() === 'rechazada'"
-      (click)="statusFilter.set('rechazada')"
-      (keydown.enter)="statusFilter.set('rechazada')"
-      (keydown.space)="$event.preventDefault(); statusFilter.set('rechazada')"
+      <hlm-radio inputId="status-aprobada" value="aprobada">
+        <ng-icon class="text-lg text-success" name="lucideCheckCircle2" />
+      </hlm-radio>
+      <span>Aprobadas ({{ aprobadasCount() }})</span>
+    </label>
+    <label
+      class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-destructive/50 hover:bg-destructive/5 has-data-[checked=true]:border-2 has-data-[checked=true]:border-destructive has-data-[checked=true]:bg-destructive/10 [&>span]:mt-2"
+      for="status-rechazada"
+      hlmLabel
     >
-      <div
-        class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
-      >
-        <ng-icon class="size-4 text-destructive" name="lucideXCircle" />
-        Rechazadas
-      </div>
-      <div class="mt-2 text-2xl font-bold text-destructive">
-        {{ rechazadasCount() }}
-      </div>
-      <p class="mt-0.5 text-[11px] text-muted-foreground">
-        Con observación registrada
-      </p>
-    </div>
-
-    <!-- Canceladas -->
-    <div
-      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-muted-foreground/30"
-      role="button"
-      tabindex="0"
-      [class.ring-2]="statusFilter() === 'cancelada'"
-      [class.ring-muted-foreground]="statusFilter() === 'cancelada'"
-      (click)="statusFilter.set('cancelada')"
-      (keydown.enter)="statusFilter.set('cancelada')"
-      (keydown.space)="$event.preventDefault(); statusFilter.set('cancelada')"
+      <hlm-radio inputId="status-rechazada" value="rechazada">
+        <ng-icon class="text-lg text-destructive" name="lucideXCircle" />
+      </hlm-radio>
+      <span>Rechazadas ({{ rechazadasCount() }})</span>
+    </label>
+    <label
+      class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-muted-foreground/30 hover:bg-muted/20 has-data-[checked=true]:border-2 has-data-[checked=true]:border-muted-foreground has-data-[checked=true]:bg-muted/30 [&>span]:mt-2"
+      for="status-cancelada"
+      hlmLabel
     >
-      <div
-        class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
-      >
+      <hlm-radio inputId="status-cancelada" value="cancelada">
         <ng-icon
-          class="size-4 text-muted-foreground"
+          class="text-lg text-muted-foreground"
           name="lucideCalendarOff"
         />
-        Canceladas
-      </div>
-      <div class="mt-2 text-2xl font-bold text-muted-foreground">
-        {{ canceladasCount() }}
-      </div>
-      <p class="mt-0.5 text-[11px] text-muted-foreground">
-        Dadas de baja por el empleado
-      </p>
-    </div>
-  </div>
-
-  <!-- Pestañas de Estado (CU-02 flujo normal) -->
-  <div
-    class="flex flex-wrap gap-1.5 rounded-lg bg-muted/60 p-1 text-xs font-medium"
-  >
-    <button
-      class="flex items-center gap-1.5 rounded-md px-3 py-1.5 transition-colors"
-      type="button"
-      [class]="
-        statusFilter() === 'pendiente'
-          ? 'bg-background font-semibold text-foreground shadow-xs'
-          : 'text-muted-foreground hover:text-foreground'
-      "
-      (click)="statusFilter.set('pendiente')"
+      </hlm-radio>
+      <span>Canceladas ({{ canceladasCount() }})</span>
+    </label>
+    <label
+      class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-primary/50 hover:bg-primary/5 has-data-[checked=true]:border-2 has-data-[checked=true]:border-primary has-data-[checked=true]:bg-primary/10 max-md:col-span-2 [&>span]:mt-2"
+      for="status-all"
+      hlmLabel
     >
-      <span>Pendientes de evaluación</span>
-      <span
-        class="rounded-full bg-warning/20 px-1.5 text-[10px] font-bold text-warning"
-      >
-        {{ pendientesCount() }}
-      </span>
-    </button>
-    <button
-      class="rounded-md px-3 py-1.5 transition-colors"
-      type="button"
-      [class]="
-        statusFilter() === 'aprobada'
-          ? 'bg-background font-semibold text-foreground shadow-xs'
-          : 'text-muted-foreground hover:text-foreground'
-      "
-      (click)="statusFilter.set('aprobada')"
-    >
-      Aprobadas ({{ aprobadasCount() }})
-    </button>
-    <button
-      class="rounded-md px-3 py-1.5 transition-colors"
-      type="button"
-      [class]="
-        statusFilter() === 'rechazada'
-          ? 'bg-background font-semibold text-foreground shadow-xs'
-          : 'text-muted-foreground hover:text-foreground'
-      "
-      (click)="statusFilter.set('rechazada')"
-    >
-      Rechazadas ({{ rechazadasCount() }})
-    </button>
-    <button
-      class="rounded-md px-3 py-1.5 transition-colors"
-      type="button"
-      [class]="
-        statusFilter() === 'cancelada'
-          ? 'bg-background font-semibold text-foreground shadow-xs'
-          : 'text-muted-foreground hover:text-foreground'
-      "
-      (click)="statusFilter.set('cancelada')"
-    >
-      Canceladas ({{ canceladasCount() }})
-    </button>
-    <button
-      class="rounded-md px-3 py-1.5 transition-colors"
-      type="button"
-      [class]="
-        statusFilter() === 'all'
-          ? 'bg-background font-semibold text-foreground shadow-xs'
-          : 'text-muted-foreground hover:text-foreground'
-      "
-      (click)="statusFilter.set('all')"
-    >
-      Todas ({{ solicitudes().length }})
-    </button>
-  </div>
+      <hlm-radio inputId="status-all" value="all">
+        <ng-icon class="text-lg text-primary" name="lucideFileText" />
+      </hlm-radio>
+      <span>Todas ({{ solicitudes().length }})</span>
+    </label>
+  </hlm-radio-group>
 
   <!-- Barra de Filtros Avanzados (Área/Convenio, Tipo, Período, Búsqueda) -->
   <div
