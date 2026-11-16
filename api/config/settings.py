@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "django_typer",
+    "django_q",
     "config",
     "convenios",
     "empleados",
@@ -146,3 +147,9 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# Django-Q2
+Q_CLUSTER = {
+    "name": "humanresourcesdelta",
+    "orm": "default",
+}
