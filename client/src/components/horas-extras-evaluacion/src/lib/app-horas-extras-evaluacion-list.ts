@@ -22,7 +22,6 @@ import {
   lucideInfo,
   lucideRefreshCw,
   lucideSearch,
-  lucideShieldAlert,
   lucideUser,
   lucideX,
   lucideXCircle,
@@ -31,6 +30,8 @@ import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
 import { HlmInputGroupImports } from "@spartan-ng/helm/input-group";
+import { HlmLabelImports } from "@spartan-ng/helm/label";
+import { HlmRadioGroupImports } from "@spartan-ng/helm/radio-group";
 import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTableImports } from "@spartan-ng/helm/table";
@@ -52,7 +53,6 @@ import { NotificacionHoraExtraService } from "@/services/notificacion-hora-extra
 import { ReporteService } from "@/services/reporte.service";
 
 export type NotificacionStatusFilter = "all" | EstadoNotificacionHorasExtras;
-export const TOPE_MENSUAL_HORAS = 30;
 
 @Component({
   selector: "app-horas-extras-evaluacion-list",
@@ -64,6 +64,8 @@ export const TOPE_MENSUAL_HORAS = 30;
     HlmButton,
     HlmCardImports,
     HlmInputGroupImports,
+    HlmLabelImports,
+    HlmRadioGroupImports,
     HlmSelectImports,
     HlmSkeleton,
     HlmTableImports,
@@ -84,7 +86,6 @@ export const TOPE_MENSUAL_HORAS = 30;
       lucideInfo,
       lucideRefreshCw,
       lucideSearch,
-      lucideShieldAlert,
       lucideUser,
       lucideX,
       lucideXCircle,
@@ -119,19 +120,6 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
   public readonly empleadoFilter = signal<string>("all");
   public readonly periodoFilter = signal<string>("all");
 
-  public readonly statusToString = (val: unknown): string => {
-    switch (val) {
-      case "pendiente":
-        return "Solo Pendientes";
-      case "aprobada":
-        return "Solo Aprobadas";
-      case "rechazada":
-        return "Solo Rechazadas";
-      default:
-        return "Todos los estados";
-    }
-  };
-
   public readonly empleadoToString = (val: unknown): string => {
     if (!val || val === "all") return "Todos los empleados";
     const found = this.empleadosList().find(
@@ -146,7 +134,10 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
     return found ? found.label : String(val);
   };
   public readonly fechaEspecificaFilter = signal<string>("");
-  public readonly soloExcedeTopeFilter = signal<boolean>(false);
+
+  public onStatusRadioChange(val: string | null | undefined): void {
+    if (val) this.statusFilter.set(val as NotificacionStatusFilter);
+  }
 
   // Ordenamiento (por defecto fecha ascendente según CU-04)
   public readonly sortDirection = signal<"asc" | "desc">("asc");
@@ -213,12 +204,6 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
     return this.notificaciones().filter((n) => n.estado === "pendiente").length;
   });
 
-  public readonly excedeTopeCount = computed<number>(() => {
-    return this.notificaciones().filter(
-      (n) => n.estado === "pendiente" && this.isExcedeTope(n),
-    ).length;
-  });
-
   public readonly aprobadasCount = computed<number>(() => {
     return this.notificaciones().filter((n) => n.estado === "aprobada").length;
   });
@@ -240,11 +225,6 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
       const status = this.statusFilter();
       if (status !== "all") {
         result = result.filter((n) => n.estado === status);
-      }
-
-      // Filtro Solo Excede Tope
-      if (this.soloExcedeTopeFilter()) {
-        result = result.filter((n) => this.isExcedeTope(n));
       }
 
       // Filtro por Empleado
@@ -404,7 +384,7 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
     }
   }
 
-  // Métodos de cálculo de horas y topes
+  // Métodos de cálculo de horas
   public getHorasCalculadas(notif: NotificacionHoraExtra): number {
     if (typeof notif.horas === "number") return notif.horas;
     if (notif.hora_inicio && notif.hora_fin) {
@@ -448,16 +428,6 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
     return Math.round(acumulado * 100) / 100;
   }
 
-  public isExcedeTope(notif: NotificacionHoraExtra): boolean {
-    const horasNotif = this.getHorasCalculadas(notif);
-    const fechaRef = this.getFechaNotificacion(notif);
-    const acumuladoMes = this.getAcumuladoPeriodo(notif.empleado, fechaRef);
-    // Si ya está aprobada, su tiempo ya está en acumuladoMes; si es pendiente, sumamos
-    const totalProyectado =
-      notif.estado === "aprobada" ? acumuladoMes : acumuladoMes + horasNotif;
-    return totalProyectado > TOPE_MENSUAL_HORAS;
-  }
-
   public isPeriodoCerrado(notif: NotificacionHoraExtra): boolean {
     const fechaRef = this.getFechaNotificacion(notif);
     if (!fechaRef) return false;
@@ -490,7 +460,6 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
     this.empleadoFilter.set("all");
     this.periodoFilter.set("all");
     this.fechaEspecificaFilter.set("");
-    this.soloExcedeTopeFilter.set(false);
   }
 
   // Acciones de Drawer

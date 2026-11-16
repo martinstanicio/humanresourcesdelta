@@ -11,7 +11,7 @@
       </div>
       <p class="mt-1 text-sm text-muted-foreground">
         Revisión, aprobación y rechazo de horas extras declaradas por los
-        empleados según las normas de convenio y topes mensuales (CU-04).
+        empleados según las normas de convenio (CU-04).
       </p>
     </div>
     <div class="flex items-center gap-2">
@@ -66,145 +66,52 @@
     </div>
   }
 
-  <!-- Tarjetas de métricas / KPIs -->
-  <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
-    <!-- Pendientes -->
-    <div
-      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-warning/50"
-      role="button"
-      tabindex="0"
-      [class.ring-2]="statusFilter() === 'pendiente' && !soloExcedeTopeFilter()"
-      [class.ring-warning]="
-        statusFilter() === 'pendiente' && !soloExcedeTopeFilter()
-      "
-      (click)="statusFilter.set('pendiente'); soloExcedeTopeFilter.set(false)"
-      (keydown.enter)="
-        statusFilter.set('pendiente'); soloExcedeTopeFilter.set(false)
-      "
-      (keydown.space)="
-        $event.preventDefault();
-        statusFilter.set('pendiente');
-        soloExcedeTopeFilter.set(false)
-      "
+  <hlm-radio-group
+    class="grid grid-cols-2 gap-3 md:grid-cols-4"
+    [value]="statusFilter()"
+    (valueChange)="onStatusRadioChange($event)"
+  >
+    <label
+      class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-warning/50 hover:bg-warning/5 has-data-[checked=true]:border-2 has-data-[checked=true]:border-warning has-data-[checked=true]:bg-warning/10 [&>span]:mt-2"
+      for="status-pendiente"
+      hlmLabel
     >
-      <div class="flex items-center justify-between">
-        <div
-          class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
-        >
-          <ng-icon class="size-4 text-warning" name="lucideClock" />
-          Pendientes
-        </div>
-        @if (pendientesCount() > 0) {
-          <span class="size-2 animate-pulse rounded-full bg-warning"></span>
-        }
-      </div>
-      <div class="mt-2 text-2xl font-bold text-warning">
-        {{ pendientesCount() }}
-      </div>
-      <p class="mt-0.5 text-[11px] text-muted-foreground">
-        Requieren resolución de RRHH
-      </p>
-    </div>
-
-    <!-- Excede Tope (CU-04) -->
-    <div
-      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-destructive/50"
-      role="button"
-      tabindex="0"
-      [class.ring-2]="soloExcedeTopeFilter()"
-      [class.ring-destructive]="soloExcedeTopeFilter()"
-      (click)="soloExcedeTopeFilter.set(!soloExcedeTopeFilter())"
-      (keydown.enter)="soloExcedeTopeFilter.set(!soloExcedeTopeFilter())"
-      (keydown.space)="
-        $event.preventDefault();
-        soloExcedeTopeFilter.set(!soloExcedeTopeFilter())
-      "
+      <hlm-radio inputId="status-pendiente" value="pendiente">
+        <ng-icon class="text-lg text-warning" name="lucideClock" />
+      </hlm-radio>
+      <span>Pendientes ({{ pendientesCount() }})</span>
+    </label>
+    <label
+      class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-success/50 hover:bg-success/5 has-data-[checked=true]:border-2 has-data-[checked=true]:border-success has-data-[checked=true]:bg-success/10 [&>span]:mt-2"
+      for="status-aprobada"
+      hlmLabel
     >
-      <div class="flex items-center justify-between">
-        <div
-          class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
-        >
-          <ng-icon class="size-4 text-destructive" name="lucideShieldAlert" />
-          Excede tope (&gt;30 hs)
-        </div>
-        @if (excedeTopeCount() > 0) {
-          <span
-            class="rounded-full bg-destructive/20 px-1.5 py-0.5 text-[10px] font-bold text-destructive"
-          >
-            Atención
-          </span>
-        }
-      </div>
-      <div class="mt-2 text-2xl font-bold text-destructive">
-        {{ excedeTopeCount() }}
-      </div>
-      <p class="mt-0.5 text-[11px] text-muted-foreground">
-        Superan el límite mensual
-      </p>
-    </div>
-
-    <!-- Aprobadas -->
-    <div
-      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-success/50"
-      role="button"
-      tabindex="0"
-      [class.ring-2]="statusFilter() === 'aprobada'"
-      [class.ring-success]="statusFilter() === 'aprobada'"
-      (click)="statusFilter.set('aprobada'); soloExcedeTopeFilter.set(false)"
-      (keydown.enter)="
-        statusFilter.set('aprobada'); soloExcedeTopeFilter.set(false)
-      "
-      (keydown.space)="
-        $event.preventDefault();
-        statusFilter.set('aprobada');
-        soloExcedeTopeFilter.set(false)
-      "
+      <hlm-radio inputId="status-aprobada" value="aprobada">
+        <ng-icon class="text-lg text-success" name="lucideCheckCircle2" />
+      </hlm-radio>
+      <span>Aprobadas ({{ aprobadasCount() }})</span>
+    </label>
+    <label
+      class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-destructive/50 hover:bg-destructive/5 has-data-[checked=true]:border-2 has-data-[checked=true]:border-destructive has-data-[checked=true]:bg-destructive/10 [&>span]:mt-2"
+      for="status-rechazada"
+      hlmLabel
     >
-      <div
-        class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
-      >
-        <ng-icon class="size-4 text-success" name="lucideCheckCircle2" />
-        Aprobadas
-      </div>
-      <div class="mt-2 text-2xl font-bold text-success">
-        {{ aprobadasCount() }}
-      </div>
-      <p class="mt-0.5 text-[11px] text-muted-foreground">
-        Incorporadas al reporte mensual
-      </p>
-    </div>
-
-    <!-- Rechazadas -->
-    <div
-      class="cursor-pointer rounded-xl border bg-card p-4 text-card-foreground shadow-xs transition-all hover:border-destructive/50"
-      role="button"
-      tabindex="0"
-      [class.ring-2]="statusFilter() === 'rechazada'"
-      [class.ring-destructive]="statusFilter() === 'rechazada'"
-      (click)="statusFilter.set('rechazada'); soloExcedeTopeFilter.set(false)"
-      (keydown.enter)="
-        statusFilter.set('rechazada'); soloExcedeTopeFilter.set(false)
-      "
-      (keydown.space)="
-        $event.preventDefault();
-        statusFilter.set('rechazada');
-        soloExcedeTopeFilter.set(false)
-      "
+      <hlm-radio inputId="status-rechazada" value="rechazada">
+        <ng-icon class="text-lg text-destructive" name="lucideXCircle" />
+      </hlm-radio>
+      <span>Rechazadas ({{ rechazadasCount() }})</span>
+    </label>
+    <label
+      class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-primary/50 hover:bg-primary/5 has-data-[checked=true]:border-2 has-data-[checked=true]:border-primary has-data-[checked=true]:bg-primary/10 [&>span]:mt-2"
+      for="status-all"
+      hlmLabel
     >
-      <div
-        class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
-      >
-        <ng-icon class="size-4 text-destructive" name="lucideXCircle" />
-        Rechazadas
-      </div>
-      <div class="mt-2 text-2xl font-bold text-destructive">
-        {{ rechazadasCount() }}
-      </div>
-      <p class="mt-0.5 text-[11px] text-muted-foreground">
-        Con motivo registrado
-      </p>
-    </div>
-  </div>
+      <hlm-radio inputId="status-all" value="all">
+        <ng-icon class="text-lg text-primary" name="lucideFileText" />
+      </hlm-radio>
+      <span>Todas ({{ totalCount() }})</span>
+    </label>
+  </hlm-radio-group>
 
   <!-- Panel de Filtros -->
   <div class="space-y-4 rounded-xl border bg-card p-4 shadow-xs">
@@ -227,29 +134,6 @@
 
       <!-- Filtros desplegables -->
       <div class="flex flex-wrap items-center gap-2">
-        <!-- Filtro Estado -->
-        <hlm-select
-          [itemToString]="statusToString"
-          [value]="statusFilter()"
-          (valueChange)="$event && statusFilter.set($event)"
-        >
-          <hlm-select-trigger class="h-9 w-44 text-xs">
-            <hlm-select-value />
-          </hlm-select-trigger>
-          <hlm-select-content *hlmSelectPortal>
-            <hlm-select-group>
-              <hlm-select-item value="all">Todos los estados</hlm-select-item>
-              <hlm-select-item value="pendiente"
-                >Solo Pendientes</hlm-select-item
-              >
-              <hlm-select-item value="aprobada">Solo Aprobadas</hlm-select-item>
-              <hlm-select-item value="rechazada"
-                >Solo Rechazadas</hlm-select-item
-              >
-            </hlm-select-group>
-          </hlm-select-content>
-        </hlm-select>
-
         <!-- Filtro Empleado -->
         <hlm-select
           [itemToString]="empleadoToString"
@@ -326,14 +210,6 @@
           <strong>{{ filteredNotificaciones().length }}</strong>
           notificaciones</span
         >
-        @if (soloExcedeTopeFilter()) {
-          <span
-            class="inline-flex items-center gap-1 rounded-full border border-destructive/20 bg-destructive/10 px-2 py-0.5 text-[11px] font-medium text-destructive"
-          >
-            <ng-icon class="size-3" name="lucideShieldAlert" />
-            Filtro activo: Solo Excede Tope
-          </span>
-        }
       </div>
 
       <!-- Control de Ordenamiento por Fecha (CU-04) -->
@@ -411,9 +287,6 @@
                 Horas
               </th>
               <th class="px-4 py-3 text-center font-semibold" hlmTableHeader>
-                Tope Mensual
-              </th>
-              <th class="px-4 py-3 text-center font-semibold" hlmTableHeader>
                 Estado
               </th>
               <th class="px-4 py-3 text-right font-semibold" hlmTableHeader>
@@ -427,15 +300,11 @@
               @let he = getHoraExtra(notif.hora_extra);
               @let conv = getConvenio(emp?.convenio);
               @let horas = getHorasCalculadas(notif);
-              @let excede = isExcedeTope(notif);
               @let cerrada = isPeriodoCerrado(notif);
 
               <tr
                 class="border-b border-border/50 transition-colors hover:bg-muted/30"
                 hlmTableRow
-                [class.bg-destructive/10]="
-                  excede && notif.estado === 'pendiente'
-                "
               >
                 <!-- Empleado -->
                 <td class="px-4 py-3" hlmTableCell>
@@ -522,34 +391,6 @@
                   </span>
                 </td>
 
-                <!-- Alerta Tope Mensual (CU-04: destacando las que exceden tope) -->
-                <td class="px-4 py-3 text-center" hlmTableCell>
-                  @if (excede) {
-                    <span
-                      class="inline-flex animate-pulse items-center gap-1 rounded-full border border-destructive/30 bg-destructive/15 px-2.5 py-0.5 text-[11px] font-semibold text-destructive"
-                    >
-                      <ng-icon class="size-3" name="lucideAlertTriangle" />
-                      Excede tope
-                    </span>
-                  } @else {
-                    <span
-                      class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium text-muted-foreground"
-                    >
-                      <ng-icon class="size-3 text-success" name="lucideCheck" />
-                      Dentro de tope
-                    </span>
-                  }
-                  @if (cerrada) {
-                    <div class="mt-1">
-                      <span
-                        class="inline-flex items-center gap-1 rounded border border-warning/30 bg-warning/15 px-1.5 text-[10px] font-medium text-warning"
-                      >
-                        Período cerrado
-                      </span>
-                    </div>
-                  }
-                </td>
-
                 <!-- Estado -->
                 <td class="px-4 py-3 text-center" hlmTableCell>
                   @switch (notif.estado) {
@@ -577,6 +418,15 @@
                         Rechazada
                       </span>
                     }
+                  }
+                  @if (cerrada) {
+                    <div class="mt-1">
+                      <span
+                        class="inline-flex items-center gap-1 rounded border border-warning/30 bg-warning/15 px-1.5 text-[10px] font-medium text-warning"
+                      >
+                        Período cerrado
+                      </span>
+                    </div>
                   }
                 </td>
 
@@ -622,7 +472,6 @@
     @let horas = getHorasCalculadas(notif);
     @let acumulado =
       getAcumuladoPeriodo(notif.empleado, getFechaNotificacion(notif));
-    @let excede = isExcedeTope(notif);
     @let cerrado = isPeriodoCerrado(notif);
 
     <div
@@ -695,30 +544,6 @@
                   mensual ya fue cerrado. La decisión no impactará en el reporte
                   ya emitido y quedará registrada como ajuste del período
                   siguiente.
-                </p>
-              </div>
-            </div>
-          }
-
-          <!-- ALERTA CU-04: Excede Tope Mensual -->
-          @if (excede) {
-            <div
-              class="flex items-start gap-2.5 rounded-lg border border-destructive/30 bg-destructive/15 p-3.5 text-xs text-destructive"
-            >
-              <ng-icon
-                class="mt-0.5 size-4 shrink-0 text-destructive"
-                name="lucideShieldAlert"
-              />
-              <div>
-                <p class="font-semibold">Excede tope mensual de 30 horas</p>
-                <p class="mt-0.5">
-                  El empleado acumula
-                  <strong>{{ acumulado | number: "1.2-2" }} hs</strong>
-                  aprobadas en el mes. Al sumar estas
-                  <strong>{{ horas | number: "1.2-2" }} hs</strong> proyecta un
-                  total de
-                  <strong>{{ acumulado + horas | number: "1.2-2" }} hs</strong>,
-                  superando el límite mensual permitido de 30 horas.
                 </p>
               </div>
             </div>
@@ -857,7 +682,7 @@
                   >Acumulado en el mes</span
                 >
                 <div class="mt-0.5 font-mono text-xl font-bold text-foreground">
-                  {{ acumulado | number: "1.2-2" }} / 30 hs
+                  {{ acumulado | number: "1.2-2" }} hs
                 </div>
               </div>
             </div>
