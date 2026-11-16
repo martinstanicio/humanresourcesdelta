@@ -31,6 +31,7 @@ import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
 import { HlmInputGroupImports } from "@spartan-ng/helm/input-group";
+import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTableImports } from "@spartan-ng/helm/table";
 import { forkJoin } from "rxjs";
@@ -63,6 +64,7 @@ export const TOPE_MENSUAL_HORAS = 30;
     HlmButton,
     HlmCardImports,
     HlmInputGroupImports,
+    HlmSelectImports,
     HlmSkeleton,
     HlmTableImports,
     NgIcon,
@@ -116,6 +118,33 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
   public readonly statusFilter = signal<NotificacionStatusFilter>("pendiente");
   public readonly empleadoFilter = signal<string>("all");
   public readonly periodoFilter = signal<string>("all");
+
+  public readonly statusToString = (val: unknown): string => {
+    switch (val) {
+      case "pendiente":
+        return "Solo Pendientes";
+      case "aprobada":
+        return "Solo Aprobadas";
+      case "rechazada":
+        return "Solo Rechazadas";
+      default:
+        return "Todos los estados";
+    }
+  };
+
+  public readonly empleadoToString = (val: unknown): string => {
+    if (!val || val === "all") return "Todos los empleados";
+    const found = this.empleadosList().find(
+      (e) => e.legajo.toString() === String(val),
+    );
+    return found ? `${found.nombre} (${found.legajo})` : String(val);
+  };
+
+  public readonly periodoToString = (val: unknown): string => {
+    if (!val || val === "all") return "Todos los períodos";
+    const found = this.periodosList().find((p) => p.key === String(val));
+    return found ? found.label : String(val);
+  };
   public readonly fechaEspecificaFilter = signal<string>("");
   public readonly soloExcedeTopeFilter = signal<boolean>(false);
 

@@ -30,17 +30,25 @@
         >
           Mes
         </label>
-        <select
-          class="cursor-pointer bg-background"
-          hlmInput
+        <hlm-select
           id="filtro-mes"
-          [ngModel]="selectedMes()"
-          (ngModelChange)="selectedMes.set(+$event)"
+          [itemToString]="mesToString"
+          [value]="selectedMes()"
+          (valueChange)="$event && selectedMes.set(+$event)"
         >
-          @for (m of meses; track m.value) {
-            <option [value]="m.value">{{ m.label }}</option>
-          }
-        </select>
+          <hlm-select-trigger class="w-full">
+            <hlm-select-value />
+          </hlm-select-trigger>
+          <hlm-select-content *hlmSelectPortal>
+            <hlm-select-group>
+              @for (m of meses; track m.value) {
+                <hlm-select-item [value]="m.value">{{
+                  m.label
+                }}</hlm-select-item>
+              }
+            </hlm-select-group>
+          </hlm-select-content>
+        </hlm-select>
       </div>
 
       <!-- Selector de Año -->
@@ -51,17 +59,23 @@
         >
           Año
         </label>
-        <select
-          class="cursor-pointer bg-background"
-          hlmInput
+        <hlm-select
           id="filtro-anio"
-          [ngModel]="selectedAnio()"
-          (ngModelChange)="selectedAnio.set(+$event)"
+          [itemToString]="anioToString"
+          [value]="selectedAnio()"
+          (valueChange)="$event && selectedAnio.set(+$event)"
         >
-          @for (a of anios; track a) {
-            <option [value]="a">{{ a }}</option>
-          }
-        </select>
+          <hlm-select-trigger class="w-full">
+            <hlm-select-value />
+          </hlm-select-trigger>
+          <hlm-select-content *hlmSelectPortal>
+            <hlm-select-group>
+              @for (a of anios; track a) {
+                <hlm-select-item [value]="a">{{ a }}</hlm-select-item>
+              }
+            </hlm-select-group>
+          </hlm-select-content>
+        </hlm-select>
       </div>
 
       <!-- Selector opcional de Convenio -->
@@ -72,18 +86,26 @@
         >
           Convenio (opcional)
         </label>
-        <select
-          class="cursor-pointer bg-background"
-          hlmInput
+        <hlm-select
           id="filtro-convenio"
-          [ngModel]="selectedConvenio()"
-          (ngModelChange)="selectedConvenio.set($event)"
+          [itemToString]="convenioToString"
+          [value]="selectedConvenio()"
+          (valueChange)="$event && selectedConvenio.set($event)"
         >
-          <option value="all">Todos los convenios</option>
-          @for (c of convenios(); track c.id) {
-            <option [value]="c.id">{{ c.nombre }}</option>
-          }
-        </select>
+          <hlm-select-trigger class="w-full">
+            <hlm-select-value />
+          </hlm-select-trigger>
+          <hlm-select-content *hlmSelectPortal>
+            <hlm-select-group>
+              <hlm-select-item value="all">Todos los convenios</hlm-select-item>
+              @for (c of convenios(); track c.id) {
+                <hlm-select-item [value]="c.id.toString()">{{
+                  c.nombre
+                }}</hlm-select-item>
+              }
+            </hlm-select-group>
+          </hlm-select-content>
+        </hlm-select>
       </div>
 
       <!-- Selector opcional de Empleado -->
@@ -94,18 +116,26 @@
         >
           Empleado (opcional)
         </label>
-        <select
-          class="cursor-pointer bg-background"
-          hlmInput
+        <hlm-select
           id="filtro-empleado"
-          [ngModel]="selectedEmpleado()"
-          (ngModelChange)="selectedEmpleado.set($event)"
+          [itemToString]="empleadoToString"
+          [value]="selectedEmpleado()"
+          (valueChange)="$event && selectedEmpleado.set($event)"
         >
-          <option value="all">Todos los empleados</option>
-          @for (e of availableEmpleados(); track e.legajo) {
-            <option [value]="e.legajo">#{{ e.legajo }} - {{ e.nombre }}</option>
-          }
-        </select>
+          <hlm-select-trigger class="w-full">
+            <hlm-select-value />
+          </hlm-select-trigger>
+          <hlm-select-content *hlmSelectPortal>
+            <hlm-select-group>
+              <hlm-select-item value="all">Todos los empleados</hlm-select-item>
+              @for (e of availableEmpleados(); track e.legajo) {
+                <hlm-select-item [value]="e.legajo.toString()"
+                  >#{{ e.legajo }} - {{ e.nombre }}</hlm-select-item
+                >
+              }
+            </hlm-select-group>
+          </hlm-select-content>
+        </hlm-select>
       </div>
     </div>
 

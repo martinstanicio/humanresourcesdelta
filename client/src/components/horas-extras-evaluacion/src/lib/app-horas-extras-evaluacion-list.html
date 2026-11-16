@@ -228,42 +228,69 @@
       <!-- Filtros desplegables -->
       <div class="flex flex-wrap items-center gap-2">
         <!-- Filtro Estado -->
-        <select
-          class="h-9 rounded-md border border-input bg-background px-3 py-1 text-xs text-foreground shadow-xs focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden"
-          [ngModel]="statusFilter()"
-          (ngModelChange)="statusFilter.set($event)"
+        <hlm-select
+          [itemToString]="statusToString"
+          [value]="statusFilter()"
+          (valueChange)="$event && statusFilter.set($event)"
         >
-          <option value="all">Todos los estados</option>
-          <option value="pendiente">Solo Pendientes</option>
-          <option value="aprobada">Solo Aprobadas</option>
-          <option value="rechazada">Solo Rechazadas</option>
-        </select>
+          <hlm-select-trigger class="h-9 w-44 text-xs">
+            <hlm-select-value />
+          </hlm-select-trigger>
+          <hlm-select-content *hlmSelectPortal>
+            <hlm-select-group>
+              <hlm-select-item value="all">Todos los estados</hlm-select-item>
+              <hlm-select-item value="pendiente"
+                >Solo Pendientes</hlm-select-item
+              >
+              <hlm-select-item value="aprobada">Solo Aprobadas</hlm-select-item>
+              <hlm-select-item value="rechazada"
+                >Solo Rechazadas</hlm-select-item
+              >
+            </hlm-select-group>
+          </hlm-select-content>
+        </hlm-select>
 
         <!-- Filtro Empleado -->
-        <select
-          class="h-9 max-w-50 truncate rounded-md border border-input bg-background px-3 py-1 text-xs text-foreground shadow-xs focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden"
-          [ngModel]="empleadoFilter()"
-          (ngModelChange)="empleadoFilter.set($event)"
+        <hlm-select
+          [itemToString]="empleadoToString"
+          [value]="empleadoFilter()"
+          (valueChange)="$event && empleadoFilter.set($event)"
         >
-          <option value="all">Todos los empleados</option>
-          @for (emp of empleadosList(); track emp.legajo) {
-            <option [value]="emp.legajo">
-              {{ emp.nombre }} ({{ emp.legajo }})
-            </option>
-          }
-        </select>
+          <hlm-select-trigger class="h-9 max-w-50 truncate text-xs">
+            <hlm-select-value />
+          </hlm-select-trigger>
+          <hlm-select-content *hlmSelectPortal>
+            <hlm-select-group>
+              <hlm-select-item value="all">Todos los empleados</hlm-select-item>
+              @for (emp of empleadosList(); track emp.legajo) {
+                <hlm-select-item [value]="emp.legajo.toString()">
+                  {{ emp.nombre }} ({{ emp.legajo }})
+                </hlm-select-item>
+              }
+            </hlm-select-group>
+          </hlm-select-content>
+        </hlm-select>
 
         <!-- Filtro Período Mensual (CU-04) -->
-        <select
-          class="h-9 rounded-md border border-input bg-background px-3 py-1 text-xs text-foreground shadow-xs focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden"
-          [ngModel]="periodoFilter()"
-          (ngModelChange)="periodoFilter.set($event)"
+        <hlm-select
+          [itemToString]="periodoToString"
+          [value]="periodoFilter()"
+          (valueChange)="$event && periodoFilter.set($event)"
         >
-          <option value="all">Todos los períodos</option>
-          @for (per of periodosList(); track per.key) {
-            <option [value]="per.key">{{ per.label }}</option>
-          }
-        </select>
+          <hlm-select-trigger class="h-9 w-44 text-xs">
+            <hlm-select-value />
+          </hlm-select-trigger>
+          <hlm-select-content *hlmSelectPortal>
+            <hlm-select-group>
+              <hlm-select-item value="all">Todos los períodos</hlm-select-item>
+              @for (per of periodosList(); track per.key) {
+                <hlm-select-item [value]="per.key">{{
+                  per.label
+                }}</hlm-select-item>
+              }
+            </hlm-select-group>
+          </hlm-select-content>
+        </hlm-select>
 
         <!-- Filtro Fecha Específica -->
         <input

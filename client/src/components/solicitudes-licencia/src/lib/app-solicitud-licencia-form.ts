@@ -32,6 +32,7 @@ import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
 import { HlmInput } from "@spartan-ng/helm/input";
+import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTextarea } from "@spartan-ng/helm/textarea";
 import { forkJoin } from "rxjs";
@@ -57,6 +58,7 @@ import { SolicitudLicenciaService } from "@/services/solicitud-licencia.service"
     HlmButton,
     HlmCardImports,
     HlmInput,
+    HlmSelectImports,
     HlmSkeleton,
     HlmTextarea,
     NgIcon,
@@ -122,6 +124,13 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
     if (!id) return null;
     return this.licencias().find((l) => l.id === id) ?? null;
   });
+
+  public readonly licenciaToString = (val: unknown): string => {
+    if (!val) return "";
+    const id = Number(val);
+    const lic = this.licencias().find((l) => l.id === id);
+    return lic ? lic.tipo : String(val);
+  };
 
   // Reglas de la licencia seleccionada
   public readonly selectedLicenciaRules = computed(() => {
@@ -305,7 +314,15 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
     });
   }
 
-  public onLicenciaChange(licenciaIdStr: string): void {
+  public onLicenciaChange(
+    licenciaIdStr: string | number | null | undefined,
+  ): void {
+    if (!licenciaIdStr) {
+      this.selectedLicenciaId.set(null);
+      this.saldoInfo.set(null);
+      this.submitError.set(null);
+      return;
+    }
     const id = Number(licenciaIdStr);
     this.selectedLicenciaId.set(id || null);
     this.saldoInfo.set(null);

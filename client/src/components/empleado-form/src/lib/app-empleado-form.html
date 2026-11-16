@@ -144,17 +144,28 @@
             >
               Rol del Sistema <span class="text-destructive">*</span>
             </label>
-            <select
-              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+            <hlm-select
               id="rol"
               name="rol"
               [disabled]="saving()"
+              [itemToString]="rolToString"
               [value]="rol()"
-              (change)="onRolSelect($event)"
+              (valueChange)="onRolSelect($event)"
             >
-              <option value="empleado">Empleado (Operaciones estándar)</option>
-              <option value="rrhh">Recursos Humanos (Gestión integral)</option>
-            </select>
+              <hlm-select-trigger class="w-full">
+                <hlm-select-value />
+              </hlm-select-trigger>
+              <hlm-select-content *hlmSelectPortal>
+                <hlm-select-group>
+                  <hlm-select-item value="empleado">
+                    Empleado (Operaciones estándar)
+                  </hlm-select-item>
+                  <hlm-select-item value="rrhh">
+                    Recursos Humanos (Gestión integral)
+                  </hlm-select-item>
+                </hlm-select-group>
+              </hlm-select-content>
+            </hlm-select>
             @if (fieldErrors()["rol"]; as err) {
               <p class="text-xs text-destructive">{{ err }}</p>
             } @else {
@@ -175,22 +186,31 @@
           >
             Convenio Colectivo de Trabajo (CU-11)
           </label>
-          <select
-            class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+          <hlm-select
             id="convenio"
             name="convenio"
             [disabled]="saving() || loadingConvenios()"
-            [value]="convenio() ?? ''"
-            (change)="onConvenioSelect($event)"
+            [itemToString]="convenioToString"
+            [value]="convenio() ? convenio()!.toString() : ''"
+            (valueChange)="onConvenioSelect($event)"
           >
-            <option value="">-- Sin convenio asignado --</option>
-            @for (c of activeConvenios(); track c.id) {
-              <option [value]="c.id">
-                {{ c.nombre }} (ID #{{ c.id }})
-                {{ !c.activo ? "- [Inactivo]" : "" }}
-              </option>
-            }
-          </select>
+            <hlm-select-trigger class="w-full">
+              <hlm-select-value placeholder="-- Sin convenio asignado --" />
+            </hlm-select-trigger>
+            <hlm-select-content *hlmSelectPortal>
+              <hlm-select-group>
+                <hlm-select-item value=""
+                  >-- Sin convenio asignado --</hlm-select-item
+                >
+                @for (c of activeConvenios(); track c.id) {
+                  <hlm-select-item [value]="c.id.toString()">
+                    {{ c.nombre }} (ID #{{ c.id }})
+                    {{ !c.activo ? "- [Inactivo]" : "" }}
+                  </hlm-select-item>
+                }
+              </hlm-select-group>
+            </hlm-select-content>
+          </hlm-select>
           @if (fieldErrors()["convenio"]; as err) {
             <p class="text-xs text-destructive">{{ err }}</p>
           } @else {
@@ -205,34 +225,35 @@
         <div class="flex flex-col gap-2">
           <label
             class="text-sm leading-none font-medium"
-            for="area-combobox-input"
+            for="area"
             [class.text-destructive]="fieldErrors()['area']"
           >
             Área de Pertenencia
           </label>
-          <hlm-combobox
+          <hlm-select
+            id="area"
+            name="area"
             [disabled]="saving() || loadingAreas()"
-            [isItemEqualToValue]="isAreaEqualToValue"
-            [itemToString]="areaItemToString"
-            [value]="selectedArea()"
-            (valueChange)="onAreaChange($event)"
+            [itemToString]="areaToString"
+            [value]="area() ? area()!.toString() : ''"
+            (valueChange)="onAreaSelect($event)"
           >
-            <hlm-combobox-input
-              inputId="area-combobox-input"
-              placeholder="Seleccionar área..."
-              [showClear]="true"
-            />
-            <hlm-combobox-content *hlmComboboxPortal>
-              <hlm-combobox-empty>No se encontraron áreas</hlm-combobox-empty>
-              <div hlmComboboxList>
+            <hlm-select-trigger class="w-full">
+              <hlm-select-value placeholder="-- Sin área asignada --" />
+            </hlm-select-trigger>
+            <hlm-select-content *hlmSelectPortal>
+              <hlm-select-group>
+                <hlm-select-item value=""
+                  >-- Sin área asignada --</hlm-select-item
+                >
                 @for (a of activeAreas(); track a.id) {
-                  <hlm-combobox-item [value]="a">
+                  <hlm-select-item [value]="a.id.toString()">
                     {{ a.nombre }} {{ !a.activo ? "- [Inactiva]" : "" }}
-                  </hlm-combobox-item>
+                  </hlm-select-item>
                 }
-              </div>
-            </hlm-combobox-content>
-          </hlm-combobox>
+              </hlm-select-group>
+            </hlm-select-content>
+          </hlm-select>
           @if (fieldErrors()["area"]; as err) {
             <p class="text-xs text-destructive">{{ err }}</p>
           } @else {

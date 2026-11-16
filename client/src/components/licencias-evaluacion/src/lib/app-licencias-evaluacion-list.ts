@@ -31,6 +31,7 @@ import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
 import { HlmInputGroupImports } from "@spartan-ng/helm/input-group";
+import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTableImports } from "@spartan-ng/helm/table";
 import { forkJoin } from "rxjs";
@@ -61,6 +62,7 @@ export type SolicitudStatusFilter = "all" | EstadoSolicitudLicencia;
     HlmButton,
     HlmCardImports,
     HlmInputGroupImports,
+    HlmSelectImports,
     HlmSkeleton,
     HlmTableImports,
     NgIcon,
@@ -115,6 +117,35 @@ export class AppLicenciasEvaluacionList implements OnInit {
   public readonly convenioFilter = signal<string>("all");
   public readonly tipoFilter = signal<string>("all");
   public readonly periodoFilter = signal<string>("all");
+
+  public readonly convenioToString = (val: unknown): string => {
+    if (!val || val === "all") return "Todos los convenios";
+    const found = this.conveniosList().find(
+      (c) => c.id.toString() === String(val),
+    );
+    return found ? found.nombre : String(val);
+  };
+
+  public readonly tipoToString = (val: unknown): string => {
+    if (!val || val === "all") return "Todos los tipos";
+    const found = this.licenciasList().find(
+      (l) => l.id.toString() === String(val),
+    );
+    return found ? found.tipo : String(val);
+  };
+
+  public readonly periodoToString = (val: unknown): string => {
+    switch (val) {
+      case "mes_actual":
+        return "Mes en curso";
+      case "vigentes":
+        return "Fechas vigentes / futuras";
+      case "vencidas":
+        return "Fechas ya vencidas";
+      default:
+        return "Cualquier período";
+    }
+  };
 
   // Drawer de evaluación
   public readonly selectedSolicitud = signal<SolicitudLicencia | null>(null);

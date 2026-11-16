@@ -25,8 +25,8 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
-import { HlmComboboxImports } from "@spartan-ng/helm/combobox";
 import { HlmInput } from "@spartan-ng/helm/input";
+import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 
 import { Area } from "@/models/area.model";
@@ -47,8 +47,8 @@ import { EmpleadoService } from "@/services/empleado.service";
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
-    HlmComboboxImports,
     HlmInput,
+    HlmSelectImports,
     HlmSkeleton,
     NgIcon,
     RouterLink,
@@ -98,6 +98,20 @@ export class AppEmpleadoForm implements OnInit {
   public readonly convenio = signal<number | null>(null);
   public readonly area = signal<number | null>(null);
   public readonly activo = signal<boolean>(true);
+
+  public readonly rolToString = (val: unknown): string => {
+    if (val === "rrhh") return "Recursos Humanos (Gestión integral)";
+    return "Empleado (Operaciones estándar)";
+  };
+
+  public readonly convenioToString = (val: unknown): string => {
+    if (!val) return "-- Sin convenio asignado --";
+    const found = this.activeConvenios().find(
+      (c) => c.id.toString() === String(val),
+    );
+    if (!found) return String(val);
+    return `${found.nombre} (ID #${found.id})${!found.activo ? " - [Inactivo]" : ""}`;
+  };
 
   // Convenios list
   public readonly convenios = signal<Convenio[]>([]);
@@ -190,36 +204,17 @@ export class AppEmpleadoForm implements OnInit {
     );
   });
 
-  // Selected area object for combobox
-  public readonly selectedArea = computed(() => {
-    const areaId = this.area();
-    if (areaId === null) return null;
-    return this.areas().find((a) => a.id === areaId) ?? null;
-  });
-  // Selected convenio object para el combobox de Spartan
-  public readonly selectedConvenio = computed(() => {
-    const convenioId = this.convenio();
-    if (convenioId === null) return null;
-    return this.convenios().find((c) => c.id === convenioId) ?? null;
-  });
-
-  public readonly areaItemToString = (
-    area: Area | null | undefined,
-  ): string => {
-    if (!area) return "";
-    return area.nombre;
+  public readonly areaToString = (val: unknown): string => {
+    if (!val) return "-- Sin área asignada --";
+    const found = this.activeAreas().find(
+      (a) => a.id.toString() === String(val),
+    );
+    if (!found) return String(val);
+    return `${found.nombre}${!found.activo ? " - [Inactiva]" : ""}`;
   };
 
-  public readonly isAreaEqualToValue = (
-    item: Area,
-    value: Area | null | undefined,
-  ): boolean => {
-    if (!item || !value) return false;
-    return item.id === value.id;
-  };
-
-  onAreaChange(selected: Area | null | undefined): void {
-    this.area.set(selected ? selected.id : null);
+  onAreaSelect(value: string | number | null | undefined): void {
+    this.area.set(value ? Number(value) : null);
   }
 
   loadEmpleado(legajo: number): void {
@@ -417,13 +412,13 @@ export class AppEmpleadoForm implements OnInit {
     this.duplicateModal.set(null);
   }
 
-  onConvenioSelect(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value;
+  onConvenioSelect(value: string | number | null | undefined): void {
     this.convenio.set(value ? Number(value) : null);
   }
 
-  onRolSelect(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value as RolEmpleado;
-    this.rol.set(value);
+  onRolSelect(value: RolEmpleado | null | undefined): void {
+    if (value) {
+      this.rol.set(value);
+    }
   }
 }

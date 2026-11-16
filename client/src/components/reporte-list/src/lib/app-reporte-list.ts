@@ -25,8 +25,8 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
-import { HlmInput } from "@spartan-ng/helm/input";
 import { HlmInputGroupImports } from "@spartan-ng/helm/input-group";
+import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTableImports } from "@spartan-ng/helm/table";
 import { forkJoin } from "rxjs";
@@ -60,8 +60,8 @@ export const MESES = [
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
-    HlmInput,
     HlmInputGroupImports,
+    HlmSelectImports,
     HlmSkeleton,
     HlmTableImports,
     NgIcon,
@@ -100,6 +100,29 @@ export class AppReporteList implements OnInit {
   public readonly selectedConvenio = signal<string>("all");
   public readonly selectedEmpleado = signal<string>("all");
   public readonly searchQuery = signal<string>("");
+
+  public readonly mesToString = (val: unknown): string => {
+    const found = this.meses.find((m) => m.value === Number(val));
+    return found ? found.label : String(val ?? "");
+  };
+
+  public readonly anioToString = (val: unknown): string => {
+    return val ? String(val) : "";
+  };
+
+  public readonly convenioToString = (val: unknown): string => {
+    if (!val || val === "all") return "Todos los convenios";
+    const found = this.convenios().find((c) => c.id.toString() === String(val));
+    return found ? found.nombre : String(val);
+  };
+
+  public readonly empleadoToString = (val: unknown): string => {
+    if (!val || val === "all") return "Todos los empleados";
+    const found = this.empleados().find(
+      (e) => e.legajo.toString() === String(val),
+    );
+    return found ? `#${found.legajo} - ${found.nombre}` : String(val);
+  };
 
   // Data signals
   public readonly empleados = signal<Empleado[]>([]);

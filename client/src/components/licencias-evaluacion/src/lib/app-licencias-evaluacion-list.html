@@ -280,16 +280,26 @@
         for="convenio"
         >Convenio / Área</label
       >
-      <select
-        class="h-9 w-full rounded-md border bg-background px-2.5 text-xs text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden"
+      <hlm-select
         id="convenio"
-        [(ngModel)]="convenioFilter"
+        [itemToString]="convenioToString"
+        [value]="convenioFilter()"
+        (valueChange)="$event && convenioFilter.set($event)"
       >
-        <option value="all">Todos los convenios</option>
-        @for (c of conveniosList(); track c.id) {
-          <option [value]="c.id.toString()">{{ c.nombre }}</option>
-        }
-      </select>
+        <hlm-select-trigger class="h-9 w-full text-xs">
+          <hlm-select-value />
+        </hlm-select-trigger>
+        <hlm-select-content *hlmSelectPortal>
+          <hlm-select-group>
+            <hlm-select-item value="all">Todos los convenios</hlm-select-item>
+            @for (c of conveniosList(); track c.id) {
+              <hlm-select-item [value]="c.id.toString()">{{
+                c.nombre
+              }}</hlm-select-item>
+            }
+          </hlm-select-group>
+        </hlm-select-content>
+      </hlm-select>
     </div>
 
     <!-- Filtro por Tipo de Licencia -->
@@ -299,16 +309,26 @@
         for="tipo"
         >Tipo de licencia</label
       >
-      <select
-        class="h-9 w-full rounded-md border bg-background px-2.5 text-xs text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden"
+      <hlm-select
         id="tipo"
-        [(ngModel)]="tipoFilter"
+        [itemToString]="tipoToString"
+        [value]="tipoFilter()"
+        (valueChange)="$event && tipoFilter.set($event)"
       >
-        <option value="all">Todos los tipos</option>
-        @for (lic of licenciasList(); track lic.id) {
-          <option [value]="lic.id.toString()">{{ lic.tipo }}</option>
-        }
-      </select>
+        <hlm-select-trigger class="h-9 w-full text-xs">
+          <hlm-select-value />
+        </hlm-select-trigger>
+        <hlm-select-content *hlmSelectPortal>
+          <hlm-select-group>
+            <hlm-select-item value="all">Todos los tipos</hlm-select-item>
+            @for (lic of licenciasList(); track lic.id) {
+              <hlm-select-item [value]="lic.id.toString()">{{
+                lic.tipo
+              }}</hlm-select-item>
+            }
+          </hlm-select-group>
+        </hlm-select-content>
+      </hlm-select>
     </div>
 
     <!-- Filtro por Período -->
@@ -318,16 +338,28 @@
         for="periodo"
         >Período / Vigencia</label
       >
-      <select
-        class="h-9 w-full rounded-md border bg-background px-2.5 text-xs text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden"
+      <hlm-select
         id="periodo"
-        [(ngModel)]="periodoFilter"
+        [itemToString]="periodoToString"
+        [value]="periodoFilter()"
+        (valueChange)="$event && periodoFilter.set($event)"
       >
-        <option value="all">Cualquier período</option>
-        <option value="mes_actual">Mes en curso</option>
-        <option value="vigentes">Fechas vigentes / futuras</option>
-        <option value="vencidas">⚠️ Fechas ya vencidas</option>
-      </select>
+        <hlm-select-trigger class="h-9 w-full text-xs">
+          <hlm-select-value />
+        </hlm-select-trigger>
+        <hlm-select-content *hlmSelectPortal>
+          <hlm-select-group>
+            <hlm-select-item value="all">Cualquier período</hlm-select-item>
+            <hlm-select-item value="mes_actual">Mes en curso</hlm-select-item>
+            <hlm-select-item value="vigentes"
+              >Fechas vigentes / futuras</hlm-select-item
+            >
+            <hlm-select-item value="vencidas"
+              >Fechas ya vencidas</hlm-select-item
+            >
+          </hlm-select-group>
+        </hlm-select-content>
+      </hlm-select>
     </div>
   </div>
 
