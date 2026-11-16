@@ -144,7 +144,6 @@
             (click)="loadReporte(true)"
           >
             <ng-icon
-              class="mr-2"
               [class.animate-spin]="loading()"
               [name]="loading() ? 'lucideRefreshCw' : 'lucideSearch'"
             />
@@ -160,7 +159,6 @@
             (click)="loadReporte(false)"
           >
             <ng-icon
-              class="mr-2"
               [class.animate-spin]="loading()"
               [name]="loading() ? 'lucideRefreshCw' : 'lucideSearch'"
             />
@@ -184,7 +182,7 @@
           "
           (click)="descargarPDFSeleccionado()"
         >
-          <ng-icon class="mr-2" name="lucideDownload" />
+          <ng-icon name="lucideDownload" />
           {{ esParcial() ? "Exportar PDF (Parcial)" : "Exportar PDF" }}
         </button>
       </div>
@@ -486,7 +484,6 @@
                       (click)="descargarPDF(item.legajo)"
                     >
                       <ng-icon
-                        class="mr-1.5"
                         [class.animate-spin]="
                           exportingPdfLegajo() === item.legajo
                         "

@@ -12,7 +12,7 @@
           title="Volver a mis horas extras"
           variant="ghost"
         >
-          <ng-icon class="size-4" name="lucideArrowLeft" />
+          <ng-icon name="lucideArrowLeft" />
         </a>
         <h1 class="text-2xl font-bold tracking-tight">
           Notificar Horas Extras
@@ -118,7 +118,7 @@
         <div
           class="flex items-center gap-2 rounded-md border border-primary/30 bg-primary/10 p-3 text-xs text-primary"
         >
-          <ng-icon class="size-4 shrink-0 text-primary" name="lucideInfo" />
+          <ng-icon class="shrink-0 text-primary" name="lucideInfo" />
           <span>
             Podrás consultar el estado de tu notificación o cancelarla mientras
             no haya sido evaluada desde el módulo 'Mis Horas Extra' (CU-06 /
@@ -246,7 +246,7 @@
               <div
                 class="flex items-center gap-2 rounded-md border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive"
               >
-                <ng-icon class="size-4 shrink-0" name="lucideAlertCircle" />
+                <ng-icon class="shrink-0" name="lucideAlertCircle" />
                 <span
                   >La hora de fin debe ser posterior a la hora de inicio.</span
                 >
@@ -257,7 +257,7 @@
               <div
                 class="flex items-center gap-2 rounded-md border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive"
               >
-                <ng-icon class="size-4 shrink-0" name="lucideAlertCircle" />
+                <ng-icon class="shrink-0" name="lucideAlertCircle" />
                 <span
                   >No es posible registrar horas extras con horario posterior al
                   momento actual.</span
@@ -271,7 +271,7 @@
                 class="flex items-start gap-3 rounded-md border border-warning/30 bg-warning/15 p-3 text-sm text-warning"
               >
                 <ng-icon
-                  class="mt-0.5 size-5 shrink-0 text-warning"
+                  class="mt-0.5 shrink-0 text-warning"
                   name="lucideAlertTriangle"
                 />
                 <div class="space-y-1">
@@ -328,7 +328,7 @@
           <div
             class="flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive"
           >
-            <ng-icon class="mt-0.5 size-5 shrink-0" name="lucideShieldAlert" />
+            <ng-icon class="mt-0.5 shrink-0" name="lucideShieldAlert" />
             <div class="space-y-1">
               <div class="font-semibold">
                 No fue posible registrar la notificación
@@ -344,13 +344,13 @@
             Cancelar
           </a>
           <button
-            class="min-w-36 gap-2"
+            class="min-w-36"
             hlmBtn
             type="submit"
             [disabled]="!isFormValid() || submitting()"
           >
             @if (submitting()) {
-              <ng-icon class="size-4 animate-spin" name="lucideRefreshCw" />
+              <ng-icon class="animate-spin" name="lucideRefreshCw" />
               <span>Enviando...</span>
             } @else {
               <span>Confirmar envío</span>
@@ -428,7 +428,7 @@
                 <div
                   class="flex items-center gap-1.5 font-semibold text-foreground"
                 >
-                  <ng-icon class="size-3.5 text-primary" name="lucideInfo" />
+                  <ng-icon class="text-primary" name="lucideInfo" />
                   Criterio aplicado
                 </div>
                 @if (d.esFeriado) {
@@ -459,10 +459,7 @@
             } @else {
               <!-- Estado sin horario seleccionado -->
               <div class="space-y-2 py-8 text-center text-muted-foreground">
-                <ng-icon
-                  class="mx-auto size-8 opacity-40"
-                  name="lucideCalendar"
-                />
+                <ng-icon class="mx-auto opacity-40" name="lucideCalendar" />
                 <p class="text-xs">
                   Completa la fecha y los horarios de inicio y fin para calcular
                   el desglose de horas.

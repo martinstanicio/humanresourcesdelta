@@ -24,7 +24,7 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-warning" name="lucideClock" />
+        <ng-icon class="text-warning" name="lucideClock" />
         Pendientes
       </div>
       <div class="mt-2 text-2xl font-bold text-warning">
@@ -36,7 +36,7 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-success" name="lucideCheckCircle2" />
+        <ng-icon class="text-success" name="lucideCheckCircle2" />
         Aprobadas
       </div>
       <div class="mt-2 text-2xl font-bold text-success">
@@ -48,7 +48,7 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-destructive" name="lucideXCircle" />
+        <ng-icon class="text-destructive" name="lucideXCircle" />
         Rechazadas
       </div>
       <div class="mt-2 text-2xl font-bold text-destructive">
@@ -60,7 +60,7 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-primary" name="lucideCalendar" />
+        <ng-icon class="text-primary" name="lucideCalendar" />
         Horas Aprobadas
       </div>
       <div class="mt-2 font-mono text-2xl font-bold text-foreground">
@@ -88,7 +88,7 @@
     </div>
 
     <div class="flex items-center gap-2">
-      <ng-icon class="size-4 text-muted-foreground" name="lucideFilter" />
+      <ng-icon class="text-muted-foreground" name="lucideFilter" />
       <span class="text-xs text-muted-foreground">Estado:</span>
       <div class="flex rounded-lg border bg-muted/40 p-1 text-xs">
         <button
@@ -151,7 +151,7 @@
     <div
       class="flex items-center gap-3 rounded-lg border border-destructive/20 bg-destructive/10 p-4 text-sm text-destructive"
     >
-      <ng-icon class="size-5 shrink-0" name="lucideAlertCircle" />
+      <ng-icon class="shrink-0" name="lucideAlertCircle" />
       <span>{{ error() }}</span>
       <button
         class="ml-auto"
@@ -172,7 +172,7 @@
       <div
         class="inline-flex size-12 items-center justify-center rounded-full bg-muted text-muted-foreground"
       >
-        <ng-icon class="size-6 opacity-60" name="lucideBell" />
+        <ng-icon class="opacity-60" name="lucideBell" />
       </div>
       <div class="space-y-1">
         <h3 class="text-base font-semibold">
@@ -198,13 +198,8 @@
         </button>
       } @else {
         <div>
-          <a
-            class="gap-2"
-            hlmBtn
-            routerLink="/notificaciones-horas-extras/nueva"
-            size="sm"
-          >
-            <ng-icon class="size-4" name="lucidePlus" />
+          <a hlmBtn routerLink="/notificaciones-horas-extras/nueva" size="sm">
+            <ng-icon name="lucidePlus" />
             Cargar mi primera notificación
           </a>
         </div>

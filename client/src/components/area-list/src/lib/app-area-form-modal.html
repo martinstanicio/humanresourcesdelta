@@ -78,13 +78,7 @@
         >
           Cancelar
         </button>
-        <button
-          class="gap-1.5"
-          hlmBtn
-          size="sm"
-          type="submit"
-          [disabled]="saving()"
-        >
+        <button hlmBtn size="sm" type="submit" [disabled]="saving()">
           @if (saving()) {
             <ng-icon class="animate-spin" name="lucideRefreshCw" />
             <span>Guardando...</span>

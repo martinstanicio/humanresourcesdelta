@@ -8,7 +8,7 @@
         <div
           class="flex size-16 items-center justify-center rounded-full bg-success/15 text-success"
         >
-          <ng-icon class="size-10" name="lucideCheckCircle2" />
+          <ng-icon name="lucideCheckCircle2" />
         </div>
         <h2 class="text-2xl font-bold tracking-tight text-foreground">
           ¡Solicitud registrada con éxito!
@@ -95,22 +95,18 @@
       <div
         class="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row"
       >
-        <a
-          class="w-full gap-2 sm:w-auto"
-          hlmBtn
-          routerLink="/solicitudes-licencia"
-        >
-          <ng-icon class="size-4" name="lucideCalendarClock" />
+        <a class="w-full sm:w-auto" hlmBtn routerLink="/solicitudes-licencia">
+          <ng-icon name="lucideCalendarClock" />
           Ver mis solicitudes (CU-05)
         </a>
         <button
-          class="w-full gap-2 sm:w-auto"
+          class="w-full sm:w-auto"
           hlmBtn
           type="button"
           variant="outline"
           (click)="resetForm()"
         >
-          <ng-icon class="size-4" name="lucidePlus" />
+          <ng-icon name="lucidePlus" />
           Nueva solicitud
         </button>
       </div>
@@ -125,7 +121,7 @@
         title="Volver a Mis Solicitudes"
         variant="ghost"
       >
-        <ng-icon class="size-4" name="lucideArrowLeft" />
+        <ng-icon name="lucideArrowLeft" />
       </a>
       <div>
         <h1 class="text-2xl font-bold tracking-tight">
@@ -148,19 +144,19 @@
     } @else if (initialError()) {
       <div class="rounded-xl border bg-card p-8 text-center shadow-sm">
         <ng-icon
-          class="mx-auto mb-2 size-10 text-destructive"
+          class="mx-auto mb-2 text-destructive"
           name="lucideAlertCircle"
         />
         <p class="text-sm font-medium text-destructive">{{ initialError() }}</p>
         <button
-          class="mt-4 gap-2"
+          class="mt-4"
           hlmBtn
           size="sm"
           type="button"
           variant="outline"
           (click)="loadInitialData()"
         >
-          <ng-icon class="size-4" name="lucideRefreshCw" />
+          <ng-icon name="lucideRefreshCw" />
           Reintentar
         </button>
       </div>
@@ -208,7 +204,7 @@
               <div
                 class="flex items-center gap-2 text-sm font-semibold text-foreground"
               >
-                <ng-icon class="size-4 text-primary" name="lucideInfo" />
+                <ng-icon class="text-primary" name="lucideInfo" />
                 <span>Condiciones del Convenio: {{ lic.tipo }}</span>
               </div>
 
@@ -221,7 +217,7 @@
                   @if (loadingSaldo()) {
                     <div class="mt-1 flex items-center gap-2">
                       <ng-icon
-                        class="size-3 animate-spin text-muted-foreground"
+                        class="animate-spin text-muted-foreground"
                         name="lucideRefreshCw"
                       />
                       <span class="text-muted-foreground"
@@ -307,7 +303,7 @@
                     class="flex items-center gap-1.5 pt-1 text-xs text-muted-foreground"
                   >
                     <ng-icon
-                      class="size-3.5 text-muted-foreground"
+                      class="text-muted-foreground"
                       name="lucideCalendar"
                     />
                     <span>
@@ -369,10 +365,7 @@
               class="flex flex-col gap-2 rounded-lg border bg-secondary/50 p-3.5 text-xs sm:flex-row sm:items-center sm:justify-between"
             >
               <div class="flex items-center gap-2">
-                <ng-icon
-                  class="size-4 text-primary"
-                  name="lucideCalendarClock"
-                />
+                <ng-icon class="text-primary" name="lucideCalendarClock" />
                 <span>
                   Cantidad de días computados:
                   <strong class="text-sm text-foreground">{{
@@ -402,7 +395,7 @@
               class="flex items-start gap-2.5 rounded-lg border border-destructive/30 bg-destructive/15 p-3 text-xs text-destructive"
             >
               <ng-icon
-                class="mt-0.5 size-4 shrink-0 text-destructive"
+                class="mt-0.5 shrink-0 text-destructive"
                 name="lucideAlertCircle"
               />
               <div>
@@ -420,7 +413,7 @@
               class="flex items-start gap-2.5 rounded-lg border border-destructive/30 bg-destructive/15 p-3 text-xs text-destructive"
             >
               <ng-icon
-                class="mt-0.5 size-4 shrink-0 text-destructive"
+                class="mt-0.5 shrink-0 text-destructive"
                 name="lucideAlertTriangle"
               />
               <div>
@@ -438,7 +431,7 @@
               class="flex items-start gap-2.5 rounded-lg border border-warning/30 bg-warning/15 p-3 text-xs text-warning"
             >
               <ng-icon
-                class="mt-0.5 size-4 shrink-0 text-warning"
+                class="mt-0.5 shrink-0 text-warning"
                 name="lucideClock"
               />
               <div>
@@ -456,7 +449,7 @@
               class="flex items-start gap-2.5 rounded-lg border border-warning/30 bg-warning/15 p-3 text-xs text-warning"
             >
               <ng-icon
-                class="mt-0.5 size-4 shrink-0 text-warning"
+                class="mt-0.5 shrink-0 text-warning"
                 name="lucideAlertCircle"
               />
               <div>
@@ -493,7 +486,7 @@
             <div
               class="flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/15 p-3 text-xs text-destructive"
             >
-              <ng-icon class="size-4 shrink-0" name="lucideAlertCircle" />
+              <ng-icon class="shrink-0" name="lucideAlertCircle" />
               <span>{{ submitError() }}</span>
             </div>
           }
@@ -510,16 +503,15 @@
             Cancelar
           </a>
           <button
-            class="gap-2"
             hlmBtn
             type="submit"
             [disabled]="!isFormValid() || submitting()"
           >
             @if (submitting()) {
-              <ng-icon class="size-4 animate-spin" name="lucideRefreshCw" />
+              <ng-icon class="animate-spin" name="lucideRefreshCw" />
               Registrando solicitud...
             } @else {
-              <ng-icon class="size-4" name="lucideCheck" />
+              <ng-icon name="lucideCheck" />
               Confirmar envío de solicitud
             }
           </button>

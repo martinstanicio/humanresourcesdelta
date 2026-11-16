@@ -16,7 +16,6 @@
     </div>
     <div class="flex items-center gap-2">
       <button
-        class="gap-1.5"
         hlmBtn
         size="sm"
         type="button"
@@ -24,11 +23,7 @@
         [disabled]="loading()"
         (click)="loadData()"
       >
-        <ng-icon
-          class="size-3.5"
-          name="lucideRefreshCw"
-          [class.animate-spin]="loading()"
-        />
+        <ng-icon name="lucideRefreshCw" [class.animate-spin]="loading()" />
         Actualizar listado
       </button>
     </div>
@@ -41,7 +36,7 @@
     >
       <div class="flex items-start gap-2.5">
         <ng-icon
-          class="mt-0.5 size-5 shrink-0 text-success"
+          class="mt-0.5 shrink-0 text-success"
           name="lucideCheckCircle2"
         />
         <span>{{ actionSuccess() }}</span>
@@ -51,7 +46,7 @@
         type="button"
         (click)="actionSuccess.set(null)"
       >
-        <ng-icon class="size-4" name="lucideX" />
+        <ng-icon name="lucideX" />
       </button>
     </div>
   }
@@ -61,7 +56,7 @@
     <div
       class="flex items-center gap-3 rounded-lg border border-destructive/20 bg-destructive/10 p-4 text-sm text-destructive"
     >
-      <ng-icon class="size-5 shrink-0" name="lucideAlertCircle" />
+      <ng-icon class="shrink-0" name="lucideAlertCircle" />
       <span>{{ error() }}</span>
     </div>
   }
@@ -217,7 +212,7 @@
         type="button"
         (click)="toggleSortDirection()"
       >
-        <ng-icon class="size-3.5" name="lucideArrowUpDown" />
+        <ng-icon name="lucideArrowUpDown" />
         <span
           >Orden: Fecha
           {{
@@ -351,7 +346,7 @@
                       class="flex items-center gap-1.5 font-medium text-foreground"
                     >
                       <ng-icon
-                        class="size-3 text-muted-foreground"
+                        class="text-muted-foreground"
                         name="lucideCalendar"
                       />
                       {{
@@ -362,7 +357,7 @@
                       class="flex items-center gap-1.5 font-mono text-xs text-muted-foreground"
                     >
                       <ng-icon
-                        class="size-3 text-muted-foreground"
+                        class="text-muted-foreground"
                         name="lucideClock"
                       />
                       @if (notif.hora_inicio && notif.hora_fin) {
@@ -397,7 +392,7 @@
                       <span
                         class="inline-flex items-center gap-1.5 rounded-full border border-success/30 bg-success/15 px-2.5 py-0.5 text-xs font-medium text-success"
                       >
-                        <ng-icon class="size-3" name="lucideCheckCircle2" />
+                        <ng-icon name="lucideCheckCircle2" />
                         Aprobada
                       </span>
                     }
@@ -405,7 +400,7 @@
                       <span
                         class="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 bg-destructive/15 px-2.5 py-0.5 text-xs font-medium text-destructive"
                       >
-                        <ng-icon class="size-3" name="lucideXCircle" />
+                        <ng-icon name="lucideXCircle" />
                         Rechazada
                       </span>
                     }
@@ -440,7 +435,7 @@
                       variant="outline"
                       (click)="openEvaluacionDrawer(notif)"
                     >
-                      <ng-icon class="size-3.5" name="lucideEye" />
+                      <ng-icon name="lucideEye" />
                       <span>Ver detalle</span>
                     </button>
                   }
@@ -509,7 +504,7 @@
             [disabled]="resolvingAction()"
             (click)="closeEvaluacionDrawer()"
           >
-            <ng-icon class="size-4" name="lucideX" />
+            <ng-icon name="lucideX" />
           </button>
         </div>
 
@@ -521,7 +516,7 @@
               class="flex items-start gap-2.5 rounded-lg border border-warning/30 bg-warning/15 p-3.5 text-xs text-warning"
             >
               <ng-icon
-                class="mt-0.5 size-4 shrink-0 text-warning"
+                class="mt-0.5 shrink-0 text-warning"
                 name="lucideAlertTriangle"
               />
               <div>
@@ -544,7 +539,7 @@
               class="flex items-start gap-2.5 rounded-lg border border-border bg-muted/60 p-3.5 text-xs text-foreground"
             >
               <ng-icon
-                class="mt-0.5 size-4 shrink-0 text-muted-foreground"
+                class="mt-0.5 shrink-0 text-muted-foreground"
                 name="lucideInfo"
               />
               <div>
@@ -563,7 +558,7 @@
             <div
               class="flex items-center gap-2 text-xs font-bold tracking-wider text-foreground uppercase"
             >
-              <ng-icon class="size-3.5 text-primary" name="lucideUser" />
+              <ng-icon class="text-primary" name="lucideUser" />
               Datos del Empleado
             </div>
             <div class="grid grid-cols-2 gap-3 text-xs">
@@ -603,7 +598,7 @@
             <div
               class="flex items-center gap-2 text-xs font-bold tracking-wider text-foreground uppercase"
             >
-              <ng-icon class="size-3.5 text-primary" name="lucideClock" />
+              <ng-icon class="text-primary" name="lucideClock" />
               Detalle del Servicio Declarado
             </div>
 
@@ -614,7 +609,7 @@
                   class="mt-0.5 flex items-center gap-1.5 font-semibold text-foreground"
                 >
                   <ng-icon
-                    class="size-3 text-muted-foreground"
+                    class="text-muted-foreground"
                     name="lucideCalendar"
                   />
                   {{
@@ -695,7 +690,7 @@
               <div
                 class="flex items-center gap-1.5 text-xs font-bold text-foreground"
               >
-                <ng-icon class="size-3.5 text-primary" name="lucideFileText" />
+                <ng-icon class="text-primary" name="lucideFileText" />
                 Observación / Motivo registrado al resolver:
               </div>
               <p
@@ -713,10 +708,7 @@
                 <div
                   class="flex items-center gap-2 text-xs font-bold tracking-wider text-foreground uppercase"
                 >
-                  <ng-icon
-                    class="size-3.5 text-primary"
-                    name="lucideCheckCircle2"
-                  />
+                  <ng-icon class="text-primary" name="lucideCheckCircle2" />
                   Decisión de Recursos Humanos
                 </div>
                 <span class="text-xs text-muted-foreground">CU-04 / RF-05</span>
@@ -737,7 +729,7 @@
                   [disabled]="resolvingAction()"
                   (click)="selectDecision('aprobada')"
                 >
-                  <ng-icon class="size-4 text-success" name="lucideCheck" />
+                  <ng-icon class="text-success" name="lucideCheck" />
                   Aprobar Horas
                 </button>
 
@@ -754,7 +746,7 @@
                   [disabled]="resolvingAction()"
                   (click)="selectDecision('rechazada')"
                 >
-                  <ng-icon class="size-4 text-destructive" name="lucideX" />
+                  <ng-icon class="text-destructive" name="lucideX" />
                   Rechazar Notificación
                 </button>
               </div>
@@ -810,14 +802,10 @@
                   (click)="confirmarResolucion()"
                 >
                   @if (resolvingAction()) {
-                    <ng-icon
-                      class="size-3.5 animate-spin"
-                      name="lucideRefreshCw"
-                    />
+                    <ng-icon class="animate-spin" name="lucideRefreshCw" />
                     <span>Guardando resolución en el sistema...</span>
                   } @else {
                     <ng-icon
-                      class="size-3.5"
                       [name]="
                         decisionAction() === 'aprobada'
                           ? 'lucideCheck'

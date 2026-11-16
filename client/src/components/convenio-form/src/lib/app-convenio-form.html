@@ -126,7 +126,7 @@
             variant="outline"
             (click)="agregarLicencia()"
           >
-            <ng-icon class="mr-1.5" name="lucidePlus" />
+            <ng-icon name="lucidePlus" />
             Agregar tipo de licencia
           </button>
         </div>
@@ -420,7 +420,7 @@
 
         <button hlmBtn type="submit" [disabled]="submitting()">
           @if (submitting()) {
-            <ng-icon class="mr-2 animate-spin" name="lucideRefreshCw" />
+            <ng-icon class="animate-spin" name="lucideRefreshCw" />
             Guardando...
           } @else {
             {{ isEditMode() ? "Guardar cambios" : "Guardar convenio" }}
@@ -482,7 +482,7 @@
             (click)="confirmarGuardadoVersion()"
           >
             @if (submitting()) {
-              <ng-icon class="mr-2 animate-spin" name="lucideRefreshCw" />
+              <ng-icon class="animate-spin" name="lucideRefreshCw" />
               Guardando versión...
             } @else {
               Confirmar nueva versión

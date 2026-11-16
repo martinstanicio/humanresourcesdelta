@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-6">
   <!-- Cabecera y botón volver -->
   <div class="flex items-center justify-between">
-    <a class="gap-2" hlmBtn routerLink="/empleados" size="sm" variant="ghost">
+    <a hlmBtn routerLink="/empleados" size="sm" variant="ghost">
       <ng-icon name="lucideArrowLeft" />
       Volver a empleados
     </a>
@@ -11,7 +11,6 @@
       <div class="flex items-center gap-2">
         @if (e.activo) {
           <a
-            class="gap-1.5"
             hlmBtn
             size="sm"
             variant="outline"
