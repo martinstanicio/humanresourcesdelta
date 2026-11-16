@@ -4,13 +4,7 @@
     <div class="flex items-center gap-3">
       <h2 class="text-2xl font-bold tracking-tight">Reportes Mensuales</h2>
       @if (hasSearched() && esParcial()) {
-        <span
-          class="text-xs font-semibold tracking-wider uppercase"
-          hlmBadge
-          variant="destructive"
-        >
-          REPORTE PARCIAL
-        </span>
+        <span hlmBadge variant="destructive">REPORTE PARCIAL</span>
       }
     </div>
     <p class="text-sm text-muted-foreground">
@@ -20,8 +14,11 @@
   </div>
 
   <!-- Card de Parámetros y Filtros -->
-  <div class="p-5" hlmCard>
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  <div hlmCard>
+    <div
+      class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+      hlmCardContent
+    >
       <!-- Selector de Mes -->
       <div class="flex flex-col gap-1.5">
         <label
@@ -141,7 +138,8 @@
 
     <!-- Botonera de acciones -->
     <div
-      class="mt-5 flex flex-wrap items-center justify-between gap-3 border-t pt-4"
+      class="flex flex-wrap items-center justify-between gap-3 border-t"
+      hlmCardFooter
     >
       <div class="flex items-center gap-2 text-xs text-muted-foreground">
         <ng-icon name="lucideCalendar" />
@@ -215,7 +213,7 @@
 
   <!-- Estado de Error -->
   @if (error()) {
-    <div class="p-6 text-center text-destructive" hlmCard>
+    <div class="text-center" hlmCard>
       <div class="flex flex-col items-center justify-center gap-2">
         <ng-icon class="text-2xl" name="lucideAlertCircle" />
         <p class="text-sm font-medium">{{ error() }}</p>
@@ -237,14 +235,14 @@
   @if (loading()) {
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       @for (i of [1, 2, 3, 4]; track i) {
-        <div class="flex flex-col gap-2 p-4" hlmCard>
+        <div class="flex flex-col" hlmCard>
           <hlm-skeleton class="h-4 w-24" />
           <hlm-skeleton class="h-8 w-16" />
         </div>
       }
     </div>
 
-    <div class="flex flex-col gap-3 p-4" hlmCard>
+    <div class="flex flex-col" hlmCard>
       <hlm-skeleton class="h-6 w-48" />
       <hlm-skeleton class="h-10 w-full" />
       <hlm-skeleton class="h-10 w-full" />
@@ -254,27 +252,18 @@
 
   <!-- Estado Inicial Informativo -->
   @if (!loading() && !hasSearched() && !error()) {
-    <div
-      class="flex flex-col items-center justify-center gap-3 border-dashed py-14 text-center"
-      hlmCard
-    >
-      <div
-        class="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground"
-      >
-        <ng-icon class="text-2xl" name="lucideFileText" />
-      </div>
-      <div class="max-w-md">
-        <h3 class="text-base font-semibold">Listo para consultar reportes</h3>
-        <p class="mt-1 text-sm text-muted-foreground">
-          Configura los filtros de mes, año y empleado arriba y presiona
-          <strong
-            >"{{
-              isCurrentMonth() ? "Generar reporte parcial" : "Ver reporte"
-            }}"</strong
-          >
-          para cargar los datos consolidados en pantalla.
-        </p>
-      </div>
+    <div class="flex flex-col items-center justify-center text-center" hlmCard>
+      <ng-icon class="text-3xl" name="lucideFileText" />
+      <h3 hlmCardTitle>Listo para consultar reportes</h3>
+      <p hlmCardDescription>
+        Configura los filtros de mes, año y empleado arriba y presiona
+        <strong
+          >"{{
+            isCurrentMonth() ? "Generar reporte parcial" : "Ver reporte"
+          }}"</strong
+        >
+        para cargar los datos consolidados en pantalla.
+      </p>
     </div>
   }
 
@@ -282,15 +271,15 @@
   @if (!loading() && hasSearched() && !error()) {
     @if (filteredReportes().length === 0) {
       <div
-        class="flex flex-col items-center justify-center gap-3 py-12 text-center"
+        class="flex flex-col items-center justify-center text-center"
         hlmCard
       >
         <ng-icon
           class="text-3xl text-muted-foreground"
           name="lucideAlertCircle"
         />
-        <h3 class="text-base font-semibold">Sin reportes registrados</h3>
-        <p class="max-w-sm text-sm text-muted-foreground">
+        <h3 hlmCardTitle>Sin reportes registrados</h3>
+        <p hlmCardDescription>
           No se encontraron reportes generados para el período seleccionado ({{
             selectedMesNombre()
           }}
@@ -322,64 +311,62 @@
               </p>
             </div>
           </div>
-          <span class="shrink-0 font-semibold" hlmBadge variant="warning"
-            >EN CURSO</span
-          >
+          <span hlmBadge variant="warning">EN CURSO</span>
         </div>
       }
 
       <!-- KPIs Resumen del Período -->
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="p-4" hlmCard>
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-medium text-muted-foreground"
-              >Empleados Registrados</span
-            >
-            <ng-icon class="text-muted-foreground" name="lucideUsers" />
+        <div hlmCard>
+          <div hlmCardHeader>
+            <span hlmCardTitle>Empleados Registrados</span>
+            <div hlmCardAction>
+              <ng-icon name="lucideUsers" />
+            </div>
           </div>
-          <div class="mt-2 text-2xl font-bold">{{ kpiTotalEmpleados() }}</div>
-          <p class="mt-1 text-xs text-muted-foreground">
-            en el período consultado
-          </p>
+          <div hlmCardContent>
+            <p class="text-2xl font-bold">{{ kpiTotalEmpleados() }}</p>
+            <p class="text-muted-foreground">en el período consultado</p>
+          </div>
         </div>
 
-        <div class="p-4" hlmCard>
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-medium text-muted-foreground"
-              >Horas Extras 50%</span
-            >
-            <ng-icon class="text-muted-foreground" name="lucideClock" />
+        <div hlmCard>
+          <div hlmCardHeader>
+            <span hlmCardTitle>Horas Extras 50%</span>
+            <div hlmCardAction>
+              <ng-icon name="lucideClock" />
+            </div>
           </div>
-          <div class="mt-2 text-2xl font-bold">{{ kpiTotalHoras50() }} hrs</div>
-          <p class="mt-1 text-xs text-muted-foreground">remuneración al 50%</p>
+          <div hlmCardContent>
+            <p class="text-2xl font-bold">{{ kpiTotalHoras50() }} hrs</p>
+            <p class="text-muted-foreground">remuneración al 50%</p>
+          </div>
         </div>
 
-        <div class="p-4" hlmCard>
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-medium text-muted-foreground"
-              >Horas Extras 100%</span
-            >
-            <ng-icon class="text-muted-foreground" name="lucideClock" />
+        <div hlmCard>
+          <div hlmCardHeader>
+            <span hlmCardTitle>Horas Extras 100%</span>
+            <div hlmCardAction>
+              <ng-icon name="lucideClock" />
+            </div>
           </div>
-          <div class="mt-2 text-2xl font-bold">
-            {{ kpiTotalHoras100() }} hrs
+          <div hlmCardContent>
+            <p class="text-2xl font-bold">{{ kpiTotalHoras100() }} hrs</p>
+            <p class="text-muted-foreground">remuneración al 100%</p>
           </div>
-          <p class="mt-1 text-xs text-muted-foreground">remuneración al 100%</p>
         </div>
 
-        <div class="p-4" hlmCard>
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-medium text-muted-foreground"
-              >Días de Licencia</span
-            >
-            <ng-icon class="text-muted-foreground" name="lucideCalendar" />
+        <div hlmCard>
+          <div hlmCardHeader>
+            <span hlmCardTitle>Días de Licencia</span>
+            <div hlmCardAction>
+              <ng-icon name="lucideCalendar" />
+            </div>
           </div>
-          <div class="mt-2 text-2xl font-bold">
-            {{ kpiTotalLicencias() }} días
+          <div hlmCardContent>
+            <p class="text-2xl font-bold">{{ kpiTotalLicencias() }} días</p>
+            <p class="text-muted-foreground">total acumulado aprobado</p>
           </div>
-          <p class="mt-1 text-xs text-muted-foreground">
-            total acumulado aprobado
-          </p>
         </div>
       </div>
 
@@ -426,11 +413,7 @@
             <tbody hlmTableBody>
               @for (item of filteredReportes(); track item.legajo) {
                 <!-- Fila Principal del Empleado -->
-                <tr
-                  class="cursor-pointer hover:bg-muted/50"
-                  hlmTableRow
-                  (click)="toggleRow(item.legajo)"
-                >
+                <tr hlmTableRow (click)="toggleRow(item.legajo)">
                   <!-- Chevron para Expandir / Colapsar -->
                   <td
                     class="w-10 text-center"
@@ -469,7 +452,7 @@
                   </td>
 
                   <!-- Convenio -->
-                  <td class="text-muted-foreground" hlmTableCell>
+                  <td hlmTableCell>
                     {{ getConvenioNombre(item.legajo) }}
                   </td>
 
@@ -500,7 +483,7 @@
                           lic of getLicenciasEntries(item.licencias);
                           track lic.tipo
                         ) {
-                          <span class="text-xs" hlmBadge variant="outline">
+                          <span hlmBadge variant="outline">
                             {{ lic.tipo }}: {{ lic.dias }}d
                           </span>
                         }

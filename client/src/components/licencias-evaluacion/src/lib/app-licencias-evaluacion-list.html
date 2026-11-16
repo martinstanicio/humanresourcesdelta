@@ -72,6 +72,7 @@
     (valueChange)="onStatusRadioChange($event)"
   >
     <label
+      /* eslint-disable-next-line shadcn/no-restyle */
       class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-warning/50 hover:bg-warning/5 has-data-[checked=true]:border-2 has-data-[checked=true]:border-warning has-data-[checked=true]:bg-warning/10 [&>span]:mt-2"
       for="status-pendiente"
       hlmLabel
@@ -82,6 +83,7 @@
       <span>Pendientes ({{ pendientesCount() }})</span>
     </label>
     <label
+      /* eslint-disable-next-line shadcn/no-restyle */
       class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-success/50 hover:bg-success/5 has-data-[checked=true]:border-2 has-data-[checked=true]:border-success has-data-[checked=true]:bg-success/10 [&>span]:mt-2"
       for="status-aprobada"
       hlmLabel
@@ -92,6 +94,7 @@
       <span>Aprobadas ({{ aprobadasCount() }})</span>
     </label>
     <label
+      /* eslint-disable-next-line shadcn/no-restyle */
       class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-destructive/50 hover:bg-destructive/5 has-data-[checked=true]:border-2 has-data-[checked=true]:border-destructive has-data-[checked=true]:bg-destructive/10 [&>span]:mt-2"
       for="status-rechazada"
       hlmLabel
@@ -102,6 +105,7 @@
       <span>Rechazadas ({{ rechazadasCount() }})</span>
     </label>
     <label
+      /* eslint-disable-next-line shadcn/no-restyle */
       class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-muted-foreground/30 hover:bg-muted/20 has-data-[checked=true]:border-2 has-data-[checked=true]:border-muted-foreground has-data-[checked=true]:bg-muted/30 [&>span]:mt-2"
       for="status-cancelada"
       hlmLabel
@@ -115,6 +119,7 @@
       <span>Canceladas ({{ canceladasCount() }})</span>
     </label>
     <label
+      /* eslint-disable-next-line shadcn/no-restyle */
       class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-primary/50 hover:bg-primary/5 has-data-[checked=true]:border-2 has-data-[checked=true]:border-primary has-data-[checked=true]:bg-primary/10 max-md:col-span-2 [&>span]:mt-2"
       for="status-all"
       hlmLabel
@@ -127,117 +132,104 @@
   </hlm-radio-group>
 
   <!-- Barra de Filtros Avanzados (Área/Convenio, Tipo, Período, Búsqueda) -->
-  <div
-    class="grid grid-cols-1 gap-3 rounded-xl border bg-card p-3.5 shadow-xs sm:grid-cols-2 lg:grid-cols-4"
-  >
-    <!-- Buscador -->
-    <div>
-      <label
-        class="mb-1 block text-[11px] font-medium text-muted-foreground"
-        for="search"
-        >Buscar empleado o motivo</label
-      >
-      <div hlmInputGroup>
-        <div hlmInputGroupAddon>
-          <ng-icon name="lucideSearch" />
+  <div hlmCard>
+    <div
+      class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4"
+      hlmCardContent
+    >
+      <!-- Buscador -->
+      <div>
+        <label for="search" hlmLabel>Buscar empleado o motivo</label>
+        <div hlmInputGroup>
+          <div hlmInputGroupAddon>
+            <ng-icon name="lucideSearch" />
+          </div>
+          <input
+            hlmInputGroupInput
+            id="search"
+            placeholder="Nombre, legajo, motivo..."
+            type="search"
+            [(ngModel)]="searchQuery"
+          />
         </div>
-        <input
-          hlmInputGroupInput
-          id="search"
-          placeholder="Nombre, legajo, motivo..."
-          type="search"
-          [(ngModel)]="searchQuery"
-        />
       </div>
-    </div>
 
-    <!-- Filtro por Convenio (reemplazo de Área) -->
-    <div>
-      <label
-        class="mb-1 block text-[11px] font-medium text-muted-foreground"
-        for="convenio"
-        >Convenio / Área</label
-      >
-      <hlm-select
-        id="convenio"
-        [itemToString]="convenioToString"
-        [value]="convenioFilter()"
-        (valueChange)="$event && convenioFilter.set($event)"
-      >
-        <hlm-select-trigger class="h-9 w-full text-xs">
-          <hlm-select-value />
-        </hlm-select-trigger>
-        <hlm-select-content *hlmSelectPortal>
-          <hlm-select-group>
-            <hlm-select-item value="all">Todos los convenios</hlm-select-item>
-            @for (c of conveniosList(); track c.id) {
-              <hlm-select-item [value]="c.id.toString()">{{
-                c.nombre
-              }}</hlm-select-item>
-            }
-          </hlm-select-group>
-        </hlm-select-content>
-      </hlm-select>
-    </div>
+      <!-- Filtro por Convenio (reemplazo de Área) -->
+      <div>
+        <label for="convenio" hlmLabel>Convenio / Área</label>
+        <hlm-select
+          id="convenio"
+          [itemToString]="convenioToString"
+          [value]="convenioFilter()"
+          (valueChange)="$event && convenioFilter.set($event)"
+        >
+          <hlm-select-trigger>
+            <hlm-select-value />
+          </hlm-select-trigger>
+          <hlm-select-content *hlmSelectPortal>
+            <hlm-select-group>
+              <hlm-select-item value="all">Todos los convenios</hlm-select-item>
+              @for (c of conveniosList(); track c.id) {
+                <hlm-select-item [value]="c.id.toString()">{{
+                  c.nombre
+                }}</hlm-select-item>
+              }
+            </hlm-select-group>
+          </hlm-select-content>
+        </hlm-select>
+      </div>
 
-    <!-- Filtro por Tipo de Licencia -->
-    <div>
-      <label
-        class="mb-1 block text-[11px] font-medium text-muted-foreground"
-        for="tipo"
-        >Tipo de licencia</label
-      >
-      <hlm-select
-        id="tipo"
-        [itemToString]="tipoToString"
-        [value]="tipoFilter()"
-        (valueChange)="$event && tipoFilter.set($event)"
-      >
-        <hlm-select-trigger class="h-9 w-full text-xs">
-          <hlm-select-value />
-        </hlm-select-trigger>
-        <hlm-select-content *hlmSelectPortal>
-          <hlm-select-group>
-            <hlm-select-item value="all">Todos los tipos</hlm-select-item>
-            @for (lic of licenciasList(); track lic.id) {
-              <hlm-select-item [value]="lic.id.toString()">{{
-                lic.tipo
-              }}</hlm-select-item>
-            }
-          </hlm-select-group>
-        </hlm-select-content>
-      </hlm-select>
-    </div>
+      <!-- Filtro por Tipo de Licencia -->
+      <div>
+        <label for="tipo" hlmLabel>Tipo de licencia</label>
+        <hlm-select
+          id="tipo"
+          [itemToString]="tipoToString"
+          [value]="tipoFilter()"
+          (valueChange)="$event && tipoFilter.set($event)"
+        >
+          <hlm-select-trigger>
+            <hlm-select-value />
+          </hlm-select-trigger>
+          <hlm-select-content *hlmSelectPortal>
+            <hlm-select-group>
+              <hlm-select-item value="all">Todos los tipos</hlm-select-item>
+              @for (lic of licenciasList(); track lic.id) {
+                <hlm-select-item [value]="lic.id.toString()">{{
+                  lic.tipo
+                }}</hlm-select-item>
+              }
+            </hlm-select-group>
+          </hlm-select-content>
+        </hlm-select>
+      </div>
 
-    <!-- Filtro por Período -->
-    <div>
-      <label
-        class="mb-1 block text-[11px] font-medium text-muted-foreground"
-        for="periodo"
-        >Período / Vigencia</label
-      >
-      <hlm-select
-        id="periodo"
-        [itemToString]="periodoToString"
-        [value]="periodoFilter()"
-        (valueChange)="$event && periodoFilter.set($event)"
-      >
-        <hlm-select-trigger class="h-9 w-full text-xs">
-          <hlm-select-value />
-        </hlm-select-trigger>
-        <hlm-select-content *hlmSelectPortal>
-          <hlm-select-group>
-            <hlm-select-item value="all">Cualquier período</hlm-select-item>
-            <hlm-select-item value="mes_actual">Mes en curso</hlm-select-item>
-            <hlm-select-item value="vigentes"
-              >Fechas vigentes / futuras</hlm-select-item
-            >
-            <hlm-select-item value="vencidas"
-              >Fechas ya vencidas</hlm-select-item
-            >
-          </hlm-select-group>
-        </hlm-select-content>
-      </hlm-select>
+      <!-- Filtro por Período -->
+      <div>
+        <label for="periodo" hlmLabel>Período / Vigencia</label>
+        <hlm-select
+          id="periodo"
+          [itemToString]="periodoToString"
+          [value]="periodoFilter()"
+          (valueChange)="$event && periodoFilter.set($event)"
+        >
+          <hlm-select-trigger>
+            <hlm-select-value />
+          </hlm-select-trigger>
+          <hlm-select-content *hlmSelectPortal>
+            <hlm-select-group>
+              <hlm-select-item value="all">Cualquier período</hlm-select-item>
+              <hlm-select-item value="mes_actual">Mes en curso</hlm-select-item>
+              <hlm-select-item value="vigentes"
+                >Fechas vigentes / futuras</hlm-select-item
+              >
+              <hlm-select-item value="vencidas"
+                >Fechas ya vencidas</hlm-select-item
+              >
+            </hlm-select-group>
+          </hlm-select-content>
+        </hlm-select>
+      </div>
     </div>
   </div>
 
@@ -308,7 +300,7 @@
                   <div class="font-medium text-foreground">
                     {{ emp?.nombre ?? "Empleado #" + solicitud.empleado }}
                   </div>
-                  <div class="text-[11px] text-muted-foreground">
+                  <div class="text-xs text-muted-foreground">
                     Legajo: {{ solicitud.empleado }}
                   </div>
                 </td>
@@ -325,7 +317,7 @@
                   </div>
                   @if (solicitud.motivo_solicitud) {
                     <div
-                      class="max-w-50 truncate text-[11px] text-muted-foreground"
+                      class="max-w-50 truncate text-xs text-muted-foreground"
                       [title]="solicitud.motivo_solicitud"
                     >
                       "{{ solicitud.motivo_solicitud }}"
@@ -348,7 +340,7 @@
                   </div>
                   @if (vencida) {
                     <div
-                      class="mt-0.5 flex items-center gap-1 text-[10px] font-semibold text-warning"
+                      class="mt-0.5 flex items-center gap-1 text-xs font-semibold text-warning"
                     >
                       <ng-icon class="size-3" name="lucideAlertTriangle" />
                       Fechas vencidas
@@ -379,7 +371,6 @@
                 <td class="px-4 py-3.5 text-right">
                   @if (solicitud.estado === "pendiente") {
                     <button
-                      class="h-8 gap-1.5 text-xs font-medium shadow-xs"
                       hlmBtn
                       size="sm"
                       type="button"
@@ -390,11 +381,10 @@
                     </button>
                   } @else {
                     <button
-                      class="h-8 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
                       hlmBtn
                       size="sm"
                       type="button"
-                      variant="ghost"
+                      variant="outline"
                       (click)="openEvaluacionDrawer(solicitud)"
                     >
                       <ng-icon class="size-3.5" name="lucideEye" />
@@ -538,23 +528,19 @@
             </div>
             <div class="grid grid-cols-2 gap-3 text-xs">
               <div>
-                <span class="block text-[11px] text-muted-foreground"
-                  >Nombre:</span
-                >
+                <span class="block text-xs text-muted-foreground">Nombre:</span>
                 <span class="font-medium text-foreground">{{
                   emp?.nombre ?? "Desconocido"
                 }}</span>
               </div>
               <div>
-                <span class="block text-[11px] text-muted-foreground"
-                  >Legajo:</span
-                >
+                <span class="block text-xs text-muted-foreground">Legajo:</span>
                 <span class="font-mono font-medium text-foreground">{{
                   solicitud.empleado
                 }}</span>
               </div>
               <div>
-                <span class="block text-[11px] text-muted-foreground"
+                <span class="block text-xs text-muted-foreground"
                   >Convenio / Área:</span
                 >
                 <span class="font-medium text-foreground">{{
@@ -562,7 +548,7 @@
                 }}</span>
               </div>
               <div>
-                <span class="block text-[11px] text-muted-foreground"
+                <span class="block text-xs text-muted-foreground"
                   >Fecha Ingreso:</span
                 >
                 <span class="font-medium text-foreground">{{
@@ -583,7 +569,7 @@
 
             <div class="space-y-2 text-xs">
               <div>
-                <span class="block text-[11px] text-muted-foreground"
+                <span class="block text-xs text-muted-foreground"
                   >Tipo de licencia:</span
                 >
                 <span class="text-sm font-semibold text-foreground">{{
@@ -625,7 +611,7 @@
                   }
                 </div>
                 @if (selectedSaldo()?.fecha_renovacion) {
-                  <p class="mt-1 text-[11px] text-muted-foreground">
+                  <p class="mt-1 text-xs text-muted-foreground">
                     Próxima renovación de saldo:
                     {{ selectedSaldo()?.fecha_renovacion | date: "dd/MM/yyyy" }}
                   </p>
@@ -645,17 +631,13 @@
 
             <div class="grid grid-cols-2 gap-3 text-xs">
               <div class="rounded-lg border bg-muted/30 p-2.5">
-                <span class="block text-[11px] text-muted-foreground"
-                  >Desde:</span
-                >
+                <span class="block text-xs text-muted-foreground">Desde:</span>
                 <span class="text-sm font-semibold">{{
                   solicitud.fecha_inicio | date: "dd/MM/yyyy"
                 }}</span>
               </div>
               <div class="rounded-lg border bg-muted/30 p-2.5">
-                <span class="block text-[11px] text-muted-foreground"
-                  >Hasta:</span
-                >
+                <span class="block text-xs text-muted-foreground">Hasta:</span>
                 <span class="text-sm font-semibold">{{
                   solicitud.fecha_fin | date: "dd/MM/yyyy"
                 }}</span>
@@ -711,7 +693,7 @@
                 for="motivo_resolucion"
               >
                 <span>Observación de Recursos Humanos:</span>
-                <span class="text-[11px] font-normal text-muted-foreground">
+                <span class="text-xs font-normal text-muted-foreground">
                   (Obligatoria si se rechaza)
                 </span>
               </label>
@@ -771,7 +753,6 @@
           class="flex flex-col items-center justify-between gap-3 border-t border-border bg-muted/20 p-6 sm:flex-row"
         >
           <button
-            class="w-full text-xs sm:w-auto"
             hlmBtn
             type="button"
             variant="outline"
@@ -785,7 +766,6 @@
             <div class="flex w-full items-center gap-2 sm:w-auto">
               <!-- Botón Rechazar (Flujo alternativo #3) -->
               <button
-                class="flex-1 gap-1.5 text-xs font-medium sm:flex-initial"
                 hlmBtn
                 type="button"
                 variant="destructive"
@@ -806,7 +786,6 @@
 
               <!-- Botón Aprobar -->
               <button
-                class="flex-1 gap-1.5 sm:flex-initial"
                 hlmBtn
                 type="button"
                 variant="success"

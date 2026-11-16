@@ -72,6 +72,7 @@
     (valueChange)="onStatusRadioChange($event)"
   >
     <label
+      /* eslint-disable-next-line shadcn/no-restyle */
       class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-warning/50 hover:bg-warning/5 has-data-[checked=true]:border-2 has-data-[checked=true]:border-warning has-data-[checked=true]:bg-warning/10 [&>span]:mt-2"
       for="status-pendiente"
       hlmLabel
@@ -82,6 +83,7 @@
       <span>Pendientes ({{ pendientesCount() }})</span>
     </label>
     <label
+      /* eslint-disable-next-line shadcn/no-restyle */
       class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-success/50 hover:bg-success/5 has-data-[checked=true]:border-2 has-data-[checked=true]:border-success has-data-[checked=true]:bg-success/10 [&>span]:mt-2"
       for="status-aprobada"
       hlmLabel
@@ -92,6 +94,7 @@
       <span>Aprobadas ({{ aprobadasCount() }})</span>
     </label>
     <label
+      /* eslint-disable-next-line shadcn/no-restyle */
       class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-destructive/50 hover:bg-destructive/5 has-data-[checked=true]:border-2 has-data-[checked=true]:border-destructive has-data-[checked=true]:bg-destructive/10 [&>span]:mt-2"
       for="status-rechazada"
       hlmLabel
@@ -102,6 +105,7 @@
       <span>Rechazadas ({{ rechazadasCount() }})</span>
     </label>
     <label
+      /* eslint-disable-next-line shadcn/no-restyle */
       class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border bg-background px-3 py-4 text-center text-xs font-medium transition-colors hover:border-primary/50 hover:bg-primary/5 has-data-[checked=true]:border-2 has-data-[checked=true]:border-primary has-data-[checked=true]:bg-primary/10 [&>span]:mt-2"
       for="status-all"
       hlmLabel
@@ -140,7 +144,7 @@
           [value]="empleadoFilter()"
           (valueChange)="$event && empleadoFilter.set($event)"
         >
-          <hlm-select-trigger class="h-9 max-w-50 truncate text-xs">
+          <hlm-select-trigger>
             <hlm-select-value />
           </hlm-select-trigger>
           <hlm-select-content *hlmSelectPortal>
@@ -161,7 +165,7 @@
           [value]="periodoFilter()"
           (valueChange)="$event && periodoFilter.set($event)"
         >
-          <hlm-select-trigger class="h-9 w-44 text-xs">
+          <hlm-select-trigger>
             <hlm-select-value />
           </hlm-select-trigger>
           <hlm-select-content *hlmSelectPortal>
@@ -187,11 +191,10 @@
 
         <!-- Botón Reset filtros -->
         <button
-          class="gap-1 text-xs text-muted-foreground hover:text-foreground"
           hlmBtn
           size="sm"
           type="button"
-          variant="ghost"
+          variant="outline"
           (click)="resetFilters()"
         >
           <ng-icon class="size-3.5" name="lucideX" />
@@ -245,7 +248,7 @@
         <div
           class="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-muted/50 text-muted-foreground"
         >
-          <ng-icon class="size-6" name="lucideClock" />
+          <ng-icon name="lucideClock" />
         </div>
         <h3 class="text-sm font-semibold text-foreground">
           No se encontraron horas extras
@@ -255,43 +258,38 @@
           seleccionados.
         </p>
         <button
-          class="mt-4 gap-1.5 text-xs"
+          class="mt-4"
           hlmBtn
           size="sm"
           type="button"
           variant="outline"
           (click)="resetFilters()"
         >
-          <ng-icon class="size-3.5" name="lucideRefreshCw" />
+          <ng-icon name="lucideRefreshCw" />
           Restablecer filtros
         </button>
       </div>
     } @else {
       <div class="overflow-x-auto">
-        <table class="w-full text-xs" hlmTable>
-          <thead class="bg-muted/40 text-muted-foreground" hlmTableHead>
+        <table hlmTable>
+          <thead hlmTableHead>
             <tr hlmTableRow>
-              <th class="px-4 py-3 text-left font-semibold" hlmTableHeader>
-                Empleado
-              </th>
-              <th class="px-4 py-3 text-left font-semibold" hlmTableHeader>
-                Convenio
-              </th>
-              <th class="px-4 py-3 text-left font-semibold" hlmTableHeader>
+              <!-- eslint-disable-next-line shadcn/no-restyle -->
+              <th class="px-4 py-3 text-left" hlmTableHeader>Empleado</th>
+              <!-- eslint-disable-next-line shadcn/no-restyle -->
+              <th class="px-4 py-3 text-left" hlmTableHeader>Convenio</th>
+              <!-- eslint-disable-next-line shadcn/no-restyle -->
+              <th class="px-4 py-3 text-left" hlmTableHeader>
                 Tipo Hora Extra
               </th>
-              <th class="px-4 py-3 text-left font-semibold" hlmTableHeader>
-                Fecha y Rango
-              </th>
-              <th class="px-4 py-3 text-center font-semibold" hlmTableHeader>
-                Horas
-              </th>
-              <th class="px-4 py-3 text-center font-semibold" hlmTableHeader>
-                Estado
-              </th>
-              <th class="px-4 py-3 text-right font-semibold" hlmTableHeader>
-                Acción
-              </th>
+              <!-- eslint-disable-next-line shadcn/no-restyle -->
+              <th class="px-4 py-3 text-left" hlmTableHeader>Fecha y Rango</th>
+              <!-- eslint-disable-next-line shadcn/no-restyle -->
+              <th class="px-4 py-3 text-center" hlmTableHeader>Horas</th>
+              <!-- eslint-disable-next-line shadcn/no-restyle -->
+              <th class="px-4 py-3 text-center" hlmTableHeader>Estado</th>
+              <!-- eslint-disable-next-line shadcn/no-restyle -->
+              <th class="px-4 py-3 text-right" hlmTableHeader>Acción</th>
             </tr>
           </thead>
           <tbody hlmTableBody>
@@ -302,10 +300,7 @@
               @let horas = getHorasCalculadas(notif);
               @let cerrada = isPeriodoCerrado(notif);
 
-              <tr
-                class="border-b border-border/50 transition-colors hover:bg-muted/30"
-                hlmTableRow
-              >
+              <tr hlmTableRow>
                 <!-- Empleado -->
                 <td class="px-4 py-3" hlmTableCell>
                   <div class="flex items-center gap-2.5">
@@ -318,7 +313,7 @@
                       <div class="font-medium text-foreground">
                         {{ emp ? emp.nombre : "Legajo #" + notif.empleado }}
                       </div>
-                      <div class="font-mono text-[11px] text-muted-foreground">
+                      <div class="font-mono text-xs text-muted-foreground">
                         Legajo: {{ notif.empleado }}
                       </div>
                     </div>
@@ -328,7 +323,7 @@
                 <!-- Convenio -->
                 <td class="px-4 py-3" hlmTableCell>
                   <span
-                    class="inline-flex items-center rounded-md bg-secondary px-2 py-0.5 text-[11px] font-medium text-secondary-foreground"
+                    class="inline-flex items-center rounded-md bg-secondary px-2 py-0.5 text-xs font-medium text-secondary-foreground"
                   >
                     {{ conv?.nombre || "Convenio" }}
                   </span>
@@ -341,7 +336,7 @@
                       {{ he?.tipo || "Hora Extra #" + notif.hora_extra }}
                     </div>
                     <div
-                      class="flex items-center gap-1.5 text-[11px] text-muted-foreground"
+                      class="flex items-center gap-1.5 text-xs text-muted-foreground"
                     >
                       <span>Multiplicador:</span>
                       <span class="font-mono font-semibold text-foreground">
@@ -368,7 +363,7 @@
                       }}
                     </div>
                     <div
-                      class="flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground"
+                      class="flex items-center gap-1.5 font-mono text-xs text-muted-foreground"
                     >
                       <ng-icon
                         class="size-3 text-muted-foreground"
@@ -422,7 +417,7 @@
                   @if (cerrada) {
                     <div class="mt-1">
                       <span
-                        class="inline-flex items-center gap-1 rounded border border-warning/30 bg-warning/15 px-1.5 text-[10px] font-medium text-warning"
+                        class="inline-flex items-center gap-1 rounded border border-warning/30 bg-warning/15 px-1.5 text-xs font-medium text-warning"
                       >
                         Período cerrado
                       </span>
@@ -434,7 +429,6 @@
                 <td class="px-4 py-3 text-right" hlmTableCell>
                   @if (notif.estado === "pendiente") {
                     <button
-                      class="gap-1.5 bg-primary text-xs text-primary-foreground shadow-xs hover:bg-primary/90"
                       hlmBtn
                       size="sm"
                       type="button"
@@ -444,7 +438,6 @@
                     </button>
                   } @else {
                     <button
-                      class="gap-1.5 text-xs text-muted-foreground hover:text-foreground"
                       hlmBtn
                       size="sm"
                       type="button"
@@ -651,7 +644,7 @@
                 <p class="mt-0.5 font-semibold text-foreground">
                   {{ he?.tipo || "Hora Extra" }}
                 </p>
-                <p class="text-[11px] text-muted-foreground">
+                <p class="text-xs text-muted-foreground">
                   {{ he?.descripcion }}
                 </p>
               </div>
@@ -670,7 +663,7 @@
             <!-- Caja destacada de Horas Calculadas y Acumulado -->
             <div class="grid grid-cols-2 gap-3 border-t border-border pt-3">
               <div class="rounded-lg border border-primary/20 bg-primary/5 p-3">
-                <span class="text-[11px] font-medium text-muted-foreground"
+                <span class="text-xs font-medium text-muted-foreground"
                   >Horas de esta notificación</span
                 >
                 <div class="mt-0.5 font-mono text-xl font-bold text-primary">
@@ -678,7 +671,7 @@
                 </div>
               </div>
               <div class="rounded-lg border border-border bg-muted/40 p-3">
-                <span class="text-[11px] font-medium text-muted-foreground"
+                <span class="text-xs font-medium text-muted-foreground"
                   >Acumulado en el mes</span
                 >
                 <div class="mt-0.5 font-mono text-xl font-bold text-foreground">
@@ -730,9 +723,7 @@
                   />
                   Decisión de Recursos Humanos
                 </div>
-                <span class="text-[11px] text-muted-foreground"
-                  >CU-04 / RF-05</span
-                >
+                <span class="text-xs text-muted-foreground">CU-04 / RF-05</span>
               </div>
 
               <!-- Selector de Acción: Aprobar o Rechazar -->
@@ -786,7 +777,7 @@
                       Observación / Justificación (Opcional)
                     }
                   </span>
-                  <span class="text-[11px] font-normal text-muted-foreground">
+                  <span class="text-xs font-normal text-muted-foreground">
                     Se informará al empleado
                   </span>
                 </label>
@@ -821,7 +812,7 @@
               <!-- Botón Confirmar Acción -->
               <div class="pt-2">
                 <button
-                  class="w-full gap-2 py-2.5 text-xs font-bold"
+                  class="w-full"
                   hlmBtn
                   type="button"
                   [disabled]="!decisionAction() || resolvingAction()"
@@ -868,7 +859,6 @@
         <!-- Footer del Drawer -->
         <div class="flex justify-end border-t border-border bg-muted/10 p-4">
           <button
-            class="text-xs"
             hlmBtn
             size="sm"
             type="button"

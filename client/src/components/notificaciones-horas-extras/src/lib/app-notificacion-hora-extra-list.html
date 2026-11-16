@@ -11,12 +11,8 @@
       </p>
     </div>
     <div>
-      <a
-        class="gap-2 font-medium shadow-sm"
-        hlmBtn
-        routerLink="/notificaciones-horas-extras/nueva"
-      >
-        <ng-icon class="size-4" name="lucidePlus" />
+      <a hlmBtn routerLink="/notificaciones-horas-extras/nueva">
+        <ng-icon name="lucidePlus" />
         Nueva notificación
       </a>
     </div>
@@ -146,10 +142,10 @@
   <!-- Estado de carga -->
   @if (loading()) {
     <div class="space-y-3">
-      <hlm-skeleton class="h-14 w-full rounded-lg" />
-      <hlm-skeleton class="h-14 w-full rounded-lg" />
-      <hlm-skeleton class="h-14 w-full rounded-lg" />
-      <hlm-skeleton class="h-14 w-full rounded-lg" />
+      <hlm-skeleton class="h-14 w-full" />
+      <hlm-skeleton class="h-14 w-full" />
+      <hlm-skeleton class="h-14 w-full" />
+      <hlm-skeleton class="h-14 w-full" />
     </div>
   } @else if (error()) {
     <div
@@ -232,20 +228,14 @@
           </thead>
           <tbody hlmTableBody>
             @for (notif of filteredNotificaciones(); track notif.id) {
-              <tr class="transition-colors hover:bg-muted/50" hlmTableRow>
-                <td
-                  class="font-mono text-xs font-semibold text-muted-foreground"
-                  hlmTableCell
-                >
+              <tr hlmTableRow>
+                <td class="font-mono text-xs font-semibold" hlmTableCell>
                   #{{ notif.id }}
                 </td>
                 <td class="font-medium whitespace-nowrap" hlmTableCell>
                   {{ notif.fecha || notif.fecha_inicio | date: "dd/MM/yyyy" }}
                 </td>
-                <td
-                  class="font-mono text-xs whitespace-nowrap text-muted-foreground"
-                  hlmTableCell
-                >
+                <td class="font-mono text-xs whitespace-nowrap" hlmTableCell>
                   @if (notif.hora_inicio && notif.hora_fin) {
                     {{ notif.hora_inicio }} - {{ notif.hora_fin }} hs
                   } @else {
@@ -262,18 +252,14 @@
                       getHoraExtraTipo(notif.hora_extra)
                     }}</span>
                     @if (getHoraExtraMultiplicador(notif.hora_extra); as mult) {
-                      <span
-                        class="h-4 px-1.5 py-0 text-[10px]"
-                        hlmBadge
-                        variant="outline"
-                      >
+                      <span hlmBadge variant="outline">
                         {{ mult }}
                       </span>
                     }
                   </div>
                 </td>
                 <td
-                  class="max-w-xs truncate text-xs text-muted-foreground"
+                  class="max-w-xs truncate text-xs"
                   hlmTableCell
                   [title]="notif.motivo_resolucion"
                 >

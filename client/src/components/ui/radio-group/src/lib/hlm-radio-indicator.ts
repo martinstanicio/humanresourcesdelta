@@ -17,7 +17,7 @@ export class HlmRadioIndicator {
   constructor() {
     classes(
       () =>
-        "group-data=[disabled=true]:cursor-not-allowed group-data=[disabled=true]:opacity-50 relative flex aspect-square size-4 shrink-0 items-center justify-center rounded-full border border-input text-primary shadow-xs transition-[color,box-shadow] outline-none group-has-focus-visible:border-ring group-has-focus-visible:ring-[3px] group-has-focus-visible:ring-ring/50 dark:bg-input/30",
+        "relative flex aspect-square size-4 shrink-0 items-center justify-center rounded-full border border-input text-primary shadow-xs transition-[color,box-shadow] outline-none group-has-focus-visible:border-ring group-has-focus-visible:ring-[3px] group-has-focus-visible:ring-ring/50 group-data-[disabled=true]:cursor-not-allowed group-data-[disabled=true]:opacity-50 dark:bg-input/30",
     );
   }
 }

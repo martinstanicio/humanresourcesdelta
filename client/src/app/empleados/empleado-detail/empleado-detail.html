@@ -22,11 +22,10 @@
           </a>
 
           <button
-            class="gap-1.5 text-destructive hover:bg-destructive/10"
             hlmBtn
             size="sm"
             type="button"
-            variant="outline"
+            variant="destructive"
             [disabled]="checkingBaja()"
             (click)="solicitarBaja()"
           >
@@ -40,7 +39,6 @@
           </button>
         } @else {
           <button
-            class="gap-1.5"
             hlmBtn
             size="sm"
             type="button"
@@ -182,10 +180,10 @@
           </button>
 
           <button
-            class="gap-1.5 bg-destructive text-destructive-foreground hover:bg-destructive/90"
             hlmBtn
             size="sm"
             type="button"
+            variant="destructive"
             [disabled]="deleting()"
             (click)="confirmarBaja()"
           >

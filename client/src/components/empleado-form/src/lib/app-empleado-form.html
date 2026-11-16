@@ -4,7 +4,7 @@
       <div class="h-5 w-24" hlmSkeleton></div>
       <div class="h-8 w-64" hlmSkeleton></div>
     </div>
-    <div class="h-64 w-full rounded-md border" hlmSkeleton></div>
+    <div class="h-64 w-full" hlmSkeleton></div>
   </div>
 } @else {
   <form class="flex flex-col gap-6" (ngSubmit)="onSubmit()">
@@ -37,7 +37,7 @@
               : "Información General del Empleado"
           }}
         </h3>
-        <p class="text-sm text-muted-foreground" hlmCardDescription>
+        <p hlmCardDescription>
           {{
             isEditMode()
               ? "Modifique los datos laborales y de acceso del legajo. El número de legajo no puede modificarse."
@@ -381,7 +381,6 @@
 
         @if (modal.existsInactive) {
           <button
-            class="gap-1.5"
             hlmBtn
             size="sm"
             type="button"

@@ -13,12 +13,8 @@
       </p>
     </div>
     <div>
-      <a
-        class="gap-2 font-medium shadow-sm"
-        hlmBtn
-        routerLink="/solicitudes-licencia/nueva"
-      >
-        <ng-icon class="size-4" name="lucidePlus" />
+      <a hlmBtn routerLink="/solicitudes-licencia/nueva">
+        <ng-icon name="lucidePlus" />
         Nueva solicitud
       </a>
     </div>
@@ -230,9 +226,9 @@
       </div>
     } @else {
       <div class="overflow-x-auto">
-        <table class="w-full text-sm" hlmTable>
+        <table class="w-full" hlmTable>
           <thead hlmTHead>
-            <tr class="border-b bg-muted/40" hlmTr>
+            <tr hlmTr>
               <th class="w-20 font-semibold" hlmTh>N°</th>
               <th class="font-semibold" hlmTh>Tipo de Licencia</th>
               <th class="font-semibold" hlmTh>Período</th>
@@ -243,12 +239,9 @@
           </thead>
           <tbody hlmTBody>
             @for (solicitud of filteredSolicitudes(); track solicitud.id) {
-              <tr class="border-b transition-colors hover:bg-muted/30" hlmTr>
+              <tr hlmTr>
                 <!-- N° Seguimiento -->
-                <td
-                  class="font-mono text-xs font-medium text-muted-foreground"
-                  hlmTd
-                >
+                <td class="font-mono text-xs font-medium" hlmTd>
                   #{{ solicitud.id }}
                 </td>
 
@@ -284,7 +277,7 @@
                   </p>
                   @if (solicitud.motivo_resolucion) {
                     <p
-                      class="mt-0.5 truncate text-[11px] text-destructive italic"
+                      class="mt-0.5 truncate text-xs text-destructive italic"
                       [title]="solicitud.motivo_resolucion"
                     >
                       Resp: {{ solicitud.motivo_resolucion }}
@@ -306,12 +299,11 @@
                 <td class="text-right" hlmTd>
                   @if (solicitud.estado === "pendiente") {
                     <button
-                      class="h-8 gap-1 px-2 text-xs text-destructive hover:bg-destructive/10 hover:text-destructive"
                       hlmBtn
                       size="sm"
                       title="Cancelar solicitud pendiente"
                       type="button"
-                      variant="ghost"
+                      variant="destructive"
                       (click)="openCancelModal(solicitud)"
                     >
                       <ng-icon class="size-3.5" name="lucideTrash2" />

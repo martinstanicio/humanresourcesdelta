@@ -6,10 +6,9 @@
     <div class="space-y-1">
       <div class="flex items-center gap-2">
         <a
-          class="size-8 p-0 text-muted-foreground hover:text-foreground"
           hlmBtn
           routerLink="/notificaciones-horas-extras"
-          size="sm"
+          size="icon"
           title="Volver a mis horas extras"
           variant="ghost"
         >
@@ -29,33 +28,29 @@
   @if (loadingInitial()) {
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
       <div class="space-y-4 md:col-span-2">
-        <hlm-skeleton class="h-12 w-full rounded-lg" />
-        <hlm-skeleton class="h-12 w-full rounded-lg" />
-        <hlm-skeleton class="h-32 w-full rounded-lg" />
+        <hlm-skeleton class="h-12 w-full" />
+        <hlm-skeleton class="h-12 w-full" />
+        <hlm-skeleton class="h-32 w-full" />
       </div>
       <div class="md:col-span-1">
-        <hlm-skeleton class="h-64 w-full rounded-lg" />
+        <hlm-skeleton class="h-64 w-full" />
       </div>
     </div>
   } @else if (confirmedNotificaciones(); as notifs) {
     <!-- PANTALLA DE ÉXITO Y CONFIRMACIÓN -->
-    <div class="border-success/30 bg-success/10" hlmCard>
-      <div class="items-center pb-4 text-center" hlmCardHeader>
-        <div
-          class="mb-2 inline-flex size-14 items-center justify-center rounded-full bg-success/15 text-success"
-        >
-          <ng-icon class="size-8" name="lucideCheckCircle2" />
-        </div>
-        <h2 class="text-xl text-success" hlmCardTitle>
-          Notificación Registrada con Éxito
-        </h2>
-        <p class="text-success/80" hlmCardDescription>
+    <div hlmCard>
+      <div hlmCardHeader>
+        <h2 hlmCardTitle>Notificación Registrada con Éxito</h2>
+        <p hlmCardDescription>
           La declaración ha sido ingresada en estado 'Pendiente' y se envió la
           notificación automática al área de Recursos Humanos (RF-08).
         </p>
+        <div hlmCardAction>
+          <ng-icon class="text-success" name="lucideCheckCircle2" />
+        </div>
       </div>
 
-      <div class="mx-auto max-w-xl space-y-4" hlmCardContent>
+      <div class="mx-auto space-y-4" hlmCardContent>
         <div class="space-y-3 rounded-lg border bg-card p-4">
           <div class="flex items-center justify-between border-b pb-2">
             <span class="text-sm text-muted-foreground"
@@ -63,11 +58,8 @@
             >
             <div class="flex flex-wrap gap-1.5">
               @for (n of notifs; track n.id) {
-                <span
-                  class="font-mono text-xs font-semibold"
-                  hlmBadge
-                  variant="secondary"
-                >
+                <!-- eslint-disable-next-line shadcn/no-restyle -->
+                <span class="font-mono" hlmBadge variant="secondary">
                   #{{ n.id }}
                 </span>
               }
@@ -135,25 +127,12 @@
         </div>
       </div>
 
-      <div
-        class="flex flex-col justify-center gap-3 pt-2 sm:flex-row"
-        hlmCardFooter
-      >
-        <a
-          class="w-full sm:w-auto"
-          hlmBtn
-          routerLink="/notificaciones-horas-extras"
-        >
+      <div class="flex items-center justify-end gap-3 border-t" hlmCardFooter>
+        <a hlmBtn routerLink="/notificaciones-horas-extras">
           Ver mis notificaciones
         </a>
-        <button
-          class="w-full gap-2 sm:w-auto"
-          hlmBtn
-          type="button"
-          variant="outline"
-          (click)="resetForm()"
-        >
-          <ng-icon class="size-4" name="lucidePlus" />
+        <button hlmBtn type="button" variant="outline" (click)="resetForm()">
+          <ng-icon name="lucidePlus" />
           Cargar otra notificación
         </button>
       </div>
@@ -374,15 +353,15 @@
       <!-- Columna derecha: Resumen calculado y reglas de convenio -->
       <div class="space-y-6 lg:col-span-1">
         <div class="sticky top-6" hlmCard>
-          <div class="pb-3" hlmCardHeader>
-            <h3 class="flex items-center gap-2 text-base" hlmCardTitle>
-              <ng-icon class="size-4 text-primary" name="lucideClock" />
-              Resumen Calculado
-            </h3>
+          <div hlmCardHeader>
+            <h3 hlmCardTitle>Resumen Calculado</h3>
             <p class="text-xs" hlmCardDescription>
               Cálculo automático según tipo de día y reglas de convenio (RF-01 /
               CU-03).
             </p>
+            <div hlmCardAction>
+              <ng-icon class="text-primary" name="lucideClock" />
+            </div>
           </div>
 
           <div class="space-y-4" hlmCardContent>
@@ -412,7 +391,7 @@
                   class="flex items-center justify-between rounded-md bg-muted/40 p-2 text-sm"
                 >
                   <div class="flex items-center gap-2">
-                    <span class="size-2 rounded-full bg-blue-500"></span>
+                    <span class="size-2 rounded-full bg-primary"></span>
                     <span class="text-muted-foreground">Horas al 50%:</span>
                   </div>
                   <span class="font-mono font-bold"
@@ -424,7 +403,7 @@
                   class="flex items-center justify-between rounded-md bg-muted/40 p-2 text-sm"
                 >
                   <div class="flex items-center gap-2">
-                    <span class="size-2 rounded-full bg-purple-500"></span>
+                    <span class="size-2 rounded-full bg-primary"></span>
                     <span class="text-muted-foreground">Horas al 100%:</span>
                   </div>
                   <span class="font-mono font-bold"
