@@ -73,11 +73,6 @@
             >
             <span class="font-medium text-foreground">
               {{ diasCalculados() }} día(s)
-              {{
-                selectedLicenciaRules()?.contabilizaDiasNoHabiles
-                  ? "corridos"
-                  : "hábiles"
-              }}
             </span>
           </div>
           @if (confirmada.motivo_solicitud) {
@@ -371,19 +366,8 @@
                   <strong class="text-sm text-foreground">{{
                     diasCalculados()
                   }}</strong>
-                  {{
-                    selectedLicenciaRules()?.contabilizaDiasNoHabiles
-                      ? "días corridos"
-                      : "días hábiles"
-                  }}
+                  días
                 </span>
-              </div>
-              <div class="text-xs text-muted-foreground">
-                @if (selectedLicenciaRules()?.contabilizaDiasNoHabiles) {
-                  * Computa todos los días corridos
-                } @else {
-                  * Contempla y excluye fines de semana y feriados nacionales
-                }
               </div>
             </div>
           }

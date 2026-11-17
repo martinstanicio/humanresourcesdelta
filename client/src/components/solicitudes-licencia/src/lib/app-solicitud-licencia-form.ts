@@ -38,11 +38,7 @@ import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTextarea } from "@spartan-ng/helm/textarea";
 import { forkJoin } from "rxjs";
 
-import {
-  calcularDiasHabiles,
-  formatDateISO,
-  parseLocalDate,
-} from "@/lib/feriados";
+import { calcularDias, formatDateISO, parseLocalDate } from "@/lib/feriados";
 import { Licencia } from "@/models/licencia.model";
 import { SolicitudLicencia } from "@/models/solicitud-licencia.model";
 import { AuthService } from "@/services/auth.service";
@@ -194,9 +190,6 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
       diasMaximosConsecutivos: r["dias_maximos_consecutivos"]
         ? Number(r["dias_maximos_consecutivos"])
         : null,
-      contabilizaDiasNoHabiles: Boolean(
-        r["contabiliza_dias_no_habiles"] ?? false,
-      ),
       requiereDocumentacion: Boolean(
         r["requiere_documentacion"] ??
         r["documentacion_obligatoria"] ??
@@ -210,16 +203,13 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
     };
   });
 
-  // Cálculo automático de días hábiles contemplando fines de semana y feriados
+  // Cálculo automático de días
   public readonly diasCalculados = computed<number>(() => {
     const inicio = this.fechaInicio();
     const fin = this.fechaFin();
     if (!inicio || !fin) return 0;
 
-    const rules = this.selectedLicenciaRules();
-    const contabilizaNoHabiles = rules?.contabilizaDiasNoHabiles ?? false;
-
-    return calcularDiasHabiles(inicio, fin, contabilizaNoHabiles);
+    return calcularDias(inicio, fin);
   });
 
   // Validación: Antelación mínima

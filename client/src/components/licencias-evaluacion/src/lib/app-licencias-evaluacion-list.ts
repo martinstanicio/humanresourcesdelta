@@ -40,7 +40,7 @@ import { HlmTableImports } from "@spartan-ng/helm/table";
 import { HlmTextarea } from "@spartan-ng/helm/textarea";
 import { forkJoin } from "rxjs";
 
-import { calcularDiasHabiles } from "@/lib/feriados";
+import { calcularDias } from "@/lib/feriados";
 import { Convenio } from "@/models/convenio.model";
 import { Empleado } from "@/models/empleado.model";
 import { Licencia } from "@/models/licencia.model";
@@ -329,16 +329,7 @@ export class AppLicenciasEvaluacionList implements OnInit {
   }
 
   public getDiasSolicitados(solicitud: SolicitudLicencia): number {
-    const lic = this.licenciasMap().get(solicitud.licencia);
-    const reglas = (lic?.reglas ?? {}) as Record<string, unknown>;
-    const contabilizaDiasNoHabiles = Boolean(
-      reglas["contabiliza_dias_no_habiles"] ?? false,
-    );
-    return calcularDiasHabiles(
-      solicitud.fecha_inicio,
-      solicitud.fecha_fin,
-      contabilizaDiasNoHabiles,
-    );
+    return calcularDias(solicitud.fecha_inicio, solicitud.fecha_fin);
   }
 
   public isVencida(solicitud: SolicitudLicencia): boolean {

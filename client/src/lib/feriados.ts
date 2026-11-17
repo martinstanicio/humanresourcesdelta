@@ -68,19 +68,12 @@ export function isFinDeSemana(date: Date): boolean {
   return day === 0 || day === 6; // Domingo (0) o Sábado (6)
 }
 
-export function isDiaHabil(date: Date): boolean {
-  return !isFinDeSemana(date) && !isFeriado(date);
-}
-
 /**
- * Calcula la cantidad de días hábiles entre dos fechas (inclusivas).
- * Si contabilizaDiasNoHabiles es true, computa días corridos.
- * Si es false, descuenta sábados, domingos y feriados nacionales.
+ * Calcula la cantidad de días entre dos fechas (inclusivas).
  */
-export function calcularDiasHabiles(
+export function calcularDias(
   fechaInicioStr: string,
   fechaFinStr: string,
-  contabilizaDiasNoHabiles = false,
 ): number {
   if (!fechaInicioStr || !fechaFinStr) return 0;
 
@@ -89,20 +82,6 @@ export function calcularDiasHabiles(
 
   if (fin < inicio) return 0;
 
-  if (contabilizaDiasNoHabiles) {
-    const diffTime = fin.getTime() - inicio.getTime();
-    return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
-  }
-
-  let diasHabiles = 0;
-  const current = new Date(inicio);
-
-  while (current <= fin) {
-    if (isDiaHabil(current)) {
-      diasHabiles++;
-    }
-    current.setDate(current.getDate() + 1);
-  }
-
-  return diasHabiles;
+  const diffTime = fin.getTime() - inicio.getTime();
+  return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
 }

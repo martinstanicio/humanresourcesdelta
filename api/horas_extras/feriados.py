@@ -48,12 +48,3 @@ def es_feriado(fecha: date) -> bool:
     iso = fecha.isoformat()
     mm_dd = iso[5:]
     return iso in FERIADOS_ESPECIFICOS or mm_dd in FERIADOS_FIJOS
-
-
-def es_fin_de_semana(fecha: date) -> bool:
-    # weekday(): Lunes es 0, Sábado es 5, Domingo es 6
-    return fecha.weekday() in (5, 6)
-
-
-def es_dia_habil(fecha: date) -> bool:
-    return not es_fin_de_semana(fecha) and not es_feriado(fecha)
