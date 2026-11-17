@@ -1,0 +1,12 @@
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+  @for (item of navigation(); track item.href) {
+    <a hlmCard [routerLink]="item.href">
+      <div hlmCardHeader>
+        <span hlmCardTitle>{{ item.title }}</span>
+        <div hlmCardAction>
+          <ng-icon [svg]="item.icon" />
+        </div>
+      </div>
+    </a>
+  }
+</div>
