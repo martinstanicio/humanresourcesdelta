@@ -51,7 +51,10 @@ function formatDateTime(val: string | undefined): string {
   return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
-function calcularHoras(inicio: string | undefined, fin: string | undefined): number {
+function calcularHoras(
+  inicio: string | undefined,
+  fin: string | undefined,
+): number {
   if (!inicio || !fin) return 0;
   const d1 = new Date(inicio).getTime();
   const d2 = new Date(fin).getTime();

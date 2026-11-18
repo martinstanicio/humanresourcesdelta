@@ -13,12 +13,8 @@
       </p>
     </div>
     <div>
-      <a
-        class="gap-2 font-medium shadow-sm"
-        hlmBtn
-        routerLink="/solicitudes-licencia/nueva"
-      >
-        <ng-icon class="size-4" name="lucidePlus" />
+      <a hlmBtn routerLink="/solicitudes-licencia/nueva">
+        <ng-icon name="lucidePlus" />
         Nueva solicitud
       </a>
     </div>
@@ -29,7 +25,7 @@
     <div
       class="flex items-center gap-3 rounded-lg border border-success/30 bg-success/15 p-4 text-sm text-success"
     >
-      <ng-icon class="size-5 shrink-0 text-success" name="lucideCheckCircle2" />
+      <ng-icon class="shrink-0 text-success" name="lucideCheckCircle2" />
       <span>{{ cancelSuccess() }}</span>
     </div>
   }
@@ -40,7 +36,7 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-warning" name="lucideClock" />
+        <ng-icon class="text-warning" name="lucideClock" />
         Pendientes
       </div>
       <div class="mt-2 text-2xl font-bold text-warning">
@@ -52,7 +48,7 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-success" name="lucideCheckCircle2" />
+        <ng-icon class="text-success" name="lucideCheckCircle2" />
         Aprobadas
       </div>
       <div class="mt-2 text-2xl font-bold text-success">
@@ -64,7 +60,7 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon class="size-4 text-destructive" name="lucideXCircle" />
+        <ng-icon class="text-destructive" name="lucideXCircle" />
         Rechazadas
       </div>
       <div class="mt-2 text-2xl font-bold text-destructive">
@@ -76,10 +72,7 @@
       <div
         class="flex items-center gap-2 text-xs font-medium text-muted-foreground"
       >
-        <ng-icon
-          class="size-4 text-muted-foreground"
-          name="lucideCalendarOff"
-        />
+        <ng-icon class="text-muted-foreground" name="lucideCalendarOff" />
         Canceladas
       </div>
       <div class="mt-2 text-2xl font-bold text-muted-foreground">
@@ -92,20 +85,16 @@
   <div
     class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
   >
-    <div class="relative w-full max-w-sm">
-      <div class="flex items-center rounded-md border bg-background px-3">
-        <ng-icon
-          class="mr-2 size-4 shrink-0 text-muted-foreground"
-          name="lucideSearch"
-        />
-        <input
-          class="h-9 border-0 px-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-          hlmInput
-          placeholder="Buscar por tipo o motivo..."
-          type="text"
-          [(ngModel)]="searchQuery"
-        />
+    <div class="w-full max-w-sm" hlmInputGroup>
+      <div hlmInputGroupAddon>
+        <ng-icon name="lucideSearch" />
       </div>
+      <input
+        hlmInputGroupInput
+        placeholder="Buscar por tipo o motivo..."
+        type="search"
+        [(ngModel)]="searchQuery"
+      />
     </div>
 
     <!-- Pestañas de filtro por estado -->
@@ -189,19 +178,19 @@
     } @else if (error()) {
       <div class="p-8 text-center">
         <ng-icon
-          class="mx-auto mb-2 size-10 text-destructive"
+          class="mx-auto mb-2 text-destructive"
           name="lucideAlertCircle"
         />
         <p class="text-sm font-medium text-destructive">{{ error() }}</p>
         <button
-          class="mt-4 gap-2"
+          class="mt-4"
           hlmBtn
           size="sm"
           type="button"
           variant="outline"
           (click)="loadData()"
         >
-          <ng-icon class="size-4" name="lucideRefreshCw" />
+          <ng-icon name="lucideRefreshCw" />
           Reintentar
         </button>
       </div>
@@ -210,7 +199,7 @@
         <div
           class="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-muted text-muted-foreground"
         >
-          <ng-icon class="size-6" name="lucideCalendarClock" />
+          <ng-icon name="lucideCalendarClock" />
         </div>
         <h3 class="text-base font-semibold">No se encontraron solicitudes</h3>
         <p class="mx-auto mt-1 max-w-sm text-sm text-muted-foreground">
@@ -222,21 +211,21 @@
         </p>
         @if (!searchQuery() && statusFilter() === "all") {
           <a
-            class="mt-4 gap-2"
+            class="mt-4"
             hlmBtn
             routerLink="/solicitudes-licencia/nueva"
             size="sm"
           >
-            <ng-icon class="size-4" name="lucidePlus" />
+            <ng-icon name="lucidePlus" />
             Solicitar licencia
           </a>
         }
       </div>
     } @else {
       <div class="overflow-x-auto">
-        <table class="w-full text-sm" hlmTable>
+        <table class="w-full" hlmTable>
           <thead hlmTHead>
-            <tr class="border-b bg-muted/40" hlmTr>
+            <tr hlmTr>
               <th class="w-20 font-semibold" hlmTh>N°</th>
               <th class="font-semibold" hlmTh>Tipo de Licencia</th>
               <th class="font-semibold" hlmTh>Período</th>
@@ -247,12 +236,9 @@
           </thead>
           <tbody hlmTBody>
             @for (solicitud of filteredSolicitudes(); track solicitud.id) {
-              <tr class="border-b transition-colors hover:bg-muted/30" hlmTr>
+              <tr hlmTr>
                 <!-- N° Seguimiento -->
-                <td
-                  class="font-mono text-xs font-medium text-muted-foreground"
-                  hlmTd
-                >
+                <td class="font-mono text-xs font-medium" hlmTd>
                   #{{ solicitud.id }}
                 </td>
 
@@ -288,7 +274,7 @@
                   </p>
                   @if (solicitud.motivo_resolucion) {
                     <p
-                      class="mt-0.5 truncate text-[11px] text-destructive italic"
+                      class="mt-0.5 truncate text-xs text-destructive italic"
                       [title]="solicitud.motivo_resolucion"
                     >
                       Resp: {{ solicitud.motivo_resolucion }}
@@ -310,15 +296,14 @@
                 <td class="text-right" hlmTd>
                   @if (solicitud.estado === "pendiente") {
                     <button
-                      class="h-8 gap-1 px-2 text-xs text-destructive hover:bg-destructive/10 hover:text-destructive"
                       hlmBtn
                       size="sm"
                       title="Cancelar solicitud pendiente"
                       type="button"
-                      variant="ghost"
+                      variant="destructive"
                       (click)="openCancelModal(solicitud)"
                     >
-                      <ng-icon class="size-3.5" name="lucideTrash2" />
+                      <ng-icon name="lucideTrash2" />
                       Cancelar
                     </button>
                   } @else {
@@ -345,7 +330,7 @@
           <div
             class="flex size-10 shrink-0 items-center justify-center rounded-full bg-destructive/10"
           >
-            <ng-icon class="size-6 text-destructive" name="lucideAlertCircle" />
+            <ng-icon class="text-destructive" name="lucideAlertCircle" />
           </div>
           <div>
             <h3 class="text-lg font-semibold text-foreground">
@@ -396,7 +381,6 @@
             No, conservar
           </button>
           <button
-            class="gap-2"
             hlmBtn
             type="button"
             variant="destructive"
@@ -404,7 +388,7 @@
             (click)="executeCancel()"
           >
             @if (cancelingId() !== null) {
-              <ng-icon class="size-4 animate-spin" name="lucideRefreshCw" />
+              <ng-icon class="animate-spin" name="lucideRefreshCw" />
               Cancelando...
             } @else {
               Sí, cancelar solicitud

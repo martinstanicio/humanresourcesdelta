@@ -4,9 +4,7 @@
     <div class="flex items-center gap-3">
       <h2 class="text-2xl font-bold tracking-tight">Reportes Mensuales</h2>
       @if (hasSearched() && esParcial()) {
-        <span hlmBadge variant="destructive" class="text-xs font-semibold uppercase tracking-wider">
-          REPORTE PARCIAL
-        </span>
+        <span hlmBadge variant="destructive">REPORTE PARCIAL</span>
       }
     </div>
     <p class="text-sm text-muted-foreground">
@@ -16,98 +14,112 @@
   </div>
 
   <!-- Card de Parámetros y Filtros -->
-  <div class="p-5" hlmCard>
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  <div hlmCard>
+    <div
+      class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+      hlmCardContent
+    >
       <!-- Selector de Mes -->
-      <div class="flex flex-col gap-1.5">
-        <label
-          class="text-xs font-semibold text-muted-foreground"
-          for="filtro-mes"
-        >
-          Mes
-        </label>
-        <select
-          class="cursor-pointer bg-background"
-          hlmInput
+      <div hlmField>
+        <label for="filtro-mes" hlmFieldLabel> Mes </label>
+        <hlm-select
           id="filtro-mes"
-          [ngModel]="selectedMes()"
-          (ngModelChange)="selectedMes.set(+$event)"
+          [itemToString]="mesToString"
+          [value]="selectedMes()"
+          (valueChange)="$event && selectedMes.set(+$event)"
         >
-          @for (m of meses; track m.value) {
-            <option [value]="m.value">{{ m.label }}</option>
-          }
-        </select>
+          <hlm-select-trigger buttonId="filtro-mes" class="w-full">
+            <hlm-select-value />
+          </hlm-select-trigger>
+          <hlm-select-content *hlmSelectPortal>
+            <hlm-select-group>
+              @for (m of meses; track m.value) {
+                <hlm-select-item [value]="m.value">{{
+                  m.label
+                }}</hlm-select-item>
+              }
+            </hlm-select-group>
+          </hlm-select-content>
+        </hlm-select>
       </div>
 
       <!-- Selector de Año -->
-      <div class="flex flex-col gap-1.5">
-        <label
-          class="text-xs font-semibold text-muted-foreground"
-          for="filtro-anio"
-        >
-          Año
-        </label>
-        <select
-          class="cursor-pointer bg-background"
-          hlmInput
+      <div hlmField>
+        <label for="filtro-anio" hlmFieldLabel> Año </label>
+        <hlm-select
           id="filtro-anio"
-          [ngModel]="selectedAnio()"
-          (ngModelChange)="selectedAnio.set(+$event)"
+          [itemToString]="anioToString"
+          [value]="selectedAnio()"
+          (valueChange)="$event && selectedAnio.set(+$event)"
         >
-          @for (a of anios; track a) {
-            <option [value]="a">{{ a }}</option>
-          }
-        </select>
+          <hlm-select-trigger buttonId="filtro-anio" class="w-full">
+            <hlm-select-value />
+          </hlm-select-trigger>
+          <hlm-select-content *hlmSelectPortal>
+            <hlm-select-group>
+              @for (a of anios; track a) {
+                <hlm-select-item [value]="a">{{ a }}</hlm-select-item>
+              }
+            </hlm-select-group>
+          </hlm-select-content>
+        </hlm-select>
       </div>
 
       <!-- Selector opcional de Convenio -->
-      <div class="flex flex-col gap-1.5">
-        <label
-          class="text-xs font-semibold text-muted-foreground"
-          for="filtro-convenio"
-        >
-          Convenio (opcional)
-        </label>
-        <select
-          class="cursor-pointer bg-background"
-          hlmInput
+      <div hlmField>
+        <label for="filtro-convenio" hlmFieldLabel> Convenio (opcional) </label>
+        <hlm-select
           id="filtro-convenio"
-          [ngModel]="selectedConvenio()"
-          (ngModelChange)="selectedConvenio.set($event)"
+          [itemToString]="convenioToString"
+          [value]="selectedConvenio()"
+          (valueChange)="$event && selectedConvenio.set($event)"
         >
-          <option value="all">Todos los convenios</option>
-          @for (c of convenios(); track c.id) {
-            <option [value]="c.id">{{ c.nombre }}</option>
-          }
-        </select>
+          <hlm-select-trigger buttonId="filtro-convenio" class="w-full">
+            <hlm-select-value />
+          </hlm-select-trigger>
+          <hlm-select-content *hlmSelectPortal>
+            <hlm-select-group>
+              <hlm-select-item value="all">Todos los convenios</hlm-select-item>
+              @for (c of convenios(); track c.id) {
+                <hlm-select-item [value]="c.id.toString()">{{
+                  c.nombre
+                }}</hlm-select-item>
+              }
+            </hlm-select-group>
+          </hlm-select-content>
+        </hlm-select>
       </div>
 
       <!-- Selector opcional de Empleado -->
-      <div class="flex flex-col gap-1.5">
-        <label
-          class="text-xs font-semibold text-muted-foreground"
-          for="filtro-empleado"
-        >
-          Empleado (opcional)
-        </label>
-        <select
-          class="cursor-pointer bg-background"
-          hlmInput
+      <div hlmField>
+        <label for="filtro-empleado" hlmFieldLabel> Empleado (opcional) </label>
+        <hlm-select
           id="filtro-empleado"
-          [ngModel]="selectedEmpleado()"
-          (ngModelChange)="selectedEmpleado.set($event)"
+          [itemToString]="empleadoToString"
+          [value]="selectedEmpleado()"
+          (valueChange)="$event && selectedEmpleado.set($event)"
         >
-          <option value="all">Todos los empleados</option>
-          @for (e of availableEmpleados(); track e.legajo) {
-            <option [value]="e.legajo">#{{ e.legajo }} - {{ e.nombre }}</option>
-          }
-        </select>
+          <hlm-select-trigger buttonId="filtro-empleado" class="w-full">
+            <hlm-select-value />
+          </hlm-select-trigger>
+          <hlm-select-content *hlmSelectPortal>
+            <hlm-select-group>
+              <hlm-select-item value="all">Todos los empleados</hlm-select-item>
+              @for (e of availableEmpleados(); track e.legajo) {
+                <hlm-select-item [value]="e.legajo.toString()"
+                  >#{{ e.legajo }} - {{ e.nombre }}</hlm-select-item
+                >
+              }
+            </hlm-select-group>
+          </hlm-select-content>
+        </hlm-select>
       </div>
     </div>
 
     <!-- Botonera de acciones -->
     <div
-      class="mt-5 flex flex-wrap items-center justify-between gap-3 border-t pt-4"
+      class="flex flex-wrap items-center justify-between gap-3 border-t"
+      hlmCardFooter
     >
       <div class="flex items-center gap-2 text-xs text-muted-foreground">
         <ng-icon name="lucideCalendar" />
@@ -115,7 +127,7 @@
           Período a consultar:
           <strong>{{ selectedMesNombre() }} {{ selectedAnio() }}</strong>
           @if (isCurrentMonth()) {
-            <span class="ml-1.5 font-medium text-amber-600 dark:text-amber-400">
+            <span class="ml-1.5 font-medium text-warning">
               (Mes actual en curso)
             </span>
           }
@@ -127,16 +139,17 @@
           <button
             hlmBtn
             type="button"
-            class="bg-amber-600 hover:bg-amber-700 text-white"
+            variant="warning"
             [disabled]="loading()"
             (click)="loadReporte(true)"
           >
             <ng-icon
-              class="mr-2"
               [class.animate-spin]="loading()"
               [name]="loading() ? 'lucideRefreshCw' : 'lucideSearch'"
             />
-            {{ loading() ? "Calculando parcial..." : "Generar reporte parcial" }}
+            {{
+              loading() ? "Calculando parcial..." : "Generar reporte parcial"
+            }}
           </button>
         } @else {
           <button
@@ -146,7 +159,6 @@
             (click)="loadReporte(false)"
           >
             <ng-icon
-              class="mr-2"
               [class.animate-spin]="loading()"
               [name]="loading() ? 'lucideRefreshCw' : 'lucideSearch'"
             />
@@ -170,7 +182,7 @@
           "
           (click)="descargarPDFSeleccionado()"
         >
-          <ng-icon class="mr-2" name="lucideDownload" />
+          <ng-icon name="lucideDownload" />
           {{ esParcial() ? "Exportar PDF (Parcial)" : "Exportar PDF" }}
         </button>
       </div>
@@ -179,7 +191,7 @@
 
   <!-- Estado de Error -->
   @if (error()) {
-    <div class="p-6 text-center text-destructive" hlmCard>
+    <div class="text-center" hlmCard>
       <div class="flex flex-col items-center justify-center gap-2">
         <ng-icon class="text-2xl" name="lucideAlertCircle" />
         <p class="text-sm font-medium">{{ error() }}</p>
@@ -201,14 +213,14 @@
   @if (loading()) {
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       @for (i of [1, 2, 3, 4]; track i) {
-        <div class="flex flex-col gap-2 p-4" hlmCard>
+        <div class="flex flex-col" hlmCard>
           <hlm-skeleton class="h-4 w-24" />
           <hlm-skeleton class="h-8 w-16" />
         </div>
       }
     </div>
 
-    <div class="flex flex-col gap-3 p-4" hlmCard>
+    <div class="flex flex-col" hlmCard>
       <hlm-skeleton class="h-6 w-48" />
       <hlm-skeleton class="h-10 w-full" />
       <hlm-skeleton class="h-10 w-full" />
@@ -218,23 +230,18 @@
 
   <!-- Estado Inicial Informativo -->
   @if (!loading() && !hasSearched() && !error()) {
-    <div
-      class="flex flex-col items-center justify-center gap-3 border-dashed py-14 text-center"
-      hlmCard
-    >
-      <div
-        class="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground"
-      >
-        <ng-icon class="text-2xl" name="lucideFileText" />
-      </div>
-      <div class="max-w-md">
-        <h3 class="text-base font-semibold">Listo para consultar reportes</h3>
-        <p class="mt-1 text-sm text-muted-foreground">
-          Configura los filtros de mes, año y empleado arriba y presiona
-          <strong>"{{ isCurrentMonth() ? 'Generar reporte parcial' : 'Ver reporte' }}"</strong> para cargar los datos consolidados en
-          pantalla.
-        </p>
-      </div>
+    <div class="flex flex-col items-center justify-center text-center" hlmCard>
+      <ng-icon class="text-3xl" name="lucideFileText" />
+      <h3 hlmCardTitle>Listo para consultar reportes</h3>
+      <p hlmCardDescription>
+        Configura los filtros de mes, año y empleado arriba y presiona
+        <strong
+          >"{{
+            isCurrentMonth() ? "Generar reporte parcial" : "Ver reporte"
+          }}"</strong
+        >
+        para cargar los datos consolidados en pantalla.
+      </p>
     </div>
   }
 
@@ -242,15 +249,15 @@
   @if (!loading() && hasSearched() && !error()) {
     @if (filteredReportes().length === 0) {
       <div
-        class="flex flex-col items-center justify-center gap-3 py-12 text-center"
+        class="flex flex-col items-center justify-center text-center"
         hlmCard
       >
         <ng-icon
           class="text-3xl text-muted-foreground"
           name="lucideAlertCircle"
         />
-        <h3 class="text-base font-semibold">Sin reportes registrados</h3>
-        <p class="max-w-sm text-sm text-muted-foreground">
+        <h3 hlmCardTitle>Sin reportes registrados</h3>
+        <p hlmCardDescription>
           No se encontraron reportes generados para el período seleccionado ({{
             selectedMesNombre()
           }}
@@ -260,75 +267,84 @@
     } @else {
       <!-- Banner de Alerta cuando es REPORTE PARCIAL -->
       @if (esParcial()) {
-        <div class="flex items-center justify-between gap-3 rounded-lg border border-amber-300 bg-amber-50 p-4 text-amber-900 shadow-sm dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
+        <div
+          class="flex items-center justify-between gap-3 rounded-lg border border-warning/30 bg-warning/15 p-4 text-warning shadow-sm"
+        >
           <div class="flex items-center gap-3">
-            <ng-icon class="text-2xl shrink-0 text-amber-600 dark:text-amber-400" name="lucideInfo" />
+            <ng-icon class="shrink-0 text-2xl text-warning" name="lucideInfo" />
             <div>
               <div class="flex items-center gap-2">
-                <span class="text-sm font-bold tracking-wider uppercase">REPORTE PARCIAL</span>
-                <span class="text-xs font-medium text-amber-700 dark:text-amber-300">• Período en curso</span>
+                <span class="text-sm font-bold tracking-wider uppercase"
+                  >REPORTE PARCIAL</span
+                >
+                <span class="text-xs font-medium text-warning"
+                  >• Período en curso</span
+                >
               </div>
-              <p class="text-xs text-amber-800 dark:text-amber-300/90 mt-0.5">
-                Los datos mostrados corresponden a liquidaciones y eventos registrados hasta la fecha para el mes en curso. Este reporte se genera en tiempo real en memoria y no se guarda de forma definitiva en la base de datos.
+              <p class="mt-0.5 text-xs text-warning/90">
+                Los datos mostrados corresponden a liquidaciones y eventos
+                registrados hasta la fecha para el mes en curso. Este reporte se
+                genera en tiempo real en memoria y no se guarda de forma
+                definitiva en la base de datos.
               </p>
             </div>
           </div>
-          <span hlmBadge class="bg-amber-600 text-white font-semibold shrink-0">EN CURSO</span>
+          <span hlmBadge variant="warning">EN CURSO</span>
         </div>
       }
 
       <!-- KPIs Resumen del Período -->
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="p-4" hlmCard>
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-medium text-muted-foreground"
-              >Empleados Registrados</span
-            >
-            <ng-icon class="text-muted-foreground" name="lucideUsers" />
+        <div hlmCard>
+          <div hlmCardHeader>
+            <span hlmCardTitle>Empleados Registrados</span>
+            <div hlmCardAction>
+              <ng-icon name="lucideUsers" />
+            </div>
           </div>
-          <div class="mt-2 text-2xl font-bold">{{ kpiTotalEmpleados() }}</div>
-          <p class="mt-1 text-xs text-muted-foreground">
-            en el período consultado
-          </p>
+          <div hlmCardContent>
+            <p class="text-2xl font-bold">{{ kpiTotalEmpleados() }}</p>
+            <p class="text-muted-foreground">en el período consultado</p>
+          </div>
         </div>
 
-        <div class="p-4" hlmCard>
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-medium text-muted-foreground"
-              >Horas Extras 50%</span
-            >
-            <ng-icon class="text-muted-foreground" name="lucideClock" />
+        <div hlmCard>
+          <div hlmCardHeader>
+            <span hlmCardTitle>Horas Extras 50%</span>
+            <div hlmCardAction>
+              <ng-icon name="lucideClock" />
+            </div>
           </div>
-          <div class="mt-2 text-2xl font-bold">{{ kpiTotalHoras50() }} hrs</div>
-          <p class="mt-1 text-xs text-muted-foreground">remuneración al 50%</p>
+          <div hlmCardContent>
+            <p class="text-2xl font-bold">{{ kpiTotalHoras50() }} hrs</p>
+            <p class="text-muted-foreground">remuneración al 50%</p>
+          </div>
         </div>
 
-        <div class="p-4" hlmCard>
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-medium text-muted-foreground"
-              >Horas Extras 100%</span
-            >
-            <ng-icon class="text-muted-foreground" name="lucideClock" />
+        <div hlmCard>
+          <div hlmCardHeader>
+            <span hlmCardTitle>Horas Extras 100%</span>
+            <div hlmCardAction>
+              <ng-icon name="lucideClock" />
+            </div>
           </div>
-          <div class="mt-2 text-2xl font-bold">
-            {{ kpiTotalHoras100() }} hrs
+          <div hlmCardContent>
+            <p class="text-2xl font-bold">{{ kpiTotalHoras100() }} hrs</p>
+            <p class="text-muted-foreground">remuneración al 100%</p>
           </div>
-          <p class="mt-1 text-xs text-muted-foreground">remuneración al 100%</p>
         </div>
 
-        <div class="p-4" hlmCard>
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-medium text-muted-foreground"
-              >Días de Licencia</span
-            >
-            <ng-icon class="text-muted-foreground" name="lucideCalendar" />
+        <div hlmCard>
+          <div hlmCardHeader>
+            <span hlmCardTitle>Días de Licencia</span>
+            <div hlmCardAction>
+              <ng-icon name="lucideCalendar" />
+            </div>
           </div>
-          <div class="mt-2 text-2xl font-bold">
-            {{ kpiTotalLicencias() }} días
+          <div hlmCardContent>
+            <p class="text-2xl font-bold">{{ kpiTotalLicencias() }} días</p>
+            <p class="text-muted-foreground">total acumulado aprobado</p>
           </div>
-          <p class="mt-1 text-xs text-muted-foreground">
-            total acumulado aprobado
-          </p>
         </div>
       </div>
 
@@ -375,15 +391,29 @@
             <tbody hlmTableBody>
               @for (item of filteredReportes(); track item.legajo) {
                 <!-- Fila Principal del Empleado -->
-                <tr hlmTableRow class="cursor-pointer hover:bg-muted/50" (click)="toggleRow(item.legajo)">
+                <tr hlmTableRow (click)="toggleRow(item.legajo)">
                   <!-- Chevron para Expandir / Colapsar -->
-                  <td class="w-10 text-center" hlmTableCell (click)="$event.stopPropagation(); toggleRow(item.legajo)">
+                  <td
+                    class="w-10 text-center"
+                    hlmTableCell
+                    (click)="$event.stopPropagation(); toggleRow(item.legajo)"
+                  >
                     <button
+                      class="flex size-7 items-center justify-center rounded-md text-muted-foreground hover:bg-muted"
                       type="button"
-                      class="flex size-7 items-center justify-center rounded-md hover:bg-muted text-muted-foreground"
-                      [title]="isRowExpanded(item.legajo) ? 'Ocultar eventos' : 'Ver detalle de eventos'"
+                      [title]="
+                        isRowExpanded(item.legajo)
+                          ? 'Ocultar eventos'
+                          : 'Ver detalle de eventos'
+                      "
                     >
-                      <ng-icon [name]="isRowExpanded(item.legajo) ? 'lucideChevronDown' : 'lucideChevronRight'" />
+                      <ng-icon
+                        [name]="
+                          isRowExpanded(item.legajo)
+                            ? 'lucideChevronDown'
+                            : 'lucideChevronRight'
+                        "
+                      />
                     </button>
                   </td>
 
@@ -400,7 +430,7 @@
                   </td>
 
                   <!-- Convenio -->
-                  <td class="text-muted-foreground" hlmTableCell>
+                  <td hlmTableCell>
                     {{ getConvenioNombre(item.legajo) }}
                   </td>
 
@@ -431,7 +461,7 @@
                           lic of getLicenciasEntries(item.licencias);
                           track lic.tipo
                         ) {
-                          <span class="text-xs" hlmBadge variant="outline">
+                          <span hlmBadge variant="outline">
                             {{ lic.tipo }}: {{ lic.dias }}d
                           </span>
                         }
@@ -440,7 +470,11 @@
                   </td>
 
                   <!-- Acciones: Descarga Individual de PDF -->
-                  <td class="text-right" hlmTableCell (click)="$event.stopPropagation()">
+                  <td
+                    class="text-right"
+                    hlmTableCell
+                    (click)="$event.stopPropagation()"
+                  >
                     <button
                       hlmBtn
                       size="sm"
@@ -450,7 +484,6 @@
                       (click)="descargarPDF(item.legajo)"
                     >
                       <ng-icon
-                        class="mr-1.5"
                         [class.animate-spin]="
                           exportingPdfLegajo() === item.legajo
                         "
@@ -467,26 +500,38 @@
 
                 <!-- Fila de Detalle Expandible (Eventos de Horas Extras y Licencias) -->
                 @if (isRowExpanded(item.legajo)) {
-                  <tr class="bg-muted/30 border-b">
-                    <td colspan="9" class="p-4">
-                      <div class="flex flex-col gap-4 pl-4 border-l-2 border-primary/40">
+                  <tr class="border-b bg-muted/30">
+                    <td class="p-4" colspan="9">
+                      <div
+                        class="flex flex-col gap-4 border-l-2 border-primary/40 pl-4"
+                      >
                         <!-- Subsección: Eventos de Horas Extras -->
                         <div>
-                          <div class="flex items-center gap-2 mb-2">
+                          <div class="mb-2 flex items-center gap-2">
                             <ng-icon class="text-primary" name="lucideClock" />
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-foreground">
+                            <h4
+                              class="text-xs font-bold tracking-wider text-foreground uppercase"
+                            >
                               Eventos de Horas Extras Computados en el Período
                             </h4>
                           </div>
 
-                          @if (!item.horas_extras.eventos || item.horas_extras.eventos.length === 0) {
+                          @if (
+                            !item.horas_extras.eventos ||
+                            item.horas_extras.eventos.length === 0
+                          ) {
                             <p class="text-xs text-muted-foreground italic">
-                              Sin eventos individuales de horas extras aprobados para este período.
+                              Sin eventos individuales de horas extras aprobados
+                              para este período.
                             </p>
                           } @else {
-                            <div class="overflow-x-auto rounded border bg-background text-xs">
+                            <div
+                              class="overflow-x-auto rounded border bg-background text-xs"
+                            >
                               <table class="w-full text-left">
-                                <thead class="border-b bg-muted/50 font-semibold text-muted-foreground">
+                                <thead
+                                  class="border-b bg-muted/50 font-semibold text-muted-foreground"
+                                >
                                   <tr>
                                     <th class="p-2">Fecha Efectiva</th>
                                     <th class="p-2">Tipo</th>
@@ -497,19 +542,38 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  @for (ev of item.horas_extras.eventos; track ev.id) {
-                                    <tr class="border-b last:border-0 hover:bg-muted/20">
-                                      <td class="p-2 font-mono font-medium">{{ formatDate(ev.fecha) }}</td>
+                                  @for (
+                                    ev of item.horas_extras.eventos;
+                                    track ev.id
+                                  ) {
+                                    <tr
+                                      class="border-b last:border-0 hover:bg-muted/20"
+                                    >
+                                      <td class="p-2 font-mono font-medium">
+                                        {{ formatDate(ev.fecha) }}
+                                      </td>
                                       <td class="p-2">{{ ev.tipo }}</td>
-                                      <td class="p-2 font-mono text-muted-foreground">
-                                        {{ formatTime(ev.hora_inicio) }} - {{ formatTime(ev.hora_fin) }}
+                                      <td
+                                        class="p-2 font-mono text-muted-foreground"
+                                      >
+                                        {{ formatTime(ev.hora_inicio) }} -
+                                        {{ formatTime(ev.hora_fin) }}
                                       </td>
-                                      <td class="p-2 text-right font-semibold">{{ ev.horas }} hs</td>
+                                      <td class="p-2 text-right font-semibold">
+                                        {{ ev.horas }} hs
+                                      </td>
                                       <td class="p-2 text-muted-foreground">
-                                        {{ ev.fecha_aprobacion ? formatDate(ev.fecha_aprobacion) : '-' }}
+                                        {{
+                                          ev.fecha_aprobacion
+                                            ? formatDate(ev.fecha_aprobacion)
+                                            : "-"
+                                        }}
                                       </td>
-                                      <td class="p-2 max-w-xs truncate text-muted-foreground" [title]="ev.motivo || ''">
-                                        {{ ev.motivo || '-' }}
+                                      <td
+                                        class="max-w-xs truncate p-2 text-muted-foreground"
+                                        [title]="ev.motivo || ''"
+                                      >
+                                        {{ ev.motivo || "-" }}
                                       </td>
                                     </tr>
                                   }
@@ -521,21 +585,34 @@
 
                         <!-- Subsección: Eventos de Licencias -->
                         <div>
-                          <div class="flex items-center gap-2 mb-2">
-                            <ng-icon class="text-primary" name="lucideCalendar" />
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-foreground">
+                          <div class="mb-2 flex items-center gap-2">
+                            <ng-icon
+                              class="text-primary"
+                              name="lucideCalendar"
+                            />
+                            <h4
+                              class="text-xs font-bold tracking-wider text-foreground uppercase"
+                            >
                               Eventos de Licencias Aprobadas en el Período
                             </h4>
                           </div>
 
-                          @if (!item.licencias.eventos || item.licencias.eventos.length === 0) {
+                          @if (
+                            !item.licencias.eventos ||
+                            item.licencias.eventos.length === 0
+                          ) {
                             <p class="text-xs text-muted-foreground italic">
-                              Sin eventos individuales de licencias aprobadas en este período.
+                              Sin eventos individuales de licencias aprobadas en
+                              este período.
                             </p>
                           } @else {
-                            <div class="overflow-x-auto rounded border bg-background text-xs">
+                            <div
+                              class="overflow-x-auto rounded border bg-background text-xs"
+                            >
                               <table class="w-full text-left">
-                                <thead class="border-b bg-muted/50 font-semibold text-muted-foreground">
+                                <thead
+                                  class="border-b bg-muted/50 font-semibold text-muted-foreground"
+                                >
                                   <tr>
                                     <th class="p-2">Tipo de Licencia</th>
                                     <th class="p-2">Inicio Efectivo</th>
@@ -545,14 +622,30 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  @for (lev of item.licencias.eventos; track lev.id) {
-                                    <tr class="border-b last:border-0 hover:bg-muted/20">
-                                      <td class="p-2 font-medium">{{ lev.tipo }}</td>
-                                      <td class="p-2 font-mono">{{ formatDate(lev.inicio_efectivo) }}</td>
-                                      <td class="p-2 font-mono">{{ formatDate(lev.fin_efectivo) }}</td>
-                                      <td class="p-2 text-right font-semibold">{{ lev.dias_en_periodo }} d</td>
-                                      <td class="p-2 max-w-xs truncate text-muted-foreground" [title]="lev.motivo || ''">
-                                        {{ lev.motivo || '-' }}
+                                  @for (
+                                    lev of item.licencias.eventos;
+                                    track lev.id
+                                  ) {
+                                    <tr
+                                      class="border-b last:border-0 hover:bg-muted/20"
+                                    >
+                                      <td class="p-2 font-medium">
+                                        {{ lev.tipo }}
+                                      </td>
+                                      <td class="p-2 font-mono">
+                                        {{ formatDate(lev.inicio_efectivo) }}
+                                      </td>
+                                      <td class="p-2 font-mono">
+                                        {{ formatDate(lev.fin_efectivo) }}
+                                      </td>
+                                      <td class="p-2 text-right font-semibold">
+                                        {{ lev.dias_en_periodo }} d
+                                      </td>
+                                      <td
+                                        class="max-w-xs truncate p-2 text-muted-foreground"
+                                        [title]="lev.motivo || ''"
+                                      >
+                                        {{ lev.motivo || "-" }}
                                       </td>
                                     </tr>
                                   }

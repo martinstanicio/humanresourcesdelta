@@ -3,6 +3,8 @@ from django.db import models
 
 class Convenio(models.Model):
     nombre = models.CharField(max_length=255)
+    identificacion = models.CharField(max_length=255)
+    descripcion = models.TextField()
     activo = models.BooleanField(default=True)
 
     class Meta:

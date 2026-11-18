@@ -1,5 +1,5 @@
 import calendar
-from datetime import date, datetime, time, timedelta
+from datetime import date, datetime, time
 from typing import Annotated
 from zoneinfo import ZoneInfo
 
@@ -35,6 +35,7 @@ class Command(TyperCommand):
         convenio: Convenio | None = None,
         area: Area | None = None,
     ) -> Empleado:
+        is_admin = rol == RolEmpleado.RECURSOS_HUMANOS
         user_data: dict[str, object] = {
             "legajo": legajo,
             "password": None,
@@ -42,6 +43,8 @@ class Command(TyperCommand):
             "rol": rol,
             "fecha_ingreso": fecha_ingreso,
             "activo": True,
+            "is_staff": is_admin,
+            "is_superuser": is_admin,
         }
 
         if convenio is not None:
@@ -92,14 +95,20 @@ class Command(TyperCommand):
             self.stdout.write("Creando convenios...")
             conv_comercio = Convenio.objects.create(
                 nombre="Comercio (CCT 130/75)",
+                identificacion="CCT 130/75",
+                descripcion="Convenio Colectivo de Trabajo de Empleados de Comercio.",
                 activo=True,
             )
             conv_uocra = Convenio.objects.create(
                 nombre="UOCRA (Construcción CCT 76/75)",
+                identificacion="CCT 76/75",
+                descripcion="Convenio Colectivo de Trabajo de la Industria de la Construcción.",
                 activo=True,
             )
             conv_sanidad = Convenio.objects.create(
                 nombre="Sanidad (CCT 122/75)",
+                identificacion="CCT 122/75",
+                descripcion="Convenio Colectivo de Trabajo para el Personal de Sanidad.",
                 activo=True,
             )
             convenios = [conv_comercio, conv_uocra, conv_sanidad]
@@ -115,12 +124,11 @@ class Command(TyperCommand):
                     "dias_minimos_consecutivos": 7,
                     "dias_maximos_consecutivos": 21,
                     "dias_antelacion_minima": 15,
-                    "contabiliza_dias_no_habiles": False,
+                    "descuenta_saldo": True,
+                    "requiere_documentacion": False,
                     "estrategia": {
-                        "tipo": "cupo_fijo",
+                        "tipo": "cupo_anual_calendario",
                         "dias": 14,
-                        "tipo_periodo": "anual",
-                        "tipo_anio": {"tipo": "calendario"},
                     },
                 },
                 activo=True,
@@ -135,12 +143,11 @@ class Command(TyperCommand):
                     "dias_minimos_consecutivos": 1,
                     "dias_maximos_consecutivos": 2,
                     "dias_antelacion_minima": 2,
-                    "contabiliza_dias_no_habiles": False,
+                    "descuenta_saldo": True,
+                    "requiere_documentacion": True,
                     "estrategia": {
-                        "tipo": "cupo_fijo",
+                        "tipo": "cupo_anual_calendario",
                         "dias": 10,
-                        "tipo_periodo": "anual",
-                        "tipo_anio": {"tipo": "calendario"},
                     },
                 },
                 activo=True,
@@ -153,12 +160,11 @@ class Command(TyperCommand):
                     "dias_minimos_consecutivos": 1,
                     "dias_maximos_consecutivos": 1,
                     "dias_antelacion_minima": 1,
-                    "contabiliza_dias_no_habiles": False,
+                    "descuenta_saldo": True,
+                    "requiere_documentacion": False,
                     "estrategia": {
-                        "tipo": "cupo_fijo",
+                        "tipo": "cupo_anual_calendario",
                         "dias": 1,
-                        "tipo_periodo": "anual",
-                        "tipo_anio": {"tipo": "calendario"},
                     },
                 },
                 activo=True,
@@ -172,12 +178,11 @@ class Command(TyperCommand):
                     "dias_minimos_consecutivos": 7,
                     "dias_maximos_consecutivos": 14,
                     "dias_antelacion_minima": 10,
-                    "contabiliza_dias_no_habiles": False,
+                    "descuenta_saldo": True,
+                    "requiere_documentacion": False,
                     "estrategia": {
-                        "tipo": "cupo_fijo",
+                        "tipo": "cupo_anual_calendario",
                         "dias": 14,
-                        "tipo_periodo": "anual",
-                        "tipo_anio": {"tipo": "calendario"},
                     },
                 },
                 activo=True,
@@ -190,12 +195,11 @@ class Command(TyperCommand):
                     "dias_minimos_consecutivos": 1,
                     "dias_maximos_consecutivos": 3,
                     "dias_antelacion_minima": 1,
-                    "contabiliza_dias_no_habiles": False,
+                    "descuenta_saldo": True,
+                    "requiere_documentacion": False,
                     "estrategia": {
-                        "tipo": "cupo_fijo",
+                        "tipo": "cupo_anual_calendario",
                         "dias": 5,
-                        "tipo_periodo": "anual",
-                        "tipo_anio": {"tipo": "calendario"},
                     },
                 },
                 activo=True,
@@ -209,12 +213,11 @@ class Command(TyperCommand):
                     "dias_minimos_consecutivos": 7,
                     "dias_maximos_consecutivos": 21,
                     "dias_antelacion_minima": 15,
-                    "contabiliza_dias_no_habiles": False,
+                    "descuenta_saldo": True,
+                    "requiere_documentacion": False,
                     "estrategia": {
-                        "tipo": "cupo_fijo",
+                        "tipo": "cupo_anual_calendario",
                         "dias": 14,
-                        "tipo_periodo": "anual",
-                        "tipo_anio": {"tipo": "calendario"},
                     },
                 },
                 activo=True,
@@ -227,12 +230,11 @@ class Command(TyperCommand):
                     "dias_minimos_consecutivos": 1,
                     "dias_maximos_consecutivos": 5,
                     "dias_antelacion_minima": 5,
-                    "contabiliza_dias_no_habiles": False,
+                    "descuenta_saldo": True,
+                    "requiere_documentacion": True,
                     "estrategia": {
-                        "tipo": "cupo_fijo",
+                        "tipo": "cupo_anual_calendario",
                         "dias": 7,
-                        "tipo_periodo": "anual",
-                        "tipo_anio": {"tipo": "calendario"},
                     },
                 },
                 activo=True,
@@ -448,7 +450,9 @@ class Command(TyperCommand):
             self.stdout.write("Creando notificaciones de horas extras...")
             # Fecha a fin del mes anterior para simular horas aprobadas al mes siguiente
             fecha_he_prev_fin = date(prev_anio, prev_mes, min(28, prev_ultimo_dia))
-            fecha_aprob_este_mes = datetime(hoy.year, hoy.month, 2, 10, 30, tzinfo=tz_ba)
+            fecha_aprob_este_mes = datetime(
+                hoy.year, hoy.month, 2, 10, 30, tzinfo=tz_ba
+            )
 
             notificaciones = [
                 # --- Horas Extras del mes anterior (aprobadas en el mes anterior) ---
@@ -460,7 +464,14 @@ class Command(TyperCommand):
                     hora_fin=time(20, 0),
                     motivo_resolucion="Cierre mensual de balances y arqueo general.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
-                    fecha_aprobacion=datetime(prev_anio, prev_mes, min(12, prev_ultimo_dia), 18, 0, tzinfo=tz_ba),
+                    fecha_aprobacion=datetime(
+                        prev_anio,
+                        prev_mes,
+                        min(12, prev_ultimo_dia),
+                        18,
+                        0,
+                        tzinfo=tz_ba,
+                    ),
                 ),
                 NotificacionHorasExtras.objects.create(
                     empleado=emp3,
@@ -470,7 +481,14 @@ class Command(TyperCommand):
                     hora_fin=time(20, 0),
                     motivo_resolucion="Conciliación bancaria y carga de facturación diferida.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
-                    fecha_aprobacion=datetime(prev_anio, prev_mes, min(16, prev_ultimo_dia), 11, 0, tzinfo=tz_ba),
+                    fecha_aprobacion=datetime(
+                        prev_anio,
+                        prev_mes,
+                        min(16, prev_ultimo_dia),
+                        11,
+                        0,
+                        tzinfo=tz_ba,
+                    ),
                 ),
                 NotificacionHorasExtras.objects.create(
                     empleado=emp5,
@@ -480,9 +498,15 @@ class Command(TyperCommand):
                     hora_fin=time(20, 0),
                     motivo_resolucion="Cobertura de guardia asistencial por ausencias imprevistas.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
-                    fecha_aprobacion=datetime(prev_anio, prev_mes, min(17, prev_ultimo_dia), 10, 0, tzinfo=tz_ba),
+                    fecha_aprobacion=datetime(
+                        prev_anio,
+                        prev_mes,
+                        min(17, prev_ultimo_dia),
+                        10,
+                        0,
+                        tzinfo=tz_ba,
+                    ),
                 ),
-
                 # --- HORAS EXTRAS REALIZADAS EN MES ANTERIOR PERO APROBADAS EN ESTE MES ---
                 # (Deben liquidarse en el reporte de este mes actual)
                 NotificacionHorasExtras.objects.create(
@@ -505,7 +529,6 @@ class Command(TyperCommand):
                     estado=EstadoNotificacionHorasExtras.APROBADA,
                     fecha_aprobacion=fecha_aprob_este_mes,
                 ),
-
                 # --- Horas Extras del mes actual (realizadas y aprobadas en este mes) ---
                 NotificacionHorasExtras.objects.create(
                     empleado=emp2,
@@ -515,7 +538,9 @@ class Command(TyperCommand):
                     hora_fin=time(19, 30),  # 2.5 horas
                     motivo_resolucion="Atención de reclamos por alta demanda.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
-                    fecha_aprobacion=datetime(hoy.year, hoy.month, min(4, hoy.day), 12, 0, tzinfo=tz_ba),
+                    fecha_aprobacion=datetime(
+                        hoy.year, hoy.month, min(4, hoy.day), 12, 0, tzinfo=tz_ba
+                    ),
                 ),
                 NotificacionHorasExtras.objects.create(
                     empleado=emp5,
@@ -525,7 +550,9 @@ class Command(TyperCommand):
                     hora_fin=time(19, 0),  # 5 horas
                     motivo_resolucion="Refuerzo en guardia médica pediátrica por urgencias.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
-                    fecha_aprobacion=datetime(hoy.year, hoy.month, min(6, hoy.day), 15, 0, tzinfo=tz_ba),
+                    fecha_aprobacion=datetime(
+                        hoy.year, hoy.month, min(6, hoy.day), 15, 0, tzinfo=tz_ba
+                    ),
                 ),
                 NotificacionHorasExtras.objects.create(
                     empleado=emp7,
@@ -535,9 +562,10 @@ class Command(TyperCommand):
                     hora_fin=time(20, 0),  # 3 horas
                     motivo_resolucion="Esterilización de equipamiento quirúrgico urgente.",
                     estado=EstadoNotificacionHorasExtras.APROBADA,
-                    fecha_aprobacion=datetime(hoy.year, hoy.month, min(5, hoy.day), 9, 30, tzinfo=tz_ba),
+                    fecha_aprobacion=datetime(
+                        hoy.year, hoy.month, min(5, hoy.day), 9, 30, tzinfo=tz_ba
+                    ),
                 ),
-
                 # --- Horas Extras del mes actual Pendientes y Rechazadas ---
                 NotificacionHorasExtras.objects.create(
                     empleado=emp3,

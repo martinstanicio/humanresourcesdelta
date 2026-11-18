@@ -49,8 +49,8 @@
   </div>
 
   @if (error()) {
-    <div class="p-8 text-center text-destructive" hlmCard>
-      <p class="text-sm">{{ error() }}</p>
+    <div class="text-center" hlmCard>
+      <p>{{ error() }}</p>
       <button
         class="mt-4"
         hlmBtn
@@ -69,8 +69,8 @@
       }
     </div>
   } @else if (filteredConvenios().length === 0) {
-    <div class="p-8 text-center" hlmCard>
-      <p class="text-sm text-muted-foreground">No se encontraron convenios.</p>
+    <div class="text-center" hlmCard>
+      <p>No se encontraron convenios.</p>
       @if (searchQuery() || statusFilter() !== "all") {
         <button
           class="mt-4"

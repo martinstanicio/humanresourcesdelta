@@ -22,7 +22,6 @@ import {
   lucideInfo,
   lucideRefreshCw,
   lucideSearch,
-  lucideShieldAlert,
   lucideUser,
   lucideX,
   lucideXCircle,
@@ -30,10 +29,15 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
-import { HlmInput } from "@spartan-ng/helm/input";
+import { HlmDatePickerImports } from "@spartan-ng/helm/date-picker";
+import { HlmFieldImports } from "@spartan-ng/helm/field";
 import { HlmInputGroupImports } from "@spartan-ng/helm/input-group";
+import { HlmLabelImports } from "@spartan-ng/helm/label";
+import { HlmRadioGroupImports } from "@spartan-ng/helm/radio-group";
+import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTableImports } from "@spartan-ng/helm/table";
+import { HlmTextarea } from "@spartan-ng/helm/textarea";
 import { forkJoin } from "rxjs";
 
 import { Convenio } from "@/models/convenio.model";
@@ -52,7 +56,6 @@ import { NotificacionHoraExtraService } from "@/services/notificacion-hora-extra
 import { ReporteService } from "@/services/reporte.service";
 
 export type NotificacionStatusFilter = "all" | EstadoNotificacionHorasExtras;
-export const TOPE_MENSUAL_HORAS = 30;
 
 @Component({
   selector: "app-horas-extras-evaluacion-list",
@@ -63,10 +66,15 @@ export const TOPE_MENSUAL_HORAS = 30;
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
-    HlmInput,
+    HlmDatePickerImports,
+    HlmFieldImports,
     HlmInputGroupImports,
+    HlmLabelImports,
+    HlmRadioGroupImports,
+    HlmSelectImports,
     HlmSkeleton,
     HlmTableImports,
+    HlmTextarea,
     NgIcon,
     TitleCasePipe,
   ],
@@ -84,7 +92,6 @@ export const TOPE_MENSUAL_HORAS = 30;
       lucideInfo,
       lucideRefreshCw,
       lucideSearch,
-      lucideShieldAlert,
       lucideUser,
       lucideX,
       lucideXCircle,
@@ -118,8 +125,38 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
   public readonly statusFilter = signal<NotificacionStatusFilter>("pendiente");
   public readonly empleadoFilter = signal<string>("all");
   public readonly periodoFilter = signal<string>("all");
+
+  public readonly empleadoToString = (val: unknown): string => {
+    if (!val || val === "all") return "Todos los empleados";
+    const found = this.empleadosList().find(
+      (e) => e.legajo.toString() === String(val),
+    );
+    return found ? `${found.nombre} (${found.legajo})` : String(val);
+  };
+
+  public readonly periodoToString = (val: unknown): string => {
+    if (!val || val === "all") return "Todos los períodos";
+    const found = this.periodosList().find((p) => p.key === String(val));
+    return found ? found.label : String(val);
+  };
   public readonly fechaEspecificaFilter = signal<string>("");
-  public readonly soloExcedeTopeFilter = signal<boolean>(false);
+  public readonly fechaEspecificaDate = signal<Date | null>(null);
+
+  public onFechaEspecificaChange(date: Date | null): void {
+    this.fechaEspecificaDate.set(date);
+    if (date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      this.fechaEspecificaFilter.set(`${y}-${m}-${d}`);
+    } else {
+      this.fechaEspecificaFilter.set("");
+    }
+  }
+
+  public onStatusRadioChange(val: string | null | undefined): void {
+    if (val) this.statusFilter.set(val as NotificacionStatusFilter);
+  }
 
   // Ordenamiento (por defecto fecha ascendente según CU-04)
   public readonly sortDirection = signal<"asc" | "desc">("asc");
@@ -186,12 +223,6 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
     return this.notificaciones().filter((n) => n.estado === "pendiente").length;
   });
 
-  public readonly excedeTopeCount = computed<number>(() => {
-    return this.notificaciones().filter(
-      (n) => n.estado === "pendiente" && this.isExcedeTope(n),
-    ).length;
-  });
-
   public readonly aprobadasCount = computed<number>(() => {
     return this.notificaciones().filter((n) => n.estado === "aprobada").length;
   });
@@ -213,11 +244,6 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
       const status = this.statusFilter();
       if (status !== "all") {
         result = result.filter((n) => n.estado === status);
-      }
-
-      // Filtro Solo Excede Tope
-      if (this.soloExcedeTopeFilter()) {
-        result = result.filter((n) => this.isExcedeTope(n));
       }
 
       // Filtro por Empleado
@@ -271,8 +297,12 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
       // Ordenamiento por fecha de inicio (ascendente por defecto según CU-04)
       const direction = this.sortDirection();
       result.sort((a, b) => {
-        const timeA = a.fecha_inicio ? new Date(a.fecha_inicio).getTime() : new Date(`${a.fecha}T${a.hora_inicio || '00:00'}`).getTime();
-        const timeB = b.fecha_inicio ? new Date(b.fecha_inicio).getTime() : new Date(`${b.fecha}T${b.hora_inicio || '00:00'}`).getTime();
+        const timeA = a.fecha_inicio
+          ? new Date(a.fecha_inicio).getTime()
+          : new Date(`${a.fecha}T${a.hora_inicio || "00:00"}`).getTime();
+        const timeB = b.fecha_inicio
+          ? new Date(b.fecha_inicio).getTime()
+          : new Date(`${b.fecha}T${b.hora_inicio || "00:00"}`).getTime();
         return direction === "asc" ? timeA - timeB : timeB - timeA;
       });
 
@@ -373,13 +403,13 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
     }
   }
 
-  // Métodos de cálculo de horas y topes
+  // Métodos de cálculo de horas
   public getHorasCalculadas(notif: NotificacionHoraExtra): number {
     if (typeof notif.horas === "number") return notif.horas;
     if (notif.hora_inicio && notif.hora_fin) {
       const [h1, m1] = notif.hora_inicio.split(":").map(Number);
       const [h2, m2] = notif.hora_fin.split(":").map(Number);
-      const minutos = (h2 * 60 + m2) - (h1 * 60 + m1);
+      const minutos = h2 * 60 + m2 - (h1 * 60 + m1);
       return Math.max(0, Math.round((minutos / 60) * 100) / 100);
     }
     if (!notif.fecha_inicio || !notif.fecha_fin) return 0;
@@ -391,7 +421,10 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
   }
 
   public getFechaNotificacion(notif: NotificacionHoraExtra): string {
-    return notif.fecha || (notif.fecha_inicio ? notif.fecha_inicio.split("T")[0] : "");
+    return (
+      notif.fecha ||
+      (notif.fecha_inicio ? notif.fecha_inicio.split("T")[0] : "")
+    );
   }
 
   public getAcumuladoPeriodo(legajo: number, fechaStr?: string | null): number {
@@ -412,19 +445,6 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
     }
 
     return Math.round(acumulado * 100) / 100;
-  }
-
-  public isExcedeTope(notif: NotificacionHoraExtra): boolean {
-    const horasNotif = this.getHorasCalculadas(notif);
-    const fechaRef = this.getFechaNotificacion(notif);
-    const acumuladoMes = this.getAcumuladoPeriodo(
-      notif.empleado,
-      fechaRef,
-    );
-    // Si ya está aprobada, su tiempo ya está en acumuladoMes; si es pendiente, sumamos
-    const totalProyectado =
-      notif.estado === "aprobada" ? acumuladoMes : acumuladoMes + horasNotif;
-    return totalProyectado > TOPE_MENSUAL_HORAS;
   }
 
   public isPeriodoCerrado(notif: NotificacionHoraExtra): boolean {
@@ -459,7 +479,7 @@ export class AppHorasExtrasEvaluacionList implements OnInit {
     this.empleadoFilter.set("all");
     this.periodoFilter.set("all");
     this.fechaEspecificaFilter.set("");
-    this.soloExcedeTopeFilter.set(false);
+    this.fechaEspecificaDate.set(null);
   }
 
   // Acciones de Drawer

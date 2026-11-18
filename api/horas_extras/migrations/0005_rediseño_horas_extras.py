@@ -4,9 +4,11 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ("horas_extras", "0004_rename_motivo_notificacionhorasextras_motivo_resolucion"),
+        (
+            "horas_extras",
+            "0004_rename_motivo_notificacionhorasextras_motivo_resolucion",
+        ),
     ]
 
     operations = [
@@ -18,7 +20,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="horaextra",
             name="fecha_modificacion",
-            field=models.DateTimeField(db_index=True, default=django.utils.timezone.now),
+            field=models.DateTimeField(
+                db_index=True, default=django.utils.timezone.now
+            ),
         ),
         migrations.RemoveField(
             model_name="notificacionhorasextras",

@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-6">
   <!-- Cabecera y botón volver -->
   <div class="flex items-center justify-between">
-    <a class="gap-2" hlmBtn routerLink="/convenios" size="sm" variant="ghost">
+    <a hlmBtn routerLink="/convenios" size="sm" variant="ghost">
       <ng-icon name="lucideArrowLeft" />
       Volver a convenios
     </a>
@@ -10,7 +10,6 @@
     @if (isRRHH() && convenio(); as c) {
       <div class="flex items-center gap-2">
         <a
-          class="gap-1.5"
           hlmBtn
           size="sm"
           variant="outline"
@@ -22,11 +21,10 @@
 
         @if (c.activo) {
           <button
-            class="gap-1.5 text-destructive hover:bg-destructive/10"
             hlmBtn
             size="sm"
             type="button"
-            variant="outline"
+            variant="destructive"
             (click)="solicitarBaja()"
           >
             <ng-icon name="lucideTrash2" />
@@ -160,14 +158,14 @@
             Cancelar
           </button>
           <button
-            class="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             hlmBtn
             type="button"
+            variant="destructive"
             [disabled]="deleting()"
             (click)="confirmarBaja()"
           >
             @if (deleting()) {
-              <ng-icon class="mr-2 animate-spin" name="lucideRefreshCw" />
+              <ng-icon class="animate-spin" name="lucideRefreshCw" />
               Procesando...
             } @else {
               Confirmar baja

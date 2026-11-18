@@ -25,8 +25,9 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
-import { HlmInput } from "@spartan-ng/helm/input";
+import { HlmFieldImports } from "@spartan-ng/helm/field";
 import { HlmInputGroupImports } from "@spartan-ng/helm/input-group";
+import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTableImports } from "@spartan-ng/helm/table";
 import { forkJoin } from "rxjs";
@@ -60,8 +61,9 @@ export const MESES = [
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
-    HlmInput,
+    HlmFieldImports,
     HlmInputGroupImports,
+    HlmSelectImports,
     HlmSkeleton,
     HlmTableImports,
     NgIcon,
@@ -100,6 +102,29 @@ export class AppReporteList implements OnInit {
   public readonly selectedConvenio = signal<string>("all");
   public readonly selectedEmpleado = signal<string>("all");
   public readonly searchQuery = signal<string>("");
+
+  public readonly mesToString = (val: unknown): string => {
+    const found = this.meses.find((m) => m.value === Number(val));
+    return found ? found.label : String(val ?? "");
+  };
+
+  public readonly anioToString = (val: unknown): string => {
+    return val ? String(val) : "";
+  };
+
+  public readonly convenioToString = (val: unknown): string => {
+    if (!val || val === "all") return "Todos los convenios";
+    const found = this.convenios().find((c) => c.id.toString() === String(val));
+    return found ? found.nombre : String(val);
+  };
+
+  public readonly empleadoToString = (val: unknown): string => {
+    if (!val || val === "all") return "Todos los empleados";
+    const found = this.empleados().find(
+      (e) => e.legajo.toString() === String(val),
+    );
+    return found ? `#${found.legajo} - ${found.nombre}` : String(val);
+  };
 
   // Data signals
   public readonly empleados = signal<Empleado[]>([]);
@@ -264,23 +289,26 @@ export class AppReporteList implements OnInit {
     const mes = this.selectedMes();
     const emp = this.selectedEmpleado();
     const legajo = emp !== "all" ? Number(emp) : undefined;
-    const isParcial = manualParcial !== undefined ? manualParcial : this.isCurrentMonth();
+    const isParcial =
+      manualParcial !== undefined ? manualParcial : this.isCurrentMonth();
 
-    this._reporteService.getReporteMensual(anio, mes, legajo, isParcial).subscribe({
-      next: (res) => {
-        this.reportes.set(res.reportes || []);
-        this.esParcial.set(res.es_parcial || false);
-        this.loading.set(false);
-      },
-      error: (err) => {
-        console.error("Error al obtener reporte mensual:", err);
-        this.error.set(
-          err?.error?.detail ||
-            "Ocurrió un error al cargar los reportes para el período seleccionado.",
-        );
-        this.loading.set(false);
-      },
-    });
+    this._reporteService
+      .getReporteMensual(anio, mes, legajo, isParcial)
+      .subscribe({
+        next: (res) => {
+          this.reportes.set(res.reportes || []);
+          this.esParcial.set(res.es_parcial || false);
+          this.loading.set(false);
+        },
+        error: (err) => {
+          console.error("Error al obtener reporte mensual:", err);
+          this.error.set(
+            err?.error?.detail ||
+              "Ocurrió un error al cargar los reportes para el período seleccionado.",
+          );
+          this.loading.set(false);
+        },
+      });
   }
 
   public descargarPDF(legajo: number): void {
@@ -288,25 +316,29 @@ export class AppReporteList implements OnInit {
     const mes = this.selectedMes();
     this.exportingPdfLegajo.set(legajo);
 
-    this._reporteService.descargarReportePDF(anio, mes, legajo, this.esParcial()).subscribe({
-      next: (blob) => {
-        this.exportingPdfLegajo.set(null);
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        const padMes = mes.toString().padStart(2, "0");
-        const prefix = this.esParcial() ? "reporte_parcial" : "reporte_mensual";
-        a.download = `${prefix}_legajo_${legajo}_${padMes}_${anio}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-      },
-      error: (err) => {
-        this.exportingPdfLegajo.set(null);
-        console.error("Error al descargar reporte en PDF:", err);
-      },
-    });
+    this._reporteService
+      .descargarReportePDF(anio, mes, legajo, this.esParcial())
+      .subscribe({
+        next: (blob) => {
+          this.exportingPdfLegajo.set(null);
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          const padMes = mes.toString().padStart(2, "0");
+          const prefix = this.esParcial()
+            ? "reporte_parcial"
+            : "reporte_mensual";
+          a.download = `${prefix}_legajo_${legajo}_${padMes}_${anio}.pdf`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        },
+        error: (err) => {
+          this.exportingPdfLegajo.set(null);
+          console.error("Error al descargar reporte en PDF:", err);
+        },
+      });
   }
 
   public descargarPDFSeleccionado(): void {
@@ -334,7 +366,9 @@ export class AppReporteList implements OnInit {
       }));
     }
     return Object.entries(licencias)
-      .filter(([key]) => key !== "total" && key !== "desglose" && key !== "eventos")
+      .filter(
+        ([key]) => key !== "total" && key !== "desglose" && key !== "eventos",
+      )
       .map(([tipo, dias]) => ({ tipo, dias: Number(dias) }));
   }
 

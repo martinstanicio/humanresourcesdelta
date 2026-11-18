@@ -30,13 +30,17 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
-import { HlmInput } from "@spartan-ng/helm/input";
+import { HlmFieldImports } from "@spartan-ng/helm/field";
 import { HlmInputGroupImports } from "@spartan-ng/helm/input-group";
+import { HlmLabelImports } from "@spartan-ng/helm/label";
+import { HlmRadioGroupImports } from "@spartan-ng/helm/radio-group";
+import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTableImports } from "@spartan-ng/helm/table";
+import { HlmTextarea } from "@spartan-ng/helm/textarea";
 import { forkJoin } from "rxjs";
 
-import { calcularDiasHabiles } from "@/lib/feriados";
+import { calcularDias } from "@/lib/feriados";
 import { Convenio } from "@/models/convenio.model";
 import { Empleado } from "@/models/empleado.model";
 import { Licencia } from "@/models/licencia.model";
@@ -61,10 +65,14 @@ export type SolicitudStatusFilter = "all" | EstadoSolicitudLicencia;
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
-    HlmInput,
+    HlmFieldImports,
     HlmInputGroupImports,
+    HlmLabelImports,
+    HlmRadioGroupImports,
+    HlmSelectImports,
     HlmSkeleton,
     HlmTableImports,
+    HlmTextarea,
     NgIcon,
     TitleCasePipe,
   ],
@@ -117,6 +125,39 @@ export class AppLicenciasEvaluacionList implements OnInit {
   public readonly convenioFilter = signal<string>("all");
   public readonly tipoFilter = signal<string>("all");
   public readonly periodoFilter = signal<string>("all");
+
+  public readonly convenioToString = (val: unknown): string => {
+    if (!val || val === "all") return "Todos los convenios";
+    const found = this.conveniosList().find(
+      (c) => c.id.toString() === String(val),
+    );
+    return found ? found.nombre : String(val);
+  };
+
+  public readonly tipoToString = (val: unknown): string => {
+    if (!val || val === "all") return "Todos los tipos";
+    const found = this.licenciasList().find(
+      (l) => l.id.toString() === String(val),
+    );
+    return found ? found.tipo : String(val);
+  };
+
+  public readonly periodoToString = (val: unknown): string => {
+    switch (val) {
+      case "mes_actual":
+        return "Mes en curso";
+      case "vigentes":
+        return "Fechas vigentes / futuras";
+      case "vencidas":
+        return "Fechas ya vencidas";
+      default:
+        return "Cualquier período";
+    }
+  };
+
+  public onStatusRadioChange(val: string | null | undefined): void {
+    if (val) this.statusFilter.set(val as SolicitudStatusFilter);
+  }
 
   // Drawer de evaluación
   public readonly selectedSolicitud = signal<SolicitudLicencia | null>(null);
@@ -288,16 +329,7 @@ export class AppLicenciasEvaluacionList implements OnInit {
   }
 
   public getDiasSolicitados(solicitud: SolicitudLicencia): number {
-    const lic = this.licenciasMap().get(solicitud.licencia);
-    const reglas = (lic?.reglas ?? {}) as Record<string, unknown>;
-    const contabilizaDiasNoHabiles = Boolean(
-      reglas["contabiliza_dias_no_habiles"] ?? false,
-    );
-    return calcularDiasHabiles(
-      solicitud.fecha_inicio,
-      solicitud.fecha_fin,
-      contabilizaDiasNoHabiles,
-    );
+    return calcularDias(solicitud.fecha_inicio, solicitud.fecha_fin);
   }
 
   public isVencida(solicitud: SolicitudLicencia): boolean {

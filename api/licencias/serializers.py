@@ -1,3 +1,4 @@
+from collections.abc import Mapping
 from datetime import date
 from typing import Any
 
@@ -39,7 +40,7 @@ class LicenciaSerializer(serializers.ModelSerializer):
 
         return value
 
-    def validate_reglas(self, value: object) -> dict[str, Any]:
+    def validate_reglas(self, value: Mapping[str, Any]) -> dict[str, Any]:
         if not isinstance(value, dict):
             raise serializers.ValidationError("Las reglas deben ser un objeto JSON.")
 

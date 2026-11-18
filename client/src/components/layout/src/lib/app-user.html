@@ -9,11 +9,8 @@
       [hlmDropdownMenuTrigger]="menu"
       [side]="_menuSide()"
     >
-      <hlm-avatar class="size-8 rounded-lg">
-        <span
-          class="rounded-lg bg-primary text-xs font-semibold text-primary-foreground"
-          hlmAvatarFallback
-        >
+      <hlm-avatar>
+        <span hlmAvatarFallback>
           {{ initials() }}
         </span>
       </hlm-avatar>
@@ -29,14 +26,11 @@
 </ul>
 
 <ng-template #menu>
-  <hlm-dropdown-menu class="min-w-56 rounded-lg">
-    <hlm-dropdown-menu-label class="p-0 font-normal text-foreground">
+  <hlm-dropdown-menu class="min-w-56">
+    <hlm-dropdown-menu-label>
       <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-        <hlm-avatar class="size-8 rounded-lg">
-          <span
-            class="rounded-lg bg-primary text-xs font-semibold text-primary-foreground"
-            hlmAvatarFallback
-          >
+        <hlm-avatar>
+          <span hlmAvatarFallback>
             {{ initials() }}
           </span>
         </hlm-avatar>

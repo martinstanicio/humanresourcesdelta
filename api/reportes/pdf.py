@@ -20,9 +20,7 @@ from reportes.models import Reporte
 tz_buenos_aires = ZoneInfo("America/Argentina/Buenos_Aires")
 
 
-def generar_pdf_reporte_mensual(
-    reporte: Reporte, es_parcial: bool = False
-) -> BytesIO:
+def generar_pdf_reporte_mensual(reporte: Reporte, es_parcial: bool = False) -> BytesIO:
     # Configuración del lienzo en memoria
     buffer = BytesIO()
     doc = SimpleDocTemplate(
@@ -104,7 +102,14 @@ def generar_pdf_reporte_mensual(
     # Banner destacado de Reporte Parcial si corresponde
     if es_parcial:
         banner_table = Table(
-            [[Paragraph("ATENCIÓN: REPORTE PARCIAL (EN CURSO - NO VINCULANTE)", partial_banner_style)]],
+            [
+                [
+                    Paragraph(
+                        "ATENCIÓN: REPORTE PARCIAL (EN CURSO - NO VINCULANTE)",
+                        partial_banner_style,
+                    )
+                ]
+            ],
             colWidths=[18 * cm],
         )
         banner_table.setStyle(
@@ -172,7 +177,11 @@ def generar_pdf_reporte_mensual(
 
     # Sección Horas Extras (Consolidado)
     he_data = reporte.calcular_horas_extras()
-    elements.append(Paragraph("Liquidación de Horas Extras (Aprobadas en el Período)", section_style))
+    elements.append(
+        Paragraph(
+            "Liquidación de Horas Extras (Aprobadas en el Período)", section_style
+        )
+    )
     elements.append(Spacer(1, 0.15 * cm))
 
     filas_he = [
@@ -214,7 +223,9 @@ def generar_pdf_reporte_mensual(
     eventos_he = he_data.get("eventos", [])
     if eventos_he:
         elements.append(Spacer(1, 0.3 * cm))
-        elements.append(Paragraph("Detalle de Eventos de Horas Extras", subsection_style))
+        elements.append(
+            Paragraph("Detalle de Eventos de Horas Extras", subsection_style)
+        )
         elements.append(Spacer(1, 0.1 * cm))
 
         filas_ev_he = [
@@ -231,7 +242,7 @@ def generar_pdf_reporte_mensual(
             try:
                 dt_f = datetime.fromisoformat(fecha_efectiva)
                 fecha_str = dt_f.strftime("%d/%m/%Y")
-            except Exception:
+            except ValueError, TypeError:
                 fecha_str = str(fecha_efectiva)
 
             h_ini = ev["hora_inicio"][:5] if ev.get("hora_inicio") else ""
@@ -243,7 +254,7 @@ def generar_pdf_reporte_mensual(
                 try:
                     dt_ap = datetime.fromisoformat(ev["fecha_aprobacion"])
                     f_aprob = dt_ap.strftime("%d/%m/%Y")
-                except Exception:
+                except ValueError, TypeError:
                     f_aprob = str(ev["fecha_aprobacion"])[:10]
 
             filas_ev_he.append([
@@ -254,7 +265,9 @@ def generar_pdf_reporte_mensual(
                 Paragraph(f_aprob, normal_style),
             ])
 
-        tabla_ev_he = Table(filas_ev_he, colWidths=[3.2 * cm, 4.8 * cm, 3.2 * cm, 2.8 * cm, 4 * cm])
+        tabla_ev_he = Table(
+            filas_ev_he, colWidths=[3.2 * cm, 4.8 * cm, 3.2 * cm, 2.8 * cm, 4 * cm]
+        )
         tabla_ev_he.setStyle(
             TableStyle([
                 ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#F7FAFC")),
@@ -271,7 +284,9 @@ def generar_pdf_reporte_mensual(
 
     # Sección Licencias (Consolidado)
     lic_data = reporte.calcular_licencias()
-    elements.append(Paragraph("Desglose de Licencias (Días Efectivos en el Período)", section_style))
+    elements.append(
+        Paragraph("Desglose de Licencias (Días Efectivos en el Período)", section_style)
+    )
     elements.append(Spacer(1, 0.15 * cm))
 
     filas_lic = [
@@ -327,13 +342,17 @@ def generar_pdf_reporte_mensual(
         ]
         for ev in eventos_lic:
             try:
-                ini_str = datetime.fromisoformat(ev["inicio_efectivo"]).strftime("%d/%m/%Y")
-            except Exception:
+                ini_str = datetime.fromisoformat(ev["inicio_efectivo"]).strftime(
+                    "%d/%m/%Y"
+                )
+            except ValueError, TypeError:
                 ini_str = str(ev.get("inicio_efectivo", "-"))
 
             try:
-                fin_str = datetime.fromisoformat(ev["fin_efectivo"]).strftime("%d/%m/%Y")
-            except Exception:
+                fin_str = datetime.fromisoformat(ev["fin_efectivo"]).strftime(
+                    "%d/%m/%Y"
+                )
+            except ValueError, TypeError:
                 fin_str = str(ev.get("fin_efectivo", "-"))
 
             filas_ev_lic.append([

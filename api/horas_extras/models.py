@@ -1,5 +1,6 @@
 import uuid
 from datetime import date, datetime, time
+from typing import Any
 
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -14,9 +15,7 @@ class HoraExtra(models.Model):
         related_name="horas_extra",
     )
     codigo = models.UUIDField(default=uuid.uuid4, editable=False, db_index=True)
-    fecha_modificacion = models.DateTimeField(
-        default=timezone.now, db_index=True
-    )
+    fecha_modificacion = models.DateTimeField(default=timezone.now, db_index=True)
     tipo = models.CharField(max_length=255)
     descripcion = models.TextField()
     multiplicador = models.FloatField(validators=[MinValueValidator(0)])
@@ -81,7 +80,11 @@ class NotificacionHorasExtras(models.Model):
         verbose_name = "notificación de horas extras"
         verbose_name_plural = "notificaciones de horas extras"
 
-    def __init__(self, *args, **kwargs):
+    def __init__(
+        self,
+        *args: Any,  # noqa: ANN401
+        **kwargs: Any,  # noqa: ANN401
+    ) -> None:
         if "motivo" in kwargs and "motivo_resolucion" not in kwargs:
             kwargs["motivo_resolucion"] = kwargs.pop("motivo")
         super().__init__(*args, **kwargs)
@@ -97,7 +100,11 @@ class NotificacionHorasExtras(models.Model):
     def motivo(self, value: str) -> None:
         self.motivo_resolucion = value
 
-    def save(self, *args, **kwargs):
+    def save(
+        self,
+        *args: Any,  # noqa: ANN401
+        **kwargs: Any,  # noqa: ANN401
+    ) -> None:
         if isinstance(self.fecha, datetime):
             self.fecha = self.fecha.date()
         super().save(*args, **kwargs)
@@ -107,7 +114,9 @@ class NotificacionHorasExtras(models.Model):
         if not self.hora_inicio or not self.hora_fin:
             return 0.0
 
-        fecha_val = self.fecha.date() if isinstance(self.fecha, datetime) else self.fecha
+        fecha_val = (
+            self.fecha.date() if isinstance(self.fecha, datetime) else self.fecha
+        )
         dt_inicio = datetime.combine(fecha_val, self.hora_inicio)
         dt_fin = datetime.combine(fecha_val, self.hora_fin)
         if dt_fin <= dt_inicio:
@@ -119,7 +128,9 @@ class NotificacionHorasExtras(models.Model):
     @property
     def fecha_inicio(self) -> datetime | None:
         if self.fecha and self.hora_inicio:
-            fecha_val = self.fecha.date() if isinstance(self.fecha, datetime) else self.fecha
+            fecha_val = (
+                self.fecha.date() if isinstance(self.fecha, datetime) else self.fecha
+            )
             return datetime.combine(fecha_val, self.hora_inicio)
         return None
 
@@ -135,7 +146,9 @@ class NotificacionHorasExtras(models.Model):
     @property
     def fecha_fin(self) -> datetime | None:
         if self.fecha and self.hora_fin:
-            fecha_val = self.fecha.date() if isinstance(self.fecha, datetime) else self.fecha
+            fecha_val = (
+                self.fecha.date() if isinstance(self.fecha, datetime) else self.fecha
+            )
             return datetime.combine(fecha_val, self.hora_fin)
         return None
 

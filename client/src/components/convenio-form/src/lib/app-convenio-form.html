@@ -1,15 +1,15 @@
 <div class="flex flex-col gap-6">
   @if (loading()) {
     <div class="flex flex-col gap-6">
-      <div class="h-40 rounded-md border" hlmSkeleton></div>
-      <div class="h-60 rounded-md border" hlmSkeleton></div>
-      <div class="h-48 rounded-md border" hlmSkeleton></div>
+      <div class="h-40" hlmSkeleton></div>
+      <div class="h-60" hlmSkeleton></div>
+      <div class="h-48" hlmSkeleton></div>
     </div>
   } @else {
     <!-- Errores de validación de reglas -->
     @if (validationErrors().length > 0) {
       <div
-        class="rounded-md border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive"
+        class="border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive"
         role="alert"
       >
         <div class="flex items-center gap-2 font-semibold">
@@ -28,7 +28,7 @@
 
     @if (submitError()) {
       <div
-        class="rounded-md border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive"
+        class="border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive"
         role="alert"
       >
         <div class="flex items-center gap-2 font-semibold">
@@ -44,19 +44,17 @@
       <!-- SECCIÓN 1: DATOS GENERALES -->
       <div hlmCard>
         <div hlmCardHeader>
-          <h2 class="text-lg font-semibold tracking-tight" hlmCardTitle>
-            1. Datos Generales del Convenio
-          </h2>
-          <p class="text-sm text-muted-foreground" hlmCardDescription>
-            Información básica de identificación y período de vigencia del
-            convenio colectivo de trabajo.
+          <h2 hlmCardTitle>1. Datos Generales del Convenio</h2>
+          <p hlmCardDescription>
+            Información básica de identificación del convenio colectivo de
+            trabajo.
           </p>
         </div>
 
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2" hlmCardContent>
           <!-- Nombre -->
-          <div class="flex flex-col gap-2 sm:col-span-2">
-            <label class="text-sm font-medium" for="conv-nombre">
+          <div hlmField>
+            <label for="conv-nombre" hlmFieldLabel>
               Nombre del convenio <span class="text-destructive">*</span>
             </label>
             <input
@@ -72,47 +70,33 @@
           </div>
 
           <!-- Identificación / Código CCT -->
-          <div class="flex flex-col gap-2">
-            <label class="text-sm font-medium" for="conv-identificacion">
-              Identificación / N° CCT
+          <div hlmField>
+            <label for="conv-identificacion" hlmFieldLabel>
+              Identificación / N° CCT <span class="text-destructive">*</span>
             </label>
             <input
               hlmInput
               id="conv-identificacion"
               name="identificacion"
               placeholder="Ej. CCT 130/75"
+              required
               type="text"
               [ngModel]="identificacion()"
               (ngModelChange)="identificacion.set($event)"
             />
           </div>
 
-          <!-- Fecha de vigencia -->
-          <div class="flex flex-col gap-2">
-            <label class="text-sm font-medium" for="conv-vigencia">
-              Fecha de vigencia <span class="text-destructive">*</span>
-            </label>
-            <input
-              hlmInput
-              id="conv-vigencia"
-              name="fechaVigencia"
-              required
-              type="date"
-              [ngModel]="fechaVigencia()"
-              (ngModelChange)="fechaVigencia.set($event)"
-            />
-          </div>
-
           <!-- Descripción -->
-          <div class="flex flex-col gap-2 sm:col-span-2">
-            <label class="text-sm font-medium" for="conv-descripcion">
-              Descripción
+          <div class="sm:col-span-2" hlmField>
+            <label for="conv-descripcion" hlmFieldLabel>
+              Descripción <span class="text-destructive">*</span>
             </label>
             <textarea
               hlmTextarea
               id="conv-descripcion"
               name="descripcion"
               placeholder="Breve descripción o alcance de las actividades comprendidas por este convenio..."
+              required
               rows="2"
               [ngModel]="descripcion()"
               (ngModelChange)="descripcion.set($event)"
@@ -128,10 +112,8 @@
           hlmCardHeader
         >
           <div>
-            <h2 class="text-lg font-semibold tracking-tight" hlmCardTitle>
-              2. Tipos de Licencia Admitidos
-            </h2>
-            <p class="text-sm text-muted-foreground" hlmCardDescription>
+            <h2 hlmCardTitle>2. Tipos de Licencia Admitidos</h2>
+            <p hlmCardDescription>
               Parametrización de cupos anuales, antelación mínima requerida y
               requisitos documentales.
             </p>
@@ -144,13 +126,13 @@
             variant="outline"
             (click)="agregarLicencia()"
           >
-            <ng-icon class="mr-1.5" name="lucidePlus" />
+            <ng-icon name="lucidePlus" />
             Agregar tipo de licencia
           </button>
         </div>
 
         <div class="flex flex-col gap-4" hlmCardContent>
-          @for (lic of licencias(); track $index) {
+          @for (lic of licencias(); track lic.codigo ?? $index) {
             <div
               class="relative rounded-lg border bg-card p-4 transition-colors"
             >
@@ -163,12 +145,11 @@
 
                 @if (licencias().length > 1) {
                   <button
-                    class="text-destructive hover:bg-destructive/10"
                     hlmBtn
                     size="icon"
                     title="Eliminar este tipo de licencia"
                     type="button"
-                    variant="ghost"
+                    variant="destructive"
                     (click)="eliminarLicencia($index)"
                   >
                     <ng-icon name="lucideTrash2" />
@@ -178,11 +159,8 @@
 
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <!-- Denominación -->
-                <div class="flex flex-col gap-1.5 sm:col-span-2 lg:col-span-1">
-                  <label
-                    class="text-xs font-medium"
-                    [for]="'lic-tipo-' + $index"
-                  >
+                <div class="sm:col-span-2 lg:col-span-1" hlmField>
+                  <label hlmFieldLabel [for]="'lic-tipo-' + $index">
                     Denominación <span class="text-destructive">*</span>
                   </label>
                   <input
@@ -197,34 +175,9 @@
                   />
                 </div>
 
-                <!-- Cupo anual de días -->
-                <div class="flex flex-col gap-1.5">
-                  <label
-                    class="text-xs font-medium"
-                    [for]="'lic-cupo-' + $index"
-                  >
-                    Cupo anual de días <span class="text-destructive">*</span>
-                  </label>
-                  <input
-                    hlmInput
-                    min="1"
-                    required
-                    type="number"
-                    [id]="'lic-cupo-' + $index"
-                    [name]="'lic_cupo_' + $index"
-                    [ngModel]="lic.cupo_anual"
-                    (ngModelChange)="
-                      updateLicencia($index, 'cupo_anual', +$event)
-                    "
-                  />
-                </div>
-
                 <!-- Antelación mínima -->
-                <div class="flex flex-col gap-1.5">
-                  <label
-                    class="text-xs font-medium"
-                    [for]="'lic-antelacion-' + $index"
-                  >
+                <div hlmField>
+                  <label hlmFieldLabel [for]="'lic-antelacion-' + $index">
                     Antelación mínima (días)
                     <span class="text-destructive">*</span>
                   </label>
@@ -242,43 +195,96 @@
                   />
                 </div>
 
-                <!-- Switches / Toggles -->
-                <div
-                  class="flex flex-wrap items-center gap-6 pt-1 sm:col-span-2 lg:col-span-3"
-                >
-                  <label class="flex cursor-pointer items-center gap-2 text-sm">
-                    <input
-                      class="size-4 rounded border-gray-300 text-primary focus:ring-primary"
-                      type="checkbox"
-                      [checked]="lic.descuenta_saldo"
-                      (change)="
-                        updateLicencia(
-                          $index,
-                          'descuenta_saldo',
-                          $any($event.target).checked
-                        )
-                      "
-                    />
-                    <span>Descuenta saldo anual</span>
+                <!-- Estrategia (Select de Spartan) -->
+                <div hlmField>
+                  <label hlmFieldLabel [for]="'lic-estrategia-' + $index">
+                    Estrategia <span class="text-destructive">*</span>
                   </label>
-
-                  <label class="flex cursor-pointer items-center gap-2 text-sm">
-                    <input
-                      class="size-4 rounded border-gray-300 text-primary focus:ring-primary"
-                      type="checkbox"
-                      [checked]="lic.documentacion_obligatoria"
-                      (change)="
-                        updateLicencia(
-                          $index,
-                          'documentacion_obligatoria',
-                          $any($event.target).checked
-                        )
-                      "
-                    />
-                    <span>Documentación obligatoria requerida</span>
-                  </label>
+                  <hlm-select
+                    [id]="'lic-estrategia-' + $index"
+                    [itemToString]="estrategiaToString"
+                    [value]="lic.estrategiaTipo"
+                    (valueChange)="cambiarEstrategia($index, $event)"
+                  >
+                    <hlm-select-trigger
+                      class="w-full"
+                      [buttonId]="'lic-estrategia-' + $index"
+                    >
+                      <hlm-select-value placeholder="Seleccionar estrategia" />
+                    </hlm-select-trigger>
+                    <hlm-select-content *hlmSelectPortal>
+                      <hlm-select-group>
+                        @for (est of estrategiasDisponibles(); track est.id) {
+                          <hlm-select-item [value]="est.id">{{
+                            est.nombre
+                          }}</hlm-select-item>
+                        }
+                      </hlm-select-group>
+                    </hlm-select-content>
+                  </hlm-select>
                 </div>
               </div>
+
+              <!-- Campos dinámicos propuestos por la estrategia -->
+              @if (getEstrategiaFields(lic.estrategiaTipo).length > 0) {
+                <div
+                  class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+                >
+                  @for (
+                    field of getEstrategiaFields(lic.estrategiaTipo);
+                    track field.name
+                  ) {
+                    <div hlmField>
+                      <label
+                        hlmFieldLabel
+                        [for]="'lic-' + field.name + '-' + $index"
+                      >
+                        {{ field.label }}
+                        @if (field.required) {
+                          <span class="text-destructive">*</span>
+                        }
+                      </label>
+
+                      @if (field.type === "number") {
+                        <input
+                          hlmInput
+                          type="number"
+                          [id]="'lic-' + field.name + '-' + $index"
+                          [max]="field.max ?? null"
+                          [min]="field.min ?? null"
+                          [name]="'lic_' + field.name + '_' + $index"
+                          [ngModel]="lic.estrategiaValues[field.name]"
+                          [placeholder]="field.placeholder ?? ''"
+                          [required]="field.required ?? false"
+                          [step]="field.step ?? null"
+                          (ngModelChange)="
+                            updateEstrategiaValue($index, field.name, +$event)
+                          "
+                        />
+                      } @else if (field.type === "text") {
+                        <input
+                          hlmInput
+                          type="text"
+                          [id]="'lic-' + field.name + '-' + $index"
+                          [name]="'lic_' + field.name + '_' + $index"
+                          [ngModel]="lic.estrategiaValues[field.name]"
+                          [placeholder]="field.placeholder ?? ''"
+                          [required]="field.required ?? false"
+                          (ngModelChange)="
+                            updateEstrategiaValue($index, field.name, $event)
+                          "
+                        />
+                      }
+
+                      @if (field.description) {
+                        <p hlmFieldDescription>
+                          {{ field.description }}
+                        </p>
+                      }
+                    </div>
+                  }
+                </div>
+              }
             </div>
           }
         </div>
@@ -287,10 +293,8 @@
       <!-- SECCIÓN 3: REGLAS DE HORAS EXTRAS -->
       <div hlmCard>
         <div hlmCardHeader>
-          <h2 class="text-lg font-semibold tracking-tight" hlmCardTitle>
-            3. Reglas de Horas Extras
-          </h2>
-          <p class="text-sm text-muted-foreground" hlmCardDescription>
+          <h2 hlmCardTitle>3. Reglas de Horas Extras</h2>
+          <p hlmCardDescription>
             Multiplicadores de remuneración por tipo de día (expresados en
             porcentaje de recargo).
           </p>
@@ -306,13 +310,11 @@
             </h3>
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <!-- Día hábil -->
-              <div class="flex flex-col gap-1.5">
-                <label class="text-xs font-medium" for="he-habil">
-                  Día hábil (%)
-                </label>
-                <div class="relative">
+              <div hlmField>
+                <label for="he-habil" hlmFieldLabel> Día hábil (%) </label>
+                <div hlmInputGroup>
                   <input
-                    hlmInput
+                    hlmInputGroupInput
                     id="he-habil"
                     min="0"
                     name="he_habil"
@@ -321,24 +323,21 @@
                     [ngModel]="horasExtrasConfig().habilPorcentaje"
                     (ngModelChange)="updateHEConfig('habilPorcentaje', +$event)"
                   />
-                  <span
-                    class="pointer-events-none absolute top-2.5 right-3 text-xs text-muted-foreground"
-                    >%</span
-                  >
+                  <div align="inline-end" hlmInputGroupAddon>
+                    <ng-icon name="lucidePercent" />
+                  </div>
                 </div>
-                <span class="text-[11px] text-muted-foreground"
-                  >Ej. 50% (x1.5)</span
-                >
+                <p hlmFieldDescription>Ej. 50% (x1.5)</p>
               </div>
 
               <!-- Sábado post mediodía -->
-              <div class="flex flex-col gap-1.5">
-                <label class="text-xs font-medium" for="he-sabado">
+              <div hlmField>
+                <label for="he-sabado" hlmFieldLabel>
                   Sábado después del mediodía (%)
                 </label>
-                <div class="relative">
+                <div hlmInputGroup>
                   <input
-                    hlmInput
+                    hlmInputGroupInput
                     id="he-sabado"
                     min="0"
                     name="he_sabado"
@@ -349,24 +348,19 @@
                       updateHEConfig('sabadoPorcentaje', +$event)
                     "
                   />
-                  <span
-                    class="pointer-events-none absolute top-2.5 right-3 text-xs text-muted-foreground"
-                    >%</span
-                  >
+                  <div align="inline-end" hlmInputGroupAddon>
+                    <ng-icon name="lucidePercent" />
+                  </div>
                 </div>
-                <span class="text-[11px] text-muted-foreground"
-                  >Ej. 100% (x2.0)</span
-                >
+                <p hlmFieldDescription>Ej. 100% (x2.0)</p>
               </div>
 
               <!-- Domingo -->
-              <div class="flex flex-col gap-1.5">
-                <label class="text-xs font-medium" for="he-domingo">
-                  Domingo (%)
-                </label>
-                <div class="relative">
+              <div hlmField>
+                <label for="he-domingo" hlmFieldLabel> Domingo (%) </label>
+                <div hlmInputGroup>
                   <input
-                    hlmInput
+                    hlmInputGroupInput
                     id="he-domingo"
                     min="0"
                     name="he_domingo"
@@ -377,24 +371,19 @@
                       updateHEConfig('domingoPorcentaje', +$event)
                     "
                   />
-                  <span
-                    class="pointer-events-none absolute top-2.5 right-3 text-xs text-muted-foreground"
-                    >%</span
-                  >
+                  <div align="inline-end" hlmInputGroupAddon>
+                    <ng-icon name="lucidePercent" />
+                  </div>
                 </div>
-                <span class="text-[11px] text-muted-foreground"
-                  >Ej. 100% (x2.0)</span
-                >
+                <p hlmFieldDescription>Ej. 100% (x2.0)</p>
               </div>
 
               <!-- Feriado -->
-              <div class="flex flex-col gap-1.5">
-                <label class="text-xs font-medium" for="he-feriado">
-                  Feriado (%)
-                </label>
-                <div class="relative">
+              <div hlmField>
+                <label for="he-feriado" hlmFieldLabel> Feriado (%) </label>
+                <div hlmInputGroup>
                   <input
-                    hlmInput
+                    hlmInputGroupInput
                     id="he-feriado"
                     min="0"
                     name="he_feriado"
@@ -405,14 +394,11 @@
                       updateHEConfig('feriadoPorcentaje', +$event)
                     "
                   />
-                  <span
-                    class="pointer-events-none absolute top-2.5 right-3 text-xs text-muted-foreground"
-                    >%</span
-                  >
+                  <div align="inline-end" hlmInputGroupAddon>
+                    <ng-icon name="lucidePercent" />
+                  </div>
                 </div>
-                <span class="text-[11px] text-muted-foreground"
-                  >Ej. 100% (x2.0)</span
-                >
+                <p hlmFieldDescription>Ej. 100% (x2.0)</p>
               </div>
             </div>
           </div>
@@ -434,7 +420,7 @@
 
         <button hlmBtn type="submit" [disabled]="submitting()">
           @if (submitting()) {
-            <ng-icon class="mr-2 animate-spin" name="lucideRefreshCw" />
+            <ng-icon class="animate-spin" name="lucideRefreshCw" />
             Guardando...
           } @else {
             {{ isEditMode() ? "Guardar cambios" : "Guardar convenio" }}
@@ -453,7 +439,7 @@
         class="w-full max-w-lg animate-in rounded-xl border bg-background p-6 shadow-xl fade-in-50 zoom-in-95"
       >
         <div class="flex items-start gap-4">
-          <div class="rounded-full bg-amber-500/10 p-2.5 text-amber-500">
+          <div class="rounded-full bg-warning/10 p-2.5 text-warning">
             <ng-icon class="text-xl" name="lucideAlertTriangle" />
           </div>
           <div class="flex-1">
@@ -472,28 +458,10 @@
               }}.
             </p>
             <p class="mt-2 text-xs text-muted-foreground">
-              Al confirmar, se generará una <strong>nueva versión</strong> de
-              las reglas del convenio. Éstas aplicarán únicamente a las
-              solicitudes y notificaciones con fecha posterior a la fecha de
-              vigencia. Los registros ya resueltos conservarán la versión
-              anterior y no serán recalculados.
+              Al confirmar, se actualizarán las reglas del convenio. Los
+              registros ya resueltos conservarán la versión anterior y no serán
+              recalculados.
             </p>
-
-            <div class="mt-4 flex flex-col gap-1.5">
-              <label class="text-xs font-semibold" for="nueva-vigencia">
-                Fecha a partir de la cual rigen los cambios
-                <span class="text-destructive">*</span>
-              </label>
-              <input
-                hlmInput
-                id="nueva-vigencia"
-                name="nueva_vigencia"
-                required
-                type="date"
-                [ngModel]="nuevaFechaVigencia()"
-                (ngModelChange)="nuevaFechaVigencia.set($event)"
-              />
-            </div>
           </div>
         </div>
 
@@ -510,11 +478,11 @@
           <button
             hlmBtn
             type="button"
-            [disabled]="submitting() || !nuevaFechaVigencia()"
+            [disabled]="submitting()"
             (click)="confirmarGuardadoVersion()"
           >
             @if (submitting()) {
-              <ng-icon class="mr-2 animate-spin" name="lucideRefreshCw" />
+              <ng-icon class="animate-spin" name="lucideRefreshCw" />
               Guardando versión...
             } @else {
               Confirmar nueva versión

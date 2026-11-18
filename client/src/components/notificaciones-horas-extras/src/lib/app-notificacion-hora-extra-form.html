@@ -1,4 +1,4 @@
-<div class="mx-auto max-w-5xl space-y-6 pb-10">
+<div class="space-y-6 pb-10">
   <!-- Cabecera de la página -->
   <div
     class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
@@ -6,14 +6,13 @@
     <div class="space-y-1">
       <div class="flex items-center gap-2">
         <a
-          class="size-8 p-0 text-muted-foreground hover:text-foreground"
           hlmBtn
           routerLink="/notificaciones-horas-extras"
-          size="sm"
+          size="icon"
           title="Volver a mis horas extras"
           variant="ghost"
         >
-          <ng-icon class="size-4" name="lucideArrowLeft" />
+          <ng-icon name="lucideArrowLeft" />
         </a>
         <h1 class="text-2xl font-bold tracking-tight">
           Notificar Horas Extras
@@ -29,33 +28,29 @@
   @if (loadingInitial()) {
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
       <div class="space-y-4 md:col-span-2">
-        <hlm-skeleton class="h-12 w-full rounded-lg" />
-        <hlm-skeleton class="h-12 w-full rounded-lg" />
-        <hlm-skeleton class="h-32 w-full rounded-lg" />
+        <hlm-skeleton class="h-12 w-full" />
+        <hlm-skeleton class="h-12 w-full" />
+        <hlm-skeleton class="h-32 w-full" />
       </div>
       <div class="md:col-span-1">
-        <hlm-skeleton class="h-64 w-full rounded-lg" />
+        <hlm-skeleton class="h-64 w-full" />
       </div>
     </div>
   } @else if (confirmedNotificaciones(); as notifs) {
     <!-- PANTALLA DE ÉXITO Y CONFIRMACIÓN -->
-    <div class="border-success/30 bg-success/10" hlmCard>
-      <div class="items-center pb-4 text-center" hlmCardHeader>
-        <div
-          class="mb-2 inline-flex size-14 items-center justify-center rounded-full bg-success/15 text-success"
-        >
-          <ng-icon class="size-8" name="lucideCheckCircle2" />
-        </div>
-        <h2 class="text-xl text-success" hlmCardTitle>
-          Notificación Registrada con Éxito
-        </h2>
-        <p class="text-success/80" hlmCardDescription>
+    <div hlmCard>
+      <div hlmCardHeader>
+        <h2 hlmCardTitle>Notificación Registrada con Éxito</h2>
+        <p hlmCardDescription>
           La declaración ha sido ingresada en estado 'Pendiente' y se envió la
           notificación automática al área de Recursos Humanos (RF-08).
         </p>
+        <div hlmCardAction>
+          <ng-icon class="text-success" name="lucideCheckCircle2" />
+        </div>
       </div>
 
-      <div class="mx-auto max-w-xl space-y-4" hlmCardContent>
+      <div class="mx-auto space-y-4" hlmCardContent>
         <div class="space-y-3 rounded-lg border bg-card p-4">
           <div class="flex items-center justify-between border-b pb-2">
             <span class="text-sm text-muted-foreground"
@@ -63,11 +58,8 @@
             >
             <div class="flex flex-wrap gap-1.5">
               @for (n of notifs; track n.id) {
-                <span
-                  class="font-mono text-xs font-semibold"
-                  hlmBadge
-                  variant="secondary"
-                >
+                <!-- eslint-disable-next-line shadcn/no-restyle -->
+                <span class="font-mono" hlmBadge variant="secondary">
                   #{{ n.id }}
                 </span>
               }
@@ -126,7 +118,7 @@
         <div
           class="flex items-center gap-2 rounded-md border border-primary/30 bg-primary/10 p-3 text-xs text-primary"
         >
-          <ng-icon class="size-4 shrink-0 text-primary" name="lucideInfo" />
+          <ng-icon class="shrink-0 text-primary" name="lucideInfo" />
           <span>
             Podrás consultar el estado de tu notificación o cancelarla mientras
             no haya sido evaluada desde el módulo 'Mis Horas Extra' (CU-06 /
@@ -135,25 +127,12 @@
         </div>
       </div>
 
-      <div
-        class="flex flex-col justify-center gap-3 pt-2 sm:flex-row"
-        hlmCardFooter
-      >
-        <a
-          class="w-full sm:w-auto"
-          hlmBtn
-          routerLink="/notificaciones-horas-extras"
-        >
+      <div class="flex items-center justify-end gap-3 border-t" hlmCardFooter>
+        <a hlmBtn routerLink="/notificaciones-horas-extras">
           Ver mis notificaciones
         </a>
-        <button
-          class="w-full gap-2 sm:w-auto"
-          hlmBtn
-          type="button"
-          variant="outline"
-          (click)="resetForm()"
-        >
-          <ng-icon class="size-4" name="lucidePlus" />
+        <button hlmBtn type="button" variant="outline" (click)="resetForm()">
+          <ng-icon name="lucidePlus" />
           Cargar otra notificación
         </button>
       </div>
@@ -176,40 +155,44 @@
 
           <div class="space-y-4" hlmCardContent>
             <!-- Fecha -->
-            <div class="space-y-2">
-              <label class="text-sm leading-none font-medium" for="fecha">
+            <div
+              hlmField
+              [forceInvalid]="
+                !!fieldErrors()['fecha_inicio'] || !!fieldErrors()['fecha']
+              "
+            >
+              <label for="fecha" hlmFieldLabel>
                 Fecha trabajada <span class="text-destructive">*</span>
               </label>
-              <input
-                class="w-full"
-                hlmInput
-                id="fecha"
-                name="fecha"
-                required
-                type="date"
-                [max]="getHoyString()"
-                [ngModel]="fecha()"
-                (ngModelChange)="fecha.set($event)"
-              />
-              @if (fieldErrors()['fecha_inicio'] || fieldErrors()['fecha']) {
-                <p class="text-xs font-medium text-destructive">
-                  {{ fieldErrors()['fecha_inicio'] || fieldErrors()['fecha'] }}
-                </p>
+              <hlm-date-picker
+                [autoCloseOnSelect]="true"
+                [date]="fechaDate()"
+                [maxDate]="maxDateHoy"
+                (dateChange)="onFechaChange($event)"
+              >
+                <hlm-date-picker-trigger
+                  buttonId="fecha"
+                  class="w-full justify-between"
+                >
+                  <span>Seleccionar fecha trabajada</span>
+                </hlm-date-picker-trigger>
+              </hlm-date-picker>
+              @if (fieldErrors()["fecha_inicio"] || fieldErrors()["fecha"]) {
+                <hlm-field-error forceShow>
+                  {{ fieldErrors()["fecha_inicio"] || fieldErrors()["fecha"] }}
+                </hlm-field-error>
               } @else {
-                <p class="text-xs text-muted-foreground">
-                  No se pueden registrar horas extras para fechas posteriores a la
-                  actual.
+                <p hlmFieldDescription>
+                  No se pueden registrar horas extras para fechas posteriores a
+                  la actual.
                 </p>
               }
             </div>
 
             <!-- Horarios: Inicio y Fin -->
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div class="space-y-2">
-                <label
-                  class="text-sm leading-none font-medium"
-                  for="horaInicio"
-                >
+              <div hlmField [forceInvalid]="!!fieldErrors()['hora_inicio']">
+                <label for="horaInicio" hlmFieldLabel>
                   Hora de inicio <span class="text-destructive">*</span>
                 </label>
                 <input
@@ -222,15 +205,20 @@
                   [ngModel]="horaInicio()"
                   (ngModelChange)="horaInicio.set($event)"
                 />
-                @if (fieldErrors()['hora_inicio']) {
-                  <p class="text-xs font-medium text-destructive">
-                    {{ fieldErrors()['hora_inicio'] }}
-                  </p>
+                @if (fieldErrors()["hora_inicio"]) {
+                  <hlm-field-error forceShow>
+                    {{ fieldErrors()["hora_inicio"] }}
+                  </hlm-field-error>
                 }
               </div>
 
-              <div class="space-y-2">
-                <label class="text-sm leading-none font-medium" for="horaFin">
+              <div
+                hlmField
+                [forceInvalid]="
+                  !!fieldErrors()['fecha_fin'] || !!fieldErrors()['hora_fin']
+                "
+              >
+                <label for="horaFin" hlmFieldLabel>
                   Hora de fin <span class="text-destructive">*</span>
                 </label>
                 <input
@@ -243,10 +231,12 @@
                   [ngModel]="horaFin()"
                   (ngModelChange)="horaFin.set($event)"
                 />
-                @if (fieldErrors()['fecha_fin'] || fieldErrors()['hora_fin']) {
-                  <p class="text-xs font-medium text-destructive">
-                    {{ fieldErrors()['fecha_fin'] || fieldErrors()['hora_fin'] }}
-                  </p>
+                @if (fieldErrors()["fecha_fin"] || fieldErrors()["hora_fin"]) {
+                  <hlm-field-error forceShow>
+                    {{
+                      fieldErrors()["fecha_fin"] || fieldErrors()["hora_fin"]
+                    }}
+                  </hlm-field-error>
                 }
               </div>
             </div>
@@ -256,7 +246,7 @@
               <div
                 class="flex items-center gap-2 rounded-md border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive"
               >
-                <ng-icon class="size-4 shrink-0" name="lucideAlertCircle" />
+                <ng-icon class="shrink-0" name="lucideAlertCircle" />
                 <span
                   >La hora de fin debe ser posterior a la hora de inicio.</span
                 >
@@ -267,7 +257,7 @@
               <div
                 class="flex items-center gap-2 rounded-md border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive"
               >
-                <ng-icon class="size-4 shrink-0" name="lucideAlertCircle" />
+                <ng-icon class="shrink-0" name="lucideAlertCircle" />
                 <span
                   >No es posible registrar horas extras con horario posterior al
                   momento actual.</span
@@ -281,7 +271,7 @@
                 class="flex items-start gap-3 rounded-md border border-warning/30 bg-warning/15 p-3 text-sm text-warning"
               >
                 <ng-icon
-                  class="mt-0.5 size-5 shrink-0 text-warning"
+                  class="mt-0.5 shrink-0 text-warning"
                   name="lucideAlertTriangle"
                 />
                 <div class="space-y-1">
@@ -292,10 +282,9 @@
                     El rango horario declarado se superpone con la notificación
                     existente
                     <strong>#{{ c.id }}</strong> (registrada de
-                    {{ c.hora_inicio || (c.fecha_inicio | date: "shortTime") }} a
-                    {{ c.hora_fin || (c.fecha_fin | date: "shortTime") }} hs en estado '{{
-                      c.estado
-                    }}').
+                    {{ c.hora_inicio || (c.fecha_inicio | date: "shortTime") }}
+                    a {{ c.hora_fin || (c.fecha_fin | date: "shortTime") }} hs
+                    en estado '{{ c.estado }}').
                   </p>
                   <p class="text-xs font-medium">
                     Corrige el rango horario para poder continuar con el envío.
@@ -305,8 +294,8 @@
             }
 
             <!-- Motivo de la extensión -->
-            <div class="space-y-2 pt-2">
-              <label class="text-sm leading-none font-medium" for="motivo">
+            <div hlmField [forceInvalid]="!!fieldErrors()['motivo_resolucion']">
+              <label for="motivo" hlmFieldLabel>
                 Motivo de la extensión <span class="text-destructive">*</span>
               </label>
               <textarea
@@ -320,12 +309,12 @@
                 [ngModel]="motivo()"
                 (ngModelChange)="motivo.set($event)"
               ></textarea>
-              @if (fieldErrors()['motivo_resolucion']) {
-                <p class="text-xs font-medium text-destructive">
-                  {{ fieldErrors()['motivo_resolucion'] }}
-                </p>
+              @if (fieldErrors()["motivo_resolucion"]) {
+                <hlm-field-error forceShow>
+                  {{ fieldErrors()["motivo_resolucion"] }}
+                </hlm-field-error>
               } @else {
-                <p class="text-xs text-muted-foreground">
+                <p hlmFieldDescription>
                   Mínimo 5 caracteres. Este motivo será revisado por Recursos
                   Humanos al momento de la evaluación.
                 </p>
@@ -339,7 +328,7 @@
           <div
             class="flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive"
           >
-            <ng-icon class="mt-0.5 size-5 shrink-0" name="lucideShieldAlert" />
+            <ng-icon class="mt-0.5 shrink-0" name="lucideShieldAlert" />
             <div class="space-y-1">
               <div class="font-semibold">
                 No fue posible registrar la notificación
@@ -355,13 +344,13 @@
             Cancelar
           </a>
           <button
-            class="min-w-36 gap-2"
+            class="min-w-36"
             hlmBtn
             type="submit"
             [disabled]="!isFormValid() || submitting()"
           >
             @if (submitting()) {
-              <ng-icon class="size-4 animate-spin" name="lucideRefreshCw" />
+              <ng-icon class="animate-spin" name="lucideRefreshCw" />
               <span>Enviando...</span>
             } @else {
               <span>Confirmar envío</span>
@@ -373,15 +362,15 @@
       <!-- Columna derecha: Resumen calculado y reglas de convenio -->
       <div class="space-y-6 lg:col-span-1">
         <div class="sticky top-6" hlmCard>
-          <div class="pb-3" hlmCardHeader>
-            <h3 class="flex items-center gap-2 text-base" hlmCardTitle>
-              <ng-icon class="size-4 text-primary" name="lucideClock" />
-              Resumen Calculado
-            </h3>
+          <div hlmCardHeader>
+            <h3 hlmCardTitle>Resumen Calculado</h3>
             <p class="text-xs" hlmCardDescription>
               Cálculo automático según tipo de día y reglas de convenio (RF-01 /
               CU-03).
             </p>
+            <div hlmCardAction>
+              <ng-icon class="text-primary" name="lucideClock" />
+            </div>
           </div>
 
           <div class="space-y-4" hlmCardContent>
@@ -411,7 +400,7 @@
                   class="flex items-center justify-between rounded-md bg-muted/40 p-2 text-sm"
                 >
                   <div class="flex items-center gap-2">
-                    <span class="size-2 rounded-full bg-blue-500"></span>
+                    <span class="size-2 rounded-full bg-primary"></span>
                     <span class="text-muted-foreground">Horas al 50%:</span>
                   </div>
                   <span class="font-mono font-bold"
@@ -423,7 +412,7 @@
                   class="flex items-center justify-between rounded-md bg-muted/40 p-2 text-sm"
                 >
                   <div class="flex items-center gap-2">
-                    <span class="size-2 rounded-full bg-purple-500"></span>
+                    <span class="size-2 rounded-full bg-primary"></span>
                     <span class="text-muted-foreground">Horas al 100%:</span>
                   </div>
                   <span class="font-mono font-bold"
@@ -439,7 +428,7 @@
                 <div
                   class="flex items-center gap-1.5 font-semibold text-foreground"
                 >
-                  <ng-icon class="size-3.5 text-primary" name="lucideInfo" />
+                  <ng-icon class="text-primary" name="lucideInfo" />
                   Criterio aplicado
                 </div>
                 @if (d.esFeriado) {
@@ -470,10 +459,7 @@
             } @else {
               <!-- Estado sin horario seleccionado -->
               <div class="space-y-2 py-8 text-center text-muted-foreground">
-                <ng-icon
-                  class="mx-auto size-8 opacity-40"
-                  name="lucideCalendar"
-                />
+                <ng-icon class="mx-auto opacity-40" name="lucideCalendar" />
                 <p class="text-xs">
                   Completa la fecha y los horarios de inicio y fin para calcular
                   el desglose de horas.

@@ -16,6 +16,7 @@ import {
   lucideX,
 } from "@ng-icons/lucide";
 import { HlmButton } from "@spartan-ng/helm/button";
+import { HlmFieldImports } from "@spartan-ng/helm/field";
 import { HlmInput } from "@spartan-ng/helm/input";
 import { HlmSwitch } from "@spartan-ng/helm/switch";
 
@@ -28,7 +29,14 @@ export type AreaFormData = {
 
 @Component({
   selector: "app-area-form-modal",
-  imports: [FormsModule, HlmButton, HlmInput, HlmSwitch, NgIcon],
+  imports: [
+    FormsModule,
+    HlmButton,
+    HlmFieldImports,
+    HlmInput,
+    HlmSwitch,
+    NgIcon,
+  ],
   providers: [
     provideIcons({
       lucideAlertCircle,

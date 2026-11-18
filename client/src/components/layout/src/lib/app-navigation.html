@@ -2,8 +2,10 @@
   @for (item of navigation(); track item.href) {
     <li hlmSidebarMenuItem>
       <a
+        #rla="routerLinkActive"
         hlmSidebarMenuButton
-        routerLinkActive="bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+        routerLinkActive
+        [isActive]="rla.isActive"
         [routerLink]="item.href"
         [routerLinkActiveOptions]="{ exact: item.exact ?? item.href === '/' }"
       >

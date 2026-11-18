@@ -1,41 +1,12 @@
-from datetime import date
-from typing import TYPE_CHECKING, ClassVar, Protocol
+from .base import EstrategiaBase, ReglasLicenciaBase
+from .cupo_anual_calendario import CupoAnualCalendarioEstrategia
 
-from pydantic import BaseModel
-
-from licencias.schemas import ResultadoSaldo, ResultadoValidacion
-
-from .cupo_fijo import CupoFijoEstrategia
-
-if TYPE_CHECKING:
-    from empleados.models import Empleado
-    from licencias.models import Licencia
-
-
-class EstrategiaProtocol(Protocol):
-    reglas_schema: ClassVar[type[BaseModel]]
-
-    def calcular_saldo(
-        self,
-        licencia: Licencia,
-        empleado: Empleado,
-    ) -> ResultadoSaldo: ...
-
-    def validar_solicitud(
-        self,
-        licencia: Licencia,
-        empleado: Empleado,
-        fecha_inicio: date,
-        fecha_fin: date,
-    ) -> ResultadoValidacion: ...
-
-
-ESTRATEGIAS: dict[str, type[EstrategiaProtocol]] = {
-    "cupo_fijo": CupoFijoEstrategia,
+ESTRATEGIAS: dict[str, type[EstrategiaBase]] = {
+    "cupo_anual_calendario": CupoAnualCalendarioEstrategia,
 }
 
 
-def obtener_estrategia(tipo: str) -> type[EstrategiaProtocol]:
+def obtener_estrategia(tipo: str) -> type[EstrategiaBase]:
     if tipo not in ESTRATEGIAS:
         disponibles = ", ".join(sorted(ESTRATEGIAS.keys())) or "ninguna"
 
@@ -44,3 +15,11 @@ def obtener_estrategia(tipo: str) -> type[EstrategiaProtocol]:
         )
 
     return ESTRATEGIAS[tipo]
+
+
+__all__ = [
+    "ESTRATEGIAS",
+    "EstrategiaBase",
+    "ReglasLicenciaBase",
+    "obtener_estrategia",
+]

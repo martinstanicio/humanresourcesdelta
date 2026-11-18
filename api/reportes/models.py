@@ -36,21 +36,23 @@ class Reporte(models.Model):
         return f"Reporte {self.empleado} ({self.fecha_inicio} a {self.fecha_fin})"
 
     def calcular_horas_extras(self) -> dict[str, Any]:
-        filtro_fecha = (
-            models.Q(
-                fecha_aprobacion__date__gte=self.fecha_inicio,
-                fecha_aprobacion__date__lte=self.fecha_fin,
-            )
-            | models.Q(
-                fecha_aprobacion__isnull=True,
-                fecha__gte=self.fecha_inicio,
-                fecha__lte=self.fecha_fin,
-            )
+        filtro_fecha = models.Q(
+            fecha_aprobacion__date__gte=self.fecha_inicio,
+            fecha_aprobacion__date__lte=self.fecha_fin,
+        ) | models.Q(
+            fecha_aprobacion__isnull=True,
+            fecha__gte=self.fecha_inicio,
+            fecha__lte=self.fecha_fin,
         )
-        notificaciones = self.empleado.notificaciones_horas_extras.filter(
-            filtro_fecha,
-            estado=EstadoNotificacionHorasExtras.APROBADA,
-        ).select_related("hora_extra").order_by("fecha", "hora_inicio")
+        notificaciones = (
+            self.empleado.notificaciones_horas_extras
+            .filter(
+                filtro_fecha,
+                estado=EstadoNotificacionHorasExtras.APROBADA,
+            )
+            .select_related("hora_extra")
+            .order_by("fecha", "hora_inicio")
+        )
 
         desglose: dict[str, float] = {}
         eventos: list[dict[str, Any]] = []
@@ -70,9 +72,7 @@ class Reporte(models.Model):
                     else None
                 ),
                 "hora_fin": (
-                    notif.hora_fin.strftime("%H:%M:%S")
-                    if notif.hora_fin
-                    else None
+                    notif.hora_fin.strftime("%H:%M:%S") if notif.hora_fin else None
                 ),
                 "horas": notif.horas,
                 "tipo": tipo,
@@ -92,11 +92,16 @@ class Reporte(models.Model):
         }
 
     def calcular_licencias(self) -> dict[str, Any]:
-        solicitudes = self.empleado.solicitudes_licencia.filter(
-            fecha_inicio__lte=self.fecha_fin,
-            fecha_fin__gte=self.fecha_inicio,
-            estado=EstadoSolicitudLicencia.APROBADA,
-        ).select_related("licencia").order_by("fecha_inicio")
+        solicitudes = (
+            self.empleado.solicitudes_licencia
+            .filter(
+                fecha_inicio__lte=self.fecha_fin,
+                fecha_fin__gte=self.fecha_inicio,
+                estado=EstadoSolicitudLicencia.APROBADA,
+            )
+            .select_related("licencia")
+            .order_by("fecha_inicio")
+        )
 
         desglose: dict[str, int] = {}
         eventos: list[dict[str, Any]] = []

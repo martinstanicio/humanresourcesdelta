@@ -26,6 +26,8 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
+import { HlmDatePickerImports } from "@spartan-ng/helm/date-picker";
+import { HlmFieldImports } from "@spartan-ng/helm/field";
 import { HlmInput } from "@spartan-ng/helm/input";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTextarea } from "@spartan-ng/helm/textarea";
@@ -35,7 +37,6 @@ import { formatDateISO } from "@/lib/feriados";
 import {
   buildLocalDateTime,
   calcularDesgloseHorasExtras,
-  formatToLocalISOString,
   TramoCalculado,
 } from "@/lib/horas-extras-calc";
 import { HoraExtra } from "@/models/hora-extra.model";
@@ -55,6 +56,8 @@ import { NotificacionHoraExtraService } from "@/services/notificacion-hora-extra
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
+    HlmDatePickerImports,
+    HlmFieldImports,
     HlmInput,
     HlmSkeleton,
     HlmTextarea,
@@ -89,6 +92,25 @@ export class AppNotificacionHoraExtraForm implements OnInit, OnDestroy {
 
   // Estados del formulario
   public readonly fecha = signal<string>(formatDateISO(new Date()));
+  public readonly maxDateHoy = new Date();
+
+  public readonly fechaDate = computed<Date | undefined>(() => {
+    const val = this.fecha();
+    if (!val) return undefined;
+    const [y, m, d] = val.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  });
+
+  public onFechaChange(date: Date | null): void {
+    if (date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      this.fecha.set(`${y}-${m}-${d}`);
+    } else {
+      this.fecha.set("");
+    }
+  }
   public readonly horaInicio = signal<string>("");
   public readonly horaFin = signal<string>("");
   public readonly motivo = signal<string>("");
@@ -141,11 +163,17 @@ export class AppNotificacionHoraExtraForm implements OnInit, OnDestroy {
       for (const notif of existentes) {
         if (notif.estado === "rechazada") continue;
 
-        const notifFecha = notif.fecha || (notif.fecha_inicio ? notif.fecha_inicio.split("T")[0] : "");
+        const notifFecha =
+          notif.fecha ||
+          (notif.fecha_inicio ? notif.fecha_inicio.split("T")[0] : "");
         if (notifFecha !== f) continue;
 
-        const notifHoraIni = notif.hora_inicio || (notif.fecha_inicio ? notif.fecha_inicio.substring(11, 16) : "");
-        const notifHoraFin = notif.hora_fin || (notif.fecha_fin ? notif.fecha_fin.substring(11, 16) : "");
+        const notifHoraIni =
+          notif.hora_inicio ||
+          (notif.fecha_inicio ? notif.fecha_inicio.substring(11, 16) : "");
+        const notifHoraFin =
+          notif.hora_fin ||
+          (notif.fecha_fin ? notif.fecha_fin.substring(11, 16) : "");
         if (!notifHoraIni || !notifHoraFin) continue;
 
         const notifInicio = buildLocalDateTime(f, notifHoraIni);
@@ -283,11 +311,16 @@ export class AppNotificacionHoraExtraForm implements OnInit, OnDestroy {
         if (errData && typeof errData === "object") {
           if (errData.detail) {
             generalDetail = errData.detail;
-          } else if (errData.non_field_errors && Array.isArray(errData.non_field_errors)) {
+          } else if (
+            errData.non_field_errors &&
+            Array.isArray(errData.non_field_errors)
+          ) {
             generalDetail = errData.non_field_errors.join(" ");
           } else if (Array.isArray(errData)) {
             // Error en array de tramos
-            const firstItemErr = errData.find((item) => item && typeof item === "object");
+            const firstItemErr = errData.find(
+              (item) => item && typeof item === "object",
+            );
             if (firstItemErr) {
               for (const [key, val] of Object.entries(firstItemErr)) {
                 const msg = Array.isArray(val) ? val.join(" ") : String(val);

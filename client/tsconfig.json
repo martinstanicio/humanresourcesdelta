@@ -51,6 +51,9 @@
         "./src/components/ui/pagination/src/index.ts"
       ],
       "@spartan-ng/helm/popover": ["./src/components/ui/popover/src/index.ts"],
+      "@spartan-ng/helm/radio-group": [
+        "./src/components/ui/radio-group/src/index.ts"
+      ],
       "@spartan-ng/helm/select": ["./src/components/ui/select/src/index.ts"],
       "@spartan-ng/helm/separator": [
         "./src/components/ui/separator/src/index.ts"

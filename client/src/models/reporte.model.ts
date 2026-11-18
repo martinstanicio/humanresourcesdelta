@@ -27,7 +27,7 @@ export type HorasExtrasReporte = {
   eventos?: HorasExtrasEvento[];
 };
 
-export type LicenciasReporte = Record<string, any> & {
+export type LicenciasReporte = Record<string, unknown> & {
   desglose?: Record<string, number>;
   total?: number;
   eventos?: LicenciaEvento[];

@@ -25,8 +25,10 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
-import { HlmComboboxImports } from "@spartan-ng/helm/combobox";
+import { HlmDatePickerImports } from "@spartan-ng/helm/date-picker";
+import { HlmFieldImports } from "@spartan-ng/helm/field";
 import { HlmInput } from "@spartan-ng/helm/input";
+import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 
 import { Area } from "@/models/area.model";
@@ -47,8 +49,10 @@ import { EmpleadoService } from "@/services/empleado.service";
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
-    HlmComboboxImports,
+    HlmDatePickerImports,
+    HlmFieldImports,
     HlmInput,
+    HlmSelectImports,
     HlmSkeleton,
     NgIcon,
     RouterLink,
@@ -94,10 +98,41 @@ export class AppEmpleadoForm implements OnInit {
   public readonly legajo = signal<number | null>(null);
   public readonly nombre = signal<string>("");
   public readonly fechaIngreso = signal<string>("");
+  public readonly fechaIngresoDate = computed<Date | undefined>(() => {
+    const val = this.fechaIngreso();
+    if (!val) return undefined;
+    const [y, m, d] = val.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  });
+
+  public onFechaIngresoChange(date: Date | null): void {
+    if (date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      this.fechaIngreso.set(`${y}-${m}-${d}`);
+    } else {
+      this.fechaIngreso.set("");
+    }
+  }
   public readonly rol = signal<RolEmpleado>("empleado");
   public readonly convenio = signal<number | null>(null);
   public readonly area = signal<number | null>(null);
   public readonly activo = signal<boolean>(true);
+
+  public readonly rolToString = (val: unknown): string => {
+    if (val === "rrhh") return "Recursos Humanos (Gestión integral)";
+    return "Empleado (Operaciones estándar)";
+  };
+
+  public readonly convenioToString = (val: unknown): string => {
+    if (!val) return "-- Sin convenio asignado --";
+    const found = this.activeConvenios().find(
+      (c) => c.id.toString() === String(val),
+    );
+    if (!found) return String(val);
+    return `${found.nombre} (ID #${found.id})${!found.activo ? " - [Inactivo]" : ""}`;
+  };
 
   // Convenios list
   public readonly convenios = signal<Convenio[]>([]);
@@ -126,6 +161,20 @@ export class AppEmpleadoForm implements OnInit {
       // Default fecha_ingreso to today
       const today = new Date().toISOString().split("T")[0];
       this.fechaIngreso.set(today);
+
+      this._empleadoService.getAll().subscribe({
+        next: (empleados) => {
+          if (empleados && empleados.length > 0) {
+            const maxLegajo = Math.max(...empleados.map((e) => e.legajo));
+            this.legajo.set(maxLegajo + 1);
+          } else {
+            this.legajo.set(1);
+          }
+        },
+        error: () => {
+          this.legajo.set(1);
+        },
+      });
     }
   }
 
@@ -176,30 +225,17 @@ export class AppEmpleadoForm implements OnInit {
     );
   });
 
-  // Selected area object for combobox
-  public readonly selectedArea = computed(() => {
-    const areaId = this.area();
-    if (areaId === null) return null;
-    return this.areas().find((a) => a.id === areaId) ?? null;
-  });
-
-  public readonly areaItemToString = (
-    area: Area | null | undefined,
-  ): string => {
-    if (!area) return "";
-    return area.nombre;
+  public readonly areaToString = (val: unknown): string => {
+    if (!val) return "-- Sin área asignada --";
+    const found = this.activeAreas().find(
+      (a) => a.id.toString() === String(val),
+    );
+    if (!found) return String(val);
+    return `${found.nombre}${!found.activo ? " - [Inactiva]" : ""}`;
   };
 
-  public readonly isAreaEqualToValue = (
-    item: Area,
-    value: Area | null | undefined,
-  ): boolean => {
-    if (!item || !value) return false;
-    return item.id === value.id;
-  };
-
-  onAreaChange(selected: Area | null | undefined): void {
-    this.area.set(selected ? selected.id : null);
+  onAreaSelect(value: string | number | null | undefined): void {
+    this.area.set(value ? Number(value) : null);
   }
 
   loadEmpleado(legajo: number): void {
@@ -212,8 +248,8 @@ export class AppEmpleadoForm implements OnInit {
         this.nombre.set(emp.nombre);
         this.fechaIngreso.set(emp.fecha_ingreso);
         this.rol.set(emp.rol);
-        this.convenio.set(emp.convenio);
-        this.area.set(emp.area);
+        this.convenio.set(emp.convenio ? Number(emp.convenio) : null);
+        this.area.set(emp.area ? Number(emp.area) : null);
         this.activo.set(emp.activo);
         this.loading.set(false);
       },
@@ -244,6 +280,14 @@ export class AppEmpleadoForm implements OnInit {
 
     if (!this.fechaIngreso()) {
       errors["fechaIngreso"] = "La fecha de ingreso es obligatoria.";
+    }
+
+    if (!this.area()) {
+      errors["area"] = "Seleccionar un Area es Obligatorio.";
+    }
+
+    if (!this.convenio()) {
+      errors["convenio"] = "Seleccionar un Convenio es Obligatorio.";
     }
 
     this.fieldErrors.set(errors);
@@ -389,13 +433,13 @@ export class AppEmpleadoForm implements OnInit {
     this.duplicateModal.set(null);
   }
 
-  onConvenioSelect(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value;
+  onConvenioSelect(value: string | number | null | undefined): void {
     this.convenio.set(value ? Number(value) : null);
   }
 
-  onRolSelect(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value as RolEmpleado;
-    this.rol.set(value);
+  onRolSelect(value: RolEmpleado | null | undefined): void {
+    if (value) {
+      this.rol.set(value);
+    }
   }
 }

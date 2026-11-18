@@ -15,11 +15,11 @@
             <td class="font-medium" hlmTableCell>
               {{ area.nombre }}
             </td>
-            <td class="text-sm text-muted-foreground" hlmTableCell>
+            <td hlmTableCell>
               {{ area.empleados_count ?? 0 }}
               {{ (area.empleados_count ?? 0) === 1 ? "empleado" : "empleados" }}
               @if (area.empleados_activos_count !== undefined) {
-                <span class="text-xs text-muted-foreground">
+                <span class="text-muted-foreground">
                   ({{ area.empleados_activos_count }} activo{{
                     (area.empleados_activos_count ?? 0) === 1 ? "" : "s"
                   }})
@@ -45,12 +45,11 @@
                 </button>
 
                 <button
-                  class="text-destructive hover:bg-destructive/10"
                   hlmBtn
                   size="icon-sm"
                   title="Eliminar área"
                   type="button"
-                  variant="ghost"
+                  variant="destructive"
                   (click)="delete.emit(area)"
                 >
                   <ng-icon name="lucideTrash2" />
@@ -60,11 +59,7 @@
           </tr>
         } @empty {
           <tr hlmTableRow>
-            <td
-              class="h-24 text-center text-muted-foreground"
-              colspan="5"
-              hlmTableCell
-            >
+            <td class="h-24 text-center" colspan="5" hlmTableCell>
               No se encontraron áreas registradas.
             </td>
           </tr>

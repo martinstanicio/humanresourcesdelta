@@ -1,6 +1,8 @@
 export type Convenio = {
   id: number;
   nombre: string;
+  identificacion: string;
+  descripcion: string;
   activo: boolean;
   empleados_activos: number;
 };
@@ -12,7 +14,8 @@ export type UpdateConvenioDto = Partial<CreateConvenioDto>;
 export type LicenciaFormItem = {
   codigo?: string;
   tipo: string;
-  cupo_anual: number;
+  estrategiaTipo: string;
+  estrategiaValues: Record<string, unknown>;
   descuenta_saldo: boolean;
   documentacion_obligatoria: boolean;
   antelacion_minima: number;

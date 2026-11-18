@@ -31,29 +31,20 @@ import {
 import { HlmBadgeImports } from "@spartan-ng/helm/badge";
 import { HlmButton } from "@spartan-ng/helm/button";
 import { HlmCardImports } from "@spartan-ng/helm/card";
-import { HlmInput } from "@spartan-ng/helm/input";
+import { HlmDatePickerImports } from "@spartan-ng/helm/date-picker";
+import { HlmFieldImports } from "@spartan-ng/helm/field";
+import { HlmSelectImports } from "@spartan-ng/helm/select";
 import { HlmSkeleton } from "@spartan-ng/helm/skeleton";
 import { HlmTextarea } from "@spartan-ng/helm/textarea";
 import { forkJoin } from "rxjs";
 
-import {
-  calcularDiasHabiles,
-  formatDateISO,
-  parseLocalDate,
-} from "@/lib/feriados";
+import { calcularDias, formatDateISO, parseLocalDate } from "@/lib/feriados";
 import { Licencia } from "@/models/licencia.model";
 import { SolicitudLicencia } from "@/models/solicitud-licencia.model";
 import { AuthService } from "@/services/auth.service";
 import { BreadcrumbService } from "@/services/breadcrumb.service";
 import { LicenciaSaldo, LicenciaService } from "@/services/licencias.service";
 import { SolicitudLicenciaService } from "@/services/solicitud-licencia.service";
-
-export type AttachedFile = {
-  file: File;
-  name: string;
-  sizeFormatted: string;
-  type: string;
-};
 
 @Component({
   selector: "app-solicitud-licencia-form",
@@ -63,7 +54,9 @@ export type AttachedFile = {
     HlmBadgeImports,
     HlmButton,
     HlmCardImports,
-    HlmInput,
+    HlmDatePickerImports,
+    HlmFieldImports,
+    HlmSelectImports,
     HlmSkeleton,
     HlmTextarea,
     NgIcon,
@@ -113,9 +106,51 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
   public readonly fechaFin = signal<string>("");
   public readonly motivo = signal<string>("");
 
-  // Documentación adjunta
-  public readonly attachedFile = signal<AttachedFile | null>(null);
-  public readonly fileError = signal<string | null>(null);
+  public readonly minDateHoy = new Date(new Date().setHours(0, 0, 0, 0));
+
+  public readonly fechaInicioDate = computed<Date | undefined>(() => {
+    const val = this.fechaInicio();
+    if (!val) return undefined;
+    const [y, m, d] = val.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  });
+
+  public readonly fechaFinDate = computed<Date | undefined>(() => {
+    const val = this.fechaFin();
+    if (!val) return undefined;
+    const [y, m, d] = val.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  });
+
+  public readonly minDateFin = computed<Date>(() => {
+    return this.fechaInicioDate() ?? this.minDateHoy;
+  });
+
+  public onFechaInicioChange(date: Date | null): void {
+    if (date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      const formatted = `${y}-${m}-${d}`;
+      this.fechaInicio.set(formatted);
+      if (this.fechaFin() && this.fechaFin() < formatted) {
+        this.fechaFin.set(formatted);
+      }
+    } else {
+      this.fechaInicio.set("");
+    }
+  }
+
+  public onFechaFinChange(date: Date | null): void {
+    if (date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      this.fechaFin.set(`${y}-${m}-${d}`);
+    } else {
+      this.fechaFin.set("");
+    }
+  }
 
   // Información contextual del saldo
   public readonly loadingSaldo = signal(false);
@@ -134,6 +169,13 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
     return this.licencias().find((l) => l.id === id) ?? null;
   });
 
+  public readonly licenciaToString = (val: unknown): string => {
+    if (!val) return "";
+    const id = Number(val);
+    const lic = this.licencias().find((l) => l.id === id);
+    return lic ? lic.tipo : String(val);
+  };
+
   // Reglas de la licencia seleccionada
   public readonly selectedLicenciaRules = computed(() => {
     const lic = this.selectedLicencia();
@@ -148,9 +190,6 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
       diasMaximosConsecutivos: r["dias_maximos_consecutivos"]
         ? Number(r["dias_maximos_consecutivos"])
         : null,
-      contabilizaDiasNoHabiles: Boolean(
-        r["contabiliza_dias_no_habiles"] ?? false,
-      ),
       requiereDocumentacion: Boolean(
         r["requiere_documentacion"] ??
         r["documentacion_obligatoria"] ??
@@ -159,21 +198,18 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
       ),
       tipoEstrategia: estrategia
         ? String(estrategia["tipo"] ?? "")
-        : "cupo_fijo",
+        : "cupo_anual_calendario",
       diasCupo: estrategia ? Number(estrategia["dias"] ?? 0) : null,
     };
   });
 
-  // Cálculo automático de días hábiles contemplando fines de semana y feriados
+  // Cálculo automático de días
   public readonly diasCalculados = computed<number>(() => {
     const inicio = this.fechaInicio();
     const fin = this.fechaFin();
     if (!inicio || !fin) return 0;
 
-    const rules = this.selectedLicenciaRules();
-    const contabilizaNoHabiles = rules?.contabilizaDiasNoHabiles ?? false;
-
-    return calcularDiasHabiles(inicio, fin, contabilizaNoHabiles);
+    return calcularDias(inicio, fin);
   });
 
   // Validación: Antelación mínima
@@ -263,18 +299,6 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
     return null;
   });
 
-  // Validación: Flujo alternativo #3 (Documentación obligatoria faltante)
-  public readonly errorDocumentacion = computed<string | null>(() => {
-    const rules = this.selectedLicenciaRules();
-    if (!rules?.requiereDocumentacion) return null;
-
-    if (!this.attachedFile()) {
-      return "La documentación respaldatoria digital es obligatoria para este tipo de licencia.";
-    }
-
-    return null;
-  });
-
   // Formulario general válido
   public readonly isFormValid = computed<boolean>(() => {
     if (!this.selectedLicenciaId()) return false;
@@ -285,8 +309,6 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
     if (this.errorConsecutivos()) return false;
     if (this.errorSaldo()) return false;
     if (this.errorSuperposicion()) return false;
-    if (this.errorDocumentacion()) return false;
-    if (this.fileError()) return false;
 
     return true;
   });
@@ -330,7 +352,15 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
     });
   }
 
-  public onLicenciaChange(licenciaIdStr: string): void {
+  public onLicenciaChange(
+    licenciaIdStr: string | number | null | undefined,
+  ): void {
+    if (!licenciaIdStr) {
+      this.selectedLicenciaId.set(null);
+      this.saldoInfo.set(null);
+      this.submitError.set(null);
+      return;
+    }
     const id = Number(licenciaIdStr);
     this.selectedLicenciaId.set(id || null);
     this.saldoInfo.set(null);
@@ -351,63 +381,6 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
         this.loadingSaldo.set(false);
       },
     });
-  }
-
-  public onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.fileError.set(null);
-
-    if (!input.files || input.files.length === 0) {
-      return;
-    }
-
-    const file = input.files[0];
-    const allowedTypes = [
-      "application/pdf",
-      "image/jpeg",
-      "image/png",
-      "image/jpg",
-    ];
-    const ext = file.name.split(".").pop()?.toLowerCase();
-
-    const isAllowedExt = ["pdf", "jpg", "jpeg", "png"].includes(ext || "");
-    const isAllowedMime = allowedTypes.includes(file.type) || isAllowedExt;
-
-    if (!isAllowedMime) {
-      this.fileError.set(
-        "Formato no admitido. Formatos válidos: PDF, JPG, PNG.",
-      );
-      input.value = "";
-      return;
-    }
-
-    // Tamaño máximo: 5 MB
-    const maxSize = 5 * 1024 * 1024;
-    if (file.size > maxSize) {
-      this.fileError.set(
-        "El archivo supera el tamaño máximo permitido de 5 MB.",
-      );
-      input.value = "";
-      return;
-    }
-
-    const sizeFormatted =
-      file.size < 1024 * 1024
-        ? `${Math.round(file.size / 1024)} KB`
-        : `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
-
-    this.attachedFile.set({
-      file,
-      name: file.name,
-      sizeFormatted,
-      type: file.type || ext || "archivo",
-    });
-  }
-
-  public removeFile(fileInput: HTMLInputElement): void {
-    this.attachedFile.set(null);
-    this.fileError.set(null);
-    fileInput.value = "";
   }
 
   public onSubmit(): void {
@@ -449,8 +422,6 @@ export class AppSolicitudLicenciaForm implements OnInit, OnDestroy {
     this.fechaInicio.set("");
     this.fechaFin.set("");
     this.motivo.set("");
-    this.attachedFile.set(null);
-    this.fileError.set(null);
     this.saldoInfo.set(null);
     this.submitError.set(null);
     this.loadInitialData();

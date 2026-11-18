@@ -15,7 +15,7 @@ import { classes } from "@spartan-ng/helm/utils";
   template: `
     <ng-content />
     <ng-icon
-      class="relative top-px ml-1 size-3 transition duration-300 group-data-open/navigation-menu-trigger:rotate-180"
+      class="relative top-px ml-1 transition duration-300 group-data-open/navigation-menu-trigger:rotate-180"
       name="lucideChevronDown"
     />
   `,
