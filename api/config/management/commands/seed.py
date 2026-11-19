@@ -170,23 +170,6 @@ class Command(TyperCommand):
                 activo=True,
             )
 
-            lic_uocra_vacaciones = Licencia.objects.create(
-                convenio=conv_uocra,
-                tipo="Vacaciones Anuales",
-                descripcion="Descanso anual para trabajadores de la construcción.",
-                reglas={
-                    "dias_minimos_consecutivos": 7,
-                    "dias_maximos_consecutivos": 14,
-                    "dias_antelacion_minima": 10,
-                    "descuenta_saldo": True,
-                    "requiere_documentacion": False,
-                    "estrategia": {
-                        "tipo": "cupo_anual_calendario",
-                        "dias": 14,
-                    },
-                },
-                activo=True,
-            )
             lic_uocra_tramites = Licencia.objects.create(
                 convenio=conv_uocra,
                 tipo="Razones Particulares / Trámites",
