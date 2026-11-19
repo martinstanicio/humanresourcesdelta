@@ -10,6 +10,8 @@
 - [CU-08 Ver reporte mensual](#cu-08-ver-reporte-mensual)
 - [CU-09 ABM empleados](#cu-09-abm-empleados)
 - [CU-10 ABM convenios de trabajo](#cu-10-abm-convenios-de-trabajo)
+- [CU-12 ABM áreas](#cu-12-abm-áreas)
+
 
 ## Diagrama de casos de uso
 
@@ -28,6 +30,9 @@ flowchart LR
     CU-08(["CU-08 Ver reporte mensual"])
     CU-09(["CU-09 ABM empleados"])
     CU-10(["CU-10 ABM convenios de trabajo"])
+    CU-12(["CU-12 ABM áreas"])
+    
+
 
     CU-01 --- Empleado
     CU-03 --- Empleado
@@ -39,6 +44,7 @@ flowchart LR
     RRHH --- CU-08
     RRHH --- CU-09
     RRHH --- CU-10
+    RRHH --- CU-12
 
     CU-07 -. "<< extend >>" .-> CU-05
 ```
@@ -391,3 +397,37 @@ Las modificaciones sobre las regulaciones de licencias y horas extras se version
 | :--- | :--- | :--- |
 | Selecciona un convenio e intenta darlo de baja. | Detecta si existen empleados activos asociados al convenio. | Si hay empleados activos, bloquea la baja indicando que deben reasignarse a otro convenio previamente. |
 | Si no posee empleados activos, confirma la baja. | Marca el convenio como inactivo (`activo = false`). | |
+
+
+## CU-12 ABM áreas
+
+Permite al personal de Recursos Humanos administrar las áreas o sectores de la organización (alta, modificación, inactivación y baja) a las cuales se asignan los legajos de los empleados ([CU-10](#cu-10-abm-empleados)).
+
+El acceso está restringido exclusivamente a usuarios con rol RRHH ([RNF-01](requerimientos.md#rnf-01)). Para preservar la integridad referencial, el sistema impide eliminar o desactivar áreas que aún posean empleados asociados.
+
+- **Actores**
+  - RRHH (primario)
+
+- **Referencias a otros CU**
+  - [CU-10 ABM empleados](#cu-10-abm-empleados)
+
+### Flujo normal
+
+| Usuario | Sistema | Observaciones |
+| :--- | :--- | :--- |
+| Accede al módulo 'Áreas' y selecciona la opción 'Nueva área'. | Verifica el rol RRHH y presenta el formulario con el campo nombre. | El área se crea por defecto en estado 'Activa'. |
+| Ingresa el nombre del área y confirma el guardado. | Valida que el nombre no esté vacío, registra el área en la base de datos y actualiza el listado mostrando la cantidad de empleados asociados y activos. | |
+
+### Flujo alternativo #1: Modificación o inactivación de un área
+
+| Usuario | Sistema | Observaciones |
+| :--- | :--- | :--- |
+| Selecciona un área existente y edita su nombre o cambia su estado a 'Inactiva'. | Verifica que, en caso de marcarse como inactiva, el área no tenga empleados activos asignados. | Un área inactiva no puede seleccionarse al dar de alta o editar empleados ([CU-10](#cu-10-abm-empleados)). |
+| Confirma los cambios. | Actualiza el registro en la base de datos y refleja los cambios en el listado. | |
+
+### Flujo alternativo #2: Intento de inactivar o eliminar un área con empleados asociados
+
+| Usuario | Sistema | Observaciones |
+| :--- | :--- | :--- |
+| Intenta eliminar un área que tiene empleados asociados, o marcar como inactiva un área con empleados activos. | Bloquea la operación e informa que primero deben reasignarse los empleados a otra área. | Protege la integridad referencial de los legajos. |
+
