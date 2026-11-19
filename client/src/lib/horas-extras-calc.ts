@@ -8,8 +8,6 @@ export type TramoCalculado = {
 };
 
 export type DesgloseHorasExtras = {
-  horas50: number;
-  horas100: number;
   total: number;
   tramos: TramoCalculado[];
   esFeriado: boolean;
@@ -70,8 +68,6 @@ export function calcularDesgloseHorasExtras(
   // Caso 1: Domingos y Feriados -> 100% en su totalidad (RF-01 / CU-03)
   if (feriado || dayOfWeek === 0) {
     return {
-      horas50: 0,
-      horas100: totalHoras,
       total: totalHoras,
       tramos: [
         {
@@ -102,8 +98,6 @@ export function calcularDesgloseHorasExtras(
     // Todo antes de las 13:00 -> 50%
     if (fin.getTime() <= corteSabado.getTime()) {
       return {
-        horas50: totalHoras,
-        horas100: 0,
         total: totalHoras,
         tramos: [
           {
@@ -122,8 +116,6 @@ export function calcularDesgloseHorasExtras(
     // Todo después o a partir de las 13:00 -> 100%
     if (inicio.getTime() >= corteSabado.getTime()) {
       return {
-        horas50: 0,
-        horas100: totalHoras,
         total: totalHoras,
         tramos: [
           {
@@ -147,8 +139,6 @@ export function calcularDesgloseHorasExtras(
     const horasTramo2 = Math.round((msTramo2 / (1000 * 60 * 60)) * 100) / 100;
 
     return {
-      horas50: horasTramo1,
-      horas100: horasTramo2,
       total: totalHoras,
       tramos: [
         {
@@ -172,8 +162,6 @@ export function calcularDesgloseHorasExtras(
 
   // Caso 3: Días hábiles (Lunes a Viernes) -> 50%
   return {
-    horas50: totalHoras,
-    horas100: 0,
     total: totalHoras,
     tramos: [
       {
