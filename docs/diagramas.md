@@ -62,84 +62,208 @@ classDiagram
 
 ```mermaid
 erDiagram
-    CONVENIO {
+    auth_group {
+        int id PK
+        string name
+    }
+
+    auth_group_permissions {
+        int id PK
+        int group_id FK
+        int permission_id FK
+    }
+
+    auth_permission {
+        int id PK
+        string name
+        int content_type_id FK
+        string codename
+    }
+
+    convenios_convenio {
+        int id PK
+        string nombre
+        boolean activo
+        string descripcion
+        string identificacion
+        float multiplicador_domingo
+        float multiplicador_habil
+        float multiplicador_sabado
+    }
+
+    django_admin_log {
+        int id PK
+        datetime action_time
+        string object_id
+        string object_repr
+        int action_flag
+        string change_message
+        int content_type_id FK
+        int user_id FK
+    }
+
+    django_content_type {
+        int id PK
+        string app_label
+        string model
+    }
+
+    django_migrations {
+        int id PK
+        string app
+        string name
+        datetime applied
+    }
+
+    django_q_ormq {
+        int id PK
+        string key
+        string payload
+        datetime lock
+    }
+
+    django_q_schedule {
+        int id PK
+        string func
+        string hook
+        string args
+        string kwargs
+        string schedule_type
+        int repeats
+        datetime next_run
+        string task
+        string name
+        int minutes
+        string cron
+        string cluster
+        string intended_date_kwarg
+    }
+
+    django_q_task {
+        string name
+        string func
+        string hook
+        string args
+        string kwargs
+        string result
+        datetime started
+        datetime stopped
+        boolean success
+        string id PK
+        string group
+        int attempt_count
+        string cluster
+    }
+
+    django_session {
+        string session_key PK
+        string session_data
+        datetime expire_date
+    }
+
+    empleados_area {
         int id PK
         string nombre
         boolean activo
     }
 
-    EMPLEADO {
+    empleados_empleado {
+        string password
+        datetime last_login
+        boolean is_superuser
         int legajo PK
-        int id_convenio FK
         string nombre
         date fecha_ingreso
         string rol
-        string password
         boolean activo
+        int id_convenio FK
+        int id_area FK
+        boolean is_staff
     }
 
-    HORA_EXTRA {
+    empleados_empleado_groups {
         int id PK
-        int id_convenio FK
-        uuid codigo
-        datetime fecha_creacion
+        int empleado_id FK
+        int group_id FK
+    }
+
+    empleados_empleado_user_permissions {
+        int id PK
+        int empleado_id FK
+        int permission_id FK
+    }
+
+    horas_extras_horaextra {
+        int id PK
         string tipo
         string descripcion
         float multiplicador
-        json reglas
+        int id_convenio FK
         boolean activo
+        uuid codigo
+        datetime fecha_modificacion
     }
 
-    NOTIFICACION_HORAS_EXTRAS {
+    horas_extras_notificacionhorasextras {
         int id PK
-        int legajo_empleado FK
-        int id_hora_extra FK
-        datetime fecha_inicio
-        datetime fecha_fin
         string motivo_resolucion
         string estado
+        int legajo_empleado FK
+        int id_hora_extra FK
+        date fecha
+        time hora_fin
+        time hora_inicio
+        datetime fecha_aprobacion
     }
 
-    LICENCIA {
+    licencias_licencia {
         int id PK
+        string tipo
+        string descripcion
+        boolean activo
         int id_convenio FK
         uuid codigo
         datetime fecha_creacion
-        string tipo
-        string descripcion
         json reglas
-        boolean activo
     }
 
-    SOLICITUD_LICENCIA {
+    licencias_solicitudlicencia {
         int id PK
-        int legajo_empleado FK
-        int id_licencia FK
         date fecha_inicio
         date fecha_fin
         string motivo_solicitud
         string motivo_resolucion
         string estado
+        int legajo_empleado FK
+        int id_licencia FK
     }
 
-    REPORTE {
+    reportes_reporte {
         int id PK
-        int legajo_empleado FK
         date fecha_inicio
         date fecha_fin
         datetime fecha_generacion
+        int legajo_empleado FK
     }
 
-    CONVENIO ||--o{ EMPLEADO : "rige a"
-    CONVENIO ||--o{ HORA_EXTRA : "establece"
-    CONVENIO ||--o{ LICENCIA : "establece"
-
-    EMPLEADO ||--o{ NOTIFICACION_HORAS_EXTRAS : "genera"
-    EMPLEADO ||--o{ SOLICITUD_LICENCIA : "genera"
-    EMPLEADO ||--o{ REPORTE : "le corresponde"
-
-    HORA_EXTRA ||--o{ NOTIFICACION_HORAS_EXTRAS : "corresponde a"
-    LICENCIA ||--o{ SOLICITUD_LICENCIA : "corresponde a"
+    convenios_convenio ||--o{ empleados_empleado : "rige a"
+    convenios_convenio ||--o{ horas_extras_horaextra : "establece"
+    convenios_convenio ||--o{ licencias_licencia : "establece"
+    empleados_area ||--o{ empleados_empleado : "pertenece a"
+    empleados_empleado ||--o{ horas_extras_notificacionhorasextras : "genera"
+    empleados_empleado ||--o{ licencias_solicitudlicencia : "genera"
+    empleados_empleado ||--o{ reportes_reporte : "le corresponde"
+    horas_extras_horaextra ||--o{ horas_extras_notificacionhorasextras : "corresponde a"
+    licencias_licencia ||--o{ licencias_solicitudlicencia : "corresponde a"
+    empleados_empleado ||--o{ django_admin_log : "registra"
+    django_content_type ||--o{ django_admin_log : "referencia"
+    django_content_type ||--o{ auth_permission : "define"
+    auth_group ||--o{ auth_group_permissions : "contiene"
+    auth_permission ||--o{ auth_group_permissions : "asignado a"
+    empleados_empleado ||--o{ empleados_empleado_groups : "pertenece a"
+    auth_group ||--o{ empleados_empleado_groups : "incluye"
+    empleados_empleado ||--o{ empleados_empleado_user_permissions : "posee"
+    auth_permission ||--o{ empleados_empleado_user_permissions : "asignado a"
 ```
 
 ## Diagrama de estados de la solicitud de licencia
