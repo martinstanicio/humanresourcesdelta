@@ -35,15 +35,15 @@ export const navigation: NavigationItem[] = [
     roles: ["rrhh"],
   },
   {
-    href: "/empleados",
-    icon: lucideUsers,
-    title: "Empleados",
-    roles: ["rrhh"],
-  },
-  {
     href: "/areas",
     icon: lucideNetwork,
     title: "Áreas",
+    roles: ["rrhh"],
+  },
+  {
+    href: "/empleados",
+    icon: lucideUsers,
+    title: "Empleados",
     roles: ["rrhh"],
   },
   {
