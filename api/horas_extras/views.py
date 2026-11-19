@@ -220,49 +220,6 @@ class HoraExtraHistorialListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class NotificacionHorasExtrasCalcularView(APIView):
-    def get(self, request: Request) -> Response:
-        fecha_str = request.query_params.get("fecha")
-        hora_inicio_str = request.query_params.get("hora_inicio")
-        hora_fin_str = request.query_params.get("hora_fin")
-
-        if not fecha_str or not hora_inicio_str or not hora_fin_str:
-            return Response(
-                {
-                    "detail": "Los parámetros fecha, hora_inicio y hora_fin son obligatorios."
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        try:
-            fecha_val = date.fromisoformat(fecha_str)
-            h_ini_val = time.fromisoformat(hora_inicio_str)
-            h_fin_val = time.fromisoformat(hora_fin_str)
-        except ValueError:
-            return Response(
-                {"detail": "Formato inválido de fecha (YYYY-MM-DD) o de hora (HH:MM)."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        if h_fin_val <= h_ini_val:
-            return Response(
-                {
-                    "detail": (
-                        "La hora de fin debe ser posterior a la hora de inicio. "
-                        "Si las horas extras abarcan dos días, deben realizarse dos notificaciones, una por cada día."
-                    )
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        try:
-            desglose = calcular_desglose(fecha_val, h_ini_val, h_fin_val)
-        except ValueError as e:
-            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response(desglose, status=status.HTTP_200_OK)
-
-
 class NotificacionHorasExtrasListCreateView(APIView):
     def get_queryset(self, request: Request) -> QuerySet[NotificacionHorasExtras]:
         queryset = NotificacionHorasExtras.objects.all().order_by(

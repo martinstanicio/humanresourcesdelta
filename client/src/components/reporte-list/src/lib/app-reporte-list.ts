@@ -236,20 +236,11 @@ export class AppReporteList implements OnInit {
     () => this.filteredReportes().length,
   );
 
-  public readonly kpiTotalHoras50 = computed(() => {
-    const total = this.filteredReportes().reduce((acc, r) => {
-      const h50 = r.horas_extras?.desglose?.["50%"] ?? 0;
-      return acc + h50;
+  public readonly kpiTotalHorasExtras = computed(() => {
+    return this.filteredReportes().reduce((acc, r) => {
+      const heTotal = r.horas_extras?.total_horas_reloj ?? 0;
+      return acc + heTotal;
     }, 0);
-    return Math.round(total * 100) / 100;
-  });
-
-  public readonly kpiTotalHoras100 = computed(() => {
-    const total = this.filteredReportes().reduce((acc, r) => {
-      const h100 = r.horas_extras?.desglose?.["100%"] ?? 0;
-      return acc + h100;
-    }, 0);
-    return Math.round(total * 100) / 100;
   });
 
   public readonly kpiTotalLicencias = computed(() => {

@@ -294,7 +294,7 @@
       }
 
       <!-- KPIs Resumen del Período -->
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div hlmCard>
           <div hlmCardHeader>
             <span hlmCardTitle>Empleados Registrados</span>
@@ -310,27 +310,14 @@
 
         <div hlmCard>
           <div hlmCardHeader>
-            <span hlmCardTitle>Horas Extras 50%</span>
+            <span hlmCardTitle>Horas Extras</span>
             <div hlmCardAction>
-              <ng-icon name="lucideClock" />
+              <ng-icon name="lucideCalendar" />
             </div>
           </div>
           <div hlmCardContent>
-            <p class="text-2xl font-bold">{{ kpiTotalHoras50() }} hrs</p>
-            <p class="text-muted-foreground">remuneración al 50%</p>
-          </div>
-        </div>
-
-        <div hlmCard>
-          <div hlmCardHeader>
-            <span hlmCardTitle>Horas Extras 100%</span>
-            <div hlmCardAction>
-              <ng-icon name="lucideClock" />
-            </div>
-          </div>
-          <div hlmCardContent>
-            <p class="text-2xl font-bold">{{ kpiTotalHoras100() }} hrs</p>
-            <p class="text-muted-foreground">remuneración al 100%</p>
+            <p class="text-2xl font-bold">{{ kpiTotalHorasExtras() }} hrs</p>
+            <p class="text-muted-foreground">total acumulado aprobado</p>
           </div>
         </div>
 
@@ -381,9 +368,7 @@
                 <th class="w-20" hlmTableHead>Legajo</th>
                 <th hlmTableHead>Empleado</th>
                 <th hlmTableHead>Convenio</th>
-                <th class="text-right" hlmTableHead>Horas 50%</th>
-                <th class="text-right" hlmTableHead>Horas 100%</th>
-                <th class="text-right" hlmTableHead>Total Reloj</th>
+                <th class="text-right" hlmTableHead>Horas Extras Aprobadas</th>
                 <th hlmTableHead>Licencias Aprobadas</th>
                 <th class="text-right" hlmTableHead>Acciones</th>
               </tr>
@@ -434,17 +419,7 @@
                     {{ getConvenioNombre(item.legajo) }}
                   </td>
 
-                  <!-- Horas 50% -->
-                  <td class="text-right font-medium" hlmTableCell>
-                    {{ item.horas_extras.desglose["50%"] || 0 }} hrs
-                  </td>
-
-                  <!-- Horas 100% -->
-                  <td class="text-right font-medium" hlmTableCell>
-                    {{ item.horas_extras.desglose["100%"] || 0 }} hrs
-                  </td>
-
-                  <!-- Total Horas Reloj -->
+                  <!-- Horas Extras -->
                   <td class="text-right" hlmTableCell>
                     <span hlmBadge variant="secondary">
                       {{ item.horas_extras.total_horas_reloj || 0 }} hrs
