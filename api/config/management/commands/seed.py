@@ -226,7 +226,6 @@ class Command(TyperCommand):
                 lic_comercio_vacaciones,
                 lic_comercio_examen,
                 lic_comercio_cumpleanos,
-                lic_uocra_vacaciones,
                 lic_uocra_tramites,
                 lic_sanidad_vacaciones,
                 lic_sanidad_capacitacion,
