@@ -65,7 +65,7 @@ Asimismo, el sistema verifica que el rango solicitado no se superponga con otra 
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Accede al módulo 'Mis Licencias' y selecciona la opción 'Nueva solicitud'. | Presenta el formulario con los tipos de licencia disponibles según el convenio del empleado y los campos de fecha de inicio, fecha de fin y motivo. | Los tipos de licencia ofrecidos corresponden al convenio asignado al empleado. |
+| Accede al módulo 'Solicitudes de licencia' y selecciona la opción 'Nueva solicitud'. | Presenta el formulario con los tipos de licencia disponibles según el convenio del empleado y los campos de fecha de inicio, fecha de fin y motivo. | Los tipos de licencia ofrecidos corresponden al convenio asignado al empleado. |
 | Selecciona el tipo de licencia. | Muestra la información contextual según el convenio: saldo de días disponibles, antelación mínima y restricciones de días consecutivos. | El saldo se obtiene en tiempo real según la estrategia de la licencia. |
 | Completa las fechas de inicio y de fin, e ingresa el motivo. | Calcula automáticamente la cantidad de días hábiles solicitados, verifica que el saldo sea suficiente, valida la antelación mínima requerida y comprueba que no existan superposiciones ni períodos cerrados. | El cálculo contempla fines de semana y feriados nacionales. |
 | Confirma el envío de la solicitud. | Registra la solicitud en estado 'Pendiente', genera su identificador único de seguimiento y confirma la operación al usuario. | La solicitud queda disponible en la bandeja de gestión de RRHH. |
@@ -84,11 +84,6 @@ Asimismo, el sistema verifica que el rango solicitado no se superponga con otra 
 | :--- | :--- | :--- |
 | Selecciona fechas que se superponen con una licencia ya aprobada o con una solicitud pendiente. | Detecta el conflicto de fechas, muestra el mensaje de superposición e impide registrar la solicitud hasta que se seleccione un rango sin conflictos. | No se genera ningún registro nuevo. |
 
-### Flujo alternativo #3: Período mensual cerrado
-
-| Usuario | Sistema | Observaciones |
-| :--- | :--- | :--- |
-| Selecciona un rango de fechas correspondiente a un período mensual cuyo reporte ya fue cerrado. | Bloquea el envío e informa que el período se encuentra cerrado, indicando que las solicitudes fuera de término deben tramitarse con Recursos Humanos. | Preserva la consistencia de los reportes ya consolidados. |
 
 ## CU-02 Evaluar licencia
 
@@ -111,8 +106,8 @@ Sólo los usuarios con rol RRHH acceden a este caso de uso ([RNF-01](requerimien
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Accede al módulo 'Gestión de licencias'. | Verifica el rol RRHH y muestra el listado de solicitudes pendientes. | Permite filtrar por estado, empleado, convenio y período. |
-| Selecciona una solicitud para revisar su detalle. | Muestra los datos completos: empleado, legajo, tipo de licencia, motivo, rango de fechas, días hábiles solicitados y saldo de días disponible. | Consulta en tiempo real el saldo dinámico del empleado. |
+| Accede al módulo 'Licencias'. | Verifica el rol RRHH y muestra el listado de solicitudes pendientes. | Permite filtrar por estado, empleado, convenio y período. |
+| Selecciona una solicitud mediante la acción 'Evaluar'| Muestra los datos completos: empleado, legajo, tipo de licencia, motivo, rango de fechas, días hábiles solicitados y saldo de días disponible. | Consulta en tiempo real el saldo dinámico del empleado. |
 | Revisa la información y selecciona la acción 'Aprobar'. | Habilita el campo de observación opcional. | |
 | Confirma la decisión. | Actualiza el estado de la solicitud a 'Aprobada', registra la resolución y descuenta los días del saldo disponible del empleado. | El empleado puede visualizar la aprobación en su panel. |
 | Vuelve al listado de solicitudes. | Actualiza el listado de solicitudes reflejando el nuevo estado. | |
@@ -158,8 +153,8 @@ El sistema valida que el horario declarado no pertenezca al futuro, que la hora 
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Accede al módulo 'Mis Horas Extra' y selecciona 'Nueva notificación'. | Presenta el formulario con los campos: fecha, hora de inicio, hora de fin y motivo. | Por defecto sugiere la fecha actual. |
-| Completa la fecha y el rango horario trabajado. | Calcula en tiempo real las horas trabajadas y determina el desglose por multiplicador (50% o 100%) según el día y el horario. | Contempla feriados nacionales y el corte del sábado al mediodía. |
+| Accede al módulo 'Notificación horas extra' y selecciona 'Nueva notificación'. | Presenta el formulario con los campos: fecha, hora de inicio, hora de fin y motivo. | Por defecto sugiere la fecha actual. |
+| Completa la fecha y el rango horario trabajado. | Calcula en tiempo real las horas trabajadas y determina el desglose por multiplicador según el día y el horario. | Contempla feriados nacionales y el corte del sábado al mediodía. |
 | Verifica el resumen calculado e ingresa el motivo de la labor. | Muestra el desglose de tramos y la suma total de horas a notificar. | |
 | Confirma el envío. | Valida que el horario no esté en el futuro ni superpuesto, registra la notificación en estado 'Pendiente' y confirma la operación. | Queda visible para revisión de RRHH ([CU-04](#cu-04-evaluar-horas-extras)). |
 
@@ -168,18 +163,6 @@ El sistema valida que el horario declarado no pertenezca al futuro, que la hora 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
 | Declara un rango horario que se superpone con una notificación previa registrada para la misma fecha. | Detecta el conflicto de intervalos horarios, muestra el mensaje de superposición y bloquea el guardado. | No se genera ningún registro nuevo. |
-
-### Flujo alternativo #2: Período mensual cerrado
-
-| Usuario | Sistema | Observaciones |
-| :--- | :--- | :--- |
-| Selecciona una fecha correspondiente a un período mensual cuyo reporte ya fue cerrado. | Bloquea la carga e informa que el período se encuentra cerrado, indicando que debe gestionarse con RRHH. | Preserva la consistencia del reporte ya emitido. |
-
-### Flujo alternativo #3: Horario inválido o en el futuro
-
-| Usuario | Sistema | Observaciones |
-| :--- | :--- | :--- |
-| Ingresa una hora de fin anterior o igual a la de inicio, o un horario que supera la fecha y hora actual. | Bloquea el envío e indica el error correspondiente (las horas extras no pueden declararse a futuro). | Las extensiones que cruzan la medianoche deben cargarse en dos notificaciones por día. |
 
 ## CU-04 Evaluar horas extras
 
@@ -202,8 +185,8 @@ Sólo los usuarios con rol RRHH acceden a este caso de uso ([RNF-01](requerimien
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Accede al módulo 'Gestión de horas extra'. | Verifica el rol RRHH y muestra el listado de notificaciones pendientes. | Permite filtrar por estado, empleado, período y alertas de tope mensual. |
-| Selecciona una notificación para revisar su detalle. | Muestra: empleado, fecha, rango horario, horas calculadas, multiplicador aplicable, motivo y horas acumuladas por el empleado en el mes. | Advierte visualmente si el empleado supera el tope mensual de horas. |
+| Accede al módulo 'Horas'. | Verifica el rol RRHH y muestra el listado de notificaciones pendientes. | Permite filtrar por estado, empleado, período y alertas de tope mensual. |
+| SSelecciona una solicitud mediante la acción 'Evaluar | Muestra: empleado, fecha, rango horario, horas calculadas, multiplicador aplicable, motivo y horas acumuladas por el empleado en el mes. | Advierte visualmente si el empleado supera el tope mensual de horas. |
 | Revisa la información y selecciona la acción 'Aprobar'. | Habilita el campo opcional de observación. | |
 | Confirma la decisión. | Actualiza el estado a 'Aprobada', registra la fecha de aprobación e incorpora las horas al reporte del período. | El empleado puede visualizar la aprobación en su panel ([CU-06](#cu-06-consultar-estado-de-horas-extras)). |
 
@@ -213,12 +196,6 @@ Sólo los usuarios con rol RRHH acceden a este caso de uso ([RNF-01](requerimien
 | :--- | :--- | :--- |
 | Selecciona la acción 'Rechazar' e intenta confirmar sin ingresar una observación. | Bloquea la confirmación e indica que la observación es obligatoria para rechazar la notificación. | |
 | Ingresa el motivo del rechazo y confirma. | Actualiza el estado a 'Rechazada' y asienta la observación para consulta del empleado. | Las horas no se computan en el reporte mensual. |
-
-### Flujo alternativo #2: Período ya cerrado
-
-| Usuario | Sistema | Observaciones |
-| :--- | :--- | :--- |
-| Intenta resolver una notificación de un período mensual cuyo reporte ya fue cerrado. | Advierte que el período se encuentra cerrado y bloquea la modificación para preservar la integridad del reporte histórico. | |
 
 ## CU-05 Consultar estado de solicitud
 
@@ -240,15 +217,9 @@ Por aplicación del control de acceso basado en roles, el empleado sólo puede v
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Accede al módulo 'Mis Licencias'. | Recupera y muestra el listado de todas las solicitudes del empleado autenticado, ordenadas por identificador/fecha descendente, con el estado de cada una resaltado visualmente. | Pendiente, Aprobada, Rechazada o Cancelada. |
+| Accede al módulo 'Solictudes de licencia'. | Recupera y muestra el listado de todas las solicitudes del empleado autenticado, ordenadas por identificador/fecha descendente, con el estado de cada una resaltado visualmente. | Pendiente, Aprobada, Rechazada o Cancelada. |
 | Aplica filtros opcionales de búsqueda o estado. | Filtra los resultados mostrados en pantalla en tiempo real. | Permite ver rápidamente sólo pendientes, aprobadas, etc. |
 | Visualiza el detalle de una solicitud. | Muestra tipo de licencia, rango de fechas, motivo ingresado por el empleado y motivo u observaciones de resolución de RRHH. | Si la solicitud no ha comenzado y está pendiente o aprobada, ofrece el botón de cancelación ([CU-07](#cu-07-cancelar-solicitud-de-licencia)). |
-
-### Flujo alternativo #1: El empleado no tiene solicitudes previas
-
-| Usuario | Sistema | Observaciones |
-| :--- | :--- | :--- |
-| Accede al módulo 'Mis Licencias'. | Muestra el listado vacío con un mensaje informativo y ofrece acceso directo al formulario de nueva solicitud ([CU-01](#cu-01-solicitar-licencia)). | |
 
 ## CU-06 Consultar estado de horas extras
 
@@ -269,7 +240,7 @@ Este caso de uso es de solo lectura y el empleado sólo visualiza sus propias no
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Accede al módulo 'Mis Horas Extra'. | Muestra las métricas resumen (total de horas aprobadas, cantidad pendientes, aprobadas y rechazadas) y el listado de notificaciones ordenado descendentemente. | Solo computan en el total acumulado las horas aprobadas. |
+| Accede al módulo 'Horas Extra'. | Muestra las métricas resumen (total de horas aprobadas, cantidad pendientes, aprobadas y rechazadas) y el listado de notificaciones ordenado descendentemente. | Solo computan en el total acumulado las horas aprobadas. |
 | Aplica filtros de estado o búsqueda por texto. | Filtra el listado según el estado seleccionado o término de búsqueda. | |
 | Revisa el detalle de una notificación. | Muestra: identificador, fecha, rango de horarios, cantidad de horas, tipo y multiplicador aplicado, estado y observaciones de resolución. | |
 
@@ -283,7 +254,7 @@ Este caso de uso es de solo lectura y el empleado sólo visualiza sus propias no
 
 Extiende a [CU-05](#cu-05-consultar-estado-de-solicitud). Permite al empleado dar de baja una solicitud de licencia que él mismo generó previamente, sin eliminar el registro del sistema a los fines de trazabilidad.
 
-La cancelación está habilitada mientras la solicitud se encuentre en estado 'Pendiente' o 'Aprobada', y siempre que la fecha de inicio de la licencia aún no haya llegado (debe ser estrictamente posterior a la fecha actual).
+La cancelación está habilitada mientras la solicitud se encuentre en estado 'Pendiente', y siempre que la fecha de inicio de la licencia aún no haya llegado (debe ser estrictamente posterior a la fecha actual).
 
 Al confirmar la cancelación, la solicitud pasa al estado terminal 'Cancelada', deja de computar en el descuento de saldo de licencias del empleado y se retira de la bandeja de pendientes de RRHH.
 
@@ -300,7 +271,7 @@ Al confirmar la cancelación, la solicitud pasa al estado terminal 'Cancelada', 
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Desde el listado o detalle de una solicitud ([CU-05](#cu-05-consultar-estado-de-solicitud)), selecciona la opción 'Cancelar'. | Verifica que el estado admita cancelación (Pendiente o Aprobada) y que la fecha de inicio no haya llegado, presentando un diálogo de confirmación. | Solo cancelable antes del inicio de la licencia. |
+| Desde el listado o detalle de una solicitud ([CU-05](#cu-05-consultar-estado-de-solicitud)), selecciona la opción 'Cancelar'. | Verifica que el estado admita cancelación (Pendiente) y que la fecha de inicio no haya llegado, presentando un diálogo de confirmación. | Solo cancelable antes del inicio de la licencia. |
 | Confirma la acción de cancelación. | Actualiza el estado a 'Cancelada', restituye los días al saldo disponible del empleado y retira la solicitud de pendientes de RRHH. | El estado pasa a ser terminal. |
 | Visualiza el resultado. | Muestra la confirmación de la cancelación y actualiza el listado. | |
 
@@ -310,17 +281,11 @@ Al confirmar la cancelación, la solicitud pasa al estado terminal 'Cancelada', 
 | :--- | :--- | :--- |
 | Intenta cancelar una solicitud cuya fecha de inicio es igual o anterior a la fecha actual. | Bloquea la acción e informa: 'Solo se pueden cancelar solicitudes cuya fecha de inicio aún no haya llegado'. | No permite cancelar licencias en curso o pasadas. |
 
-### Flujo alternativo #2: Solicitud en estado no cancelable
-
-| Usuario | Sistema | Observaciones |
-| :--- | :--- | :--- |
-| Intenta cancelar una solicitud que ya se encuentra rechazada o cancelada. | Informa que el estado actual no admite cancelación. | |
-
 ## CU-08 Ver reporte mensual
 
 Permite al área de Recursos Humanos consultar y exportar el reporte mensual consolidado de horas extra y licencias por empleado, insumo de los procedimientos de liquidación de haberes ([RF-07](requerimientos.md#rf-07)).
 
-El reporte presenta, para cada empleado en el período mensual seleccionado: las horas extra aprobadas discriminadas por tipo y multiplicador de remuneración (50% y 100%), el total de horas extras acumuladas, y las licencias aprobadas agrupadas por tipo con la cantidad de días tomados en el mes. De acuerdo con el alcance definido, el sistema no calcula ni muestra montos de dinero: informa el desglose de horas y el multiplicador aplicable a cada una.
+El reporte presenta, para cada empleado en el período mensual seleccionado: las horas extra aprobadas discriminadas por tipo y multiplicador de remuneración, el total de horas extras acumuladas, y las licencias aprobadas agrupadas por tipo con la cantidad de días tomados en el mes. De acuerdo con el alcance definido, el sistema no calcula ni muestra montos de dinero: informa el desglose de horas y el multiplicador aplicable a cada una.
 
 El sistema permite consultar tanto períodos cerrados (reportes consolidados persistidos en base de datos) como períodos abiertos o en curso (modo parcial en línea). Asimismo, RRHH puede exportar el reporte individual de liquidación por empleado en formato PDF ([RNF-05](requerimientos.md#rnf-05)). El acceso está restringido exclusivamente al rol RRHH ([RNF-01](requerimientos.md#rnf-01)).
 
@@ -336,8 +301,8 @@ El sistema permite consultar tanto períodos cerrados (reportes consolidados per
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Accede al módulo 'Reportes' y define los parámetros: mes, año y, opcionalmente, legajo del empleado o modo parcial. | Verifica el rol RRHH y presenta los filtros de consulta. | Por defecto permite consultar períodos cerrados o en curso. |
-| Presiona el botón 'Consultar reporte'. | Recupera los datos consolidados del período o genera la consolidación en memoria si se consulta en modo parcial. | Sólo se computan registros en estado 'Aprobada'. |
+| Accede al módulo 'Reportes' y define los parámetros: mes, año y, opcionalmente, empleado o convenio. | Verifica el rol RRHH y presenta los filtros de consulta. | Por defecto permite consultar períodos cerrados o en curso. |
+| Presiona el botón 'Ver reporte'. | Recupera los datos consolidados del período o genera la consolidación en memoria si se consulta en modo parcial. | Sólo se computan registros en estado 'Aprobada'. |
 | Visualiza el resumen en pantalla. | Muestra, por empleado: legajo, nombre, desglose de horas extra por multiplicador, total de horas reloj, y desglose de días de licencia por tipo con sus fechas efectivas. | |
 | Selecciona un empleado e ingresa a la opción 'Exportar a PDF'. | Genera y descarga el archivo PDF de liquidación individual del empleado con el detalle de horas y licencias del período. | Exportación en PDF ([RNF-05](requerimientos.md#rnf-05)). |
 
@@ -366,7 +331,7 @@ Las bajas son lógicas (marcando el registro como inactivo): el registro no se e
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Accede al módulo de empleados y presiona 'Nuevo empleado'. | Muestra el formulario de alta con los campos: legajo, nombre y apellido, fecha de ingreso, área, convenio de trabajo y rol del sistema. | El listado de convenios proviene de [CU-10](#cu-10-abm-convenios-de-trabajo). |
+| Accede al módulo de Empleados y presiona 'Nuevo empleado'. | Muestra el formulario de alta con los campos: legajo, nombre y apellido, fecha de ingreso, área, convenio de trabajo y rol del sistema. | El listado de convenios proviene de [CU-10](#cu-10-abm-convenios-de-trabajo). |
 | Completa los datos requeridos y confirma. | Valida que el legajo sea un número positivo, que no se encuentre registrado previamente y que los campos requeridos estén completos. | |
 | Presiona 'Guardar'. | Registra el nuevo empleado en estado activo y confirma la operación. | El empleado queda habilitado para iniciar sesión y operar en el sistema. |
 
