@@ -10,7 +10,7 @@
 - [CU-08 Ver reporte mensual](#cu-08-ver-reporte-mensual)
 - [CU-09 ABM empleados](#cu-09-abm-empleados)
 - [CU-10 ABM convenios de trabajo](#cu-10-abm-convenios-de-trabajo)
-- [CU-12 ABM áreas](#cu-12-abm-áreas)
+- [CU-11 ABM áreas](#cu-11-abm-áreas)
 
 
 ## Diagrama de casos de uso
@@ -30,7 +30,7 @@ flowchart LR
     CU-08(["CU-08 Ver reporte mensual"])
     CU-09(["CU-09 ABM empleados"])
     CU-10(["CU-10 ABM convenios de trabajo"])
-    CU-12(["CU-12 ABM áreas"])
+    CU-11(["CU-11 ABM áreas"])
     
 
 
@@ -44,7 +44,7 @@ flowchart LR
     RRHH --- CU-08
     RRHH --- CU-09
     RRHH --- CU-10
-    RRHH --- CU-12
+    RRHH --- CU-11
 
     CU-07 -. "<< extend >>" .-> CU-05
 ```
