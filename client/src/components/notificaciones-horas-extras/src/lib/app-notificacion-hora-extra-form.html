@@ -89,26 +89,15 @@
                 class="text-xs font-semibold tracking-wider text-muted-foreground uppercase"
                 >Desglose calculado</span
               >
-              <div class="grid grid-cols-3 gap-2 pt-1 text-center">
-                <div class="rounded bg-muted/50 p-2">
-                  <div class="text-xs text-muted-foreground">Horas al 50%</div>
-                  <div class="text-base font-bold text-foreground">
-                    {{ d.horas50 | number: "1.1-2" }} hs
-                  </div>
+
+              <div
+                class="rounded border border-primary/20 bg-primary/10 p-2 text-center"
+              >
+                <div class="text-xs font-medium text-primary">
+                  Total declarado
                 </div>
-                <div class="rounded bg-muted/50 p-2">
-                  <div class="text-xs text-muted-foreground">Horas al 100%</div>
-                  <div class="text-base font-bold text-foreground">
-                    {{ d.horas100 | number: "1.1-2" }} hs
-                  </div>
-                </div>
-                <div class="rounded border border-primary/20 bg-primary/10 p-2">
-                  <div class="text-xs font-medium text-primary">
-                    Total declarado
-                  </div>
-                  <div class="text-base font-bold text-primary">
-                    {{ d.total | number: "1.1-2" }} hs
-                  </div>
+                <div class="text-base font-bold text-primary">
+                  {{ d.total | number: "1.1-2" }} hs
                 </div>
               </div>
             </div>
@@ -365,8 +354,7 @@
           <div hlmCardHeader>
             <h3 hlmCardTitle>Resumen Calculado</h3>
             <p class="text-xs" hlmCardDescription>
-              Cálculo automático según tipo de día y reglas de convenio (RF-01 /
-              CU-03).
+              Cálculo automático según tipo de día y reglas de convenio.
             </p>
             <div hlmCardAction>
               <ng-icon class="text-primary" name="lucideClock" />
@@ -387,75 +375,6 @@
                   <span class="text-sm font-normal">horas</span>
                 </div>
               </div>
-
-              <!-- Desglose por porcentaje -->
-              <div class="space-y-2 border-t pt-3">
-                <span
-                  class="text-xs font-semibold tracking-wider text-muted-foreground uppercase"
-                >
-                  Desglose por Multiplicador
-                </span>
-
-                <div
-                  class="flex items-center justify-between rounded-md bg-muted/40 p-2 text-sm"
-                >
-                  <div class="flex items-center gap-2">
-                    <span class="size-2 rounded-full bg-primary"></span>
-                    <span class="text-muted-foreground">Horas al 50%:</span>
-                  </div>
-                  <span class="font-mono font-bold"
-                    >{{ d.horas50 | number: "1.1-2" }} hs</span
-                  >
-                </div>
-
-                <div
-                  class="flex items-center justify-between rounded-md bg-muted/40 p-2 text-sm"
-                >
-                  <div class="flex items-center gap-2">
-                    <span class="size-2 rounded-full bg-primary"></span>
-                    <span class="text-muted-foreground">Horas al 100%:</span>
-                  </div>
-                  <span class="font-mono font-bold"
-                    >{{ d.horas100 | number: "1.1-2" }} hs</span
-                  >
-                </div>
-              </div>
-
-              <!-- Detalle del criterio aplicado -->
-              <div
-                class="space-y-1.5 border-t pt-3 text-xs text-muted-foreground"
-              >
-                <div
-                  class="flex items-center gap-1.5 font-semibold text-foreground"
-                >
-                  <ng-icon class="text-primary" name="lucideInfo" />
-                  Criterio aplicado
-                </div>
-                @if (d.esFeriado) {
-                  <p class="font-medium text-primary">
-                    Día Feriado Nacional: 100% de remuneración según convenio.
-                  </p>
-                } @else if (d.esDomingo) {
-                  <p class="font-medium text-primary">
-                    Día Domingo: 100% de remuneración según convenio.
-                  </p>
-                } @else if (d.esSabadoTarde) {
-                  @if (d.horas50 > 0 && d.horas100 > 0) {
-                    <p class="font-medium text-primary">
-                      Sábado con corte a las 13:00 hs: tramo matutino al 50% y
-                      tramo vespertino al 100%.
-                    </p>
-                  } @else {
-                    <p class="font-medium text-primary">
-                      Sábado posterior a las 13:00 hs: 100% de remuneración.
-                    </p>
-                  }
-                } @else {
-                  <p>
-                    Día hábil: 50% de remuneración según convenio de trabajo.
-                  </p>
-                }
-              </div>
             } @else {
               <!-- Estado sin horario seleccionado -->
               <div class="space-y-2 py-8 text-center text-muted-foreground">
@@ -474,7 +393,7 @@
               <div class="font-medium text-foreground">Alcance del Sistema</div>
               <p>
                 El sistema no trabaja con montos de dinero: sólo registra la
-                cantidad de horas y el porcentaje aplicable (CU-03 / RF-01).
+                cantidad de horas y el porcentaje aplicable.
               </p>
             </div>
           </div>
