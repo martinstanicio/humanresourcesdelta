@@ -51,7 +51,7 @@
       <a
         class="cursor-pointer"
         hlmDropdownMenuItem
-        routerLink="/me"
+        [routerLink]="`/empleados/${u?.legajo}`"
         (click)="onNavigateProfile()"
       >
         <ng-icon name="lucideUser" />
