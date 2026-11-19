@@ -86,9 +86,6 @@ erDiagram
         boolean activo
         string descripcion
         string identificacion
-        float multiplicador_domingo
-        float multiplicador_habil
-        float multiplicador_sabado
     }
 
     django_admin_log {
