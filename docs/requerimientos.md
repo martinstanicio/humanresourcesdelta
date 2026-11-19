@@ -32,10 +32,6 @@ El sistema debe generar reporte mensual de horas extras y licencias por empleado
 
 ### RF-08
 
-El sistema debe notificar automáticamente ante nuevas solicitudes de licencias y notificaciones de horas extras.
-
-### RF-09
-
 Recursos humanos debe poder ABM convenios de trabajo, y sus respectivas regulaciones de licencias y horas extras.
 
 ## Requerimientos no funcionales
@@ -53,9 +49,5 @@ El sistema debe estar disponible el 99.5% del tiempo.
 El sistema debe poder escalar para gestionar hasta 10.000 empleados sin degradar el rendimiento ni requerir cambios en la arquitectura base.
 
 ### RNF-04
-
-Todo cambio de estado de una solicitud o notificación debe quedar registrado en un log de auditoría con usuario, fecha y hora.
-
-### RNF-05
 
 Los reportes deben poder exportarse en formato PDF para su distribución.
