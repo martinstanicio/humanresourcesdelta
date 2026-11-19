@@ -84,7 +84,6 @@ Asimismo, el sistema verifica que el rango solicitado no se superponga con otra 
 | :--- | :--- | :--- |
 | Selecciona fechas que se superponen con una licencia ya aprobada o con una solicitud pendiente. | Detecta el conflicto de fechas, muestra el mensaje de superposición e impide registrar la solicitud hasta que se seleccione un rango sin conflictos. | No se genera ningún registro nuevo. |
 
-
 ## CU-02 Evaluar licencia
 
 Permite al área de Recursos Humanos revisar y resolver las solicitudes de licencia pendientes enviadas por los empleados ([RF-03](requerimientos.md#rf-03)). RRHH puede aprobar o rechazar una solicitud; en caso de rechazo, el ingreso de una observación o motivo es obligatorio.
@@ -107,7 +106,7 @@ Sólo los usuarios con rol RRHH acceden a este caso de uso ([RNF-01](requerimien
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
 | Accede al módulo 'Licencias'. | Verifica el rol RRHH y muestra el listado de solicitudes pendientes. | Permite filtrar por estado, empleado, convenio y período. |
-| Selecciona una solicitud mediante la acción 'Evaluar'| Muestra los datos completos: empleado, legajo, tipo de licencia, motivo, rango de fechas, días hábiles solicitados y saldo de días disponible. | Consulta en tiempo real el saldo dinámico del empleado. |
+| Selecciona una solicitud mediante la acción 'Evaluar' | Muestra los datos completos: empleado, legajo, tipo de licencia, motivo, rango de fechas, días hábiles solicitados y saldo de días disponible. | Consulta en tiempo real el saldo dinámico del empleado. |
 | Revisa la información y selecciona la acción 'Aprobar'. | Habilita el campo de observación opcional. | |
 | Confirma la decisión. | Actualiza el estado de la solicitud a 'Aprobada', registra la resolución y descuenta los días del saldo disponible del empleado. | El empleado puede visualizar la aprobación en su panel. |
 | Vuelve al listado de solicitudes. | Actualiza el listado de solicitudes reflejando el nuevo estado. | |
@@ -153,7 +152,7 @@ El sistema valida que el horario declarado no pertenezca al futuro, que la hora 
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Accede al módulo 'Notificación horas extra' y selecciona 'Nueva notificación'. | Presenta el formulario con los campos: fecha, hora de inicio, hora de fin y motivo. | Por defecto sugiere la fecha actual. |
+| Accede al módulo 'Notificaciones de horas extras' y selecciona 'Nueva notificación'. | Presenta el formulario con los campos: fecha, hora de inicio, hora de fin y motivo. | Por defecto sugiere la fecha actual. |
 | Completa la fecha y el rango horario trabajado. | Calcula en tiempo real las horas trabajadas y determina el desglose por multiplicador según el día y el horario. | Contempla feriados nacionales y el corte del sábado al mediodía. |
 | Verifica el resumen calculado e ingresa el motivo de la labor. | Muestra el desglose de tramos y la suma total de horas a notificar. | |
 | Confirma el envío. | Valida que el horario no esté en el futuro ni superpuesto, registra la notificación en estado 'Pendiente' y confirma la operación. | Queda visible para revisión de RRHH ([CU-04](#cu-04-evaluar-horas-extras)). |
@@ -166,7 +165,7 @@ El sistema valida que el horario declarado no pertenezca al futuro, que la hora 
 
 ## CU-04 Evaluar horas extras
 
-Permite al área de Recursos Humanos revisar y resolver las notificaciones de horas extra enviadas por los empleados, aprobándolas o rechazándolas ([RF-05](requerimientos.md#rf-05)). En caso de rechazo, el sistema exige de forma obligatoria el ingreso de un motivo u observación.
+Permite al área de Recursos Humanos revisar y resolver las notificaciones de horas extras enviadas por los empleados, aprobándolas o rechazándolas ([RF-05](requerimientos.md#rf-05)). En caso de rechazo, el sistema exige de forma obligatoria el ingreso de un motivo u observación.
 
 Al aprobarse una notificación, el sistema registra la fecha de aprobación y las horas quedan consolidadas en el acumulado del empleado para el período correspondiente, incorporándose al reporte mensual ([CU-08](#cu-08-ver-reporte-mensual)).
 
@@ -185,8 +184,8 @@ Sólo los usuarios con rol RRHH acceden a este caso de uso ([RNF-01](requerimien
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Accede al módulo 'Horas'. | Verifica el rol RRHH y muestra el listado de notificaciones pendientes. | Permite filtrar por estado, empleado, período y alertas de tope mensual. |
-| SSelecciona una solicitud mediante la acción 'Evaluar | Muestra: empleado, fecha, rango horario, horas calculadas, multiplicador aplicable, motivo y horas acumuladas por el empleado en el mes. | Advierte visualmente si el empleado supera el tope mensual de horas. |
+| Accede al módulo 'Horas extras'. | Verifica el rol RRHH y muestra el listado de notificaciones pendientes. | Permite filtrar por estado, empleado, período y alertas de tope mensual. |
+| Selecciona una solicitud mediante la acción 'Evaluar' | Muestra: empleado, fecha, rango horario, horas calculadas, multiplicador aplicable, motivo y horas acumuladas por el empleado en el mes. | Advierte visualmente si el empleado supera el tope mensual de horas. |
 | Revisa la información y selecciona la acción 'Aprobar'. | Habilita el campo opcional de observación. | |
 | Confirma la decisión. | Actualiza el estado a 'Aprobada', registra la fecha de aprobación e incorpora las horas al reporte del período. | El empleado puede visualizar la aprobación en su panel ([CU-06](#cu-06-consultar-estado-de-horas-extras)). |
 
@@ -217,13 +216,13 @@ Por aplicación del control de acceso basado en roles, el empleado sólo puede v
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Accede al módulo 'Solictudes de licencia'. | Recupera y muestra el listado de todas las solicitudes del empleado autenticado, ordenadas por identificador/fecha descendente, con el estado de cada una resaltado visualmente. | Pendiente, Aprobada, Rechazada o Cancelada. |
+| Accede al módulo 'Solicitudes de licencia'. | Recupera y muestra el listado de todas las solicitudes del empleado autenticado, ordenadas por identificador/fecha descendente, con el estado de cada una resaltado visualmente. | Pendiente, Aprobada, Rechazada o Cancelada. |
 | Aplica filtros opcionales de búsqueda o estado. | Filtra los resultados mostrados en pantalla en tiempo real. | Permite ver rápidamente sólo pendientes, aprobadas, etc. |
 | Visualiza el detalle de una solicitud. | Muestra tipo de licencia, rango de fechas, motivo ingresado por el empleado y motivo u observaciones de resolución de RRHH. | Si la solicitud no ha comenzado y está pendiente o aprobada, ofrece el botón de cancelación ([CU-07](#cu-07-cancelar-solicitud-de-licencia)). |
 
 ## CU-06 Consultar estado de horas extras
 
-Permite al empleado consultar el historial de sus notificaciones de horas extra y el estado de cada una: Pendiente, Aprobada o Rechazada, junto con las observaciones registradas por RRHH ([RF-06](requerimientos.md#rf-06)).
+Permite al empleado consultar el historial de sus notificaciones de horas extras y el estado de cada una: Pendiente, Aprobada o Rechazada, junto con las observaciones registradas por RRHH ([RF-06](requerimientos.md#rf-06)).
 
 Además del listado detallado, el sistema presenta métricas acumuladas con la cantidad de horas aprobadas en el período y los contadores por estado, permitiendo al empleado anticipar las horas que computarán en su liquidación.
 
@@ -240,7 +239,7 @@ Este caso de uso es de solo lectura y el empleado sólo visualiza sus propias no
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Accede al módulo 'Horas Extra'. | Muestra las métricas resumen (total de horas aprobadas, cantidad pendientes, aprobadas y rechazadas) y el listado de notificaciones ordenado descendentemente. | Solo computan en el total acumulado las horas aprobadas. |
+| Accede al módulo 'Horas Extras'. | Muestra las métricas resumen (total de horas aprobadas, cantidad pendientes, aprobadas y rechazadas) y el listado de notificaciones ordenado descendentemente. | Solo computan en el total acumulado las horas aprobadas. |
 | Aplica filtros de estado o búsqueda por texto. | Filtra el listado según el estado seleccionado o término de búsqueda. | |
 | Revisa el detalle de una notificación. | Muestra: identificador, fecha, rango de horarios, cantidad de horas, tipo y multiplicador aplicado, estado y observaciones de resolución. | |
 
@@ -248,7 +247,7 @@ Este caso de uso es de solo lectura y el empleado sólo visualiza sus propias no
 
 | Usuario | Sistema | Observaciones |
 | :--- | :--- | :--- |
-| Accede al módulo 'Mis Horas Extra'. | Muestra el listado vacío indicando que aún no se han registrado horas extra, con acceso directo al formulario de carga ([CU-03](#cu-03-notificar-horas-extras)). | |
+| Accede al módulo 'Mis Horas Extras'. | Muestra el listado vacío indicando que aún no se han registrado horas extras, con acceso directo al formulario de carga ([CU-03](#cu-03-notificar-horas-extras)). | |
 
 ## CU-07 Cancelar solicitud de licencia
 
@@ -283,11 +282,11 @@ Al confirmar la cancelación, la solicitud pasa al estado terminal 'Cancelada', 
 
 ## CU-08 Ver reporte mensual
 
-Permite al área de Recursos Humanos consultar y exportar el reporte mensual consolidado de horas extra y licencias por empleado, insumo de los procedimientos de liquidación de haberes ([RF-07](requerimientos.md#rf-07)).
+Permite al área de Recursos Humanos consultar y exportar el reporte mensual consolidado de horas extras y licencias por empleado, insumo de los procedimientos de liquidación de haberes ([RF-07](requerimientos.md#rf-07)).
 
-El reporte presenta, para cada empleado en el período mensual seleccionado: las horas extra aprobadas discriminadas por tipo y multiplicador de remuneración, el total de horas extras acumuladas, y las licencias aprobadas agrupadas por tipo con la cantidad de días tomados en el mes. De acuerdo con el alcance definido, el sistema no calcula ni muestra montos de dinero: informa el desglose de horas y el multiplicador aplicable a cada una.
+El reporte presenta, para cada empleado en el período mensual seleccionado: las horas extras aprobadas discriminadas por tipo y multiplicador de remuneración, el total de horas extras acumuladas, y las licencias aprobadas agrupadas por tipo con la cantidad de días tomados en el mes. De acuerdo con el alcance definido, el sistema no calcula ni muestra montos de dinero: informa el desglose de horas y el multiplicador aplicable a cada una.
 
-El sistema permite consultar tanto períodos cerrados (reportes consolidados persistidos en base de datos) como períodos abiertos o en curso (modo parcial en línea). Asimismo, RRHH puede exportar el reporte individual de liquidación por empleado en formato PDF ([RNF-05](requerimientos.md#rnf-05)). El acceso está restringido exclusivamente al rol RRHH ([RNF-01](requerimientos.md#rnf-01)).
+El sistema permite consultar tanto períodos cerrados (reportes consolidados persistidos en base de datos) como períodos abiertos o en curso (modo parcial en línea). Asimismo, RRHH puede exportar el reporte individual de liquidación por empleado en formato PDF ([RNF-04](requerimientos.md#rnf-04)). El acceso está restringido exclusivamente al rol RRHH ([RNF-01](requerimientos.md#rnf-01)).
 
 - **Actores**
   - RRHH (primario)
@@ -303,8 +302,8 @@ El sistema permite consultar tanto períodos cerrados (reportes consolidados per
 | :--- | :--- | :--- |
 | Accede al módulo 'Reportes' y define los parámetros: mes, año y, opcionalmente, empleado o convenio. | Verifica el rol RRHH y presenta los filtros de consulta. | Por defecto permite consultar períodos cerrados o en curso. |
 | Presiona el botón 'Ver reporte'. | Recupera los datos consolidados del período o genera la consolidación en memoria si se consulta en modo parcial. | Sólo se computan registros en estado 'Aprobada'. |
-| Visualiza el resumen en pantalla. | Muestra, por empleado: legajo, nombre, desglose de horas extra por multiplicador, total de horas reloj, y desglose de días de licencia por tipo con sus fechas efectivas. | |
-| Selecciona un empleado e ingresa a la opción 'Exportar a PDF'. | Genera y descarga el archivo PDF de liquidación individual del empleado con el detalle de horas y licencias del período. | Exportación en PDF ([RNF-05](requerimientos.md#rnf-05)). |
+| Visualiza el resumen en pantalla. | Muestra, por empleado: legajo, nombre, desglose de horas extras por multiplicador, total de horas reloj, y desglose de días de licencia por tipo con sus fechas efectivas. | |
+| Selecciona un empleado e ingresa a la opción 'Exportar a PDF'. | Genera y descarga el archivo PDF de liquidación individual del empleado con el detalle de horas y licencias del período. | Exportación en PDF ([RNF-04](requerimientos.md#rnf-04)). |
 
 ### Flujo alternativo #1: Período sin registros aprobados
 
@@ -318,7 +317,7 @@ Permite al personal de Recursos Humanos gestionar el padrón de legajos de la or
 
 En el alta se registra al empleado con su número de legajo (clave única de identificación), nombre y apellido, fecha de ingreso, área de trabajo, convenio colectivo asignado ([CU-10](#cu-10-abm-convenios-de-trabajo)) y su rol en el sistema (Empleado o RRHH), el cual define sus permisos de acceso mediante control de acceso por roles ([RNF-01](requerimientos.md#rnf-01)). El inicio de sesión se realiza mediante el legajo y contraseña.
 
-Las bajas son lógicas (marcando el registro como inactivo): el registro no se elimina, preservando la trazabilidad histórica de solicitudes, notificaciones y reportes pasados ([RNF-04](requerimientos.md#rnf-04)). El sistema valida que el empleado no posea solicitudes de licencia ni notificaciones de horas extras pendientes de resolución antes de autorizar la baja lógica. Si un empleado inactivo reingresa, el sistema permite reactivar su legajo.
+Las bajas son lógicas (marcando el registro como inactivo): el registro no se elimina, preservando la trazabilidad histórica de solicitudes, notificaciones y reportes pasados. El sistema valida que el empleado no posea solicitudes de licencia ni notificaciones de horas extras pendientes de resolución antes de autorizar la baja lógica. Si un empleado inactivo reingresa, el sistema permite reactivar su legajo.
 
 - **Actores**
   - RRHH (primario)
@@ -357,9 +356,9 @@ Las bajas son lógicas (marcando el registro como inactivo): el registro no se e
 
 ## CU-10 ABM convenios de trabajo
 
-Permite a Recursos Humanos administrar los convenios de trabajo vigentes en la organización y las regulaciones de licencias y horas extra asociadas a cada uno ([RF-09](requerimientos.md#rf-09)).
+Permite a Recursos Humanos administrar los convenios de trabajo vigentes en la organización y las regulaciones de licencias y horas extras asociadas a cada uno ([RF-08](requerimientos.md#rf-08)).
 
-El convenio centraliza la denominación y el estado activo/inactivo. A través de los módulos de configuración vinculados por convenio, se parametrizan los tipos de licencia admitidos (con sus estrategias de cupo anual, restricciones de días consecutivos y antelación mínima) y las horas extra con sus multiplicadores por tipo de día.
+El convenio centraliza la denominación y el estado activo/inactivo. A través de los módulos de configuración vinculados por convenio, se parametrizan los tipos de licencia admitidos (con sus estrategias de cupo anual, restricciones de días consecutivos y antelación mínima) y las horas extras con sus multiplicadores por tipo de día.
 
 Las modificaciones sobre las regulaciones de licencias y horas extras se versionan mediante identificadores únicos (`codigo`), asegurando que las solicitudes y notificaciones resueltas en períodos anteriores conserven las condiciones vigentes al momento en que fueron procesadas, sin recalcular el historial.
 
@@ -378,7 +377,7 @@ Las modificaciones sobre las regulaciones de licencias y horas extras se version
 | :--- | :--- | :--- |
 | Accede al módulo 'Convenios' y selecciona 'Nuevo convenio'. | Presenta el formulario de carga con el campo de nombre del convenio. | |
 | Ingresa el nombre y confirma. | Registra el nuevo convenio en estado activo y lo habilita para asociarle empleados ([CU-09](#cu-09-abm-empleados)) y configurar sus licencias y horas extras. | |
-| Configura las licencias y horas extras asociadas al convenio. | Desde los submódulos correspondientes, define tipos de licencia con sus reglas de cupo y tipos de horas extra con sus multiplicadores. | Vinculados al convenio recién creado. |
+| Configura las licencias y horas extras asociadas al convenio. | Desde los submódulos correspondientes, define tipos de licencia con sus reglas de cupo y tipos de horas extras con sus multiplicadores. | Vinculados al convenio recién creado. |
 
 ### Flujo alternativo #1: Modificación de reglas de licencias u horas extras
 
